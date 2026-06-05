@@ -38,14 +38,12 @@
             height: 100vh;
             background-size: cover;
             background-position: center;
-            opacity: 0.08; /* 極低透明度，填補空白且極具質感 */
+            opacity: 0.08; 
             filter: grayscale(100%);
             z-index: -1;
             pointer-events: none;
         }
-        /* 左側背景：白宮 (White House) 藝術影像 */
         .bg-left { left: 0; background-image: url('https://images.unsplash.com/photo-1580129959606-d71d9d9bcda3?q=80&w=1200&auto=format&fit=crop'); }
-        /* 右側背景：國會大廈 (Capitol Building) 藝術影像 */
         .bg-right { right: 0; background-image: url('https://images.unsplash.com/photo-1541872703-74c5e44368f9?q=80&w=1200&auto=format&fit=crop'); }
 
         /* ── 導覽列 ── */
@@ -66,7 +64,6 @@
         nav a { text-decoration: none; color: var(--text-muted); font-size: 1.3rem; font-weight: 500; transition: var(--transition); letter-spacing: 1px; }
         nav a:hover, nav a.active { color: var(--gold); text-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
 
-        /* 優雅雙語切換鈕 */
         .lang-switch {
             background: transparent; border: 1px solid var(--gold); color: var(--gold);
             padding: 6px 16px; border-radius: 20px; cursor: pointer;
@@ -74,7 +71,7 @@
         }
         .lang-switch:hover { background: var(--gold); color: var(--bg-deep); box-shadow: 0 0 12px var(--gold-glow); }
 
-        /* ── 動態時光軸 (支援 Scrollspy 自動偵側亮起) ── */
+        /* ── 動態時光軸 (還原為：國三、高一、高二、未來) ── */
         .side-timeline {
             position: fixed;
             left: 3rem;
@@ -118,6 +115,7 @@
         /* ── 主內容區塊 ── */
         main { max-width: 900px; margin: 0 auto; padding: 5rem 2rem; }
         
+        /* 座右銘美化與優雅斜體設計 */
         .quote-box {
             text-align: center;
             margin-bottom: 5rem;
@@ -127,7 +125,14 @@
             position: relative;
         }
         .quote-box i { font-size: 2rem; color: var(--gold); position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--bg-deep); padding: 0 15px; }
-        .quote-text { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--gold-soft); font-style: italic; }
+        .quote-text { 
+            font-family: 'Playfair Display', 'Noto Sans TC', serif; 
+            font-size: 1.65rem; 
+            color: var(--gold-soft); 
+            font-style: italic; /* 完美的優雅斜體 */
+            letter-spacing: 1.5px;
+            text-shadow: 0 0 4px rgba(243, 229, 171, 0.1);
+        }
 
         .avatar-wrap { text-align: center; margin-bottom: 6rem; }
         .avatar-main { 
@@ -155,7 +160,7 @@
         .story-container p { font-size: 1.15rem; color: var(--text-muted); text-align: center; max-width: 700px; margin: 0 auto 2rem; }
         .story-container p:last-child { margin-bottom: 0; }
 
-        /* ── 放大泡泡與滑鼠點擊燈箱手勢 ── */
+        /* ── 放大泡泡 ── */
         .bubble {
             position: absolute;
             width: 240px; height: 240px; 
@@ -170,9 +175,8 @@
         .bubble img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
         .bubble:hover { transform: scale(1.1) !important; z-index: 10; box-shadow: 0 0 30px var(--gold); }
         .bubble-left { left: -160px; top: 10%; }
-        .bubble-right { right: -160px; top: 15%; animation-delay: -3s; }
+        .bubble-right { right: -160px; top: 10%; animation-delay: -3s; } /* 主唱泡泡已移動至右側 */
 
-        /* 上下緩緩浮動動畫 */
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-25px); }
@@ -275,15 +279,16 @@
     </nav>
 
     <div class="side-timeline">
-        <a href="#sec-1" class="node active" id="node-sec-1">2026 | 高二</a>
-        <a href="#sec-4" class="node" id="node-sec-4">2025 | 高一</a>
-        <a href="#sec-2" class="node" id="node-sec-2">2023 | 國三</a>
+        <a href="#sec-future" class="node" id="node-future">未來 | 展望</a>
+        <a href="#sec-h2" class="node active" id="node-h2">高二 | 歷程</a>
+        <a href="#sec-h1" class="node" id="node-h1">高一 | 探索</a>
+        <a href="#sec-j3" class="node" id="node-j3">國三 | 起點</a>
     </div>
 
     <div class="side-social">
         <a href="https://www.youtube.com/@ANGEL19760920" target="_blank" class="social-btn" title="YouTube 頻道"><i class="fa-brands fa-youtube"></i></a>
-        <a href="https://open.spotify.com" target="_blank" class="social-btn" title="Podcast 節目"><i class="fa-solid fa-microphone"></i></a>
-        <a href="mailto:contact@yorkchen.com" class="social-btn" title="聯絡 Email"><i class="fa-solid fa-envelope"></i></a>
+        <a href="https://open.spotify.com/show/5uiQfwUfnyPh9AwtMR6Q4q?si=d614d41c7870413a" target="_blank" class="social-btn" title="Podcast 節目"><i class="fa-solid fa-microphone"></i></a>
+        <a href="mailto:h1130732@stu.wghs.tp.edu.tw" class="social-btn" title="聯絡 Email"><i class="fa-solid fa-envelope"></i></a>
     </div>
 
     <main>
@@ -308,8 +313,8 @@
             </p>
         </div>
 
-        <div class="story-container" id="sec-1">
-            <div class="bubble bubble-left" onclick="openLightbox('image/截圖 2026-06-05 上午11.48.32.png')">
+        <div class="story-container" id="sec-h2">
+            <div class="bubble bubble-right" onclick="openLightbox('image/截圖 2026-06-05 上午11.48.32.png')">
                 <img src="image/截圖 2026-06-05 上午11.48.32.png" alt="樂團主唱照片">
             </div>
             <h3 lang="zh">探求未知的敘事者</h3>
@@ -322,7 +327,7 @@
             <p lang="en">On the court, I hone my resilience; on stage, I perform as a lead vocalist, channeling my passion into music. I steadfastly believe that a good story can transcend borders and touch people's hearts.</p>
         </div>
 
-        <div class="story-container" id="sec-2">
+        <div class="story-container" id="sec-j3">
             <div class="bubble bubble-left" onclick="openLightbox('https://www.avjet.com.tw/api/uploads/poster/poster_1774497314860_epg5ie.jpg')">
                 <img src="https://www.avjet.com.tw/api/uploads/poster/poster_1774497314860_epg5ie.jpg" alt="影音主持">
             </div>
@@ -336,7 +341,7 @@
             <p lang="en">I also founded a YouTube channel analyzing serious global issues like educational rights in Afghanistan and pension reforms in France. Through journalism and analysis, I turn English proficiency into social impact, earning a Gold Award in the Student Merit Newspaper competition.</p>
         </div>
 
-        <div class="story-container" id="sec-3">
+        <div class="story-container">
             <div class="bubble bubble-right" onclick="openLightbox('image/截圖 2025-08-17 凌晨2.38.13.png')">
                 <img src="image/截圖 2025-08-17 凌晨2.38.13.png" alt="MUN模擬聯合國">
             </div>
@@ -350,7 +355,7 @@
             <p lang="en">These intellectual duels on stage have not only sharpened my logical reasoning but also deepened my grasp of the weight and complexity of international politics. Every cross-examination challenges the boundaries of my perspective.</p>
         </div>
 
-        <div class="story-container" id="sec-4">
+        <div class="story-container" id="sec-h1">
             <div class="bubble bubble-left" onclick="openLightbox('image/IMG_7992.jpeg')">
                 <img src="image/IMG_7992.jpeg" alt="ICDF社團">
             </div>
@@ -364,7 +369,7 @@
             <p lang="en">This April, we will travel to Palau to donate essential resources to local primary schools, highlighting Taiwan's warmth through grassroots action. This perseverance and courage reflect my deepest devotion to diplomacy.</p>
         </div>
 
-        <div class="story-container" id="sec-5">
+        <div class="story-container">
             <div class="bubble bubble-right" onclick="openLightbox('image/IMG_8718.jpg')">
                 <img src="image/IMG_8718.jpg" alt="外交小尖兵">
             </div>
@@ -378,11 +383,11 @@
             <p lang="en">This profound exposure solidified my ambition to fully dedicate my future studies to diplomacy and international relations. Concurrently, I launched a Podcast to construct intergenerational bridges and amplify youth perspectives.</p>
         </div>
 
-        <div class="story-container" id="sec-6">
+        <div class="story-container" id="sec-future">
             <div class="bubble bubble-left" onclick="openLightbox('image/IMG_8936 (1).JPG')">
                 <img src="image/IMG_8936 (1).JPG" alt="未來展望">
             </div>
-            <h3>未來展望：融合多維能力的國際說書人</h3>
+            <h3 lang="zh">未來展望：融合多維能力的國際說書人</h3>
             <h3 lang="en">Future Vision: The Multi-Dimensional Storyteller</h3>
             
             <p lang="zh">展望未來，我對自己的期許是將「全英語思辨與談判能力」、「宏觀的國際關係視野」以及「影音媒體與聲音的傳播影響力」這三者進行有機的跨界結合。</p>
@@ -429,21 +434,22 @@
             document.getElementById("imageLightbox").style.display = "none";
         }
 
-        // Scrollspy 捲軸監聽動態點亮左側時間軸年份
+        // Scrollspy 捲軸監聽：對齊全新設計的「國三、高一、高二、未來」時間軸亮起機制
         window.addEventListener('scroll', () => {
             const sectionsMapping = [
-                { id: 'sec-1', node: 'node-sec-1' }, 
-                { id: 'sec-4', node: 'node-sec-4' }, 
-                { id: 'sec-2', node: 'node-sec-2' }  
+                { id: 'sec-future', node: 'node-future' },
+                { id: 'sec-h2', node: 'node-h2' }, 
+                { id: 'sec-h1', node: 'node-h1' }, 
+                { id: 'sec-j3', node: 'node-j3' }  
             ];
             
-            let currentActiveNode = "node-sec-1"; 
+            let currentActiveNode = "node-h2"; 
             
             sectionsMapping.forEach(item => {
                 const element = document.getElementById(item.id);
                 if (element) {
                     const elementTop = element.offsetTop;
-                    if (window.pageYOffset >= elementTop - 300) {
+                    if (window.pageYOffset >= elementTop - 320) {
                         currentActiveNode = item.node;
                     }
                 }
