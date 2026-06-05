@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[你的名字] 的學習歷程 - 作品集</title>
+    <style>
+        /* 保持一致的優雅暗色調樣式 */
+        :root { --bg-main: #0f141c; --bg-card: #18202c; --text-main: #f1f5f9; --text-muted: #94a3b8; --gold: #d4af37; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Georgia", "Noto Sans TC", serif; }
+        body { background-color: var(--bg-main); color: var(--text-main); line-height: 1.8; }
+        
+        nav { background-color: var(--bg-card); padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(212, 175, 55, 0.2); }
+        nav .logo { font-size: 1.3rem; font-weight: bold; color: var(--gold); }
+        nav ul { display: flex; list-style: none; gap: 2rem; }
+        nav a { text-decoration: none; color: var(--text-muted); transition: 0.3s; }
+        nav a:hover, nav a.active { color: var(--gold); }
+
+        main { max-width: 1000px; margin: 4rem auto; padding: 0 2rem; }
+        h2 { font-size: 2rem; color: var(--gold); margin-bottom: 2.5rem; text-align: center; letter-spacing: 2px; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; }
+        .card { background-color: var(--bg-card); border-radius: 4px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); border-color: var(--gold); }
+        .card-img { width: 100%; height: 220px; object-fit: cover; opacity: 0.85; transition: 0.3s; }
+        .card:hover .card-img { opacity: 1; }
+        .card-body { padding: 2rem; }
+        .card-tag { color: var(--gold); font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 0.5rem; display: block; }
+        .card-title { font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--text-main); }
+        .card-text { color: var(--text-muted); font-size: 0.95rem; }
+
+        footer { text-align: center; padding: 3rem; color: var(--text-muted); font-size: 0.85rem; margin-top: 6rem; }
+        @media (max-width: 768px) { nav { flex-direction: column; gap: 1rem; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">PORTFOLIO</div>
+        <ul>
+            <li><a href="index.html">自我介紹</a></li>
+            <li><a href="activities.html">課外活動</a></li>
+            <li><a href="portfolio.html" class="active">作品集</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h2>核心作品集</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="images/project1.jpg" alt="作品照片" class="card-img">
+                <div class="card-body">
+                    <span class="card-tag">// 專題研究</span>
+                    <h3 class="card-title">[專題/作品名稱一]</h3>
+                    <p class="card-text">詳細說明你做這個專案的起因、使用的研究方法、以及最關鍵的研究發現或實作成果。</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="images/project2.jpg" alt="作品照片" class="card-img">
+                <div class="card-body">
+                    <span class="card-tag">// 課堂成果</span>
+                    <h3 class="card-title">[專題/作品名稱二]</h3>
+                    <p class="card-text">可以是具代表性的簡報、程式作品或文學創作。著重描寫你在當中所展現的專業技能。</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer><p>&copy; 2026 [你的名字]. All rights reserved.</p></footer>
+</body>
+</html>
