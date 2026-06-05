@@ -22,7 +22,7 @@
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Georgia", "Noto Sans TC", serif; }
-        body { background-color: var(--bg-deep); color: var(--text-main); line-height: 1.85; }
+        body { background-color: var(--bg-deep); color: var(--text-main); line-height: 1.9; }
 
         /* 導覽列 */
         nav {
@@ -38,62 +38,71 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
         nav .logo { font-size: 1.4rem; font-weight: bold; color: var(--gold); letter-spacing: 2px; }
-        nav ul { display: flex; list-style: none; gap: 2rem; }
-        nav a { text-decoration: none; color: var(--text-dark); font-weight: 500; transition: 0.3s; letter-spacing: 1px; }
+        
+        /* 【改正 1】右上角字體放大 */
+        nav ul { display: flex; list-style: none; gap: 2.5rem; }
+        nav a { text-decoration: none; color: var(--text-dark); font-size: 1.2rem; font-weight: 600; transition: 0.3s; letter-spacing: 1px; }
         nav a:hover, nav a.active { color: var(--gold); }
 
         /* 內容主要框架 */
-        main { max-width: 1100px; margin: 4rem auto; padding: 0 2rem; }
+        main { max-width: 850px; margin: 4rem auto; padding: 0 2rem; text-align: center; }
         
         /* 座右銘區塊 */
         .quote-section {
             text-align: center;
-            margin-bottom: 5rem;
+            margin-bottom: 4rem;
             padding: 2.5rem;
             border-top: 1px solid var(--gold-border);
             border-bottom: 1px solid var(--gold-border);
             background: linear-gradient(135deg, var(--bg-card), var(--bg-light));
             border-radius: 8px;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
         }
-        .quote-text { font-style: italic; font-size: 1.35rem; color: var(--text-title); margin-bottom: 0.75rem; letter-spacing: 0.5px; }
+        .quote-text { font-style: italic; font-size: 1.35rem; color: var(--text-title); margin-bottom: 0.75rem; }
         .quote-author { font-size: 1rem; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; }
 
-        h2 { font-size: 2.2rem; color: var(--text-title); margin-bottom: 4rem; text-align: center; letter-spacing: 3px; }
+        h2 { font-size: 2.2rem; color: var(--text-title); margin-bottom: 3rem; text-align: center; letter-spacing: 3px; }
         h2::after { content: ''; display: block; width: 60px; height: 2px; background-color: var(--gold); margin: 0.8rem auto 0; }
         
-        /* 自傳故事區塊（雙欄交互式排版） */
-        .story-block {
-            display: flex;
-            gap: 4rem;
-            align-items: center;
+        /* 【改正 2】置頂大頭照樣式 */
+        .top-avatar-container {
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+        .top-avatar {
+            width: 240px;
+            height: 240px;
+            object-fit: cover;
+            border-radius: 50%; /* 圓形大頭照 */
+            border: 2px solid var(--gold);
+            padding: 6px;
+            background-color: var(--bg-card);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        /* 【改正 3】自傳大區塊與置中文字 */
+        .story-section {
             margin-bottom: 5rem;
             background-color: var(--bg-card);
-            padding: 2.5rem;
+            padding: 3rem 2rem;
             border-radius: 8px;
             border: 1px solid rgba(255,255,255,0.03);
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center; /* 全面置中 */
         }
         
-        /* 當區塊擁有 .reverse 類別時，左右反轉 */
-        .story-block.reverse {
-            flex-direction: row-reverse;
-        }
-
-        .story-text { flex: 1.5; }
-        .story-text h3 { font-size: 1.4rem; margin-bottom: 1.25rem; color: var(--gold); font-weight: 600; letter-spacing: 1px; }
-        .story-text p { color: var(--text-muted); text-align: justify; font-size: 1.05rem; margin-bottom: 1rem; }
+        .story-section h3 { font-size: 1.5rem; margin-bottom: 1.5rem; color: var(--gold); font-weight: 600; letter-spacing: 1px; }
+        .story-section p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 1.5rem; text-align: center; }
         
-        /* 典雅照片相框 */
-        .story-frame {
-            flex: 1;
-            display: flex;
-            justify-content: center;
+        /* 【改正 4】簡單置中的典雅相框 */
+        .image-frame-box {
+            margin: 2.5rem auto 1rem;
+            display: inline-block;
         }
         .portfolio-img {
             width: 100%;
-            max-width: 320px;
-            height: 240px;
+            max-width: 450px; /* 照片寬度 */
+            height: auto;
+            max-height: 300px;
             object-fit: cover;
             border-radius: 4px;
             border: 1px solid var(--gold-border);
@@ -104,19 +113,15 @@
         }
         .portfolio-img:hover {
             border-color: var(--gold);
-            transform: scale(1.02);
             box-shadow: 0 15px 35px var(--gold-glow);
         }
 
-        /* 頁尾 */
         footer { text-align: center; padding: 3rem; color: var(--text-dark); font-size: 0.85rem; border-top: 1px solid var(--gold-border); margin-top: 6rem; background-color: var(--bg-card); }
         
-        /* RWD 手機版自適應優化 */
-        @media (max-width: 868px) {
-            .story-block, .story-block.reverse { flex-direction: column-reverse; gap: 2rem; padding: 1.5rem; }
-            .portfolio-img { max-width: 100%; height: 200px; }
+        @media (max-width: 768px) {
             nav { flex-direction: column; gap: 1rem; }
-            nav ul { font-size: 0.9rem; gap: 1.2rem; }
+            nav ul { font-size: 1rem; gap: 1.5rem; }
+            .portfolio-img { max-width: 100%; }
         }
     </style>
 </head>
@@ -128,7 +133,8 @@
             <li><a href="index.html" class="active">自我介紹</a></li>
             <li><a href="activities.html">課外活動</a></li>
             <li><a href="portfolio.html">作品集</a></li>
-            <li><a href="#podcast">觀點與展望</a></li> </ul>
+            <li><a href="#podcast">觀點與展望</a></li>
+        </ul>
     </nav>
 
     <main>
@@ -137,109 +143,92 @@
             <p class="quote-author">— Steve Jobs</p>
         </div>
 
-        <h2>個人特質 & 深度自傳</h2>
-        
-        <div class="story-block">
-            <div class="story-text">
-                <h3>探求未知的敘事者：我是 York 陳宥楷</h3>
-                <p>
-                    我目前就讀於薇閣高中。樂觀、開朗、始終保持正面思考，是我在面對繁重學業與多元挑戰時的核心特質。對我而言，生命不該被侷限在單一的學科框架內，而是一場不斷跨界、探索與精彩敘事（Storytelling）的旅程。
-                </p>
-                <p>
-                    在緊湊的讀書時間之外，我將精力傾注於動態的球場與各項競賽中，無論是籃球、羽球或排球，都訓練了我高抗壓性與團隊協作精神。同時，我也身兼校園樂團的主唱，每當耶誕晚會與迎新晚會的燈光亮起，我與團員們在舞台上的全心投入，不僅是音樂的展現，更是我向世界傳遞熱情的一種方式。
-                </p>
-            </div>
-            <div class="story-frame">
-                <img src="images/avatar.jpg" alt="York Chen 個人照" class="portfolio-img">
-            </div>
+        <div class="top-avatar-container">
+            <img src="images/avatar.jpg" alt="York Chen 大頭照" class="top-avatar">
         </div>
 
-        <div class="story-block reverse">
-            <div class="story-text">
-                <h3>鏡頭與國際敘事：從雙語主持到自媒體實踐</h3>
-                <p>
-                    我與「敘事」的深度結緣始於小學六年級。當時我參與了兒少雙語拍片節目《開拍吧孩子！》，在摸索影像語言的過程中斬獲全國第一名，這顆影視創作的種子自此在我心中生根。到了國三，我更受邀回歸主持第二季《開拍吧親子！》，在攝影棚的聚光燈下，我逐漸淬鍊出穩健的主持技巧，更深刻體會到跨部門溝通與團隊合作的關鍵價值。
-                </p>
-                <p>
-                    隨後，我參與大愛電視台《小主播看天下》與《孩子看世界》節目，透過報導全球不同背景孩童面臨的生命故事，並與聯合國永續發展目標（SDGs）進行深度結合。這些寶貴的經歷，悄然將我的思考視角由在地拉升至宏觀的國際社會。
-                </p>
-                <p>
-                    這份對國際時事的關懷，促使我創立了自己的 YouTube 頻道。在疫情肆虐期間，我開啟了全英文國際新聞報導與分析的計畫，獨立製作針對「阿富汗禁止女性受教權」、「法國年金改革」等嚴肅議題的英語專題，並在第一時間翻譯美國參議員來台捐贈疫苗等英文快訊。這份自媒體實踐，不僅讓我將英語能力化為實質的社會影響力，也讓我陸續榮獲《中學生報》國際新聞專題競賽金獎、三分鐘英語科學競賽團體組全國冠軍，並成功入圍 Ocean Challenge 2024 全球海洋青年論壇決賽。
-                </p>
-            </div>
-            <div class="story-frame">
+        <h2>個人特質 & 深度自傳</h2>
+        
+        <div class="story-section">
+            <h3>探求未知的敘事者：我是 York 陳宥楷</h3>
+            <p>
+                我目前就讀於薇閣高中。樂觀、開朗、始終保持正面思考，是我在面對繁重學業與多元挑戰時的核心特質。對我而言，生命不該被侷限在單一的學科框架內，而是一場不斷跨界、探索與精彩敘事（Storytelling）的旅程。
+            </p>
+            <p>
+                在緊湊的讀書時間之外，我將精力傾注於動態的球場與各項競賽中，無論是籃球、羽球或排球，都訓練了我高抗壓性與團隊協作精神。同時，我也身兼校園樂團的主唱，每當耶誕晚會與迎新晚會的燈光亮起，我與團員們在舞台上的全心投入，不僅是音樂的展現，更是我向世界傳遞熱情的一種方式。
+            </p>
+        </div>
+
+        <div class="story-section">
+            <h3>鏡頭與國際敘事：從雙語主持到自媒體實踐</h3>
+            <p>
+                我與「敘事」的深度結緣始於小學六年級。當時我參與了兒少雙語拍片節目《開拍吧孩子！》，在摸索影像語言的過程中斬獲全國第一名，這顆影視創作的種子自此在我心中生根。到了國三，我更受邀回歸主持第二季《開拍吧親子！》，在攝影棚的聚光燈下，我逐漸淬鍊出穩健的主持技巧，更深刻體會到跨部門溝通與團隊合作的關鍵價值。
+            </p>
+            <p>
+                隨後，我參與大愛電視台《小主播看天下》與《孩子看世界》節目，透過報導全球不同背景孩童面臨的生命故事，並與聯合國永續發展目標（SDGs）進行深度結合。這些寶貴的經歷，悄然將我的思考視角由在地拉升至宏觀的國際社會。
+            </p>
+            <p>
+                這份對國際時事的關懷，促使我創立了自己的 YouTube 頻道。在疫情肆虐期間，我開啟了全英文國際新聞報導與分析的計畫，獨立製作針對「阿富汗禁止女性受教權」、「法國年金改革」等嚴肅議題的英語專題，並在第一時間翻譯美國參議員來台捐贈疫苗等英文快訊。這份自媒體實踐，不僅讓我將英語能力化為實質的社會影響力，也讓我陸續榮獲《中學生報》國際新聞專題競賽金獎、三分鐘英語科學競賽團體組全國冠軍，並成功入圍 Ocean Challenge 2024 全球海洋青年論壇決賽。
+            </p>
+            <div class="image-frame-box">
                 <img src="images/story_media.jpg" alt="影音創作與國際新聞專題" class="portfolio-img">
             </div>
         </div>
 
-        <div class="story-block">
-            <div class="story-text">
-                <h3>理性與邏輯交鋒：在英語辯論與模聯殿堂淬鍊思辨</h3>
-                <p>
-                    進入高中後，我深知若要更精準地解構國際議題，必須具備更強大的邏輯武器。於是，我毅然投入了「英語辯論」與「模擬聯合國」的鑽研。在 NHSDLC 辯論賽（Lincoln-Douglas 賽制）的高強度交鋒中，我憑藉敏捷的論證與流暢的口條，榮獲了 Top Speaker 的殊榮，隨後接連挑戰 TAS Invitational 與 NSDA 等賽事，成功讓自己的英語思維蛻變至能與母語人士進行深度答辯的水平。
-                </p>
-                <p>
-                    這份在辯論台上的積累，在模擬聯合國的舞台上得到了完美的延伸。在我初次參與的 CENT MUN XVII 中，我展現了有條理的即席上演講與談判技巧，榮獲 Honorable Mention。近期，我更進一步挑戰全英語環境的 YMUNT 耶魯模擬聯合國，在 Classic 會議與眾多以英語為母語的頂尖對手激烈交鋒下，再次頂住壓力奪得 Honorable Mention。這幾次從挫折到自我突破的模聯經驗，極大地訓練了我的高階思考與即時答辯能力，也讓我對切身的國際政治議題有了更深切、更具厚度的理解。
-                </p>
-            </div>
-            <div class="story-frame">
+        <div class="story-section">
+            <h3>理性與邏輯交鋒：在英語辯論與模聯殿堂淬鍊思辨</h3>
+            <p>
+                進入高中後，我深知若要更精準地解構國際議題，必須具備更強大的邏輯武器。於是，我毅然投入了「英語辯論」與「模擬聯合國」的鑽研。在 NHSDLC 辯論賽（Lincoln-Douglas 賽制）的高強度交鋒中，我憑藉敏捷的論證與流暢的口條，榮獲了 Top Speaker 的殊榮，隨後接連挑戰 TAS Invitational 與 NSDA 等賽事，成功讓自己的英語思維蛻變至能與母語人士進行深度答辯的水平。
+            </p>
+            <p>
+                這份在辯論台上的積累，在模擬聯合國的舞台上得到了完美的延伸。在我初次參與的 CENT MUN XVII 中，我展現了有條理的即席上演講與談判技巧，榮獲 Honorable Mention。近期，我更進一步挑戰全英語環境的 YMUNT 耶魯模擬聯合國，在 Classic 會議與眾多以英語為母語的頂尖對手激烈交鋒下，再次頂住壓力奪得 Honorable Mention。這幾次從挫折到自我突破的模聯經驗，極大地訓練了我的高階思考與即時答辯能力，也讓我對切身的國際政治議題有了更深切、更具厚度的理解。
+            </p>
+            <div class="image-frame-box">
                 <img src="images/story_debate.jpg" alt="英語辯論與模擬聯合國成果" class="portfolio-img">
             </div>
         </div>
 
-        <div class="story-block reverse">
-            <div class="story-text">
-                <h3>國際參與的具體實踐：Wego ICDF 的街頭到帛琉之行</h3>
-                <p>
-                    我對國際事務的熱忱，並不僅停留在口頭辯論與影像敘事。高一時，我和同學在校內共同創立了 Wego ICDF 社團，旨在與台灣財團法人國際合作發展基金會及外交部並肩前行，為國際合作盡一份青年的心力，而我也擔綱執行長（副社長）的重任。
-                </p>
-                <p>
-                    為了募集慈善資金，我們跳脫傳統的校內募款，選擇走上街頭進行義賣。我們親自操刀設計具有社團意象的服飾與袋子，在熙來攘往的街頭上，我們經歷了千萬次被路人冷眼打槍與婉拒的考驗。每一次的拒絕都是對我們心理韌性的磨練，但也讓我們不斷修正論述、用更具說服力的方式傳遞理念，最終我們成功募集到了預期款項。
-                </p>
-                <p>
-                    我們計畫於今年四月出發前往帛琉進行深度外交參訪，這將是一場極為難得的跨文化外交實踐。我們將把在台灣大街小巷募集到的這份溫暖與愛心，親手轉交給帛琉當地的七所國小，為他們添購急需的大型微波爐，用實際行動在國際上點亮台灣。而在此之前，我也曾有幸擔任美國紐愛華高中與日本慶應高中的接待大使，並親赴日本進行交換生體驗、入住當地家庭。這些多元文化的親身碰撞，不斷開闊著我的國際視野。
-                </p>
-            </div>
-            <div class="story-frame">
+        <div class="story-section">
+            <h3>國際參與的具體實踐：Wego ICDF 的街頭到帛琉之行</h3>
+            <p>
+                我對國際事務的熱忱，並停留於口頭辯論與影像敘事。高一時，我和同學在校內共同創立了 Wego ICDF 社團，旨在與台灣財團法人國際合作發展基金會及外交部並肩前行，為國際合作盡一份青年的心力，而我也擔綱執行長（副社長）的重任。
+            </p>
+            <p>
+                為了募集慈善資金，我們跳脫傳統的校內募款，選擇走上街頭進行義賣。我們親自操刀設計具有社團意象的服飾與袋子，在熙來攘往的街頭上，我們經歷了千萬次被路人冷眼打槍與婉拒的考驗。每一次的拒絕都是對我們心理韌性的磨練，但也讓我們不斷修正論述、用更具說服力的方式傳遞理念，最終我們成功募集到了預期款項。
+            </p>
+            <p>
+                我們計畫於今年四月出發前往帛琉進行深度外交參訪，這將是一場極為難得的跨文化外交實踐。我們將把在台灣大街小巷募集到的這份溫暖與愛心，親手轉交給帛琉當地的七所國小，為他們添購急需的大型微波爐，用實際行動在國際上點亮台灣。而在此之前，我也曾有幸擔任美國紐愛華高中與日本慶應高中的接待大使，並親赴日本進行交換生體驗、入住當地家庭。這些多元文化的親身碰撞，不斷開闊著我的國際視野。
+            </p>
+            <div class="image-frame-box">
                 <img src="images/story_icdf.jpg" alt="Wego ICDF 社團實踐與國際交流" class="portfolio-img">
             </div>
         </div>
 
-        <div class="story-block">
-            <div class="story-text">
-                <h3>重大轉折與青年發聲：外交小尖兵的震撼與 Podcast 創立</h3>
-                <p>
-                    在我的求學歷程中，一個決定性的轉折點是我成功錄取了「外交小尖兵」並代表台灣赴美進行官方參訪。這次珍貴的機會，讓我得以親身走進國際外交的最前線，跳脫過往在課本或模擬會議中對外交的平面認知。
-                </p>
-                <p>
-                    在與多位我國駐外使節及國際事務官員面對面對談的過程中，我目睹了外交官在多變的全球政治與文化角力下，如何用細細的絲線維繫著台灣與世界的連結。這份實地考察帶給我的思想震撼，讓我深刻認識到外交工作的繁複、宏大與迷人之處，這份震撼在我心中凝聚成清晰的志向——促使我立下決心，未來將全力往外交、政治與國際關係領域深度鑽研。
-                </p>
-                <p>
-                    為了在當下更積極地落實 Steve Jobs 所說的 “Storyteller” 精神，我於近期獨立創立了一個全新的 Podcast 節目。在这个屬於青年的聲音平台上，我致力於探討、闡述當代年輕人的獨特思維與社會洞察。我深信，我們這一代青年擁有極具前瞻性且優秀的想法，我不希望這些聲音被埋沒。透過 Podcast 穩定的音訊傳播，我期許能建構一座跨越世代的對話橋樑，將屬於青年的優秀思維帶給不同年齡層的聽眾，引發更廣泛的社會共鳴。
-                </p>
-            </div>
-            <div class="story-frame">
+        <div class="story-section">
+            <h3>重大轉折與青年發聲：外交小尖兵的震撼與 Podcast 創立</h3>
+            <p>
+                在我的求學歷程中，一個決定性的轉折點是我成功錄取了「外交小尖兵」並代表台灣赴美進行官方參訪。這次珍貴的機會，讓我得以親身走進國際外交的最前線，跳脫過往在課本或模擬會議中對外交的平面認知。
+            </p>
+            <p>
+                在與多位我國駐外使節及國際事務官員面對面對談的過程中，我目睹了外交官在多變的全球政治與文化角力下，如何用細細的絲線維繫著台灣與世界的連結。這份實地考察帶給我的思想震撼，讓我深刻認識到外交工作的繁複、宏大與迷人之處，這份震撼在我心中凝聚成清晰的志向——促使我立下決心，未來將全力往外交、政治與國際關係領域深度鑽研。
+            </p>
+            <p>
+                為了在當下更積極地落實 Steve Jobs 所說的 “Storyteller” 精神，我於近期獨立創立了一個全新的 Podcast 節目。在這個屬於青年的聲音平台上，我致力於探討、闡述當代年輕人的獨特思維與社會洞察。我深信，我們這一代青年擁有極具前瞻性且優秀的想法，我不希望這些聲音被埋沒。透過 Podcast 穩定的音訊傳播，我期許能建構一座跨越世代的對話橋樑，將屬於青年的優秀思維帶給不同年齡層的聽眾，引發更廣泛的社會共鳴。
+            </p>
+            <div class="image-frame-box">
                 <img src="images/story_diplomacy.jpg" alt="外交小尖兵美國參訪與 Podcast 錄製" class="portfolio-img">
             </div>
         </div>
 
-        <div class="story-block reverse">
-            <div class="story-text">
-                <h3>未來展望：融合多維能力的國際說書人</h3>
-                <p>
-                    回顧過往走過的每一步軌跡，從影像節目的雙語鏡頭、國際新聞的自媒體分析、辯論台與模聯會議上的唇槍舌戰，到走入真實世界推動街頭募款與實體外交，我發現自己所做的一切，核心都在於學習如何成為一名「具有感染力與深度的說書人」。
-                </p>
-                <p>
-                    展望未來，我對自己的期許是將「全英語思辨與談判能力」、「宏觀的國際關係視野」以及「影音媒體與聲音的傳播影響力」這三者進行有機的跨界結合。不論未來的學術探索多麼艱辛，我都將以理性的思辨與感性的敘事，致力於在國際舞台上，講述屬於我們這一代青年、屬於台灣的動人故事。
-                </p>
-            </div>
-            <div class="story-frame">
+        <div class="story-section">
+            <h3>未來展望：融合多維能力的國際說書人</h3>
+            <p>
+                回顧過往走過的每一步軌跡，從影像節目的雙語鏡頭、國際新聞的自媒體分析、辯論台與模聯會議上的唇槍舌戰，到走入真實世界推動街頭募款與實體外交，我發現自己所做的一切，核心都在於學習如何成為一名「具有感染力與深度的說書人」。
+            </p>
+            <p>
+                展望未來，我對自己的期許是將「全英語思辨與談判能力」、「宏觀的國際關係視野」以及「影音媒體與聲音的傳播影響力」這三者進行有機的跨界結合。不論未來的學術探索多麼艱辛，我都將以理性的思辨與感性的敘事，致力於在國際舞台上，講述屬於我們這一代青年、屬於台灣的動人故事。
+            </p>
+            <div class="image-frame-box">
                 <img src="images/story_future.jpg" alt="York Chen 未來展望" class="portfolio-img">
             </div>
         </div>
-
-    </main>
-
-    <footer><p>&copy; 2026 York Chen. All rights reserved.</p></footer>
-</body>
-</html>
