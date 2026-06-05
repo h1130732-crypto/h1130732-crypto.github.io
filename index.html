@@ -66,7 +66,7 @@
         nav a { text-decoration: none; color: var(--text-muted); font-size: 1.3rem; font-weight: 500; transition: var(--transition); letter-spacing: 1px; }
         nav a:hover, nav a.active { color: var(--gold); text-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
 
-        /* 進階改動 1：優雅雙語切換鈕 */
+        /* 優雅雙語切換鈕 */
         .lang-switch {
             background: transparent; border: 1px solid var(--gold); color: var(--gold);
             padding: 6px 16px; border-radius: 20px; cursor: pointer;
@@ -74,7 +74,7 @@
         }
         .lang-switch:hover { background: var(--gold); color: var(--bg-deep); box-shadow: 0 0 12px var(--gold-glow); }
 
-        /* ── 進階改動 2：動態時光軸 (支援 Scrollspy 自動偵側亮起) ── */
+        /* ── 動態時光軸 (支援 Scrollspy 自動偵側亮起) ── */
         .side-timeline {
             position: fixed;
             left: 3rem;
@@ -90,7 +90,6 @@
             writing-mode: vertical-rl; letter-spacing: 4px; border-left: 2px solid rgba(212,175,55,0.2); 
             padding-left: 10px; transition: var(--transition); cursor: pointer; text-decoration: none;
         }
-        /* 當讀者滑動到該段落，左邊年份會被點亮變成金色 */
         .node.active { color: var(--gold); border-left-color: var(--gold); transform: scale(1.05); text-shadow: 0 0 8px var(--gold-glow); }
         
         /* ── 右側社群列 ── */
@@ -179,36 +178,51 @@
             50% { transform: translateY(-25px); }
         }
 
-        /* ── 進階改動 3：實體 Spotify 播放器嵌入外框 ── */
-        .spotify-player {
-            margin: 2rem auto 0;
-            max-width: 700px;
-            border-radius: 12px;
-            overflow: hidden;
-            background: #121212;
-            padding: 6px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        /* ── 聯絡表單區塊 ── */
+        .connect-title {
+            font-size: 2rem; 
+            color: var(--gold-soft);
+            text-align: center;
+            margin-top: 6rem;
+            margin-bottom: 2.5rem;
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 4px;
         }
-
-        /* ── 進階改動 4：頂級官網聯絡表單 ── */
         .contact-form {
             background: var(--bg-card);
-            padding: 4rem;
-            border-radius: 20px;
-            border: 1px solid var(--gold);
+            padding: 2.5rem 3rem; 
+            border-radius: 16px;
+            border: 1px solid rgba(212, 175, 55, 0.6);
             display: grid;
-            gap: 2rem;
-            margin-top: 5rem;
+            gap: 1.5rem; 
+            max-width: 600px; 
+            margin: 0 auto; 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
         }
         .contact-form input, .contact-form textarea {
-            background: transparent; border: none; border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-            color: var(--text-main); padding: 1rem; font-size: 1.1rem; outline: none; transition: 0.3s;
+            background: transparent; 
+            border: none; 
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--text-main); 
+            padding: 0.6rem 0.5rem; 
+            font-size: 1rem; 
+            outline: none; 
+            transition: 0.3s;
             font-family: 'Noto Sans TC', sans-serif;
+            line-height: 1.5;
         }
         .contact-form input:focus, .contact-form textarea:focus { border-bottom-color: var(--gold); }
         .submit-btn {
-            background: var(--gold); color: var(--bg-deep); border: none; padding: 1.2rem;
-            font-family: 'Playfair Display', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 1.2rem; cursor: pointer; transition: 0.3s;
+            background: var(--gold); 
+            color: var(--bg-deep); 
+            border: none; 
+            padding: 0.9rem; 
+            font-family: 'Playfair Display', 'Noto Sans TC', sans-serif; 
+            font-weight: 700; 
+            font-size: 1.1rem; 
+            cursor: pointer; 
+            transition: 0.3s;
+            margin-top: 0.5rem;
         }
         .submit-btn:hover { background: var(--gold-soft); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212,175,55,0.3); }
 
@@ -220,7 +234,7 @@
             top: 0; left: 0;
             width: 100%; height: 100%;
             background: rgba(5, 8, 15, 0.95);
-            backdrop-filter: blur(15px); /* 背景高級毛玻璃效果 */
+            backdrop-filter: blur(15px);
             justify-content: center;
             align-items: center;
         }
@@ -241,6 +255,7 @@
             .side-timeline, .side-social, .bg-decorative { display: none; }
             .bubble { position: relative; left: auto; right: auto; margin: 2rem auto; width: 220px; height: 220px; }
             .story-container { padding: 2.5rem 1.5rem; }
+            .contact-form { width: 100%; padding: 2rem 1.5rem; }
         }
     </style>
 </head>
@@ -253,9 +268,8 @@
         <div class="logo">YORK CHEN</div>
         <ul>
             <li><a href="#" class="active">HOME</a></li>
-            <li><a href="#activities-anchor">ACTIVITIES</a></li>
-            <li><a href="#works-anchor">WORKS</a></li>
-            <li><a href="#podcast">PODCAST</a></li>
+            <li><a href="activities.html">ACTIVITIES</a></li>
+            <li><a href="portfolio.html">WORKS</a></li>
             <button class="lang-switch" onclick="toggleLanguage()">EN / 中文</button>
         </ul>
     </nav>
@@ -268,7 +282,7 @@
 
     <div class="side-social">
         <a href="https://www.youtube.com/@ANGEL19760920" target="_blank" class="social-btn" title="YouTube 頻道"><i class="fa-brands fa-youtube"></i></a>
-        <a href="#podcast" class="social-btn" title="Podcast 節目"><i class="fa-solid fa-microphone"></i></a>
+        <a href="https://open.spotify.com" target="_blank" class="social-btn" title="Podcast 節目"><i class="fa-solid fa-microphone"></i></a>
         <a href="mailto:contact@yorkchen.com" class="social-btn" title="聯絡 Email"><i class="fa-solid fa-envelope"></i></a>
     </div>
 
@@ -283,7 +297,7 @@
         </div>
 
         <div class="avatar-wrap">
-            <img src="image/York #1.png" alt="York Chen 大頭貼" class="avatar-main">
+            <img src="image/截圖 2025-08-15 晚上11.14.54.png" alt="York Chen 新大頭貼" class="avatar-main">
             <h1 class="section-title">
                 <span lang="zh">York 陳宥楷</span>
                 <span lang="en">York Chen</span>
@@ -295,6 +309,9 @@
         </div>
 
         <div class="story-container" id="sec-1">
+            <div class="bubble bubble-left" onclick="openLightbox('image/截圖 2026-06-05 上午11.48.32.png')">
+                <img src="image/截圖 2026-06-05 上午11.48.32.png" alt="樂團主唱照片">
+            </div>
             <h3 lang="zh">探求未知的敘事者</h3>
             <h3 lang="en">Seeker of Unknown Stories</h3>
             
@@ -309,7 +326,7 @@
             <div class="bubble bubble-left" onclick="openLightbox('https://www.avjet.com.tw/api/uploads/poster/poster_1774497314860_epg5ie.jpg')">
                 <img src="https://www.avjet.com.tw/api/uploads/poster/poster_1774497314860_epg5ie.jpg" alt="影音主持">
             </div>
-            <h3 id="works-anchor" lang="zh">鏡頭與國際敘事</h3>
+            <h3 lang="zh">鏡頭與國際敘事</h3>
             <h3 lang="en">Global Perspectives via Media</h3>
             
             <p lang="zh">小學六年級時，我在《開拍吧孩子！》斬獲全國第一名，這顆創作的種子自此生根。國三時，受邀回歸主持第二季，我體會到跨部門溝通的關鍵價值。</p>
@@ -337,7 +354,7 @@
             <div class="bubble bubble-left" onclick="openLightbox('image/IMG_7992.jpeg')">
                 <img src="image/IMG_7992.jpeg" alt="ICDF社團">
             </div>
-            <h3 id="activities-anchor" lang="zh">具體實踐：Wego ICDF</h3>
+            <h3 lang="zh">具體實踐：Wego ICDF</h3>
             <h3 lang="en">Real-world Diplomacy: Wego ICDF</h3>
             
             <p lang="zh">我創立了 Wego ICDF 社團，擔任執行長。為了募款，我們走上街頭義賣自己設計的服飾。面對無數次的拒絕，我們學會了修正論述，最終成功募集資金。</p>
@@ -365,7 +382,7 @@
             <div class="bubble bubble-left" onclick="openLightbox('image/IMG_8936 (1).JPG')">
                 <img src="image/IMG_8936 (1).JPG" alt="未來展望">
             </div>
-            <h3 id="podcast" lang="zh">未來展望：融合多維能力的國際說書人</h3>
+            <h3>未來展望：融合多維能力的國際說書人</h3>
             <h3 lang="en">Future Vision: The Multi-Dimensional Storyteller</h3>
             
             <p lang="zh">展望未來，我對自己的期許是將「全英語思辨與談判能力」、「宏觀的國際關係視野」以及「影音媒體與聲音的傳播影響力」這三者進行有機的跨界結合。</p>
@@ -373,40 +390,34 @@
 
             <p lang="en">Looking ahead, I aspire to seamlessly integrate all-English debating and negotiation proficiencies, a macro perspective on international relations, and the modern communicative influence of visual and audio media.</p>
             <p lang="en">No matter how demanding the academic road ahead may be, I will bring together rational debate and emotional storytelling to share the inspiring accounts of our generation and of Taiwan on the global stage.</p>
-
-            <div class="spotify-player">
-                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/show/0?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-            </div>
         </div>
 
-        <h2 class="section-title">CONNECT WITH YORK</h2>
+        <h2 class="connect-title">CONNECT WITH YORK</h2>
         <form class="contact-form" onsubmit="event.preventDefault(); alert('感謝您的聯絡！郵件模擬發送成功。');">
             <input type="text" placeholder="Your Name" required>
             <input type="email" placeholder="Your Email Address" required>
-            <textarea rows="5" placeholder="Let's start an inspiring conversation..." required></textarea>
+            <textarea rows="4" placeholder="Let's start an inspiring conversation..." required></textarea>
             <button type="submit" class="submit-btn">SEND MESSAGE</button>
         </form>
 
     </main>
 
     <div id="imageLightbox" class="modal">
-        <span class="close-modal" onclick="closeLightbox()">&times;</span>
+        <span class="close-modal" onclick="closeLightbox()">×</span>
         <div class="modal-content">
             <img id="lightboxImg" src="" alt="放大成果照片">
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2026 YORK CHEN. POWERED BY DIPLOMACY & STORYTELLING.</p>
+        <p>© 2026 YORK CHEN. POWERED BY DIPLOMACY & STORYTELLING.</p>
     </footer>
 
     <script>
-        // 1. 中英雙語一鍵切換控制
         function toggleLanguage() {
             document.body.classList.toggle('en-mode');
         }
 
-        // 2. 燈箱彈出與黑底毛玻璃縮回控制
         function openLightbox(imageSrc) {
             const modal = document.getElementById("imageLightbox");
             const lightboxImg = document.getElementById("lightboxImg");
@@ -418,29 +429,26 @@
             document.getElementById("imageLightbox").style.display = "none";
         }
 
-        // 3. Scrollspy 捲軸監聽技術：滑動到特定故事區塊時，點亮左側對應的時間點
+        // Scrollspy 捲軸監聽動態點亮左側時間軸年份
         window.addEventListener('scroll', () => {
-            // 定義時間點所對應觸發的 HTML Section ID
             const sectionsMapping = [
-                { id: 'sec-1', node: 'node-sec-1' }, // 2026 高二
-                { id: 'sec-4', node: 'node-sec-4' }, // 2025 高一
-                { id: 'sec-2', node: 'node-sec-2' }  // 2023 國三
+                { id: 'sec-1', node: 'node-sec-1' }, 
+                { id: 'sec-4', node: 'node-sec-4' }, 
+                { id: 'sec-2', node: 'node-sec-2' }  
             ];
             
-            let currentActiveNode = "node-sec-1"; // 預設亮起高二
+            let currentActiveNode = "node-sec-1"; 
             
             sectionsMapping.forEach(item => {
                 const element = document.getElementById(item.id);
                 if (element) {
                     const elementTop = element.offsetTop;
-                    // 當捲軸高於元件頂部 300px 位置時，認定切換到該時光節點
                     if (window.pageYOffset >= elementTop - 300) {
                         currentActiveNode = item.node;
                     }
                 }
             });
 
-            // 清除所有的亮起狀態，並單獨點亮目前的時光節點
             document.querySelectorAll('.side-timeline .node').forEach(node => {
                 node.classList.remove('active');
             });
@@ -450,7 +458,6 @@
             }
         });
 
-        // 點擊照片以外的毛玻璃黑底區域時，也能自動關閉大圖
         window.onclick = function(event) {
             const modal = document.getElementById("imageLightbox");
             if (event.target == modal) {
