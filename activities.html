@@ -79,8 +79,9 @@
             align-items: center;
             background: var(--bg-card);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 24px;
+            border-radius: 24px; /* 外圍大格子維持圓潤 */
             margin-bottom: 6rem;
+            padding: 1.5rem;   /* 內縮一些，讓內部的照片有空間呈現獨立的圓角 */
             overflow: hidden;
             box-shadow: 0 20px 40px rgba(0,0,0,0.4);
             transition: var(--transition);
@@ -90,18 +91,20 @@
         /* 左右交替控制機制 */
         .activity-card.row-reverse { flex-direction: row-reverse; }
 
-        /* 照片區塊 */
+        /* 照片外框區塊 */
         .activity-image-wrapper {
             width: 45%;
-            height: 420px;
+            height: 400px;
             overflow: hidden;
             position: relative;
             background: #111b2d;
+            border-radius: 18px; /* ✨ 關鍵：給予照片外框優雅的圓角 */
         }
         .activity-image-wrapper img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            border-radius: 18px; /* ✨ 關鍵：讓照片本身磨掉尖角，呈現完美的圓潤弧度 */
             transition: var(--transition);
             cursor: zoom-in;
         }
@@ -110,7 +113,7 @@
         /* 文字內容區塊 */
         .activity-content {
             width: 55%;
-            padding: 3.5rem;
+            padding: 1.5rem 3.5rem; /* 微調內距使左右更加平衡 */
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -159,8 +162,8 @@
             display: none; position: fixed; z-index: 5000; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(5, 8, 15, 0.96); backdrop-filter: blur(15px); justify-content: center; align-items: center;
         }
-        .modal-content { max-width: 80%; max-height: 80%; border: 2px solid var(--gold); padding: 10px; background: var(--bg-card); border-radius: 8px; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
-        .modal-content img { max-width: 100%; max-height: 75vh; display: block; border-radius: 4px; }
+        .modal-content { max-width: 80%; max-height: 80%; border: 2px solid var(--gold); padding: 10px; background: var(--bg-card); border-radius: 16px; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
+        .modal-content img { max-width: 100%; max-height: 75vh; display: block; border-radius: 12px; } /* ✨ 放大後的圖片與外框也同步圓角化 */
         .close-modal { position: absolute; top: 30px; right: 50px; color: var(--gold); font-size: 3.5rem; cursor: pointer; transition: 0.2s; }
         .close-modal:hover { color: var(--gold-soft); transform: scale(1.1); }
 
@@ -170,10 +173,10 @@
         @media (max-width: 1200px) {
             .side-social, .bg-decorative { display: none; }
             main { padding: 2rem 1rem; }
-            .activity-card, .activity-card.row-reverse { flex-direction: column; }
+            .activity-card, .activity-card.row-reverse { flex-direction: column; padding: 1.2rem; }
             .activity-image-wrapper, .activity-content { width: 100%; }
             .activity-image-wrapper { height: 300px; }
-            .activity-content { padding: 2rem; }
+            .activity-content { padding: 1.5rem 0.5rem; }
         }
     </style>
 </head>
