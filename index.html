@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[你的名字] 的學習歷程 - 首頁</title>
+    <title>York Chen 的學習歷程 - 自我介紹 & 自傳</title>
     <style>
         /* 典雅深色系配色 */
         :root {
             --bg-main: #0f141c;       /* 深午夜藍背景 */
-            --bg-card: #18202c;       /* 稍微淺一點的卡片暗藍 */
+            --bg-card: #18202c;       /* 卡片暗藍 */
             --text-main: #f1f5f9;     /* 亮白文字 */
             --text-muted: #94a3b8;    /* 質感灰文字 */
             --gold: #d4af37;          /* 典雅金色 */
@@ -25,36 +25,50 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2); /* 淡淡的金色邊框 */
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
         }
-        nav .logo { font-size: 1.3rem; font-weight: bold; color: var(--gold); letter-spacing: 1px; }
+        nav .logo { font-size: 1.3rem; font-weight: bold; color: var(--gold); letter-spacing: 2px; }
         nav ul { display: flex; list-style: none; gap: 2rem; }
         nav a { text-decoration: none; color: var(--text-muted); font-weight: 500; transition: 0.3s; }
         nav a:hover, nav a.active { color: var(--gold); }
 
         /* 內容區塊 */
-        main { max-width: 900px; margin: 4rem auto; padding: 0 2rem; }
+        main { max-width: 1000px; margin: 4rem auto; padding: 0 2rem; }
+        
+        /* 經典座右銘區塊 */
+        .quote-section {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 2rem;
+            border-left: 3px solid var(--gold);
+            border-right: 3px solid var(--gold);
+            background-color: var(--bg-card);
+        }
+        .quote-text { font-style: italic; font-size: 1.25rem; color: var(--text-main); margin-bottom: 0.5rem; }
+        .quote-author { font-size: 0.95rem; color: var(--gold); letter-spacing: 1px; }
+
         h2 { font-size: 2rem; color: var(--gold); margin-bottom: 2.5rem; text-align: center; letter-spacing: 2px; }
         
-        .about-container { display: flex; gap: 4rem; align-items: center; }
-        .about-text { flex: 1.5; }
-        .about-text h3 { font-size: 1.4rem; margin-bottom: 1rem; color: var(--text-main); }
-        .about-text p { margin-bottom: 1.5rem; color: var(--text-muted); text-align: justify; }
+        .about-container { display: flex; gap: 4rem; align-items: flex-start; }
+        .about-text { flex: 1.6; }
+        .about-text h3 { font-size: 1.6rem; margin-bottom: 1.5rem; color: var(--gold); font-weight: 600; }
+        .about-text p { margin-bottom: 1.5rem; color: var(--text-muted); text-align: justify; font-size: 1.05rem; }
         
+        /* 照片樣式，可直接在 images/ 放一張 avatar.jpg */
         .profile-img {
-            width: 260px; height: 340px; object-fit: cover;
+            width: 280px; height: auto; object-fit: cover;
             border-radius: 4px; border: 1px solid var(--gold);
             box-shadow: 0 15px 30px rgba(0,0,0,0.5);
         }
 
         footer { text-align: center; padding: 3rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 6rem; }
-        @media (max-width: 768px) { .about-container { flex-direction: column-reverse; text-align: center; } nav { flex-direction: column; gap: 1rem; } }
+        @media (max-width: 768px) { .about-container { flex-direction: column-reverse; text-align: center; } nav { flex-direction: column; gap: 1rem; } .profile-img { margin: 0 auto; } }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="logo">PORTFOLIO</div>
+        <div class="logo">YORK CHEN</div>
         <ul>
             <li><a href="index.html" class="active">自我介紹</a></li>
             <li><a href="activities.html">課外活動</a></li>
@@ -63,20 +77,55 @@
     </nav>
 
     <main>
-        <h2>自我介紹 & 自傳</h2>
+        <div class="quote-section">
+            <p class="quote-text">"The most powerful person in the world is the storyteller."</p>
+            <p class="quote-author">— Steve Jobs</p>
+        </div>
+
+        <h2>個人特質 & 自傳</h2>
+        
         <div class="about-container">
             <div class="about-text">
-                <h3>您好，我是 [你的名字]</h3>
-                <p>這裡是一段優雅的開場白。例如：我目前就讀於某某學校，專注於人文與科技的結合，喜歡在規律的邏輯中尋找美感。</p>
-                <p>【自傳大綱】這裡寫你的成長背景、求學歷程、遇到了什麼轉折點，讓審查委員或讀者能透過文字感受到你的沉穩與積極進取的態度。</p>
-                <p>【未來規劃】簡述你對未來的抱負，以及希望能透過這份歷程展現出你哪些獨特的特質。</p>
+                <h3>我是 York 陳宥楷</h3>
+                <p>
+                    我目前就讀於薇閣高中。樂觀、開朗、正面思考，是我面對未知挑戰時的核心特質。在課業之外，我熱愛打籃球、羽球與排球，並積極將腳步拓展至社團、樂團（擔任主唱）與各項競賽中。對我而言，生命是一場不斷跨界與敘事（Storytelling）的旅程。
+                </p>
+
+                <p><strong>影音創作與國際敘事：從孩子到觀照世界的眼睛</strong><br>
+                    小學六年級時，我參與兒少雙語拍片節目《開拍吧孩子！》並斬獲第一名，這顆影視創作的種子自我心中萌芽。國三時，我更受邀回歸主持第二季《開拍吧親子！》，不僅淬鍊了主持技巧，更深刻體會到跨團隊溝通的關鍵價值。同年，我亦投入大愛電視台《小主播看天下》與《孩子看世界》節目，走訪與反思世界各地孩童的故事，並與聯合國永續發展目標（SDGs）深度結合，讓我的思考視角邁向更宏觀的層次。
+                </p>
+
+                <p>
+                    這份對敘事的熱情，驅使我創立了自己的 YouTube 頻道，從最初的英文教學，逐步轉型為利用全英文報導與分析國際時事（如阿富汗女性受教權、法國年金改革）以及即時翻譯英文快訊。此外，我亦將資訊敏銳度轉化為實質成果，曾榮獲《中學生報》國際新聞專題競賽金獎、三分鐘英語科學競賽團體組全國冠軍，並入圍 Ocean Challenge 2024 全球海洋青年論壇決賽。這些跨領域的歷練，不僅鍛鍊了我自信表達的底氣，也形塑了我深度思辨的能力。
+                </p>
+
+                <p><strong>思辯與外交的跨界：從模擬聯合國到外交小尖兵</strong><br>
+                    進入高中後，我專注於「英語辯論」與「模擬聯合國」的鑽研。在 NHSDLC 辯論賽（Lincoln-Douglas 賽制）中，我榮獲 Top Speaker 的殊榮，並接連挑戰 TAS Invitational、NSDA 等高強度賽事，成功讓自己的英語思維提升至能與母語人士交鋒的水平。在模擬聯合國的舞台上，我於 CENT MUN XVII 獲得 Honorable Mention，並在全英語環境的 YMUNT 耶魯模聯中再次奪得 Honorable Mention。在與各國頂尖同儕的答辯過程中，更加深了我對國際時事及切身議題的關懷。
+                </p>
+
+                <p>
+                    這樣立足台灣、放眼世界的動機，在外交實踐上得到了印證。我曾創立 Wego ICDF 社團並擔任執行長，透過自主設計服飾與袋子進行街頭義賣，克服無數次的婉拒，成功募集款項，並將於今年四月親赴帛琉參訪促進外交，將愛心微波爐親手致贈給當地的七所國小。
+                </p>
+
+                <p>
+                    更令我感激的是，我成功錄取了「外交小尖兵」並代表赴美參訪。這次珍貴的實地考察，讓我跳脫課本上的理論，真正走入國際外交的現場。從駐外使節的對談與外交事務的推動中，我深刻認識到全球政治、文化角力等多面向的外交維度，這份震撼促使我立下決心，未來將往外交與國際關係領域深度鑽研。
+                </p>
+
+                <p><strong>聆聽與對話：創立 Podcast 的實踐</strong><br>
+                    為了進一步實踐 Steve Jobs 的 “Storyteller” 精神，近期我創立了自己的 Podcast 節目。在這個平台上，我致力於闡述當代年輕人的思維與獨特見解。我深信，青年一代擁有不容忽視的優秀想法與社會洞察，我希望能透過聲音建立起一座跨越世代的橋樑，將我們的聲音帶給不同年齡層的聽眾，引發更多元的對話與共鳴。
+                </p>
+
+                <p><strong>未來展望</strong><br>
+                    回顧過往的軌跡，從影像的鏡頭、辯論的講台，到走上國際進行實體外交，我始終在學習如何成為一名有力度的敘事者。展望未來，我期許自己能將英語思辯能力、國際關係視野與影音媒體的影響力三者結合。不論是未來的學術鑽研抑或是外交實踐，我都希望自己能代表台灣，在國際舞台上講述屬於我們這一代、屬於台灣的動人故事。
+                </p>
             </div>
+            
             <div>
-                <img src="images/avatar.jpg" alt="個人照" class="profile-img">
+                <img src="images/avatar.jpg" alt="York Chen 個人照" class="profile-img">
             </div>
         </div>
     </main>
 
-    <footer><p>&copy; 2026 [你的名字]. All rights reserved.</p></footer>
+    <footer><p>&copy; 2026 York Chen. All rights reserved.</p></footer>
 </body>
 </html>
