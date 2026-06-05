@@ -1,1 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[你的名字] 的學習歷程 - 首頁</title>
+    <style>
+        /* 典雅深色系配色 */
+        :root {
+            --bg-main: #0f141c;       /* 深午夜藍背景 */
+            --bg-card: #18202c;       /* 稍微淺一點的卡片暗藍 */
+            --text-main: #f1f5f9;     /* 亮白文字 */
+            --text-muted: #94a3b8;    /* 質感灰文字 */
+            --gold: #d4af37;          /* 典雅金色 */
+            --gold-hover: #b89225;    /* 深金色 */
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Georgia", "Noto Sans TC", serif; }
+        body { background-color: var(--bg-main); color: var(--text-main); line-height: 1.8; }
 
+        /* 導覽列 */
+        nav {
+            background-color: var(--bg-card);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2); /* 淡淡的金色邊框 */
+        }
+        nav .logo { font-size: 1.3rem; font-weight: bold; color: var(--gold); letter-spacing: 1px; }
+        nav ul { display: flex; list-style: none; gap: 2rem; }
+        nav a { text-decoration: none; color: var(--text-muted); font-weight: 500; transition: 0.3s; }
+        nav a:hover, nav a.active { color: var(--gold); }
+
+        /* 內容區塊 */
+        main { max-width: 900px; margin: 4rem auto; padding: 0 2rem; }
+        h2 { font-size: 2rem; color: var(--gold); margin-bottom: 2.5rem; text-align: center; letter-spacing: 2px; }
+        
+        .about-container { display: flex; gap: 4rem; align-items: center; }
+        .about-text { flex: 1.5; }
+        .about-text h3 { font-size: 1.4rem; margin-bottom: 1rem; color: var(--text-main); }
+        .about-text p { margin-bottom: 1.5rem; color: var(--text-muted); text-align: justify; }
+        
+        .profile-img {
+            width: 260px; height: 340px; object-fit: cover;
+            border-radius: 4px; border: 1px solid var(--gold);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+        }
+
+        footer { text-align: center; padding: 3rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 6rem; }
+        @media (max-width: 768px) { .about-container { flex-direction: column-reverse; text-align: center; } nav { flex-direction: column; gap: 1rem; } }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">PORTFOLIO</div>
+        <ul>
+            <li><a href="index.html" class="active">自我介紹</a></li>
+            <li><a href="activities.html">課外活動</a></li>
+            <li><a href="portfolio.html">作品集</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h2>自我介紹 & 自傳</h2>
+        <div class="about-container">
+            <div class="about-text">
+                <h3>您好，我是 [你的名字]</h3>
+                <p>這裡是一段優雅的開場白。例如：我目前就讀於某某學校，專注於人文與科技的結合，喜歡在規律的邏輯中尋找美感。</p>
+                <p>【自傳大綱】這裡寫你的成長背景、求學歷程、遇到了什麼轉折點，讓審查委員或讀者能透過文字感受到你的沉穩與積極進取的態度。</p>
+                <p>【未來規劃】簡述你對未來的抱負，以及希望能透過這份歷程展現出你哪些獨特的特質。</p>
+            </div>
+            <div>
+                <img src="images/avatar.jpg" alt="個人照" class="profile-img">
+            </div>
+        </div>
+    </main>
+
+    <footer><p>&copy; 2026 [你的名字]. All rights reserved.</p></footer>
+</body>
+</html>
