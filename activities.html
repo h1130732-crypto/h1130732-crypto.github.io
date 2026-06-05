@@ -10,10 +10,10 @@
     <style>
         /* 延續主頁面高階藍金配色 */
         :root {
-            --bg-deep: #05080f;       /* 極致深邃黑藍 */
-            --bg-card: #0d1523;       /* 高級商務藍 */
-            --gold: #d4af37;          /* 權威古典金 */
-            --gold-soft: #f3e5ab;     /* 香檳金 */
+            --bg-deep: #05080f;       
+            --bg-card: #0d1523;       
+            --gold: #d4af37;          
+            --gold-soft: #f3e5ab;     
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -30,7 +30,7 @@
             scroll-behavior: smooth;
         }
 
-        /* ── 兩側沉浸式外交建築背景 ── */
+        /* ── 兩側沉浸式背景 ── */
         .bg-decorative {
             position: fixed;
             top: 0; width: 30%; height: 100vh;
@@ -54,6 +54,39 @@
         nav a { text-decoration: none; color: var(--text-muted); font-size: 1.3rem; font-weight: 500; transition: var(--transition); letter-spacing: 1px; }
         nav a:hover, nav a.active { color: var(--gold); text-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
 
+        /* ── ✨ 左側事件時間軸 ── */
+        .side-timeline {
+            position: fixed;
+            left: 2.5rem;
+            top: 55%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            z-index: 10;
+        }
+        .node { 
+            color: var(--text-muted); 
+            font-size: 0.95rem; 
+            font-weight: 500; 
+            writing-mode: vertical-rl; 
+            letter-spacing: 2px; 
+            border-left: 2px solid rgba(212,175,55,0.1); 
+            padding-left: 8px; 
+            transition: var(--transition); 
+            cursor: pointer; 
+            text-decoration: none;
+            text-align: right;
+        }
+        .node:hover { color: var(--gold-soft); }
+        .node.active { 
+            color: var(--gold); 
+            border-left-color: var(--gold); 
+            transform: scale(1.1); 
+            text-shadow: 0 0 8px var(--gold-glow); 
+            font-weight: 700;
+        }
+
         /* ── 右側社群列 ── */
         .side-social {
             position: fixed; right: 3rem; top: 50%; transform: translateY(-50%);
@@ -67,7 +100,7 @@
         .social-btn:hover { background: var(--gold); color: var(--bg-deep); transform: scale(1.15); box-shadow: 0 0 20px var(--gold); }
 
         /* ── 主內容區塊 ── */
-        main { max-width: 1100px; margin: 0 auto; padding: 4rem 2rem; }
+        main { max-width: 1050px; margin: 0 auto; padding: 4rem 2rem; }
 
         .page-header { text-align: center; margin-bottom: 5rem; }
         .page-header h1 { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--gold-soft); letter-spacing: 4px; margin-bottom: 1rem; }
@@ -79,99 +112,94 @@
             align-items: center;
             background: var(--bg-card);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 24px; /* 外圍大格子維持圓潤 */
+            border-radius: 24px;
             margin-bottom: 6rem;
-            padding: 1.5rem;   /* 內縮一些，讓內部的照片有空間呈現獨立的圓角 */
+            padding: 1.5rem;   
             overflow: hidden;
             box-shadow: 0 20px 40px rgba(0,0,0,0.4);
             transition: var(--transition);
+            scroll-margin-top: 120px; /* 確保錨點跳轉時上方有留白 */
         }
         .activity-card:hover { transform: translateY(-5px); border-color: rgba(212, 175, 55, 0.3); box-shadow: 0 25px 50px rgba(0,0,0,0.6); }
 
-        /* 左右交替控制機制 */
         .activity-card.row-reverse { flex-direction: row-reverse; }
 
-        /* 照片外框區塊 */
         .activity-image-wrapper {
             width: 45%;
             height: 400px;
             overflow: hidden;
             position: relative;
             background: #111b2d;
-            border-radius: 18px; /* ✨ 關鍵：給予照片外框優雅的圓角 */
+            border-radius: 18px; 
         }
         .activity-image-wrapper img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 18px; /* ✨ 關鍵：讓照片本身磨掉尖角，呈現完美的圓潤弧度 */
+            border-radius: 18px; 
             transition: var(--transition);
             cursor: zoom-in;
         }
         .activity-image-wrapper img:hover { transform: scale(1.05); }
 
-        /* 文字內容區塊 */
         .activity-content {
             width: 55%;
-            padding: 1.5rem 3.5rem; /* 微調內距使左右更加平衡 */
+            padding: 1.5rem 3.5rem;
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
-        .activity-content h2 { font-family: 'Playfair Display', 'Noto Sans TC', serif; font-size: 2rem; color: var(--gold); margin-bottom: 1.2rem; letter-spacing: 1px; }
+        .activity-content h2 { font-family: 'Playfair Display', 'Noto Sans TC', serif; font-size: 1.85rem; color: var(--gold); margin-bottom: 1.2rem; letter-spacing: 1px; }
         
-        /* 頂部標籤資料（角色、時間、長度） */
         .activity-meta {
-            display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;
+            display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1.5rem;
         }
         .meta-badge {
             background: rgba(212, 175, 55, 0.08);
             border: 1px solid rgba(212, 175, 55, 0.2);
             color: var(--gold-soft);
-            padding: 0.3rem 0.9rem;
+            padding: 0.3rem 0.8rem;
             border-radius: 30px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 500;
         }
 
-        /* 成就條目列表 */
         .achievements-list {
             list-style: none;
         }
         .achievements-list li {
             position: relative;
             padding-left: 1.8rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
             color: var(--text-muted);
-            font-size: 1.05rem;
+            font-size: 1rem;
             text-align: justify;
         }
         .achievements-list li::before {
-            content: "\f058"; /* FontAwesome 勾勾 */
+            content: "\f058"; 
             font-family: "Font Awesome 6 Free";
             font-weight: 900;
             position: absolute;
             left: 0;
             color: var(--gold);
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
         .achievements-list li strong { color: var(--text-main); font-weight: 500; }
 
-        /* ── 點擊照片後的彈出大圖燈箱（Modal） ── */
+        /* ── 燈箱 Modal ── */
         .modal {
             display: none; position: fixed; z-index: 5000; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(5, 8, 15, 0.96); backdrop-filter: blur(15px); justify-content: center; align-items: center;
         }
         .modal-content { max-width: 80%; max-height: 80%; border: 2px solid var(--gold); padding: 10px; background: var(--bg-card); border-radius: 16px; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
-        .modal-content img { max-width: 100%; max-height: 75vh; display: block; border-radius: 12px; } /* ✨ 放大後的圖片與外框也同步圓角化 */
+        .modal-content img { max-width: 100%; max-height: 75vh; display: block; border-radius: 12px; }
         .close-modal { position: absolute; top: 30px; right: 50px; color: var(--gold); font-size: 3.5rem; cursor: pointer; transition: 0.2s; }
         .close-modal:hover { color: var(--gold-soft); transform: scale(1.1); }
 
         footer { text-align: center; padding: 4rem; border-top: 1px solid rgba(212, 175, 55, 0.3); font-size: 1rem; color: var(--text-muted); background: #05080f; font-family: 'Playfair Display', serif; }
 
-        /* 響應式手機版自動轉換為純垂直直排 */
-        @media (max-width: 1200px) {
-            .side-social, .bg-decorative { display: none; }
+        @media (max-width: 1250px) {
+            .side-timeline, .side-social, .bg-decorative { display: none; }
             main { padding: 2rem 1rem; }
             .activity-card, .activity-card.row-reverse { flex-direction: column; padding: 1.2rem; }
             .activity-image-wrapper, .activity-content { width: 100%; }
@@ -194,10 +222,22 @@
         </ul>
     </nav>
 
+    <div class="side-timeline">
+        <a href="#event-mun" class="node active" id="node-mun">模擬聯合國</a>
+        <a href="#event-icdf" class="node" id="node-icdf">國際援外</a>
+        <a href="#event-stem" class="node" id="node-stem">科學研究</a>
+        <a href="#event-film" class="node" id="node-film">影視主持</a>
+        <a href="#event-band" class="node" id="node-band">爵士樂團</a>
+        <a href="#event-english" class="node" id="node-english">公益教學</a>
+        <a href="#event-diplomat" class="node" id="node-diplomat">外交使節</a>
+        <a href="#event-debate" class="node" id="node-debate">全英辯論</a>
+        <a href="#event-intern" class="node" id="node-intern">智庫實習</a>
+    </div>
+
     <div class="side-social">
-        <a href="https://www.youtube.com/@ANGEL19760920" target="_blank" class="social-btn" title="YouTube 頻道"><i class="fa-brands fa-youtube"></i></a>
-        <a href="https://open.spotify.com/show/5uiQfwUfnyPh9AwtMR6Q4q?si=d614d41c7870413a" target="_blank" class="social-btn" title="Podcast 節目"><i class="fa-solid fa-microphone"></i></a>
-        <a href="mailto:h1130732@stu.wghs.tp.edu.tw" class="social-btn" title="聯絡 Email"><i class="fa-solid fa-envelope"></i></a>
+        <a href="https://www.youtube.com/@ANGEL19760920" target="_blank" class="social-btn"><i class="fa-brands fa-youtube"></i></a>
+        <a href="https://open.spotify.com/show/5uiQfwUfnyPh9AwtMR6Q4q?si=d614d41c7870413a" target="_blank" class="social-btn"><i class="fa-solid fa-microphone"></i></a>
+        <a href="mailto:h1130732@stu.wghs.tp.edu.tw" class="social-btn"><i class="fa-solid fa-envelope"></i></a>
     </div>
 
     <main>
@@ -206,7 +246,7 @@
             <p>課外活動、實戰外交與學術研究歷程</p>
         </div>
 
-        <div class="activity-card">
+        <div class="activity-card" id="event-mun">
             <div class="activity-image-wrapper">
                 <img src="image/IMG_1195.JPG" alt="MUN Club" onclick="openLightbox(this.src)">
             </div>
@@ -214,19 +254,19 @@
                 <h2>模擬聯合國社 (MUN Club)</h2>
                 <div class="activity-meta">
                     <span class="meta-badge"><i class="fa-solid fa-user-tie"></i> 社長 兼 秘書長</span>
-                    <span class="meta-badge"><i class="fa-solid fa-clock"></i> 3 ~ 4 小時 / 週</span>
-                    <span class="meta-badge"><i class="fa-solid fa-calendar-days"></i> 參與歷程：2 年（今年將邁入第 3 年）</span>
+                    <span class="meta-badge"><i class="fa-solid fa-clock"></i> 3-4 hr/週</span>
+                    <span class="meta-badge"><i class="fa-solid fa-calendar"></i> 3 年歷程</span>
                 </div>
                 <ul class="achievements-list">
-                    <li><strong>課程與培訓開創：</strong>負責規劃並主持常態性社團核心課程，並進一步為非社團成員創辦校內課後模聯培訓班。</li>
-                    <li><strong>卓越會議領導：</strong>截至目前已擔任過累積高達 <strong>300人規模</strong> 會議的主席與學術主導。</li>
-                    <li><strong>學術指導與發酵：</strong>深刻影響並啟發了超過 100 位學員，其中更有 10 位以上學生在接受指導後於各大會議順利奪下獎項。</li>
-                    <li><strong>國際舞台接軌：</strong>獲選參與耶魯模擬聯合國台灣會議 (Yale MUN Taiwan) 擔任<strong>助理主席 (Assistant Director)</strong>。</li>
+                    <li><strong>課程開創：</strong>規劃社團核心課程，並創辦校內課後模聯培訓班。</li>
+                    <li><strong>會議領導：</strong>擔任過累積 <strong>300人規模</strong> 會議的主席與學術主導。</li>
+                    <li><strong>教學影響：</strong>指導超過 100 位學員，其中 10 位以上於各大會議奪獎。</li>
+                    <li><strong>耶魯模聯：</strong>參與 Yale MUN Taiwan 擔任<strong>助理主席 (Assistant Director)</strong>。</li>
                 </ul>
             </div>
         </div>
 
-        <div class="activity-card row-reverse">
+        <div class="activity-card row-reverse" id="event-icdf">
             <div class="activity-image-wrapper">
                 <img src="image/IMG_1103.JPG" alt="ICDF Club" onclick="openLightbox(this.src)">
             </div>
@@ -234,146 +274,139 @@
                 <h2>Wego ICDF 社團</h2>
                 <div class="activity-meta">
                     <span class="meta-badge"><i class="fa-solid fa-user-tie"></i> 活動總監 兼 副社長</span>
-                    <span class="meta-badge"><i class="fa-solid fa-clock"></i> 2 小時 / 週</span>
-                    <span class="meta-badge"><i class="fa-solid fa-calendar-days"></i> 參與歷程：2 年（去年 1 年 + 今年 1 年）</span>
+                    <span class="meta-badge"><i class="fa-solid fa-clock"></i> 2 hr/週</span>
+                    <span class="meta-badge"><i class="fa-solid fa-calendar"></i> 2 年歷程</span>
                 </div>
                 <ul class="achievements-list">
-                    <li><strong>跨校百萬募款：</strong>與其餘四所學校通力合作，成功募集高達 <strong>100萬新台幣</strong> 的善款與援助物資。</li>
-                    <li><strong>國際外交實踐：</strong>親自前往<strong>帛琉</strong>進行實地參訪，將這份實質的愛心微波爐與援助親手遞交給當地亟需資源的國小。</li>
-                    <li><strong>專案與核心統籌：</strong>負責策劃、協調整體的募款執行計畫，並高效領導多個跨領域專案小組。</li>
-                    <li><strong>深度使節對話：</strong>受邀參訪國際合作發展基金會 (ICDF) 國家總部，與第一線的真實外交、資深發展成員展開深度實務對話。</li>
+                    <li><strong>百萬募款：</strong>跨校合作募得 <strong>100萬新台幣</strong> 援助物資。</li>
+                    <li><strong>外交實踐：</strong>親赴<strong>帛琉</strong>實地參訪，致贈愛心物資予當地國小。</li>
+                    <li><strong>專案統籌：</strong>策劃募款執行計畫，領導跨領域專案小組。</li>
+                    <li><strong>智庫對話：</strong>參訪 ICDF 總部，與第一線外交人員展開深度實務對話。</li>
                 </ul>
             </div>
         </div>
 
-        <div class="activity-card">
+        <div class="activity-card" id="event-stem">
             <div class="activity-image-wrapper">
                 <img src="image/截圖 2025-12-25 晚上8.20.59.png" alt="STEM Research" onclick="openLightbox(this.src)">
             </div>
             <div class="activity-content">
-                <h2>STEM 科學研究 ✕ 科展 ✕ 論文發表</h2>
+                <h2>STEM 科學研究 ✕ 論文發表</h2>
                 <div class="activity-meta">
-                    <span class="meta-badge"><i class="fa-solid fa-user-tie"></i> 團隊隊長 (Team Captain)</span>
-                    <span class="meta-badge"><i class="fa-solid fa-clock"></i> 1 小時 / 週</span>
-                    <span class="meta-badge"><i class="fa-solid fa-calendar-days"></i> 參與歷程：2 年（今年將邁入第 3 年）</span>
+                    <span class="meta-badge"><i class="fa-solid fa-user-tie"></i> 團隊隊長</span>
+                    <span class="meta-badge"><i class="fa-solid fa-clock"></i> 1 hr/週</span>
+                    <span class="meta-badge"><i class="fa-solid fa-calendar"></i> 3 年歷程</span>
                 </div>
                 <ul class="achievements-list">
-                    <li><strong>四項全國級競賽跨界征戰：</strong>在過去兩年中，帶領團隊連續策劃並參與了四場高階 STEM 全國競賽。</li>
-                    <li><strong>2024 3min4Science 競賽：</strong>以極具爆發力的科學敘事與簡報實力，勇奪<strong>全國第一名 (First Place)</strong>。</li>
-                    <li><strong>Taiwan Ocean Challenge (海洋危機挑戰賽)：</strong>2024 年成功打入<strong>全國前八強 (Top 8)</strong>；2025 年再度參賽深化探索。</li>
-                    <li><strong>2025 AI/STEM 頂尖技術競賽：</strong>目前正在全力投入最新專案開發中，同時團隊目前也正積極著手將核心研究成果撰寫並發表為<strong>正式官方學術論文 (Paper)</strong>。</li>
+                    <li><strong>2024 3min4Science：</strong>勇奪科學敘事與簡報<strong>全國第一名</strong>。</li>
+                    <li><strong>Ocean Challenge：</strong>2024 年成功打入<strong>全國前八強 (Top 8)</strong>。</li>
+                    <li><strong>2025 AI/STEM：</strong>投入最新技術專案開發，並準備發表<strong>學術論文</strong>。</li>
                 </ul>
             </div>
         </div>
 
-        <div class="activity-card row-reverse">
+        <div class="activity-card row-reverse" id="event-film">
             <div class="activity-image-wrapper">
                 <img src="https://s.yimg.com/ny/api/res/1.2/cJEa6IJRrcXe5m5bp2KW.g--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTQyNg--/https://media.zenfs.com/en/cts.com.tw/7ebb79b123e603d0f1b0882a626065e2" alt="Filmmaking" onclick="openLightbox(this.src)">
             </div>
             <div class="activity-content">
-                <h2>影視創作 ✕ 雙語主持 (Filmmaking/Hosting)</h2>
+                <h2>影視創作 ✕ 雙語主持</h2>
                 <div class="activity-meta">
-                    <span class="meta-badge"><i class="fa-solid fa-user-tie"></i> 內容創作者 兼 電視節目主持人</span>
-                    <span class="meta-badge"><i class="fa-solid fa-trophy"></i> 累計斬獲 4 項影視競賽大獎</span>
+                    <span class="meta-badge"><i class="fa-solid fa-video"></i> 內容創作者</span>
+                    <span class="meta-badge"><i class="fa-solid fa-microphone"></i> 電視主持人</span>
+                    <span class="meta-badge"><i class="fa-solid fa-award"></i> 影賽大獎橫掃</span>
                 </div>
                 <ul class="achievements-list">
-                    <li><strong>YouTube 雙語傳播：</strong>持續經營個人原創頻道，上傳高品質英語學習影片，同時作為社區公益英語課學員的課後複習教材。</li>
-                    <li><strong>大愛電視台 5 年資深歷程：</strong>於小學五年級至國中三年級期間，連續 5 年於大愛電視台擔任<strong>小主播</strong>，累積深厚鏡頭解構力。</li>
-                    <li><strong>金鐘頂尖主持聯手：</strong>曾受邀與金鐘獎最佳主持人共同搭檔主持電視節目《Action! 出動吧！孩子/家族系列》。</li>
-                    <li><strong>影賽大獎橫掃：</strong>在各大型影片與影像競賽中，共累計奪下 4 座大獎，斬獲高達 <strong>10萬新台幣</strong> 的總獎金。</li>
+                    <li><strong>小主播經歷：</strong>連續 5 年於大愛電視台擔任小主播。</li>
+                    <li><strong>金鐘合作：</strong>與金鐘獎最佳主持人共同搭檔主持電視節目。</li>
+                    <li><strong>影賽殊榮：</strong>累計奪下 4 座大獎，斬獲 <strong>10萬新台幣</strong> 總獎金。</li>
                 </ul>
             </div>
         </div>
 
-        <div class="activity-card">
+        <div class="activity-card" id="event-band">
             <div class="activity-image-wrapper">
                 <img src="image/截圖 2026-06-05 下午1.59.06.png" alt="Band" onclick="openLightbox(this.src)">
             </div>
             <div class="activity-content">
                 <h2>爵士樂團 (Band)</h2>
                 <div class="activity-meta">
-                    <span class="meta-badge"><i class="fa-solid fa-user-tie"></i> 樂團團長 兼 創辦人 兼 主唱 (Vocalist)</span>
-                    <span class="meta-badge"><i class="fa-solid fa-clock"></i> 2 小時 / 月</span>
-                    <span class="meta-badge"><i class="fa-solid fa-calendar-days"></i> 參與歷程：4 年</span>
+                    <span class="meta-badge"><i class="fa-solid fa-music"></i> 創辦人 兼 主唱</span>
+                    <span class="meta-badge"><i class="fa-solid fa-clock"></i> 2 hr/月</span>
+                    <span class="meta-badge"><i class="fa-solid fa-calendar"></i> 4 年歷程</span>
                 </div>
                 <ul class="achievements-list">
-                    <li><strong>豐富舞台實戰：</strong>累計在各大正式校內外舞台進行過高達 <strong>7次正式大型 Live 演出</strong>。</li>
-                    <li><strong>原創詞曲創作：</strong>展現多元音樂才華，親自為學校教師節、畢業典禮等重大典禮撰寫多首<strong>原創歌曲</strong>。</li>
-                    <li><strong>社區公益音樂傳播：</strong>於聖誕節等溫馨節日，帶領團員走入社區、前往<strong>養老院、老人之家</strong>以及各大公共公園舉辦暖心義演，用音樂與歌聲將溫暖傳遞給長輩，回饋社會。</li>
+                    <li><strong>舞台實戰：</strong>累計 <strong>7次正式大型 Live 演出</strong>，並創作多首原創歌曲。</li>
+                    <li><strong>公益音樂：</strong>前往<strong>養老院與公園</strong>舉辦義演，回饋社區。</li>
                 </ul>
             </div>
         </div>
 
-        <div class="activity-card row-reverse">
+        <div class="activity-card row-reverse" id="event-english">
             <div class="activity-image-wrapper">
                 <img src="image/IMG_9714.JPG" alt="Lessons" onclick="openLightbox(this.src)">
             </div>
             <div class="activity-content">
                 <h2>社區公益英語課程</h2>
                 <div class="activity-meta">
-                    <span class="meta-badge"><i class="fa-solid fa-user-tie"></i> 課程發起人 兼 主講教師</span>
-                    <span class="meta-badge"><i class="fa-solid fa-clock"></i> 5 小時 / 月</span>
-                    <span class="meta-badge"><i class="fa-solid fa-calendar-days"></i> 參與歷程：2 年</span>
+                    <span class="meta-badge"><i class="fa-solid fa-chalkboard-user"></i> 發起人 兼 教師</span>
+                    <span class="meta-badge"><i class="fa-solid fa-clock"></i> 5 hr/月</span>
+                    <span class="meta-badge"><i class="fa-solid fa-calendar"></i> 2 年歷程</span>
                 </div>
                 <ul class="achievements-list">
-                    <li><strong>造福 60名+ 社區學子：</strong>兩年內成功支援、協助了超過 60 位社區學生，全方位提升他們的英語流暢度。</li>
-                    <li><strong>分層分級雙軌教學：</strong>針對進階學員，親自設計客製化的字彙學習單與全英文高階討論教材；針對初學者則親自錄製 YouTube 複習影音。</li>
-                    <li><strong>獨創圖像與記憶策略：</strong>研發出系統化的簡化單字記憶法，並輔以高效率的發音引導，協助初學孩子無痛建立扎實的英語底子。</li>
+                    <li><strong>造福社區：</strong>支援超過 60 位學生，研發圖像記憶法與複習影片。</li>
+                    <li><strong>雙軌教學：</strong>針對不同程度設計客製化字彙單與討論教材。</li>
                 </ul>
             </div>
         </div>
 
-        <div class="activity-card">
+        <div class="activity-card" id="event-diplomat">
             <div class="activity-image-wrapper">
                 <img src="image/tde.jpg" alt="Diplomat" onclick="openLightbox(this.src)">
             </div>
             <div class="activity-content">
-                <h2>外交小尖兵 (Teen Diplomatic Envoys)</h2>
+                <h2>外交小尖兵 (Teen Diplomat)</h2>
                 <div class="activity-meta">
-                    <span class="meta-badge"><i class="fa-solid fa-star"></i> 2000人中脫穎而出 18位 代表之一</span>
-                    <span class="meta-badge"><i class="fa-solid fa-plane-departure"></i> 代表台灣赴美進行官方外交參訪</span>
+                    <span class="meta-badge"><i class="fa-solid fa-star"></i> 前 18 位官方代表</span>
+                    <span class="meta-badge"><i class="fa-solid = fa-plane"></i> 赴美外交參訪</span>
                 </div>
                 <ul class="achievements-list">
-                    <li><strong>超低錄取率國家選拔：</strong>成功通過極具指標性的嚴格海選，從全台灣 <strong>2,000多名頂尖青年申請者中脫穎而出</strong>，入選成為 18 位官方外交使節代表之一。</li>
-                    <li><strong>高強度外交特訓：</strong>參與國家級高階外交密集特訓營，研修國際談判、外交禮儀及多邊思辨。</li>
-                    <li><strong>最高榮譽赴美外交：</strong>因營隊期間表現極其卓越，最終成功獲選為<strong>最頂尖的 6 位代表學生之一</strong>，代表台灣前往美國<strong>洛杉磯與舊金山</strong>展開為期 10 天的國家級正式外交參訪。</li>
+                    <li><strong>菁英選拔：</strong>從 2,000 名申請者中脫穎而出，參與密集外交訓練。</li>
+                    <li><strong>國家代表：</strong>獲選為<strong>最頂尖 6 位學生之一</strong>，代表台灣赴洛杉磯與舊金山參訪。</li>
                 </ul>
             </div>
         </div>
 
-        <div class="activity-card row-reverse">
+        <div class="activity-card row-reverse" id="event-debate">
             <div class="activity-image-wrapper">
                 <img src="image/截圖 2025-08-14 凌晨12.25.57.png" alt="Debates" onclick="openLightbox(this.src)">
             </div>
             <div class="activity-content">
-                <h2>全英語思辨與競賽辯論 (Debates)</h2>
+                <h2>全英語思辨與競賽辯論</h2>
                 <div class="activity-meta">
-                    <span class="meta-badge"><i class="fa-solid fa-user-tie"></i> 核心辯論賽手 (Participant)</span>
-                    <span class="meta-badge"><i class="fa-solid fa-clock"></i> 時間不固定（尖峰期約 3 小時 / 週）</span>
-                    <span class="meta-badge"><i class="fa-solid fa-calendar-days"></i> 參與歷程：4 年</span>
+                    <span class="meta-badge"><i class="fa-solid fa-comments"></i> 核心辯論賽手</span>
+                    <span class="meta-badge"><i class="fa-solid fa-calendar"></i> 4 年歷程</span>
                 </div>
                 <ul class="achievements-list">
-                    <li><strong>5場國際/全國賽事淬鍊：</strong>連續四年深耕全英語辯論，累計參與 5 場大型頂尖思辨聯賽。</li>
-                    <li><strong>最佳辯士 (Best Speaker) 榮譽：</strong>在極度考驗個人邏輯與臨場答辯的 Lincoln-Douglas (林肯-道格拉斯單人辯論賽) 中，力壓群雄勇奪<strong>最佳辯士大獎</strong>。</li>
-                    <li><strong>Cicero 第一菁英戰隊：</strong>憑藉優異實力，成功獲選入列成為 Cicero 西塞羅高階全英語思辨賽的<strong>第一戰隊核心成員</strong>。</li>
+                    <li><strong>最佳辯士：</strong>於 Lincoln-Douglas 辯論賽中勇奪<strong>最佳辯士大獎</strong>。</li>
+                    <li><strong>Cicero 戰隊：</strong>獲選入列 Cicero 全英思辨賽<strong>第一戰隊成員</strong>。</li>
                 </ul>
             </div>
         </div>
 
-        <div class="activity-card">
+        <div class="activity-card" id="event-intern">
             <div class="activity-image-wrapper">
                 <img src="image/截圖 2026-06-05 下午2.01.57.png" alt="Internship" onclick="openLightbox(this.src)">
             </div>
             <div class="activity-content">
-                <h2>智庫與頂尖學術機構智囊研究實習</h2>
+                <h2>智庫與頂尖機構研究實習</h2>
                 <div class="activity-meta">
-                    <span class="meta-badge"><i class="fa-solid fa-bookmark"></i> 台大 E3Center 實習 (16週)</span>
-                    <span class="meta-badge"><i class="fa-solid fa-bookmark"></i> CAPRI 亞太堅韌研究基金會實習 (8週)</span>
-                    <span class="meta-badge"><i class="fa-solid fa-clock"></i> 4 ~ 5 小時 / 週</span>
+                    <span class="meta-badge"><i class="fa-solid fa-book"></i> NTU E3Center</span>
+                    <span class="meta-badge"><i class="fa-solid fa-landmark"></i> CAPRI 亞太智庫</span>
                 </div>
                 <ul class="achievements-list">
-                    <li><strong>台大 E3Center 綠能研究發表：</strong>歷經高達 16 週與頂尖大學教授、產業智囊的深度密集研討，成功撰寫出關於<strong>永續航空燃油 (Sustainable Aviation Fuel, SAF)</strong> 的專業政策研究論文，並親赴<strong>國立台灣大學 (NTU)</strong> 於眾多評審教授面前進行英文專題發表。</li>
-                    <li><strong>CAPRI 亞太智庫全球淨零分析：</strong>於亞太堅韌研究基金會 (CAPRI) 進行為期 8 週的深度研究實習，獨立撰寫出高階論文：<br><em>《全球淨零排放政策之比較分析及其對台灣之適用性研究》</em>，並成功於 CAPRI 全體頂尖學者、智庫長官面前進行成果演示與答辯。</li>
+                    <li><strong>台大綠能研究：</strong>發表關於<strong>永續航空燃油 (SAF)</strong> 之政策論文。</li>
+                    <li><strong>CAPRI 淨零分析：</strong>撰寫《全球淨零排放政策比較》，於智庫學者前完成答辯。</li>
                 </ul>
             </div>
         </div>
@@ -403,9 +436,42 @@
             document.getElementById("imageLightbox").style.display = "none";
         }
 
+        // ✨ 事件時間軸導覽 Scrollspy 邏輯
+        window.addEventListener('scroll', () => {
+            const sections = [
+                { id: 'event-mun', node: 'node-mun' },
+                { id: 'event-icdf', node: 'node-icdf' },
+                { id: 'event-stem', node: 'node-stem' },
+                { id: 'event-film', node: 'node-film' },
+                { id: 'event-band', node: 'node-band' },
+                { id: 'event-english', node: 'node-english' },
+                { id: 'event-diplomat', node: 'node-diplomat' },
+                { id: 'event-debate', node: 'node-debate' },
+                { id: 'event-intern', node: 'node-intern' }
+            ];
+            
+            let current = "";
+            sections.forEach(sec => {
+                const element = document.getElementById(sec.id);
+                if (element) {
+                    const top = element.offsetTop;
+                    if (window.pageYOffset >= top - 250) {
+                        current = sec.node;
+                    }
+                }
+            });
+
+            document.querySelectorAll('.side-timeline .node').forEach(node => {
+                node.classList.remove('active');
+            });
+            const activeNode = document.getElementById(current);
+            if (activeNode) {
+                activeNode.classList.add('active');
+            }
+        });
+
         window.onclick = function(event) {
-            const modal = document.getElementById("imageLightbox");
-            if (event.target == modal) {
+            if (event.target == document.getElementById("imageLightbox")) {
                 closeLightbox();
             }
         }
