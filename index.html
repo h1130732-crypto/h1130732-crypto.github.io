@@ -71,7 +71,7 @@
         }
         .lang-switch:hover { background: var(--gold); color: var(--bg-deep); box-shadow: 0 0 12px var(--gold-glow); }
 
-        /* ── 動態時光軸 (還原為：國三、高一、高二、未來) ── */
+        /* ── 動態時光軸 (已修正：國三在最上方，依序向下發展) ── */
         .side-timeline {
             position: fixed;
             left: 3rem;
@@ -175,7 +175,7 @@
         .bubble img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
         .bubble:hover { transform: scale(1.1) !important; z-index: 10; box-shadow: 0 0 30px var(--gold); }
         .bubble-left { left: -160px; top: 10%; }
-        .bubble-right { right: -160px; top: 10%; animation-delay: -3s; } /* 主唱泡泡已移動至右側 */
+        .bubble-right { right: -160px; top: 10%; animation-delay: -3s; }
 
         @keyframes float {
             0%, 100% { transform: translateY(0); }
@@ -247,7 +247,7 @@
         .close-modal { position: absolute; top: 30px; right: 50px; color: var(--gold); font-size: 3.5rem; cursor: pointer; transition: 0.2s; }
         .close-modal:hover { color: var(--gold-soft); transform: scale(1.1); }
 
-        footer { text-align: center; padding: 4rem; border-top: 1px solid rgba(212, 175, 55, 0.3); font-size: 1rem; color: var(--text-dark); background: #05080f; font-family: 'Playfair Display', serif; }
+        footer { text-align: center; padding: 4rem; border-top: 1px solid rgba(212, 175, 55, 0.3); font-size: 1rem; color: var(--text-muted); background: #05080f; font-family: 'Playfair Display', serif; }
 
         /* 中英雙語隱藏切換機制 */
         [lang="en"] { display: none; }
@@ -279,10 +279,10 @@
     </nav>
 
     <div class="side-timeline">
-        <a href="#sec-future" class="node" id="node-future">未來 | 展望</a>
-        <a href="#sec-h2" class="node active" id="node-h2">高二 | 歷程</a>
+        <a href="#sec-j3" class="node active" id="node-j3">國三 | 起點</a>
         <a href="#sec-h1" class="node" id="node-h1">高一 | 探索</a>
-        <a href="#sec-j3" class="node" id="node-j3">國三 | 起點</a>
+        <a href="#sec-h2" class="node" id="node-h2">高二 | 歷程</a>
+        <a href="#sec-future" class="node" id="node-future">未來 | 展望</a>
     </div>
 
     <div class="side-social">
@@ -313,20 +313,6 @@
             </p>
         </div>
 
-        <div class="story-container" id="sec-h2">
-            <div class="bubble bubble-right" onclick="openLightbox('image/截圖 2026-06-05 上午11.48.32.png')">
-                <img src="image/截圖 2026-06-05 上午11.48.32.png" alt="樂團主唱照片">
-            </div>
-            <h3 lang="zh">探求未知的敘事者</h3>
-            <h3 lang="en">Seeker of Unknown Stories</h3>
-            
-            <p lang="zh">我目前就讀於薇閣高中。樂觀、開朗、始終保持正面思考，是我面對繁重學業與挑戰的核心。對我而言，生命不該被侷限在單一框架，而是一場不斷跨界、探索與精彩敘事的旅程。</p>
-            <p lang="zh">在球場上我鍛鍊抗壓性，在舞台上我身兼主唱，用全心投入傳遞音樂的熱情。我始終相信，好的故事能跨越國界，觸動人心。</p>
-
-            <p lang="en">I am currently studying at Wego High School. Remaining optimistic, cheerful, and positive-thinking is my core strategy for balancing heavy academic workloads and challenges. To me, life should not be confined to a single frame; it is an ongoing journey of crossing boundaries, exploration, and compelling storytelling.</p>
-            <p lang="en">On the court, I hone my resilience; on stage, I perform as a lead vocalist, channeling my passion into music. I steadfastly believe that a good story can transcend borders and touch people's hearts.</p>
-        </div>
-
         <div class="story-container" id="sec-j3">
             <div class="bubble bubble-left" onclick="openLightbox('https://www.avjet.com.tw/api/uploads/poster/poster_1774497314860_epg5ie.jpg')">
                 <img src="https://www.avjet.com.tw/api/uploads/poster/poster_1774497314860_epg5ie.jpg" alt="影音主持">
@@ -341,20 +327,6 @@
             <p lang="en">I also founded a YouTube channel analyzing serious global issues like educational rights in Afghanistan and pension reforms in France. Through journalism and analysis, I turn English proficiency into social impact, earning a Gold Award in the Student Merit Newspaper competition.</p>
         </div>
 
-        <div class="story-container">
-            <div class="bubble bubble-right" onclick="openLightbox('image/截圖 2025-08-17 凌晨2.38.13.png')">
-                <img src="image/截圖 2025-08-17 凌晨2.38.13.png" alt="MUN模擬聯合國">
-            </div>
-            <h3 lang="zh">思辨之巔：辯論與模聯</h3>
-            <h3 lang="en">The Peak of Debating & MUN</h3>
-            
-            <p lang="zh">在 NHSDLC 辯論賽中，我榮獲 Top Speaker，並在 YMUNT 耶魯模擬聯合國中，與母語人士激烈交鋒奪得 Honorable Mention。</p>
-            <p lang="zh">這些台上的唇槍舌戰，不僅訓練了我的邏輯，更讓我深刻理解國際政治議題的厚度與複雜性。每一次的答辯都是對思維極限的挑戰。</p>
-
-            <p lang="en">In the NHSDLC debating championship, I was awarded Top Speaker, and received an Honorable Mention at YMUNT (Yale Model United Nations) while competing fiercely with native English speakers.</p>
-            <p lang="en">These intellectual duels on stage have not only sharpened my logical reasoning but also deepened my grasp of the weight and complexity of international politics. Every cross-examination challenges the boundaries of my perspective.</p>
-        </div>
-
         <div class="story-container" id="sec-h1">
             <div class="bubble bubble-left" onclick="openLightbox('image/IMG_7992.jpeg')">
                 <img src="image/IMG_7992.jpeg" alt="ICDF社團">
@@ -367,6 +339,32 @@
 
             <p lang="en">I founded the Wego ICDF club and served as the CEO. To raise funds, we went onto the streets to sell apparel we designed ourselves. Encountering countless rejections taught us to refine our pitches, ultimately leading to a successful fundraising campaign.</p>
             <p lang="en">This April, we will travel to Palau to donate essential resources to local primary schools, highlighting Taiwan's warmth through grassroots action. This perseverance and courage reflect my deepest devotion to diplomacy.</p>
+        </div>
+
+        <div class="story-container" id="sec-h2">
+            <div class="bubble bubble-right" onclick="openLightbox('image/截圖 2026-06-05 上午11.48.32.png')">
+                <img src="image/截圖 2026-06-05 上午11.48.32.png" alt="樂團主唱照片">
+            </div>
+            <h3 lang="zh">探求未知的敘事者</h3>
+            <h3 lang="en">Seeker of Unknown Stories</h3>
+            
+            <p lang="zh">我目前就讀於薇閣高中。樂觀、開朗、始終保持正面思考，是我面對繁重學業與挑戰的核心。對我而言，生命不該被侷限在單一框架，而是一場不斷跨界、探索與精彩敘事的旅程。</p>
+            <p lang="zh">在球場上我鍛鍊抗壓性，在舞台上我身兼主唱，用全心投入傳遞音樂的熱情。我始終相信，好的故事能跨越國界，觸動人心。</p>
+
+            <p lang="en">I am currently studying at Wego High School. Remaining optimistic, cheerful, and positive-thinking is my core strategy for balancing heavy academic workloads and challenges. To me, life should not be confined to a single frame; it is an ongoing journey of crossing boundaries, exploration, and compelling storytelling.</p>
+            <p lang="en">On the court, I hone my resilience; on stage, I perform as a lead vocalist, channeling my passion into music. I steadfastly believe that a good story can transcend borders and touch people's hearts.</p>
+        </div>
+
+        <div class="story-container">
+            <div class="bubble bubble-right" onclick="openLightbox('image/截圖 2025-08-17 凌晨2.38.13.png')">
+                <img src="image/截圖 2025-08-17 凌晨2.38.13.png" alt="MUN模擬聯合國">
+            </div>
+            <h3 lang="zh">思辨之巔：模聯歷程</h3>
+            <h3 lang="en">The Peak of Debate & MUN</h3>
+            
+            <p lang="zh">我致力於推廣模擬聯合國，不僅規劃了常態性的社團課程，更為非社團成員創辦了校內課後培訓班，帶領團隊在各大模聯會議中斬獲多項獎項。至今我已擔任過約 300 人規模會議的主席（持續累積中），指導並啟發了超過 100 位學生，其中更有 10 位以上學員在接受培訓後順利奪下會議獎項。此外，我亦曾擔任耶魯模擬聯合國台灣會議（Yale MUN Taiwan）的助理主席。</p>
+
+            <p lang="en">Organized Club lessons, founded after-school lessons for non-club members, and won multiple awards in different conferences. Chaired about 300 people so far (continue adding up). Influenced over 100 students, and more than 10 people won awards after my lessons. Participated in Yale MUN Taiwan as an Assistant Director.</p>
         </div>
 
         <div class="story-container">
@@ -434,16 +432,16 @@
             document.getElementById("imageLightbox").style.display = "none";
         }
 
-        // Scrollspy 捲軸監聽：對齊全新設計的「國三、高一、高二、未來」時間軸亮起機制
+        // Scrollspy 捲軸監聽：對齊全新由上而下（國三 ➔ 高一 ➔ 高二 ➔ 未來）的時間軸亮起機制
         window.addEventListener('scroll', () => {
             const sectionsMapping = [
-                { id: 'sec-future', node: 'node-future' },
-                { id: 'sec-h2', node: 'node-h2' }, 
+                { id: 'sec-j3', node: 'node-j3' }, 
                 { id: 'sec-h1', node: 'node-h1' }, 
-                { id: 'sec-j3', node: 'node-j3' }  
+                { id: 'sec-h2', node: 'node-h2' },
+                { id: 'sec-future', node: 'node-future' }  
             ];
             
-            let currentActiveNode = "node-h2"; 
+            let currentActiveNode = "node-j3"; 
             
             sectionsMapping.forEach(item => {
                 const element = document.getElementById(item.id);
