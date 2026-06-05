@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>York Chen | 國際外交與影視敘事歷程</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,700;1,300;1,700&family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
@@ -71,7 +71,7 @@
         }
         .lang-switch:hover { background: var(--gold); color: var(--bg-deep); box-shadow: 0 0 12px var(--gold-glow); }
 
-        /* ── 動態時光軸 (已導正：國三在最上方) ── */
+        /* ── 動態時光軸 (已調整為新順序對應的錨點) ── */
         .side-timeline {
             position: fixed;
             left: 3rem;
@@ -115,7 +115,7 @@
         /* ── 主內容區塊 ── */
         main { max-width: 900px; margin: 0 auto; padding: 5rem 2rem; }
         
-        /* 座右銘美化與優雅斜體設計 */
+        /* 座右銘美化：換成優雅細字斜體 */
         .quote-box {
             text-align: center;
             margin-bottom: 5rem;
@@ -130,6 +130,7 @@
             font-size: 1.65rem; 
             color: var(--gold-soft); 
             font-style: italic; 
+            font-weight: 300; /* 優雅細字體 */
             letter-spacing: 1.5px;
             text-shadow: 0 0 4px rgba(243, 229, 171, 0.1);
         }
@@ -279,9 +280,10 @@
     </nav>
 
     <div class="side-timeline">
-        <a href="#sec-j3" class="node active" id="node-j3">國三 | 起點</a>
+        <a href="#sec-h2" class="node active" id="node-h2">自我 | 概述</a>
+        <a href="#sec-j3" class="node" id="node-j3">國三 | 起點</a>
+        <a href="#sec-mun" class="node" id="node-mun">思辨 | 模聯</a>
         <a href="#sec-h1" class="node" id="node-h1">高一 | 探索</a>
-        <a href="#sec-h2" class="node" id="node-h2">高二 | 歷程</a>
         <a href="#sec-future" class="node" id="node-future">未來 | 展望</a>
     </div>
 
@@ -313,36 +315,8 @@
             </p>
         </div>
 
-        <div class="story-container" id="sec-j3">
-            <div class="bubble bubble-left" onclick="openLightbox('https://www.avjet.com.tw/api/uploads/poster/poster_1774497314860_epg5ie.jpg')">
-                <img src="https://www.avjet.com.tw/api/uploads/poster/poster_1774497314860_epg5ie.jpg" alt="影音主持">
-            </div>
-            <h3 lang="zh">鏡頭與國際敘事</h3>
-            <h3 lang="en">Global Perspectives via Media</h3>
-            
-            <p lang="zh">小學六年級時，我在《開拍吧孩子！》斬獲全國第一名，這顆創作的種子自此生根。國三時，受邀回歸主持第二季，我體會到跨部門溝通的關鍵價值。</p>
-            <p lang="zh">我也創立 YouTube 頻道，分析阿富汗受教權、法國年金改革等嚴肅議題。透過報導與分析，我將英語能力轉化為社會影響力，並獲得《中學生報》專題競賽金獎。</p>
-
-            <p lang="en">In the 6th grade, I won 1st place nationwide in "Action! Kids," sowing the seeds of media creation. In my final year of junior high, I was invited back to host the second season, which taught me the vital value of cross-departmental communication.</p>
-            <p lang="en">I also founded a YouTube channel analyzing serious global issues like educational rights in Afghanistan and pension reforms in France. Through journalism and analysis, I turn English proficiency into social impact, earning a Gold Award in the Student Merit Newspaper competition.</p>
-        </div>
-
-        <div class="story-container" id="sec-h1">
-            <div class="bubble bubble-left" onclick="openLightbox('image/IMG_7992.jpeg')">
-                <img src="image/IMG_7992.jpeg" alt="ICDF社團">
-            </div>
-            <h3 lang="zh">具體實踐：Wego ICDF</h3>
-            <h3 lang="en">Real-world Diplomacy: Wego ICDF</h3>
-            
-            <p lang="zh">我創立了 Wego ICDF 社團，擔任執行長。為了募款，我們走上街頭義賣自己設計的服飾。面對無數次的拒絕，我們學會了修正論述，最終成功募集資金。</p>
-            <p lang="zh">今年四月，我們將親赴帛琉，將這份愛心微波爐致贈給當地的國小，用實際行動在國際上點亮台灣。這份堅持與勇氣，是我對外交最誠摯的熱愛。</p>
-
-            <p lang="en">I founded the Wego ICDF club and served as the CEO. To raise funds, we went onto the streets to sell apparel we designed ourselves. Encountering countless rejections taught us to refine our pitches, ultimately leading to a successful fundraising campaign.</p>
-            <p lang="en">This April, we will travel to Palau to donate essential resources to local primary schools, highlighting Taiwan's warmth through grassroots action. This perseverance and courage reflect my deepest devotion to diplomacy.</p>
-        </div>
-
         <div class="story-container" id="sec-h2">
-            <div class="bubble bubble-right" onclick="openLightbox('image/截圖 2026-06-05 上午11.48.32.png')">
+            <div class="bubble bubble-left" onclick="openLightbox('image/截圖 2026-06-05 上午11.48.32.png')">
                 <img src="image/截圖 2026-06-05 上午11.48.32.png" alt="樂團主唱照片">
             </div>
             <h3 lang="zh">探求未知的敘事者</h3>
@@ -355,8 +329,22 @@
             <p lang="en">On the court, I hone my resilience; on stage, I perform as a lead vocalist, channeling my passion into music. I steadfastly believe that a good story can transcend borders and touch people's hearts.</p>
         </div>
 
-        <div class="story-container">
-            <div class="bubble bubble-right" onclick="openLightbox('image/截圖 2025-08-17 凌晨2.38.13.png')">
+        <div class="story-container" id="sec-j3">
+            <div class="bubble bubble-right" onclick="openLightbox('https://www.avjet.com.tw/api/uploads/poster/poster_1774497314860_epg5ie.jpg')">
+                <img src="https://www.avjet.com.tw/api/uploads/poster/poster_1774497314860_epg5ie.jpg" alt="影音主持">
+            </div>
+            <h3 lang="zh">鏡頭與國際敘事</h3>
+            <h3 lang="en">Global Perspectives via Media</h3>
+            
+            <p lang="zh">小學六年級時，我在《開拍吧孩子！》斬獲全國第一名，這顆創作的種子自此生根。國三時，受邀回歸主持第二季，我體會到跨部門溝通的關鍵價值。</p>
+            <p lang="zh">我也創立 YouTube 頻道，分析阿富汗受教權、法國年金改革等嚴肅議題。透過報導與分析，我將英語能力轉化為社會影響力，並獲得《中學生報》專題競賽金獎。</p>
+
+            <p lang="en">In the 6th grade, I won 1st place nationwide in "Action! Kids," sowing the seeds of media creation. In my final year of junior high, I was invited back to host the second season, which taught me the vital value of cross-departmental communication.</p>
+            <p lang="en">I also founded a YouTube channel analyzing serious global issues like educational rights in Afghanistan and pension reforms in France. Through journalism and analysis, I turn English proficiency into social impact, earning a Gold Award in the Student Merit Newspaper competition.</p>
+        </div>
+
+        <div class="story-container" id="sec-mun">
+            <div class="bubble bubble-left" onclick="openLightbox('image/截圖 2025-08-17 凌晨2.38.13.png')">
                 <img src="image/截圖 2025-08-17 凌晨2.38.13.png" alt="MUN模擬聯合國">
             </div>
             <h3 lang="zh">思辨之巔：模聯歷程</h3>
@@ -367,8 +355,22 @@
             <p lang="en">Organized Club lessons, founded after-school lessons for non-club members, and won multiple awards in different conferences. Chaired about 300 people so far (continue adding up). Influenced over 100 students, and more than 10 people won awards after my lessons. Participated in Yale MUN Taiwan as an Assistant Director.</p>
         </div>
 
+        <div class="story-container" id="sec-h1">
+            <div class="bubble bubble-right" onclick="openLightbox('image/IMG_7992.jpeg')">
+                <img src="image/IMG_7992.jpeg" alt="ICDF社團">
+            </div>
+            <h3 lang="zh">具體實踐：Wego ICDF</h3>
+            <h3 lang="en">Real-world Diplomacy: Wego ICDF</h3>
+            
+            <p lang="zh">我創立了 Wego ICDF 社團，擔任執行長。為了募款，我們走上街頭義賣自己設計的服飾。面對無數次的拒絕，我們學會了修正論述，最終成功募集資金。</p>
+            <p lang="zh">今年四月，我們將親赴帛琉，將這份愛心微波爐致贈給當地的國小，用實際行動在國際上點亮台灣。這份堅持與勇氣，是我對外交最誠摯的熱愛。</p>
+
+            <p lang="en">I founded the Wego ICDF club and served as the CEO. To raise funds, we went onto the streets to sell apparel we designed ourselves. Encountering countless rejections taught us to refine our pitches, ultimately leading to a successful fundraising campaign.</p>
+            <p lang="en">This April, we will travel to Palau to donate essential resources to local primary schools, highlighting Taiwan's warmth through grassroots action. This perseverance and courage reflect my deepest devotion to diplomacy.</p>
+        </div>
+
         <div class="story-container">
-            <div class="bubble bubble-right" onclick="openLightbox('image/IMG_8718.jpg')">
+            <div class="bubble bubble-left" onclick="openLightbox('image/IMG_8718.jpg')">
                 <img src="image/IMG_8718.jpg" alt="外交小尖兵">
             </div>
             <h3 lang="zh">重大轉折：走向美國參訪</h3>
@@ -382,7 +384,7 @@
         </div>
 
         <div class="story-container" id="sec-future">
-            <div class="bubble bubble-left" onclick="openLightbox('image/IMG_8936 (1).JPG')">
+            <div class="bubble bubble-right" onclick="openLightbox('image/IMG_8936 (1).JPG')">
                 <img src="image/IMG_8936 (1).JPG" alt="未來展望">
             </div>
             <h3 lang="zh">未來展望：融合多維能力的國際說書人</h3>
@@ -432,16 +434,17 @@
             document.getElementById("imageLightbox").style.display = "none";
         }
 
-        // Scrollspy 捲軸監聽：對齊全新由上而下（國三 ➔ 高一 ➔ 高二 ➔ 未來）的時間軸亮起機制
+        // Scrollspy 捲軸監聽：對齊全新由上而下（高二 ➔ 國三 ➔ 模聯 ➔ 高一 ➔ 未來）的時間軸亮起機制
         window.addEventListener('scroll', () => {
             const sectionsMapping = [
-                { id: 'sec-j3', node: 'node-j3' }, 
-                { id: 'sec-h1', node: 'node-h1' }, 
                 { id: 'sec-h2', node: 'node-h2' },
+                { id: 'sec-j3', node: 'node-j3' }, 
+                { id: 'sec-mun', node: 'node-mun' }, 
+                { id: 'sec-h1', node: 'node-h1' }, 
                 { id: 'sec-future', node: 'node-future' }  
             ];
             
-            let currentActiveNode = "node-j3"; 
+            let currentActiveNode = "node-h2"; 
             
             sectionsMapping.forEach(item => {
                 const element = document.getElementById(item.id);
