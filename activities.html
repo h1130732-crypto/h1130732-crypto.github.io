@@ -107,15 +107,6 @@
         }
         .activity-image-wrapper img:hover { transform: scale(1.05); }
 
-        /* 尚未放照片時的優雅文字占位提示 */
-        .image-placeholder {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            color: rgba(212, 175, 55, 0.4); font-family: 'Playfair Display', serif; font-size: 1.1rem;
-            padding: 2rem; text-align: center; border: 1px dashed rgba(212, 175, 55, 0.2);
-        }
-        .image-placeholder i { font-size: 2.5rem; margin-bottom: 1rem; opacity: 0.7; }
-
         /* 文字內容區塊 */
         .activity-content {
             width: 55%;
@@ -175,7 +166,7 @@
 
         footer { text-align: center; padding: 4rem; border-top: 1px solid rgba(212, 175, 55, 0.3); font-size: 1rem; color: var(--text-muted); background: #05080f; font-family: 'Playfair Display', serif; }
 
-        /* 響應式手機版自動轉換為純垂直直排，移除負載位移 */
+        /* 響應式手機版自動轉換為純垂直直排 */
         @media (max-width: 1200px) {
             .side-social, .bg-decorative { display: none; }
             main { padding: 2rem 1rem; }
@@ -214,10 +205,7 @@
 
         <div class="activity-card">
             <div class="activity-image-wrapper">
-                <div class="image-placeholder">
-                    <i class="fa-solid fa-users-rectangle"></i>
-                    <span>【建議照片類型 1】<br>你在模聯會議擔任主席、台前發言，或與全體學員大合照</span>
-                </div>
+                <img src="IMG_1195.JPG" alt="MUN Club" onclick="openLightbox(this.src)">
             </div>
             <div class="activity-content">
                 <h2>模擬聯合國社 (MUN Club)</h2>
@@ -237,16 +225,13 @@
 
         <div class="activity-card row-reverse">
             <div class="activity-image-wrapper">
-                <div class="image-placeholder">
-                    <i class="fa-solid fa-globe"></i>
-                    <span>【建議照片類型 2】<br>義賣現場服飾、街頭募款、赴帛琉致贈物資，或在 ICDF 總部參訪的合影</span>
-                </div>
+                <img src="IMG_1103.JPG" alt="ICDF Club" onclick="openLightbox(this.src)">
             </div>
             <div class="activity-content">
                 <h2>Wego ICDF 社團</h2>
                 <div class="activity-meta">
                     <span class="meta-badge"><i class="fa-solid fa-user-tie"></i> 活動總監 兼 副社長</span>
-                    <span class="meta-badge"><i class="fa-solid = fa-clock"></i> 2 小時 / 週</span>
+                    <span class="meta-badge"><i class="fa-solid fa-clock"></i> 2 小時 / 週</span>
                     <span class="meta-badge"><i class="fa-solid fa-calendar-days"></i> 參與歷程：2 年（去年 1 年 + 今年 1 年）</span>
                 </div>
                 <ul class="achievements-list">
@@ -260,10 +245,7 @@
 
         <div class="activity-card">
             <div class="activity-image-wrapper">
-                <div class="image-placeholder">
-                    <i class="fa-solid fa-flask"></i>
-                    <span>【建議照片類型 3】<br>科學展覽簡報現場、實驗室操作、獲獎合照，或研究論文首頁截圖</span>
-                </div>
+                <img src="截圖 2025-12-25 晚上8.20.59.png" alt="STEM Research" onclick="openLightbox(this.src)">
             </div>
             <div class="activity-content">
                 <h2>STEM 科學研究 ✕ 科展 ✕ 論文發表</h2>
@@ -283,10 +265,7 @@
 
         <div class="activity-card row-reverse">
             <div class="activity-image-wrapper">
-                <div class="image-placeholder">
-                    <i class="fa-solid fa-video"></i>
-                    <span>【建議照片類型 4】<br>電視台攝影棚側拍、金鐘獎最佳主持人合作側拍、YouTube 頻道影片截圖</span>
-                </div>
+                <img src="https://s.yimg.com/ny/api/res/1.2/cJEa6IJRrcXe5m5bp2KW.g--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTQyNg--/https://media.zenfs.com/en/cts.com.tw/7ebb79b123e603d0f1b0882a626065e2" alt="Filmmaking" onclick="openLightbox(this.src)">
             </div>
             <div class="activity-content">
                 <h2>影視創作 ✕ 雙語主持 (Filmmaking/Hosting)</h2>
@@ -305,10 +284,7 @@
 
         <div class="activity-card">
             <div class="activity-image-wrapper">
-                <div class="image-placeholder">
-                    <i class="fa-solid fa-guitar"></i>
-                    <span>【建議照片類型 5】<br>樂團舞台上擔任主唱高歌、排練室排練、前往養老院做公益演出的暖心合影</span>
-                </div>
+                <img src="截圖 2026-06-05 下午1.59.06.png" alt="Band" onclick="openLightbox(this.src)">
             </div>
             <div class="activity-content">
                 <h2>爵士樂團 (Band)</h2>
@@ -327,10 +303,7 @@
 
         <div class="activity-card row-reverse">
             <div class="activity-image-wrapper">
-                <div class="image-placeholder">
-                    <i class="fa-solid fa-chalkboard-user"></i>
-                    <span>【建議照片類型 6】<br>你在講台上教學的畫面、自製的精美單字單、或學生上課時的專注大合照</span>
-                </div>
+                <img src="IMG_9714.JPG" alt="Lessons" onclick="openLightbox(this.src)">
             </div>
             <div class="activity-content">
                 <h2>社區公益英語課程</h2>
@@ -349,10 +322,7 @@
 
         <div class="activity-card">
             <div class="activity-image-wrapper">
-                <div class="image-placeholder">
-                    <i class="fa-solid fa-building-columns"></i>
-                    <span>【建議照片類型 7】<br>外交小尖兵培訓營合照、外交部頒獎、赴美前往舊金山、洛杉磯參訪知名地標或外交機構照片</span>
-                </div>
+                <img src="tde.jpg" alt="Diplomat" onclick="openLightbox(this.src)">
             </div>
             <div class="activity-content">
                 <h2>外交小尖兵 (Teen Diplomatic Envoys)</h2>
@@ -370,10 +340,7 @@
 
         <div class="activity-card row-reverse">
             <div class="activity-image-wrapper">
-                <div class="image-placeholder">
-                    <i class="fa-solid fa-comments"></i>
-                    <span>【建議照片類型 8】<br>辯論賽台前攻防特寫、雙人或三人辯論隊友合照、最佳辯士證書</span>
-                </div>
+                <img src="截圖 2025-08-14 凌晨12.25.57.png" alt="Debates" onclick="openLightbox(this.src)">
             </div>
             <div class="activity-content">
                 <h2>全英語思辨與競賽辯論 (Debates)</h2>
@@ -392,10 +359,7 @@
 
         <div class="activity-card">
             <div class="activity-image-wrapper">
-                <div class="image-placeholder">
-                    <i class="fa-solid fa-graduation-cap"></i>
-                    <span>【建議照片類型 9】<br>在台大簡報論文畫面、在 CAPRI 學者群前投影簡報特寫、永續航空燃油研究封面</span>
-                </div>
+                <img src="截圖 2026-06-05 下午2.01.57.png" alt="Internship" onclick="openLightbox(this.src)">
             </div>
             <div class="activity-content">
                 <h2>智庫與頂尖學術機構智囊研究實習</h2>
