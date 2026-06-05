@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>York Chen | 國際外交與影視敘事歷程</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Noto+Sans+TC:wght@300;500;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
+        /* 國際外交風：深邃藍金配色 */
         :root {
             --bg-deep: #05080f;       /* 極致深邃黑藍 */
             --bg-card: #0d1523;       /* 高級商務藍 */
@@ -15,8 +16,8 @@
             --gold-soft: #f3e5ab;     /* 香檳金 */
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --gold-glow: rgba(212, 175, 55, 0.25);
-            --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --gold-glow: rgba(212, 175, 55, 0.3);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -24,160 +25,226 @@
             background-color: var(--bg-deep); 
             color: var(--text-main); 
             font-family: 'Noto Sans TC', sans-serif;
-            line-height: 2.1; 
+            line-height: 2; 
             overflow-x: hidden;
             scroll-behavior: smooth;
-            /* 輕微的皇家幾何網格底紋增加網頁細節 */
-            background-image: radial-gradient(circle, rgba(212,175,55,0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
         }
 
-        /* ── 改動 4：背景裝飾（左白宮、右國會大廈，低調呈現填補空白） ── */
+        /* ── 兩側沉浸式外交建築背景（白宮與國會大廈） ── */
         .bg-decorative {
             position: fixed;
-            top: 0; width: 30%; height: 100vh;
-            background-size: cover; background-position: center;
-            opacity: 0.08; filter: grayscale(100%); z-index: -1; pointer-events: none;
+            top: 0;
+            width: 30%;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.08; /* 極低透明度，填補空白且極具質感 */
+            filter: grayscale(100%);
+            z-index: -1;
+            pointer-events: none;
         }
+        /* 左側背景：白宮 (White House) 藝術影像 */
         .bg-left { left: 0; background-image: url('https://images.unsplash.com/photo-1580129959606-d71d9d9bcda3?q=80&w=1200&auto=format&fit=crop'); }
+        /* 右側背景：國會大廈 (Capitol Building) 藝術影像 */
         .bg-right { right: 0; background-image: url('https://images.unsplash.com/photo-1541872703-74c5e44368f9?q=80&w=1200&auto=format&fit=crop'); }
 
-        /* ── 高級外交官導覽列 ── */
+        /* ── 導覽列 ── */
         nav {
-            background: rgba(5, 8, 15, 0.95);
-            backdrop-filter: blur(15px);
-            padding: 1.2rem 4rem;
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-            position: sticky; top: 0; z-index: 1000;
+            background: rgba(13, 21, 35, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
-        .logo { font-family: 'Cinzel', serif; font-size: 1.6rem; color: var(--gold); letter-spacing: 4px; font-weight: 700; }
-        nav ul { display: flex; list-style: none; gap: 2.5rem; align-items: center; }
-        nav a { text-decoration: none; color: var(--text-muted); font-size: 1.15rem; font-weight: 500; transition: var(--transition); text-transform: uppercase; letter-spacing: 1px; }
-        nav a:hover, nav a.active { color: var(--gold); }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold); letter-spacing: 3px; font-weight: 700; }
+        nav ul { display: flex; list-style: none; gap: 3.5rem; align-items: center; }
+        nav a { text-decoration: none; color: var(--text-muted); font-size: 1.3rem; font-weight: 500; transition: var(--transition); letter-spacing: 1px; }
+        nav a:hover, nav a.active { color: var(--gold); text-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
 
-        /* ── 改動 1：雙語切換鈕 ── */
+        /* 進階改動 1：優雅雙語切換鈕 */
         .lang-switch {
             background: transparent; border: 1px solid var(--gold); color: var(--gold);
-            padding: 5px 18px; border-radius: 20px; cursor: pointer;
-            font-family: 'Cinzel', serif; font-weight: bold; transition: var(--transition);
+            padding: 6px 16px; border-radius: 20px; cursor: pointer;
+            font-family: 'Playfair Display', serif; font-weight: bold; transition: var(--transition);
         }
-        .lang-switch:hover { background: var(--gold); color: var(--bg-deep); box-shadow: 0 0 15px var(--gold-glow); }
+        .lang-switch:hover { background: var(--gold); color: var(--bg-deep); box-shadow: 0 0 12px var(--gold-glow); }
 
-        /* ── 改動 3：左側放大時光軸 (支援 Scrollspy 自動亮起功能) ── */
+        /* ── 進階改動 2：動態時光軸 (支援 Scrollspy 自動偵側亮起) ── */
         .side-timeline {
-            position: fixed; left: 3rem; top: 50%; transform: translateY(-50%);
-            display: flex; flex-direction: column; gap: 3.5rem; z-index: 10;
+            position: fixed;
+            left: 3rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            z-index: 10;
         }
         .node { 
-            color: var(--text-muted); font-size: 1.2rem; font-weight: 700; 
-            writing-mode: vertical-rl; letter-spacing: 5px; border-left: 2px solid rgba(212, 175, 55, 0.2);
-            padding-left: 12px; transition: var(--transition); cursor: pointer; text-decoration: none;
+            color: var(--text-muted); font-size: 1.15rem; font-weight: 700; 
+            writing-mode: vertical-rl; letter-spacing: 4px; border-left: 2px solid rgba(212,175,55,0.2); 
+            padding-left: 10px; transition: var(--transition); cursor: pointer; text-decoration: none;
         }
-        .node.active { color: var(--gold); border-left-color: var(--gold); transform: scale(1.1); text-shadow: 0 0 10px var(--gold-glow); }
-
-        /* ── 改動 3：右側放大社群鈕 ── */
+        /* 當讀者滑動到該段落，左邊年份會被點亮變成金色 */
+        .node.active { color: var(--gold); border-left-color: var(--gold); transform: scale(1.05); text-shadow: 0 0 8px var(--gold-glow); }
+        
+        /* ── 右側社群列 ── */
         .side-social {
-            position: fixed; right: 3rem; top: 50%; transform: translateY(-50%);
-            display: flex; flex-direction: column; gap: 2rem; z-index: 10;
+            position: fixed;
+            right: 3rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            z-index: 10;
         }
         .social-btn {
-            width: 65px; height: 65px; border-radius: 50%; border: 2px solid var(--gold);
-            background: var(--bg-card); color: var(--gold); display: flex; justify-content: center; align-items: center;
-            font-size: 1.8rem; transition: var(--transition); text-decoration: none;
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            background: var(--bg-card);
+            color: var(--gold);
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.6rem; transition: var(--transition);
+            text-decoration: none;
         }
-        .social-btn:hover { background: var(--gold); color: var(--bg-deep); transform: rotate(360deg) scale(1.15); box-shadow: 0 0 25px var(--gold); }
+        .social-btn:hover { background: var(--gold); color: var(--bg-deep); transform: scale(1.15); box-shadow: 0 0 20px var(--gold); }
 
-        /* ── 主內容區域 ── */
-        main { max-width: 850px; margin: 0 auto; padding: 4rem 2rem; text-align: center; }
+        /* ── 主內容區塊 ── */
+        main { max-width: 900px; margin: 0 auto; padding: 5rem 2rem; }
         
         .quote-box {
-            text-align: center; margin-bottom: 6rem; padding: 4rem;
-            background: linear-gradient(135deg, #0d1523 0%, #05080f 100%);
-            border-top: 1px solid var(--gold); border-bottom: 1px solid var(--gold);
+            text-align: center;
+            margin-bottom: 5rem;
+            padding: 3rem;
+            border: 1px solid var(--gold);
+            background: linear-gradient(to bottom right, #0d1523, #161f2d);
+            position: relative;
         }
-        .quote-text { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold-soft); font-style: italic; }
+        .quote-box i { font-size: 2rem; color: var(--gold); position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--bg-deep); padding: 0 15px; }
+        .quote-text { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--gold-soft); font-style: italic; }
 
         .avatar-wrap { text-align: center; margin-bottom: 6rem; }
         .avatar-main { 
-            width: 280px; height: 280px; border-radius: 50%; border: 4px solid var(--gold); 
-            padding: 10px; object-fit: cover; box-shadow: 0 0 60px rgba(212, 175, 55, 0.2);
+            width: 280px; height: 280px; 
+            border-radius: 50%; 
+            border: 4px solid var(--gold); 
+            padding: 10px; 
+            object-fit: cover; 
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.2);
         }
 
-        .section-title { font-family: 'Cinzel', serif; font-size: 3rem; color: var(--gold-soft); letter-spacing: 6px; margin-bottom: 4rem; }
+        .section-title { font-size: 2.8rem; color: var(--gold-soft); text-align: center; margin-bottom: 4rem; font-family: 'Playfair Display', serif; letter-spacing: 5px; }
 
-        /* 自傳章節外框 */
-        .story-section {
-            position: relative; margin-bottom: 10rem; background: var(--bg-card);
-            padding: 4.5rem 3.5rem; border-radius: 20px; box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.03); text-align: center;
+        /* 故事段落框架 */
+        .story-container {
+            position: relative;
+            margin-bottom: 8rem;
+            background: var(--bg-card);
+            padding: 4rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.05);
         }
-        .story-section h3 { font-family: 'Cinzel', serif; font-size: 1.8rem; color: var(--gold); margin-bottom: 2rem; }
-        .story-text { font-size: 1.15rem; color: var(--text-muted); }
+        .story-container h3 { font-size: 1.8rem; color: var(--gold); margin-bottom: 2rem; text-align: center; font-family: 'Playfair Display', 'Noto Sans TC', sans-serif; }
+        .story-container p { font-size: 1.15rem; color: var(--text-muted); text-align: center; max-width: 700px; margin: 0 auto 2rem; }
+        .story-container p:last-child { margin-bottom: 0; }
 
-        /* ── 改動 2：大氣泡 (240px) 與滑鼠懸浮放大的提示手勢 ── */
+        /* ── 放大泡泡與滑鼠點擊燈箱手勢 ── */
         .bubble {
-            position: absolute; width: 240px; height: 240px;
-            border-radius: 50%; border: 4px solid var(--gold);
-            overflow: hidden; cursor: zoom-in; z-index: 5; transition: var(--transition);
-            animation: floatBubble 8s ease-in-out infinite; box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            position: absolute;
+            width: 240px; height: 240px; 
+            border-radius: 50%;
+            border: 3px solid var(--gold);
+            overflow: hidden;
+            cursor: zoom-in; 
+            z-index: 5;
+            transition: var(--transition);
+            animation: float 6s ease-in-out infinite;
         }
-        .bubble img { width: 100%; height: 100%; object-fit: cover; }
-        .bubble:hover { transform: scale(1.15) !important; box-shadow: 0 0 40px var(--gold); z-index: 20; }
-        .bubble-left { left: -160px; top: 15%; }
-        .bubble-right { right: -160px; top: 20%; animation-delay: -4s; }
+        .bubble img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+        .bubble:hover { transform: scale(1.1) !important; z-index: 10; box-shadow: 0 0 30px var(--gold); }
+        .bubble-left { left: -160px; top: 10%; }
+        .bubble-right { right: -160px; top: 15%; animation-delay: -3s; }
 
-        /* 高級優雅的 3D 浮動效果 */
-        @keyframes floatBubble {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-35px) rotate(2deg); }
+        /* 上下緩緩浮動動畫 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-25px); }
         }
 
-        /* ── Podcast 嵌入式播放器 ── */
-        .spotify-player { margin-top: 3rem; border-radius: 12px; overflow: hidden; background: #121212; padding: 5px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        /* ── 進階改動 3：實體 Spotify 播放器嵌入外框 ── */
+        .spotify-player {
+            margin: 2rem auto 0;
+            max-width: 700px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #121212;
+            padding: 6px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
 
-        /* ── 聯絡表單區塊 ── */
+        /* ── 進階改動 4：頂級官網聯絡表單 ── */
         .contact-form {
-            background: var(--bg-card); padding: 4rem; border-radius: 20px; border: 1px solid var(--gold);
-            display: grid; gap: 2rem; margin-top: 4rem;
+            background: var(--bg-card);
+            padding: 4rem;
+            border-radius: 20px;
+            border: 1px solid var(--gold);
+            display: grid;
+            gap: 2rem;
+            margin-top: 5rem;
         }
         .contact-form input, .contact-form textarea {
             background: transparent; border: none; border-bottom: 1px solid rgba(212, 175, 55, 0.3);
             color: var(--text-main); padding: 1rem; font-size: 1.1rem; outline: none; transition: 0.3s;
+            font-family: 'Noto Sans TC', sans-serif;
         }
-        .contact-form input:focus { border-bottom-color: var(--gold); }
+        .contact-form input:focus, .contact-form textarea:focus { border-bottom-color: var(--gold); }
         .submit-btn {
             background: var(--gold); color: var(--bg-deep); border: none; padding: 1.2rem;
-            font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.2rem; cursor: pointer; transition: 0.3s;
+            font-family: 'Playfair Display', 'Noto Sans TC', sans-serif; font-weight: 700; font-size: 1.2rem; cursor: pointer; transition: 0.3s;
         }
-        .submit-btn:hover { background: var(--gold-soft); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(212,175,55,0.3); }
+        .submit-btn:hover { background: var(--gold-soft); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212,175,55,0.3); }
 
-        /* ── 燈箱滿版黑底毛玻璃特效 (Modal) ── */
+        /* ── 點開泡泡後的彈出大圖燈箱（Modal）樣式 ── */
         .modal {
-            display: none; position: fixed; z-index: 5000; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.96); backdrop-filter: blur(15px); justify-content: center; align-items: center;
+            display: none; 
+            position: fixed;
+            z-index: 2000;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(5, 8, 15, 0.95);
+            backdrop-filter: blur(15px); /* 背景高級毛玻璃效果 */
+            justify-content: center;
+            align-items: center;
         }
-        .modal-content { max-width: 85%; max-height: 80%; border: 2px solid var(--gold); position: relative; background: var(--bg-card); box-shadow: 0 0 50px rgba(0,0,0,0.8); }
-        .modal-content img { width: 100%; height: auto; max-height: 75vh; display: block; }
-        .close-modal { position: absolute; top: -50px; right: 0; color: var(--gold); font-size: 3.5rem; cursor: pointer; transition: 0.2s; }
+        .modal-content { max-width: 80%; max-height: 80%; border: 2px solid var(--gold); padding: 10px; background: var(--bg-card); border-radius: 8px; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
+        .modal-content img { max-width: 100%; max-height: 75vh; display: block; border-radius: 4px; }
+        .close-modal { position: absolute; top: 30px; right: 50px; color: var(--gold); font-size: 3.5rem; cursor: pointer; transition: 0.2s; }
         .close-modal:hover { color: var(--gold-soft); transform: scale(1.1); }
 
-        footer { text-align: center; padding: 5rem; color: var(--text-dark); background: #020408; font-family: 'Cinzel', serif; letter-spacing: 2px; border-top: 1px solid rgba(212, 175, 55, 0.1); }
+        footer { text-align: center; padding: 4rem; border-top: 1px solid rgba(212, 175, 55, 0.3); font-size: 1rem; color: var(--text-dark); background: #05080f; font-family: 'Playfair Display', serif; }
 
-        /* 中英雙語切換顯示隱藏邏輯 */
+        /* 中英雙語隱藏切換機制 */
         [lang="en"] { display: none; }
         body.en-mode [lang="zh"] { display: none; }
         body.en-mode [lang="en"] { display: block; }
 
-        /* 響應式手機版自動隱藏兩側元件，避免重疊 */
-        @media (max-width: 1400px) {
+        /* 響應式手機版適應 */
+        @media (max-width: 1350px) {
             .side-timeline, .side-social, .bg-decorative { display: none; }
             .bubble { position: relative; left: auto; right: auto; margin: 2rem auto; width: 220px; height: 220px; }
-            .story-section { padding: 3rem 1.5rem; }
+            .story-container { padding: 2.5rem 1.5rem; }
         }
     </style>
 </head>
-<body id="home-section">
+<body>
 
     <div class="bg-decorative bg-left"></div>
     <div class="bg-decorative bg-right"></div>
@@ -185,157 +252,208 @@
     <nav>
         <div class="logo">YORK CHEN</div>
         <ul>
-            <li><a href="#home-section" class="active">Home</a></li>
-            <li><a href="#media-section">Media</a></li>
-            <li><a href="#debate-section">Debate</a></li>
-            <li><a href="#vision-section">Vision</a></li>
+            <li><a href="#" class="active">HOME</a></li>
+            <li><a href="#activities-anchor">ACTIVITIES</a></li>
+            <li><a href="#works-anchor">WORKS</a></li>
+            <li><a href="#podcast">PODCAST</a></li>
             <button class="lang-switch" onclick="toggleLanguage()">EN / 中文</button>
         </ul>
     </nav>
 
     <div class="side-timeline">
-        <a href="#home-section" class="node active" id="node-home">現在 | PRESENT</a>
-        <a href="#media-section" class="node" id="node-media">國三 | MEDIA</a>
-        <a href="#debate-section" class="node" id="node-debate">高一 | DIPLOMACY</a>
-        <a href="#vision-section" class="node" id="node-vision">展望 | FUTURE</a>
+        <a href="#sec-1" class="node active" id="node-sec-1">2026 | 高二</a>
+        <a href="#sec-4" class="node" id="node-sec-4">2025 | 高一</a>
+        <a href="#sec-2" class="node" id="node-sec-2">2023 | 國三</a>
     </div>
 
     <div class="side-social">
         <a href="https://www.youtube.com/@ANGEL19760920" target="_blank" class="social-btn" title="YouTube 頻道"><i class="fa-brands fa-youtube"></i></a>
-        <a href="https://open.spotify.com" target="_blank" class="social-btn" title="Podcast 節目"><i class="fa-solid fa-microphone"></i></a>
-        <a href="mailto:contact@yorkchen.com" class="social-btn" title="聯絡信箱"><i class="fa-solid fa-envelope"></i></a>
+        <a href="#podcast" class="social-btn" title="Podcast 節目"><i class="fa-solid fa-microphone"></i></a>
+        <a href="mailto:contact@yorkchen.com" class="social-btn" title="聯絡 Email"><i class="fa-solid fa-envelope"></i></a>
     </div>
 
     <main>
         <div class="quote-box">
+            <i class="fa-solid fa-quote-left"></i>
             <p class="quote-text">
-                <span lang="zh">「世界上最有影響力的人，是說故事的人。」</span>
+                <span lang="zh">"The most powerful person in the world is the storyteller."</span>
                 <span lang="en">"The most powerful person in the world is the storyteller."</span>
             </p>
-            <p style="color: var(--gold); margin-top: 1.5rem; letter-spacing: 3px; font-family: 'Cinzel', serif;">— STEVE JOBS</p>
+            <p style="color: var(--gold); margin-top: 1rem; letter-spacing: 2px;">— STEVE JOBS</p>
         </div>
 
         <div class="avatar-wrap">
-            <img src="image/York #1.png" alt="York Chen" class="avatar-main">
-            <h1 class="section-title">York 陳宥楷</h1>
-            <p style="text-align: center; font-size: 1.4rem; color: var(--gold); font-family: 'Cinzel', serif; letter-spacing: 2px;">
+            <img src="image/York #1.png" alt="York Chen 大頭貼" class="avatar-main">
+            <h1 class="section-title">
+                <span lang="zh">York 陳宥楷</span>
+                <span lang="en">York Chen</span>
+            </h1>
+            <p style="text-align: center; font-size: 1.3rem; color: var(--gold); letter-spacing: 1px;">
                 <span lang="zh">薇閣高中 | 雙語主持人 | 外交小尖兵</span>
-                <span lang="en">Wego High | Bilingual Host | Diplomatic Envoy</span>
+                <span lang="en">Wego High School | Bilingual Host | Diplomatic Envoy</span>
             </p>
         </div>
 
-        <div class="story-section" id="intro-section">
+        <div class="story-container" id="sec-1">
             <h3 lang="zh">探求未知的敘事者</h3>
             <h3 lang="en">Seeker of Unknown Stories</h3>
-            <div class="story-text">
-                <p lang="zh">我目前就讀於薇閣高中。樂觀、開朗、始終保持正面思考。對我而言，生命不該被侷限在單一框架，而是一場不斷跨界、探索與精彩敘事的旅程。</p>
-                <p lang="en">Currently a student at Wego High, I am driven by optimism and a passion for exploration. For me, life is a journey of interdisciplinary storytelling that transcends traditional boundaries.</p>
-            </div>
+            
+            <p lang="zh">我目前就讀於薇閣高中。樂觀、開朗、始終保持正面思考，是我面對繁重學業與挑戰的核心。對我而言，生命不該被侷限在單一框架，而是一場不斷跨界、探索與精彩敘事的旅程。</p>
+            <p lang="zh">在球場上我鍛鍊抗壓性，在舞台上我身兼主唱，用全心投入傳遞音樂的熱情。我始終相信，好的故事能跨越國界，觸動人心。</p>
+
+            <p lang="en">I am currently studying at Wego High School. Remaining optimistic, cheerful, and positive-thinking is my core strategy for balancing heavy academic workloads and challenges. To me, life should not be confined to a single frame; it is an ongoing journey of crossing boundaries, exploration, and compelling storytelling.</p>
+            <p lang="en">On the court, I hone my resilience; on stage, I perform as a lead vocalist, channeling my passion into music. I steadfastly believe that a good story can transcend borders and touch people's hearts.</p>
         </div>
 
-        <div class="story-section" id="media-section">
+        <div class="story-container" id="sec-2">
             <div class="bubble bubble-left" onclick="openLightbox('https://www.avjet.com.tw/api/uploads/poster/poster_1774497314860_epg5ie.jpg')">
-                <img src="https://www.avjet.com.tw/api/uploads/poster/poster_1774497314860_epg5ie.jpg" alt="影音主持照片">
+                <img src="https://www.avjet.com.tw/api/uploads/poster/poster_1774497314860_epg5ie.jpg" alt="影音主持">
             </div>
-            <h3 lang="zh">影視鏡頭下的國際視角</h3>
+            <h3 id="works-anchor" lang="zh">鏡頭與國際敘事</h3>
             <h3 lang="en">Global Perspectives via Media</h3>
-            <div class="story-text">
-                <p lang="zh">從《開拍吧孩子！》全國冠軍到主持第二季，影音是我與世界對話的方式。我創立 YouTube 頻道分析阿富汗受教權等國際時事，將雙語能力化為實質影響力。</p>
-                <p lang="en">From a national championship in elementary school to hosting major youth programs, filmmaking is my voice. I analyze international affairs on my YouTube channel, turning bilingual skills into social impact.</p>
-            </div>
+            
+            <p lang="zh">小學六年級時，我在《開拍吧孩子！》斬獲全國第一名，這顆創作的種子自此生根。國三時，受邀回歸主持第二季，我體會到跨部門溝通的關鍵價值。</p>
+            <p lang="zh">我也創立 YouTube 頻道，分析阿富汗受教權、法國年金改革等嚴肅議題。透過報導與分析，我將英語能力轉化為社會影響力，並獲得《中學生報》專題競賽金獎。</p>
+
+            <p lang="en">In the 6th grade, I won 1st place nationwide in "Action! Kids," sowing the seeds of media creation. In my final year of junior high, I was invited back to host the second season, which taught me the vital value of cross-departmental communication.</p>
+            <p lang="en">I also founded a YouTube channel analyzing serious global issues like educational rights in Afghanistan and pension reforms in France. Through journalism and analysis, I turn English proficiency into social impact, earning a Gold Award in the Student Merit Newspaper competition.</p>
         </div>
 
-        <div class="story-section" id="debate-section">
+        <div class="story-container" id="sec-3">
             <div class="bubble bubble-right" onclick="openLightbox('image/截圖 2025-08-17 凌晨2.38.13.png')">
-                <img src="image/截圖 2025-08-17 凌晨2.38.13.png" alt="MUN模擬聯合國照片">
+                <img src="image/截圖 2025-08-17 凌晨2.38.13.png" alt="MUN模擬聯合國">
             </div>
-            <h3 lang="zh">思辨交鋒：辯論與模聯</h3>
-            <h3 lang="en">The Art of Debate & MUN</h3>
-            <div class="story-text">
-                <p lang="zh">在 NHSDLC 與 YMUNT 耶魯模聯中，我與各國精英唇槍舌戰，這不僅訓練了邏輯，更讓我深刻理解國際政治的厚度。我亦創立 Wego ICDF 社團，將愛心募款帶往帛琉。</p>
-                <p lang="en">Through intense exchanges at YMUNT and NHSDLC, I have honed my logical reasoning. I founded the Wego ICDF club to practice real-world diplomacy, bringing aid to primary schools in Palau.</p>
+            <h3 lang="zh">思辨之巔：辯論與模聯</h3>
+            <h3 lang="en">The Peak of Debating & MUN</h3>
+            
+            <p lang="zh">在 NHSDLC 辯論賽中，我榮獲 Top Speaker，並在 YMUNT 耶魯模擬聯合國中，與母語人士激烈交鋒奪得 Honorable Mention。</p>
+            <p lang="zh">這些台上的唇槍舌戰，不僅訓練了我的邏輯，更讓我深刻理解國際政治議題的厚度與複雜性。每一次的答辯都是對思維極限的挑戰。</p>
+
+            <p lang="en">In the NHSDLC debating championship, I was awarded Top Speaker, and received an Honorable Mention at YMUNT (Yale Model United Nations) while competing fiercely with native English speakers.</p>
+            <p lang="en">These intellectual duels on stage have not only sharpened my logical reasoning but also deepened my grasp of the weight and complexity of international politics. Every cross-examination challenges the boundaries of my perspective.</p>
+        </div>
+
+        <div class="story-container" id="sec-4">
+            <div class="bubble bubble-left" onclick="openLightbox('image/IMG_7992.jpeg')">
+                <img src="image/IMG_7992.jpeg" alt="ICDF社團">
+            </div>
+            <h3 id="activities-anchor" lang="zh">具體實踐：Wego ICDF</h3>
+            <h3 lang="en">Real-world Diplomacy: Wego ICDF</h3>
+            
+            <p lang="zh">我創立了 Wego ICDF 社團，擔任執行長。為了募款，我們走上街頭義賣自己設計的服飾。面對無數次的拒絕，我們學會了修正論述，最終成功募集資金。</p>
+            <p lang="zh">今年四月，我們將親赴帛琉，將這份愛心微波爐致贈給當地的國小，用實際行動在國際上點亮台灣。這份堅持與勇氣，是我對外交最誠摯的熱愛。</p>
+
+            <p lang="en">I founded the Wego ICDF club and served as the CEO. To raise funds, we went onto the streets to sell apparel we designed ourselves. Encountering countless rejections taught us to refine our pitches, ultimately leading to a successful fundraising campaign.</p>
+            <p lang="en">This April, we will travel to Palau to donate essential resources to local primary schools, highlighting Taiwan's warmth through grassroots action. This perseverance and courage reflect my deepest devotion to diplomacy.</p>
+        </div>
+
+        <div class="story-container" id="sec-5">
+            <div class="bubble bubble-right" onclick="openLightbox('image/IMG_8718.jpg')">
+                <img src="image/IMG_8718.jpg" alt="外交小尖兵">
+            </div>
+            <h3 lang="zh">重大轉折：走向美國參訪</h3>
+            <h3 lang="en">Turning Point: Diplomatic Visit to the U.S.</h3>
+            
+            <p lang="zh">成功錄取「外交小尖兵」並赴美參訪，是我求學歷程的決定性轉折。走進外交最前線，我目睹了使節們如何在多變的全球局勢下維繫台灣的連結。</p>
+            <p lang="zh">這份震撼讓我立下決心，未來將全力往外交與國際關係領域鑽研。同時，我也創立了 Podcast 節目，希望能建立跨世代的對話橋樑，傳遞青年的優秀想法。</p>
+
+            <p lang="en">Being selected as a National Diplomatic Envoy for an official visit to the United States marked a defining milestone in my academic life. Stepping onto the front lines of global affairs, I witnessed how diplomats sustain Taiwan's presence amidst shifting geopolitical tides.</p>
+            <p lang="en">This profound exposure solidified my ambition to fully dedicate my future studies to diplomacy and international relations. Concurrently, I launched a Podcast to construct intergenerational bridges and amplify youth perspectives.</p>
+        </div>
+
+        <div class="story-container" id="sec-6">
+            <div class="bubble bubble-left" onclick="openLightbox('image/IMG_8936 (1).JPG')">
+                <img src="image/IMG_8936 (1).JPG" alt="未來展望">
+            </div>
+            <h3 id="podcast" lang="zh">未來展望：融合多維能力的國際說書人</h3>
+            <h3 lang="en">Future Vision: The Multi-Dimensional Storyteller</h3>
+            
+            <p lang="zh">展望未來，我對自己的期許是將「全英語思辨與談判能力」、「宏觀的國際關係視野」以及「影音媒體與聲音的傳播影響力」這三者進行有機的跨界結合。</p>
+            <p lang="zh">不論未來的學術探索多麼艱辛，我都將以理性的思辨與感性的敘事，致力於在國際舞台上，講述屬於我們這一代青年、屬於台灣的動人故事。</p>
+
+            <p lang="en">Looking ahead, I aspire to seamlessly integrate all-English debating and negotiation proficiencies, a macro perspective on international relations, and the modern communicative influence of visual and audio media.</p>
+            <p lang="en">No matter how demanding the academic road ahead may be, I will bring together rational debate and emotional storytelling to share the inspiring accounts of our generation and of Taiwan on the global stage.</p>
+
+            <div class="spotify-player">
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/show/0?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </div>
         </div>
 
-        <div class="story-section" id="vision-section">
-            <div class="bubble bubble-left" onclick="openLightbox('image/IMG_8718.jpg')">
-                <img src="image/IMG_8718.jpg" alt="外交小尖兵照片">
-            </div>
-            <h3 lang="zh">外交小尖兵與 Podcast 展望</h3>
-            <h3 lang="en">Diplomacy & Podcast Vision</h3>
-            <div class="story-text">
-                <p lang="zh">錄取外交小尖兵赴美參訪，是我立志鑽研外交領域的轉折點。近期我也創立了 Podcast 節目，旨在建立跨世代的對話橋樑，講述屬於我們這一代的動人故事。</p>
-                <p lang="en">My visit to the U.S. as a Diplomatic Envoy was a turning point. Recently, I launched a Podcast to build bridges between generations and share the powerful stories of our time.</p>
-                
-                <div class="spotify-player">
-                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/show/3asv3A6W3uEw70BshlCscq?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                </div>
-            </div>
-        </div>
-
-        <h2 class="section-title" id="connect">CONNECT WITH YORK</h2>
-        <form class="contact-form" onsubmit="event.preventDefault(); alert('感謝您的來信！訊息已成功模擬送出。');">
-            <input type="text" placeholder="Name" required>
-            <input type="email" placeholder="Email" required>
-            <textarea rows="5" placeholder="Your Message..." required></textarea>
+        <h2 class="section-title">CONNECT WITH YORK</h2>
+        <form class="contact-form" onsubmit="event.preventDefault(); alert('感謝您的聯絡！郵件模擬發送成功。');">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email Address" required>
+            <textarea rows="5" placeholder="Let's start an inspiring conversation..." required></textarea>
             <button type="submit" class="submit-btn">SEND MESSAGE</button>
         </form>
 
     </main>
 
-    <div id="lightbox" class="modal">
-        <span class="close-modal" onclick="closeLightbox()">×</span>
+    <div id="imageLightbox" class="modal">
+        <span class="close-modal" onclick="closeLightbox()">&times;</span>
         <div class="modal-content">
-            <img id="lightboxImg" src="" alt="放大成果照">
+            <img id="lightboxImg" src="" alt="放大成果照片">
         </div>
     </div>
 
     <footer>
-        <p>© 2026 YORK CHEN. DIPLOMACY | STORYTELLING | VISION.</p>
+        <p>&copy; 2026 YORK CHEN. POWERED BY DIPLOMACY & STORYTELLING.</p>
     </footer>
 
     <script>
-        // 1. 中英雙語流暢切換邏輯
+        // 1. 中英雙語一鍵切換控制
         function toggleLanguage() {
             document.body.classList.toggle('en-mode');
         }
 
-        // 2. 燈箱彈出放大與毛玻璃效果控制
-        function openLightbox(src) {
-            const modal = document.getElementById("lightbox");
-            const img = document.getElementById("lightboxImg");
+        // 2. 燈箱彈出與黑底毛玻璃縮回控制
+        function openLightbox(imageSrc) {
+            const modal = document.getElementById("imageLightbox");
+            const lightboxImg = document.getElementById("lightboxImg");
             modal.style.display = "flex";
-            img.src = src;
+            lightboxImg.src = imageSrc;
         }
+
         function closeLightbox() {
-            document.getElementById("lightbox").style.display = "none";
+            document.getElementById("imageLightbox").style.display = "none";
         }
 
-        // 3. Scrollspy 動態追蹤技術：隨著頁面滾動，自動點亮左側對應的時間軸年份
+        // 3. Scrollspy 捲軸監聽技術：滑動到特定故事區塊時，點亮左側對應的時間點
         window.addEventListener('scroll', () => {
-            const sections = ['home-section', 'media-section', 'debate-section', 'vision-section'];
-            let current = "";
+            // 定義時間點所對應觸發的 HTML Section ID
+            const sectionsMapping = [
+                { id: 'sec-1', node: 'node-sec-1' }, // 2026 高二
+                { id: 'sec-4', node: 'node-sec-4' }, // 2025 高一
+                { id: 'sec-2', node: 'node-sec-2' }  // 2023 國三
+            ];
             
-            sections.forEach(secId => {
-                const sec = document.getElementById(secId);
-                const secTop = sec.offsetTop;
-                // 設定觸發偏移量，讓滾動體驗更滑順
-                if (pageYOffset >= secTop - 280) {
-                    current = secId;
+            let currentActiveNode = "node-sec-1"; // 預設亮起高二
+            
+            sectionsMapping.forEach(item => {
+                const element = document.getElementById(item.id);
+                if (element) {
+                    const elementTop = element.offsetTop;
+                    // 當捲軸高於元件頂部 300px 位置時，認定切換到該時光節點
+                    if (window.pageYOffset >= elementTop - 300) {
+                        currentActiveNode = item.node;
+                    }
                 }
             });
 
-            document.querySelectorAll('.node').forEach(node => {
+            // 清除所有的亮起狀態，並單獨點亮目前的時光節點
+            document.querySelectorAll('.side-timeline .node').forEach(node => {
                 node.classList.remove('active');
-                if (node.getAttribute('href').includes(current)) {
-                    node.classList.add('active');
-                }
             });
+            const activeNode = document.getElementById(currentActiveNode);
+            if (activeNode) {
+                activeNode.classList.add('active');
+            }
         });
 
-        // 點擊黑底毛玻璃背景區域，也能自動縮回關閉大圖
+        // 點擊照片以外的毛玻璃黑底區域時，也能自動關閉大圖
         window.onclick = function(event) {
-            if (event.target == document.getElementById("lightbox")) {
+            const modal = document.getElementById("imageLightbox");
+            if (event.target == modal) {
                 closeLightbox();
             }
         }
