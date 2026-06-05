@@ -52,18 +52,22 @@
         .logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold); letter-spacing: 3px; font-weight: 700; text-decoration: none; }
         .nav-right-container { display: flex; align-items: center; gap: 3.5rem; }
         nav ul { display: flex; list-style: none; gap: 3.5rem; align-items: center; }
-        nav a { text-decoration: none; color: var(--text-muted); font-size: 1.3rem; font-weight: 500; transition: var(--transition); letter-spacing: 1px; }
+        nav a { text-decoration: none; color: var(--text-muted); font-size: 1.3rem; font-weight: 500; transition: var(--transition); letter-spacing: 1px; font-family: 'Playfair Display', serif; }
         nav a:hover, nav a.active { color: var(--gold); text-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
 
-        /* 中英切換按鈕（與 index 完美一致） */
+        /* ✨ 圓圈形式的中英切換按鈕樣式（完美還原第一頁） */
         .lang-switch {
-            background: transparent;
-            border: 1px solid var(--gold);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            background: var(--bg-card);
             color: var(--gold);
-            padding: 0.4rem 1rem;
-            font-size: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.1rem;
             font-weight: 700;
-            border-radius: 4px;
             cursor: pointer;
             font-family: 'Playfair Display', serif;
             transition: var(--transition);
@@ -72,7 +76,8 @@
         .lang-switch:hover {
             background: var(--gold);
             color: var(--bg-deep);
-            box-shadow: 0 0 15px var(--gold-glow);
+            transform: scale(1.15);
+            box-shadow: 0 0 20px var(--gold);
         }
 
         /* ── 左側事件時間軸 ── */
@@ -139,7 +144,7 @@
             overflow: hidden;
             box-shadow: 0 20px 40px rgba(0,0,0,0.4);
             transition: var(--transition);
-            scroll-margin-top: 140px; /* 錨點跳轉優化留白空間 */
+            scroll-margin-top: 140px; /* 點擊錨點跳轉後的留白空間 */
         }
         .activity-card:hover { transform: translateY(-5px); border-color: rgba(212, 175, 55, 0.3); box-shadow: 0 25px 50px rgba(0,0,0,0.6); }
 
@@ -240,24 +245,24 @@
         <a href="index.html" class="logo">YORK CHEN</a>
         <div class="nav-right-container">
             <ul>
-                <li><a href="index.html" class="lang-data" data-tw="首頁" data-en="HOME">首頁</a></li>
-                <li><a href="activities.html" class="active lang-data" data-tw="課外活動" data-en="ACTIVITIES">課外活動</a></li>
-                <li><a href="portfolio.html" class="lang-data" data-tw="作品集" data-en="PORTFOLIO">作品集</a></li>
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="activities.html" class="active">ACTIVITIES</a></li>
+                <li><a href="portfolio.html">PORTFOLIO</a></li>
             </ul>
             <button class="lang-switch" onclick="toggleLanguage()">EN</button>
         </div>
     </nav>
 
     <div class="side-timeline">
-        <a href="#event-mun" class="node active lang-data" id="node-mun" data-tw="模擬聯合國" data-en="MUN Club">模擬聯合國</a>
-        <a href="#event-icdf" class="node lang-data" id="node-icdf" data-tw="國際援外" data-en="ICDF Club">國際援外</a>
-        <a href="#event-stem" class="node lang-data" id="node-stem" data-tw="科學研究" data-en="STEM Research">科學研究</a>
-        <a href="#event-film" class="node lang-data" id="node-film" data-tw="影視主持" data-en="Media & Hosting">影視主持</a>
-        <a href="#event-band" class="node lang-data" id="node-band" data-tw="爵士樂團" data-en="Jazz Band">爵士樂團</a>
-        <a href="#event-english" class="node lang-data" id="node-english" data-tw="公益教學" data-en="English Teaching">公益教學</a>
-        <a href="#event-diplomat" class="node lang-data" id="node-diplomat" data-tw="外交使節" data-en="Teen Diplomat">外交使節</a>
-        <a href="#event-debate" class="node lang-data" id="node-debate" data-tw="全英辯論" data-en="Debate & Discourse">全英辯論</a>
-        <a href="#event-intern" class="node lang-data" id="node-intern" data-tw="智庫實習" data-en="Think Tank Intern">智庫實習</a>
+        <a href="#event-mun" class="node active" id="node-mun">模擬聯合國</a>
+        <a href="#event-icdf" class="node" id="node-icdf">國際援外</a>
+        <a href="#event-stem" class="node" id="node-stem">科學研究</a>
+        <a href="#event-film" class="node" id="node-film">影視主持</a>
+        <a href="#event-band" class="node" id="node-band">爵士樂團</a>
+        <a href="#event-english" class="node" id="node-english">公益教學</a>
+        <a href="#event-diplomat" class="node" id="node-diplomat">外交使節</a>
+        <a href="#event-debate" class="node" id="node-debate">全英辯論</a>
+        <a href="#event-intern" class="node" id="node-intern">智庫實習</a>
     </div>
 
     <div class="side-social">
@@ -481,7 +486,7 @@
             document.getElementById("imageLightbox").style.display = "none";
         }
 
-        // ── ✨ 高精準度對齊時間軸捲動機制 (Scrollspy) ──
+        // ── ✨ 高精準度動態對齊時間軸捲動機制 (Scrollspy Engine V2) ──
         function updateScrollspy() {
             const sections = [
                 { id: 'event-mun', node: 'node-mun' },
@@ -495,22 +500,33 @@
                 { id: 'event-intern', node: 'node-intern' }
             ];
             
-            let currentActiveNode = sections[0].node; // 預設亮起第一個
+            let currentActiveNode = sections[0].node; 
             
-            for (const sec of sections) {
-                const el = document.getElementById(sec.id);
-                if (el) {
-                    const rect = el.getBoundingClientRect();
-                    // 當卡片的頂部進入畫面中上方（小於 250px），或卡片本身正處於可視範圍內時判定為 active
-                    if (rect.top <= 250) {
-                        currentActiveNode = sec.node;
+            // 偵測是否已經滑動到網頁最底部（觸底保證機制）
+            const isAtBottom = (window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 60;
+
+            if (isAtBottom) {
+                // 如果觸底，直接強制鎖定最後一個「智庫實習」亮起
+                currentActiveNode = sections[sections.length - 1].node;
+            } else {
+                // 如果沒有觸底，採用視窗中上部黃金焦點比例（Window Height * 0.45）進行精準對齊判定
+                const triggerLine = window.innerHeight * 0.45;
+
+                for (const sec of sections) {
+                    const el = document.getElementById(sec.id);
+                    if (el) {
+                        const rect = el.getBoundingClientRect();
+                        // 當格子的頂部滑過視窗中上部黃金線時，就將其判定為當前主焦點
+                        if (rect.top <= triggerLine) {
+                            currentActiveNode = sec.node;
+                        }
                     }
                 }
             }
 
-            // 更新左側節點狀態
+            // 更新左側節點 active 狀態
             sections.forEach(sec => {
-                const nodeEl = document.getElementById(sec.id === 'event-mun' && currentActiveNode === "" ? 'node-mun' : sec.node);
+                const nodeEl = document.getElementById(sec.node);
                 if (nodeEl) {
                     if (sec.node === currentActiveNode) {
                         nodeEl.classList.add('active');
@@ -523,8 +539,9 @@
 
         window.addEventListener('scroll', updateScrollspy);
         window.addEventListener('load', updateScrollspy);
+        window.addEventListener('resize', updateScrollspy);
 
-        // ── ✨ 語言切換引擎 ──
+        // ── 語言切換引擎 ──
         let currentLang = 'tw';
 
         function toggleLanguage() {
@@ -536,15 +553,10 @@
             elements.forEach(el => {
                 const twText = el.getAttribute('data-tw');
                 const enText = el.getAttribute('data-en');
-                
-                if (el.getAttribute('data-type') === 'list') {
-                    el.innerHTML = (currentLang === 'tw') ? twText : enText;
-                } else {
-                    el.innerHTML = (currentLang === 'tw') ? twText : enText;
-                }
+                el.innerHTML = (currentLang === 'tw') ? twText : enText;
             });
             
-            // 切換語言後重新對齊一次
+            // 切換語言教材長度改變後，重新整理計算對齊軸
             setTimeout(updateScrollspy, 100);
         }
 
