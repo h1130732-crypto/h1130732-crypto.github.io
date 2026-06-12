@@ -61,7 +61,7 @@
         }
         .logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold); letter-spacing: 3px; font-weight: 700; }
         nav ul { display: flex; list-style: none; gap: 3.5rem; align-items: center; }
-        nav a { text-decoration: none; color: var(--text-muted); font-size: 1.3rem; font-weight: 500; transition: var(--transition); letter-spacing: 1px; }
+        nav a { text-decoration: none; color: var(--text-muted); font-size: 1.3rem; font-weight: 500; transition: var(--transition); letter-spacing: 1px; font-family: 'Playfair Display', serif; }
         nav a:hover, nav a.active { color: var(--gold); text-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
 
         .lang-switch {
@@ -71,7 +71,7 @@
         }
         .lang-switch:hover { background: var(--gold); color: var(--bg-deep); box-shadow: 0 0 12px var(--gold-glow); }
 
-        /* ── 動態時光軸 (已調整為新順序對應的錨點) ── */
+        /* ── 動態時光軸 ── */
         .side-timeline {
             position: fixed;
             left: 3rem;
@@ -115,7 +115,6 @@
         /* ── 主內容區塊 ── */
         main { max-width: 900px; margin: 0 auto; padding: 5rem 2rem; }
         
-        /* 座右銘美化：換成優雅細字斜體 */
         .quote-box {
             text-align: center;
             margin-bottom: 5rem;
@@ -130,7 +129,7 @@
             font-size: 1.65rem; 
             color: var(--gold-soft); 
             font-style: italic; 
-            font-weight: 300; /* 優雅細字體 */
+            font-weight: 300; 
             letter-spacing: 1.5px;
             text-shadow: 0 0 4px rgba(243, 229, 171, 0.1);
         }
@@ -231,7 +230,7 @@
         }
         .submit-btn:hover { background: var(--gold-soft); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212,175,55,0.3); }
 
-        /* ── 點開泡泡後的彈出大圖燈箱（Modal）樣式 ── */
+        /* ── 彈出大圖燈箱（Modal）樣式 ── */
         .modal {
             display: none; 
             position: fixed;
@@ -274,7 +273,7 @@
         <ul>
             <li><a href="#" class="active">HOME</a></li>
             <li><a href="activities.html">ACTIVITIES</a></li>
-            <li><a href="portfolio.html">PORTFOLIO</a></li>
+            <li><a href="university_prep.html">UNIVERSITY PREP</a></li>
             <button class="lang-switch" onclick="toggleLanguage()">EN / 中文</button>
         </ul>
     </nav>
@@ -297,8 +296,7 @@
         <div class="quote-box">
             <i class="fa-solid fa-quote-left"></i>
             <p class="quote-text">
-                <span lang="zh">"The most powerful person in the world is the storyteller."</span>
-                <span lang="en">"The most powerful person in the world is the storyteller."</span>
+                "The most powerful person in the world is the storyteller."
             </p>
             <p style="color: var(--gold); margin-top: 1rem; letter-spacing: 2px;">— STEVE JOBS</p>
         </div>
@@ -352,7 +350,7 @@
             
             <p lang="zh">我致力於推廣模擬聯合國，不僅規劃了常態性的社團課程，更為非社團成員創辦了校內課後培訓班，帶領團隊在各大模聯會議中斬獲多項獎項。至今我已擔任過約 300 人規模會議的主席（持續累積中），指導並啟發了超過 100 位學生，其中更有 10 位以上學員在接受培訓後順利奪下會議獎項。此外，我亦曾擔任耶魯模擬聯合國台灣會議（Yale MUN Taiwan）的助理主席。</p>
 
-            <p lang="en">Organized Club lessons, founded after-school lessons for non-club members, and won multiple awards in different conferences. Chaired about 300 people so far (continue adding up). Influenced over 100 students, and more than 10 people won awards after my lessons. Participated in Yale MUN Taiwan as an Assistant Director.</p>
+            <p lang="en">I dedicate myself to promoting Model United Nations, designing routine club courses and establishing after-school training classes for non-club members, leading teams to win multiple awards. I have chaired conferences of around 300 delegates, mentoring over 100 students, with more than 10 securing awards. Additionally, I served as an Assistant Director for Yale MUN Taiwan.</p>
         </div>
 
         <div class="story-container" id="sec-h1">
@@ -365,8 +363,7 @@
             <p lang="zh">我創立了 Wego ICDF 社團，擔任執行長。為了募款，我們走上街頭義賣自己設計的服飾。面對無數次的拒絕，我們學會了修正論述，最終成功募集資金。</p>
             <p lang="zh">今年四月，我們將親赴帛琉，將這份愛心微波爐致贈給當地的國小，用實際行動在國際上點亮台灣。這份堅持與勇氣，是我對外交最誠摯的熱愛。</p>
 
-            <p lang="en">I founded the Wego ICDF club and served as the CEO. To raise funds, we went onto the streets to sell apparel we designed ourselves. Encountering countless rejections taught us to refine our pitches, ultimately leading to a successful fundraising campaign.</p>
-            <p lang="en">This April, we will travel to Palau to donate essential resources to local primary schools, highlighting Taiwan's warmth through grassroots action. This perseverance and courage reflect my deepest devotion to diplomacy.</p>
+            <p lang="en">I founded the Wego ICDF club and served as the CEO. To raise funds, we went onto the streets to sell apparel we designed ourselves. Encountering countless rejections taught us to refine our pitches, ultimately leading to a successful fundraising campaign. This April, we will travel to Palau to donate essential resources to local primary schools, highlighting Taiwan's warmth through grassroots action.</p>
         </div>
 
         <div class="story-container">
@@ -379,8 +376,7 @@
             <p lang="zh">成功錄取「外交小尖兵」並赴美參訪，是我求學歷程的決定性轉折。走進外交最前線，我目睹了使節們如何在多變的全球局勢下維繫台灣的連結。</p>
             <p lang="zh">這份震撼讓我立下決心，未來將全力往外交與國際關係領域鑽研。同時，我也創立了 Podcast 節目，希望能建立跨世代的對話橋樑，傳遞青年的優秀想法。</p>
 
-            <p lang="en">Being selected as a National Diplomatic Envoy for an official visit to the United States marked a defining milestone in my academic life. Stepping onto the front lines of global affairs, I witnessed how diplomats sustain Taiwan's presence amidst shifting geopolitical tides.</p>
-            <p lang="en">This profound exposure solidified my ambition to fully dedicate my future studies to diplomacy and international relations. Concurrently, I launched a Podcast to construct intergenerational bridges and amplify youth perspectives.</p>
+            <p lang="en">Being selected as a National Diplomatic Envoy for an official visit to the United States marked a defining milestone. Stepping onto the front lines of global affairs, I witnessed how diplomats sustain Taiwan's presence amidst shifting geopolitical tides. This profound exposure solidified my ambition to fully dedicate my future studies to diplomacy and international relations.</p>
         </div>
 
         <div class="story-container" id="sec-future">
@@ -393,8 +389,7 @@
             <p lang="zh">展望未來，我對自己的期許是將「全英語思辨與談判能力」、「宏觀的國際關係視野」以及「影音媒體與聲音的傳播影響力」這三者進行有機的跨界結合。</p>
             <p lang="zh">不論未來的學術探索多麼艱辛，我都將以理性的思辨與感性的敘事，致力於在國際舞台上，講述屬於我們這一代青年、屬於台灣的動人故事。</p>
 
-            <p lang="en">Looking ahead, I aspire to seamlessly integrate all-English debating and negotiation proficiencies, a macro perspective on international relations, and the modern communicative influence of visual and audio media.</p>
-            <p lang="en">No matter how demanding the academic road ahead may be, I will bring together rational debate and emotional storytelling to share the inspiring accounts of our generation and of Taiwan on the global stage.</p>
+            <p lang="en">Looking ahead, I aspire to seamlessly integrate all-English debating and negotiation proficiencies, a macro perspective on international relations, and the modern communicative influence of media. I will bring together rational debate and emotional storytelling to share the inspiring accounts of our generation.</p>
         </div>
 
         <h2 class="connect-title">CONNECT WITH YORK</h2>
@@ -434,7 +429,6 @@
             document.getElementById("imageLightbox").style.display = "none";
         }
 
-        // Scrollspy 捲軸監聽：對齊全新由上而下（高二 ➔ 國三 ➔ 模聯 ➔ 高一 ➔ 未來）的時間軸亮起機制
         window.addEventListener('scroll', () => {
             const sectionsMapping = [
                 { id: 'sec-h2', node: 'node-h2' },
