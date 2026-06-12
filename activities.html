@@ -246,21 +246,21 @@
                 <li><a href="activities.html" class="active">ACTIVITIES</a></li>
                 <li><a href="portfolio.html">UNIVERSITY PREP</a></li>
             </ul>
-            <button class="lang-switch" onclick="toggleLanguage()">EN</button>
+            <button class="lang-switch" id="lang-btn" onclick="toggleLanguage()">EN</button>
         </div>
     </nav>
 
     <div class="side-timeline">
-        <a href="#event-mun" class="node active" id="node-mun">模擬聯合國</a>
-        <a href="#event-icdf" class="node" id="node-icdf">國際援外</a>
-        <a href="#event-stem" class="node" id="node-stem">科學研究</a>
-        <a href="#event-film" class="node" id="node-film">影視主持</a>
-        <a href="#event-band" class="node" id="node-band">爵士樂團</a>
-        <a href="#event-english" class="node" id="node-english">公益教學</a>
-        <a href="#event-diplomat" class="node" id="node-diplomat">外交使節</a>
-        <a href="#event-debate" class="node" id="node-debate">全英辯論</a>
-        <a href="#event-agenda" class="node" id="node-agenda">播客創辦</a>
-        <a href="#event-intern" class="node" id="node-intern">智庫實習</a>
+        <a href="#event-mun" class="node active" id="node-mun" data-tw="模擬聯合國" data-en="MUN">模擬聯合國</a>
+        <a href="#event-icdf" class="node" id="node-icdf" data-tw="國際援外" data-en="ICDF">國際援外</a>
+        <a href="#event-stem" class="node" id="node-stem" data-tw="科學研究" data-en="STEM">科學研究</a>
+        <a href="#event-film" class="node" id="node-film" data-tw="影視主持" data-en="Media & TV">影視主持</a>
+        <a href="#event-band" class="node" id="node-band" data-tw="爵士樂團" data-en="Jazz Band">爵士樂團</a>
+        <a href="#event-english" class="node" id="node-english" data-tw="公益教學" data-en="Teaching">公益教學</a>
+        <a href="#event-diplomat" class="node" id="node-diplomat" data-tw="外交使節" data-en="Diplomat">外交使節</a>
+        <a href="#event-debate" class="node" id="node-debate" data-tw="全英辯論" data-en="Debate">全英辯論</a>
+        <a href="#event-agenda" class="node" id="node-agenda" data-tw="播客創辦" data-en="Podcast">播客創辦</a>
+        <a href="#event-intern" class="node" id="node-intern" data-tw="智庫實習" data-en="Internship">智庫實習</a>
     </div>
 
     <div class="side-social">
@@ -275,6 +275,7 @@
             <p class="lang-data" data-tw="課外活動、實戰外交與學術研究歷程" data-en="Extracurricular, Diplomatic & Academic Journey">課外活動、實戰外交與學術研究歷程</p>
         </div>
 
+        <!-- 1. 模擬聯合國社 -->
         <div class="activity-card" id="event-mun">
             <div class="activity-image-wrapper">
                 <img src="image/IMG_1195.JPG" alt="MUN Club" onclick="openLightbox(this.src)">
@@ -297,6 +298,7 @@
             </div>
         </div>
 
+        <!-- 2. Wego ICDF 社團 -->
         <div class="activity-card row-reverse" id="event-icdf">
             <div class="activity-image-wrapper">
                 <img src="image/IMG_1103.JPG" alt="ICDF Club" onclick="openLightbox(this.src)">
@@ -310,7 +312,7 @@
                 </div>
                 <ul class="achievements-list lang-data" data-type="list"
                     data-tw="<li><strong>百萬募款：</strong>跨校合作成功募得 <strong>100萬新台幣</strong> 醫療援助物資與慈善基金。</li><li><strong>外交實踐：</strong>親赴邦交國<strong>帛琉</strong>進行國際人道救援實地參訪，致贈愛心物資予當地國小。</li><li><strong>專案統籌：</strong>策劃完整的募款執行計畫，領導跨領域專案小組與國際NGO對接。</li><li><strong>智庫對話：</strong>受邀參訪國合會 (ICDF) 總部，與第一線資深外交人員展開深度實務對話。</li>"
-                    data-en="<li>">
+                    data-en="<li><strong>Million-Dollar Fundraiser:</strong> Cross-school collaboration successfully raised <strong>NT$1M</strong> worth of medical aid supplies and charity funds.</li><li><strong>Diplomatic Action:</strong> Traveled to diplomatic ally <strong>Palau</strong> for field visits of international humanitarian aid, donating relief packages to local primary schools.</li><li><strong>Project Coordination:</strong> Orchestrated structural fundraising blueprints and led interdisciplinary project groups to interface with global NGOs.</li><li><strong>Think Tank Dialogue:</strong> Invited to visit the International Cooperation and Development Fund (TaiwanICDF) HQ for deep professional dialogues with senior diplomats.</li>">
                     <li><strong>百萬募款：</strong>跨校合作成功募得 <strong>100萬新台幣</strong> 醫療援助物資與慈善基金。</li>
                     <li><strong>外交實踐：</strong>親赴邦交國<strong>帛琉</strong>進行國際人道救援實地參訪，致贈愛心物資予當地國小。</li>
                     <li><strong>專案統籌：</strong>策劃完整的募款執行計畫，領導跨領域專案小組與國際NGO對接。</li>
@@ -319,6 +321,7 @@
             </div>
         </div>
 
+        <!-- 3. STEM 科學研究 -->
         <div class="activity-card" id="event-stem">
             <div class="activity-image-wrapper">
                 <img src="image/截圖 2025-12-25 晚上8.20.59.png" alt="STEM Research" onclick="openLightbox(this.src)">
@@ -339,6 +342,7 @@
             </div>
         </div>
 
+        <!-- 4. 影視創作 ✕ 雙語主持 -->
         <div class="activity-card row-reverse" id="event-film">
             <div class="activity-image-wrapper">
                 <img src="https://media.zenfs.com/en/cts.com.tw/7ebb79b123e603d0f1b0882a626065e2" alt="Filmmaking" onclick="openLightbox(this.src)">
@@ -359,6 +363,7 @@
             </div>
         </div>
 
+        <!-- 5. 爵士樂團 -->
         <div class="activity-card" id="event-band">
             <div class="activity-image-wrapper">
                 <img src="image/截圖 2026-06-05 下午1.59.06.png" alt="Band" onclick="openLightbox(this.src)">
@@ -379,6 +384,7 @@
             </div>
         </div>
 
+        <!-- 6. 社區公益英語課程 -->
         <div class="activity-card row-reverse" id="event-english">
             <div class="activity-image-wrapper">
                 <img src="image/IMG_9714.JPG" alt="Lessons" onclick="openLightbox(this.src)">
@@ -399,6 +405,7 @@
             </div>
         </div>
 
+        <!-- 7. 外交小尖兵 -->
         <div class="activity-card" id="event-diplomat">
             <div class="activity-image-wrapper">
                 <img src="image/tde.jpg" alt="Diplomat" onclick="openLightbox(this.src)">
@@ -418,6 +425,7 @@
             </div>
         </div>
 
+        <!-- 8. 全英語思辨與競賽辯論 -->
         <div class="activity-card row-reverse" id="event-debate">
             <div class="activity-image-wrapper">
                 <img src="image/截圖 2025-08-14 凌晨12.25.57.png" alt="Debates" onclick="openLightbox(this.src)">
@@ -437,6 +445,7 @@
             </div>
         </div>
 
+        <!-- 9. aGENda Podcast -->
         <div class="activity-card" id="event-agenda">
             <div class="activity-image-wrapper">
                 <img src="image/截圖 2026-06-12 上午10.32.42.png" alt="aGENda Podcast" onclick="openLightbox(this.src)">
@@ -457,6 +466,7 @@
             </div>
         </div>
 
+        <!-- 10. 智庫與頂尖機構研究實習 -->
         <div class="activity-card row-reverse" id="event-intern">
             <div class="activity-image-wrapper">
                 <img src="image/截圖 2026-06-05 下午2.01.57.png" alt="Internship" onclick="openLightbox(this.src)">
@@ -469,107 +479,93 @@
                 </div>
                 <ul class="achievements-list lang-data" data-type="list"
                     data-tw="<li><strong>台大綠能研究：</strong>於台大 E3 中心完成為期 16 週深度研究，發表關於<strong>永續航空燃油 (SAF)</strong> 之英文政策報告，並向台大教授進行正式答辯。</li><li><strong>CAPRI 淨零分析：</strong>於亞太堅韌研究基金會 (CAPRI) 撰寫《全球淨零排放政策比較分析》，展現頂尖智庫規格的政策分析與文獻研究水準。</li>"
-                    data-en="<li><strong>NTU Green Energy Project:</strong> Completed a rigorous 16-week research fellowship at NTU's E3 Center, producing an English policy proposal on Sustainable Aviation Fuel (SAF).</li><li><strong>CAPRI Climate Policy Analysis:</strong> Authored a comprehensive comparative framework evaluating net-zero transition models across the Asia-Pacific region.</li>">
+                    data-en="<li><strong>NTU Green Energy Project:</strong> Completed a rigorous 16-week research fellowship at NTU's E3 Center, producing an English policy proposal on Sustainable Aviation Fuel (SAF) and conducted formal defense before professors.</li><li><strong>CAPRI Climate Policy Analysis:</strong> Authored 'Comparative Analysis of Global Net-Zero Policies' at Center for Asia-Pacific Resilience and Innovation, demonstrating elite policy research standards.</li>">
                     <li><strong>台大綠能研究：</strong>於台大 E3 中心完成為期 16 週深度研究，發表關於<strong>永續航空燃油 (SAF)</strong> 之英文政策報告，並向台大教授進行正式答辯。</li>
                     <li><strong>CAPRI 淨零分析：</strong>於亞太堅韌研究基金會 (CAPRI) 撰寫《全球淨零排放政策比較分析》，展現頂尖智庫規格的政策分析與文獻研究水準。</li>
                 </ul>
             </div>
         </div>
-
     </main>
 
-    <div id="imageLightbox" class="modal">
-        <span class="close-modal" onclick="closeLightbox()">×</span>
-        <div class="modal-content">
-            <img id="lightboxImg" src="">
+    <!-- ── 燈箱 Modal ── -->
+    <div id="lightbox" class="modal" onclick="closeLightbox()">
+        <span class="close-modal">&times;</span>
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <img id="lightbox-img" src="" alt="Zoomed View">
         </div>
     </div>
 
     <footer>
-        <p>© 2026 YORK CHEN. POWERED BY DIPLOMACY & STORYTELLING.</p>
+        <p>&copy; 2026 York Chen. All Rights Reserved. Crafted for Extracurricular Excellence.</p>
     </footer>
 
+    <!-- ── 核心 JavaScript 雙語切換與互動邏輯 ── -->
     <script>
-        // ── 燈箱功能 ──
-        function openLightbox(src) {
-            const modal = document.getElementById("imageLightbox");
-            const img = document.getElementById("lightboxImg");
-            modal.style.display = "flex";
-            img.src = src;
-        }
-
-        function closeLightbox() {
-            document.getElementById("imageLightbox").style.display = "none";
-        }
-
-        // ── 高精準度滾動監聽 (Scrollspy Engine V2) ──
-        const sectionsData = [
-            { id: 'event-mun', node: 'node-mun' },
-            { id: 'event-icdf', node: 'node-icdf' },
-            { id: 'event-stem', node: 'node-stem' },
-            { id: 'event-film', node: 'node-film' },
-            { id: 'event-band', node: 'node-band' },
-            { id: 'event-english', node: 'node-english' },
-            { id: 'event-diplomat', node: 'node-diplomat' },
-            { id: 'event-debate', node: 'node-debate' },
-            { id: 'event-agenda', node: 'node-agenda' },
-            { id: 'event-intern', node: 'node-intern' }
-        ];
-
-        function updateScrollspy() {
-            let currentActiveId = sectionsData[0].node;
-            const scrollPos = window.scrollY + 200; 
-
-            for (const section of sectionsData) {
-                const el = document.getElementById(section.id);
-                if (el) {
-                    const top = el.offsetTop;
-                    const height = el.offsetHeight;
-                    if (scrollPos >= top && scrollPos < top + height) {
-                        currentActiveId = section.node;
-                        break;
-                    }
-                }
-            }
-
-            sectionsData.forEach(sec => {
-                const nodeEl = document.getElementById(sec.node);
-                if (nodeEl) {
-                    if (sec.node === currentActiveId) {
-                        nodeEl.classList.add('active');
-                    } else {
-                        nodeEl.classList.remove('active');
-                    }
-                }
-            });
-        }
-
-        window.addEventListener('scroll', updateScrollspy);
-        window.addEventListener('load', updateScrollspy);
-
-        // ── 中英文雙語切換引擎 ──
         let currentLang = 'TW';
 
         function toggleLanguage() {
             currentLang = currentLang === 'TW' ? 'EN' : 'TW';
-            const switchBtn = document.querySelector('.lang-switch');
-            switchBtn.textContent = currentLang === 'TW' ? 'EN' : 'TW';
+            
+            // 更新切換按鈕文字
+            document.getElementById('lang-btn').innerText = currentLang === 'TW' ? 'EN' : 'TW';
 
-            const elements = document.querySelectorAll('.lang-data');
+            // 獲取所有含有雙語資料的節點
+            const elements = document.querySelectorAll('.lang-data, .node');
+            
             elements.forEach(el => {
-                const twData = el.getAttribute('data-tw');
-                const enData = el.getAttribute('data-en');
                 const isList = el.getAttribute('data-type') === 'list';
-
-                if (currentLang === 'TW') {
-                    if (isList) el.innerHTML = twData;
-                    else el.textContent = twData;
+                if (isList) {
+                    // 清單項目採用 innerHTML 注入 <li>
+                    el.innerHTML = currentLang === 'TW' ? el.getAttribute('data-tw') : el.getAttribute('data-en');
                 } else {
-                    if (isList) el.innerHTML = enData;
-                    else el.textContent = enData;
+                    // 一般文字與標籤項目
+                    el.innerHTML = currentLang === 'TW' ? el.getAttribute('data-tw') : el.getAttribute('data-en');
                 }
             });
         }
+
+        /* ── 側邊時間軸滾動高亮監聽 ── */
+        const cards = document.querySelectorAll('.activity-card');
+        const nodes = document.querySelectorAll('.side-timeline .node');
+
+        window.addEventListener('scroll', () => {
+            let currentActiveId = "";
+            cards.forEach(card => {
+                const cardTop = card.offsetTop;
+                const cardHeight = card.offsetHeight;
+                // 當滾動超過卡片頂部 200px 時將其視為當前 active
+                if (pageYOffset >= (cardTop - 200)) {
+                    currentActiveId = card.getAttribute('id');
+                }
+            });
+
+            nodes.forEach(node => {
+                node.classList.remove('active');
+                if (node.getAttribute('href') === `#${currentActiveId}`) {
+                    node.classList.add('active');
+                }
+            });
+        });
+
+        /* ── 燈箱功能 ── */
+        function openLightbox(src) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightbox.style.display = 'flex';
+            lightboxImg.src = src;
+            document.body.style.overflow = 'hidden'; // 鎖定背景滾動
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto'; // 解鎖背景滾動
+        }
+
+        // 監聽 ESC 鍵關閉燈箱
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
     </script>
 </body>
 </html>
