@@ -30,7 +30,6 @@
             scroll-behavior: smooth;
         }
 
-        /* ── 兩側沉浸式背景 ── */
         .bg-decorative {
             position: fixed;
             top: 0; width: 30%; height: 100vh;
@@ -40,7 +39,6 @@
         .bg-left { left: 0; background-image: url('https://images.unsplash.com/photo-1580129959606-d71d9d9bcda3?q=80&w=1200&auto=format&fit=crop'); }
         .bg-right { right: 0; background-image: url('https://images.unsplash.com/photo-1541872703-74c5e44368f9?q=80&w=1200&auto=format&fit=crop'); }
 
-        /* ── 導覽列 ── */
         nav {
             background: rgba(13, 21, 35, 0.95);
             backdrop-filter: blur(10px);
@@ -50,70 +48,32 @@
             position: sticky; top: 0; z-index: 1000;
         }
         .logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold); letter-spacing: 3px; font-weight: 700; text-decoration: none; }
-        .nav-right-container { display: flex; align-items: center; gap: 3.5rem; }
         nav ul { display: flex; list-style: none; gap: 3.5rem; align-items: center; }
         nav a { text-decoration: none; color: var(--text-muted); font-size: 1.3rem; font-weight: 500; transition: var(--transition); letter-spacing: 1px; font-family: 'Playfair Display', serif; }
         nav a:hover, nav a.active { color: var(--gold); text-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
 
-        /* ✨ 圓圈形式的中英切換按鈕樣式（完美還原第一頁） */
         .lang-switch {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: 2px solid var(--gold);
-            background: var(--bg-card);
-            color: var(--gold);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            font-family: 'Playfair Display', serif;
-            transition: var(--transition);
-            letter-spacing: 1px;
+            background: transparent; border: 1px solid var(--gold); color: var(--gold);
+            padding: 6px 16px; border-radius: 20px; cursor: pointer;
+            font-family: 'Playfair Display', serif; font-weight: bold; transition: var(--transition);
         }
-        .lang-switch:hover {
-            background: var(--gold);
-            color: var(--bg-deep);
-            transform: scale(1.15);
-            box-shadow: 0 0 20px var(--gold);
-        }
+        .lang-switch:hover { background: var(--gold); color: var(--bg-deep); box-shadow: 0 0 12px var(--gold-glow); }
 
-        /* ── 左側事件時間軸 ── */
         .side-timeline {
-            position: fixed;
-            left: 2.5rem;
-            top: 55%;
-            transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-            z-index: 10;
+            position: fixed; left: 2.5rem; top: 55%; transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 1.2rem; z-index: 10;
         }
         .node { 
-            color: var(--text-muted); 
-            font-size: 0.95rem; 
-            font-weight: 500; 
-            writing-mode: vertical-rl; 
-            letter-spacing: 2px; 
-            border-left: 2px solid rgba(212,175,55,0.1); 
-            padding-left: 8px; 
-            transition: var(--transition); 
-            cursor: pointer; 
-            text-decoration: none;
-            text-align: right;
+            color: var(--text-muted); font-size: 0.95rem; font-weight: 500; 
+            writing-mode: vertical-rl; letter-spacing: 2px; border-left: 2px solid rgba(212,175,55,0.1); 
+            padding-left: 8px; transition: var(--transition); cursor: pointer; text-decoration: none; text-align: right;
         }
         .node:hover { color: var(--gold-soft); }
         .node.active { 
-            color: var(--gold); 
-            border-left-color: var(--gold); 
-            transform: scale(1.1); 
-            text-shadow: 0 0 8px var(--gold-glow); 
-            font-weight: 700;
+            color: var(--gold); border-left-color: var(--gold); 
+            transform: scale(1.1); text-shadow: 0 0 8px var(--gold-glow); font-weight: 700;
         }
 
-        /* ── 右側社群列 ── */
         .side-social {
             position: fixed; right: 3rem; top: 50%; transform: translateY(-50%);
             display: flex; flex-direction: column; gap: 2rem; z-index: 10;
@@ -125,114 +85,52 @@
         }
         .social-btn:hover { background: var(--gold); color: var(--bg-deep); transform: scale(1.15); box-shadow: 0 0 20px var(--gold); }
 
-        /* ── 主內容區塊 ── */
         main { max-width: 1050px; margin: 0 auto; padding: 4rem 2rem; }
-
         .page-header { text-align: center; margin-bottom: 5rem; }
         .page-header h1 { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--gold-soft); letter-spacing: 4px; margin-bottom: 1rem; }
         .page-header p { font-size: 1.2rem; color: var(--text-muted); letter-spacing: 2px; font-weight: 300; }
 
-        /* ── 直排活動大格子 ── */
         .activity-card {
-            display: flex;
-            align-items: center;
-            background: var(--bg-card);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 24px;
-            margin-bottom: 6rem;
-            padding: 1.5rem;   
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-            transition: var(--transition);
-            scroll-margin-top: 140px; /* 點擊錨點跳轉後的留白空間 */
+            display: flex; align-items: center; background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 24px;
+            margin-bottom: 6rem; padding: 1.5rem; overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4); transition: var(--transition);
+            scroll-margin-top: 140px;
         }
         .activity-card:hover { transform: translateY(-5px); border-color: rgba(212, 175, 55, 0.3); box-shadow: 0 25px 50px rgba(0,0,0,0.6); }
-
         .activity-card.row-reverse { flex-direction: row-reverse; }
 
-        .activity-image-wrapper {
-            width: 45%;
-            height: 400px;
-            overflow: hidden;
-            position: relative;
-            background: #111b2d;
-            border-radius: 18px; 
-        }
-        .activity-image-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 18px; 
-            transition: var(--transition);
-            cursor: zoom-in;
-        }
+        .activity-image-wrapper { width: 45%; height: 400px; overflow: hidden; position: relative; background: #111b2d; border-radius: 18px; }
+        .activity-image-wrapper img { width: 100%; height: 100%; object-fit: cover; border-radius: 18px; transition: var(--transition); cursor: zoom-in; }
         .activity-image-wrapper img:hover { transform: scale(1.05); }
 
-        .activity-content {
-            width: 55%;
-            padding: 1.5rem 3.5rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+        .activity-content { width: 55%; padding: 1.5rem 3.5rem; display: flex; flex-direction: column; justify-content: center; }
         .activity-content h2 { font-family: 'Playfair Display', 'Noto Sans TC', serif; font-size: 1.85rem; color: var(--gold); margin-bottom: 1.2rem; letter-spacing: 1px; }
         
-        .activity-meta {
-            display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1.5rem;
-        }
-        .meta-badge {
-            background: rgba(212, 175, 55, 0.08);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            color: var(--gold-soft);
-            padding: 0.3rem 0.8rem;
-            border-radius: 30px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
+        .activity-meta { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1.5rem; }
+        .meta-badge { background: rgba(212, 175, 55, 0.08); border: 1px solid rgba(212, 175, 55, 0.2); color: var(--gold-soft); padding: 0.3rem 0.8rem; border-radius: 30px; font-size: 0.85rem; font-weight: 500; }
 
-        .achievements-list {
-            list-style: none;
-        }
-        .achievements-list li {
-            position: relative;
-            padding-left: 1.8rem;
-            margin-bottom: 0.8rem;
-            color: var(--text-muted);
-            font-size: 1rem;
-            text-align: justify;
-        }
-        .achievements-list li::before {
-            content: "\f058"; 
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-            position: absolute;
-            left: 0;
-            color: var(--gold);
-            font-size: 0.9rem;
-        }
+        .achievements-list { list-style: none; }
+        .achievements-list li { position: relative; padding-left: 1.8rem; margin-bottom: 0.8rem; color: var(--text-muted); font-size: 1rem; text-align: justify; }
+        .achievements-list li::before { content: "\f058"; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; left: 0; color: var(--gold); font-size: 0.9rem; }
         .achievements-list li strong { color: var(--text-main); font-weight: 500; }
 
-        /* ── 燈箱 Modal ── */
-        .modal {
-            display: none; position: fixed; z-index: 5000; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(5, 8, 15, 0.96); backdrop-filter: blur(15px); justify-content: center; align-items: center;
-        }
-        .modal-content { max-width: 80%; max-height: 80%; border: 2px solid var(--gold); padding: 10px; background: var(--bg-card); border-radius: 16px; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
-        .modal-content img { max-width: 100%; max-height: 75vh; display: block; border-radius: 12px; }
-        .close-modal { position: absolute; top: 30px; right: 50px; color: var(--gold); font-size: 3.5rem; cursor: pointer; transition: 0.2s; }
-        .close-modal:hover { color: var(--gold-soft); transform: scale(1.1); }
+        .modal { display: none; position: fixed; z-index: 5000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 8, 15, 0.96); backdrop-filter: blur(15px); justify-content: center; align-items: center; }
+        .modal-content { max-width: 80%; max-height: 80%; border: 2px solid var(--gold); padding: 10px; background: var(--bg-card); border-radius: 8px; }
+        .modal-content img { max-width: 100%; max-height: 75vh; display: block; border-radius: 4px; }
+        .close-modal { position: absolute; top: 30px; right: 50px; color: var(--gold); font-size: 3.5rem; cursor: pointer; }
 
         footer { text-align: center; padding: 4rem; border-top: 1px solid rgba(212, 175, 55, 0.3); font-size: 1rem; color: var(--text-muted); background: #05080f; font-family: 'Playfair Display', serif; }
 
-        @media (max-width: 1250px) {
+        [lang="en"] { display: none; }
+        body.en-mode [lang="zh"] { display: none; }
+        body.en-mode [lang="en"] { display: block; }
+
+        @media (max-width: 1350px) {
             .side-timeline, .side-social, .bg-decorative { display: none; }
-            main { padding: 2rem 1rem; }
-            .activity-card, .activity-card.row-reverse { flex-direction: column; padding: 1.2rem; }
+            .activity-card, .activity-card.row-reverse { flex-direction: column; padding: 1rem; }
             .activity-image-wrapper, .activity-content { width: 100%; }
-            .activity-image-wrapper { height: 300px; }
-            .activity-content { padding: 1.5rem 0.5rem; }
-            .nav-right-container { gap: 1.5rem; }
-            nav ul { gap: 1.5rem; }
+            .activity-content { padding: 2rem 1rem 1rem; }
         }
     </style>
 </head>
@@ -243,26 +141,18 @@
 
     <nav>
         <a href="index.html" class="logo">YORK CHEN</a>
-        <div class="nav-right-container">
-            <ul>
-                <li><a href="index.html">HOME</a></li>
-                <li><a href="activities.html" class="active">ACTIVITIES</a></li>
-                <li><a href="portfolio.html">PORTFOLIO</a></li>
-            </ul>
-            <button class="lang-switch" onclick="toggleLanguage()">EN</button>
-        </div>
+        <ul>
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="#" class="active">ACTIVITIES</a></li>
+            <li><a href="university_prep.html">UNIVERSITY PREP</a></li>
+            <button class="lang-switch" onclick="toggleLanguage()">EN / 中文</button>
+        </ul>
     </nav>
 
     <div class="side-timeline">
-        <a href="#event-mun" class="node active" id="node-mun">模擬聯合國</a>
-        <a href="#event-icdf" class="node" id="node-icdf">國際援外</a>
-        <a href="#event-stem" class="node" id="node-stem">科學研究</a>
-        <a href="#event-film" class="node" id="node-film">影視主持</a>
-        <a href="#event-band" class="node" id="node-band">爵士樂團</a>
-        <a href="#event-english" class="node" id="node-english">公益教學</a>
-        <a href="#event-diplomat" class="node" id="node-diplomat">外交使節</a>
-        <a href="#event-debate" class="node" id="node-debate">全英辯論</a>
-        <a href="#event-intern" class="node" id="node-intern">智庫實習</a>
+        <a href="#act-mun" class="node active" id="node-mun">模擬聯合國</a>
+        <a href="#act-icdf" class="node" id="node-icdf">Wego ICDF</a>
+        <a href="#act-podcast" class="node" id="node-podcast">aGENda 節目</a>
     </div>
 
     <div class="side-social">
@@ -273,189 +163,68 @@
 
     <main>
         <div class="page-header">
-            <h1 class="lang-data" data-tw="Activities" data-en="Activities">Activities</h1>
-            <p class="lang-data" data-tw="課外活動、實戰外交與學術研究歷程" data-en="Extracurricular, Diplomatic & Academic Journey">課外活動、實戰外交與學術研究歷程</p>
+            <h1 lang="zh">課外活動與領袖歷程</h1>
+            <h1 lang="en">Extracurriculars & Leadership</h1>
+            <p lang="zh">透過思辨、傳播與行動，落實青年外交與實質社會變革</p>
+            <p lang="en">Driving social change and youth diplomacy through leadership and media</p>
         </div>
 
-        <div class="activity-card" id="event-mun">
+        <div class="activity-card" id="act-mun">
             <div class="activity-image-wrapper">
-                <img src="image/IMG_1195.JPG" alt="MUN Club" onclick="openLightbox(this.src)">
+                <img src="image/截圖 2025-08-17 凌晨2.38.13.png" alt="MUN" onclick="openLightbox(this.src)">
             </div>
             <div class="activity-content">
-                <h2 class="lang-data" data-tw="模擬聯合國社 (MUN Club)" data-en="Model United Nations Club (MUN)">模擬聯合國社 (MUN Club)</h2>
+                <h2 lang="zh">模擬聯合國社團與培訓班</h2>
+                <h2 lang="en">Model United Nations Club & Training</h2>
                 <div class="activity-meta">
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-user-tie'></i> 社長 兼 秘書長" data-en="<i class='fa-solid fa-user-tie'></i> President & Secretary-General"><i class='fa-solid fa-user-tie'></i> 社長 兼 秘書長</span>
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-clock'></i> 3-4 小時 / 週" data-en="<i class='fa-solid fa-clock'></i> 3-4 hrs / week"><i class='fa-solid fa-clock'></i> 3-4 小時 / 週</span>
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-calendar'></i> 3 年歷程" data-en="<i class='fa-solid fa-calendar'></i> 3-Year Tenure"><i class='fa-solid fa-calendar'></i> 3 年歷程</span>
+                    <span class="meta-badge">Role: Club President & SG</span>
+                    <span class="meta-badge">Duration: 3 Years</span>
                 </div>
-                <ul class="achievements-list lang-data" data-type="list"
-                    data-tw="<li><strong>課程開創：</strong>規劃社團核心課程，並創辦校內課後模聯培訓班。</li><li><strong>會議領導：</strong>擔任過累積 <strong>300人規模</strong> 會議的主席與學術主導。</li><li><strong>教學影響：</strong>指導超過 100 位學員，其中 10 位以上於各大會議奪獎。</li><li><strong>耶魯模聯：</strong>參與 Yale MUN Taiwan 擔任<strong>助理主席 (Assistant Director)</strong>。</li>"
-                    data-en="<li><strong>Curriculum Innovation:</strong> Spearheaded the core training framework and launched after-school MUN workshops.</li><li><strong>Conference Leadership:</strong> Served as Director and Academic Head for large-scale conferences of up to <strong>300 delegates</strong>.</li><li><strong>Mentorship Impact:</strong> Instructed 100+ students, guiding more than 10 delegates to win major awards in national conferences.</li><li><strong>Yale MUN Taiwan:</strong> Selected to serve as the <strong>Assistant Director</strong> at the prestigious Yale Model United Nations Taiwan.</li>">
-                    <li><strong>課程開創：</strong>規劃社團核心課程，並創辦校內課後模聯培訓班。</li>
-                    <li><strong>會議領導：</strong>擔任過累積 <strong>300人規模</strong> 會議的主席與學術主導。</li>
-                    <li><strong>教學影響：</strong>指導超過 100 位學員，其中 10 位以上於各大會議奪獎。</li>
-                    <li><strong>耶魯模聯：</strong>參與 Yale MUN Taiwan 擔任<strong>助理主席 (Assistant Director)</strong>。</li>
+                <ul class="achievements-list">
+                    <li lang="zh">設計常態性社團深度思辨課程，並為非社團成員加開校內課後培訓班。</li>
+                    <li lang="zh">帶領團隊征戰各大模聯會議斬獲多項大獎，累計啟發並指導超過 100 名學生。</li>
+                    <li lang="en">Organized club lessons and founded after-school classes for non-club members.</li>
+                    <li lang="en">Led teams to win multiple awards and influenced over 100 students globally.</li>
                 </ul>
             </div>
         </div>
 
-        <div class="activity-card row-reverse" id="event-icdf">
+        <div class="activity-card row-reverse" id="act-icdf">
             <div class="activity-image-wrapper">
-                <img src="image/IMG_1103.JPG" alt="ICDF Club" onclick="openLightbox(this.src)">
+                <img src="image/IMG_7992.jpeg" alt="Wego ICDF" onclick="openLightbox(this.src)">
             </div>
             <div class="activity-content">
-                <h2 class="lang-data" data-tw="Wego ICDF 社團" data-en="Wego ICDF Association">Wego ICDF 社團</h2>
+                <h2 lang="zh">Wego ICDF 國際合作發展社團</h2>
+                <h2 lang="en">Wego ICDF Club</h2>
                 <div class="activity-meta">
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-user-tie'></i> 活動總監 兼 副社長" data-en="<i class='fa-solid fa-user-tie'></i> Director of Activities & VP"><i class='fa-solid fa-user-tie'></i> 活動總監 兼 副社長</span>
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-clock'></i> 2 小時 / 週" data-en="<i class='fa-solid fa-clock'></i> 2 hrs / week"><i class='fa-solid fa-clock'></i> 2 小時 / 週</span>
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-calendar'></i> 2 年歷程" data-en="<i class='fa-solid fa-calendar'></i> 2-Year Tenure"><i class='fa-solid fa-calendar'></i> 2 年歷程</span>
+                    <span class="meta-badge">Role: Co-founder & Vice President / CEO</span>
+                    <span class="meta-badge">Duration: 2 Years</span>
                 </div>
-                <ul class="achievements-list lang-data" data-type="list"
-                    data-tw="<li><strong>百萬募款：</strong>跨校合作募得 <strong>100萬新台幣</strong> 援助物資。</li><li><strong>外交實踐：</strong>親赴<strong>帛琉</strong>實地參訪，致贈愛心物資予當地國小。</li><li><strong>專案統籌：</strong>策劃募款執行計畫，領導跨領域專案小組。</li><li><strong>智庫對話：</strong>參訪 ICDF 總部，與第一線外交人員展開深度實務對話。</li>"
-                    data-en="<li><strong>Million-Dollar Fundraising:</strong> Collaborated across 4 schools to raise over <strong>NT$1 Million</strong> in charity funds and supplies.</li><li><strong>Global Aid in Action:</strong> Journeyed to <strong>Palau</strong> for humanitarian fieldwork, delivering appliances and resources to local elementary schools.</li><li><strong>Project Management:</strong> Orchestrated comprehensive execution roadmaps and led cross-functional focus groups.</li><li><strong>Diplomatic Dialogue:</strong> Invited to the official ICDF headquarters to engage in policy discussions with senior diplomatic officials.</li>">
-                    <li><strong>百萬募款：</strong>跨校合作募得 <strong>100萬新台幣</strong> 援助物資。</li>
-                    <li><strong>外交實踐：</strong>親赴<strong>帛琉</strong>實地參訪，致贈愛心物資予當地國小。</li>
-                    <li><strong>專案統籌：</strong>策劃募款執行計畫，領導跨領域專案小組。</li>
-                    <li><strong>智庫對話：</strong>參訪 ICDF 總部，與第一線外交人員展開深度實務對話。</li>
+                <ul class="achievements-list">
+                    <li lang="zh">共同創立外交實踐社團，親自設計服飾並走上街頭義賣募款。</li>
+                    <li lang="zh">帶領團隊克服無數拒絕，成功募集資金並將愛心資源親自致贈至帛琉當地國小。</li>
+                    <li lang="en">Co-founded the club, designed custom apparel and conducted street fundraising.</li>
+                    <li lang="en">Overcame rejections to successfully fundraise and donate resources to primary schools in Palau.</li>
                 </ul>
             </div>
         </div>
 
-        <div class="activity-card" id="event-stem">
+        <div class="activity-card" id="act-podcast">
             <div class="activity-image-wrapper">
-                <img src="image/截圖 2025-12-25 晚上8.20.59.png" alt="STEM Research" onclick="openLightbox(this.src)">
+                <img src="https://www.avjet.com.tw/api/uploads/poster/poster_1774497314860_epg5ie.jpg" alt="aGENda Podcast" onclick="openLightbox(this.src)">
             </div>
             <div class="activity-content">
-                <h2 class="lang-data" data-tw="STEM 科學研究 ✕ 論文發表" data-en="STEM Research & Academic Publication">STEM 科學研究 ✕ 論文發表</h2>
+                <h2 lang="zh">aGENda Podcast 頻道創辦</h2>
+                <h2 lang="en">aGENda Podcast</h2>
                 <div class="activity-meta">
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-user-tie'></i> 團隊隊長" data-en="<i class='fa-solid fa-user-tie'></i> Team Captain"><i class='fa-solid fa-user-tie'></i> 團隊隊長</span>
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-clock'></i> 1 小時 / 週" data-en="<i class='fa-solid fa-clock'></i> 1 hr / week"><i class='fa-solid fa-clock'></i> 1 小時 / 週</span>
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-calendar'></i> 3 年歷程" data-en="<i class='fa-solid fa-calendar'></i> 3-Year Tenure"><i class='fa-solid fa-calendar'></i> 3 年歷程</span>
+                    <span class="meta-badge">Role: Founder & Host</span>
+                    <span class="meta-badge">Duration: 1 Year</span>
                 </div>
-                <ul class="achievements-list lang-data" data-type="list"
-                    data-tw="<li><strong>2024 3min4Science：</strong>勇奪科學敘事與簡報<strong>全國第一名</strong>。</li><li><strong>Ocean Challenge：</strong>2024 年成功打入<strong>全國前八強 (Top 8)</strong>。</li><li><strong>2025 AI/STEM：</strong>投入最新技術專案開發，並準備發表<strong>學術論文</strong>。</li>"
-                    data-en="<li><strong>2024 3min4Science:</strong> Awarded <strong>First Place Nationwide</strong> for outstanding scientific narrative and presentation eloquence.</li><li><strong>Taiwan Ocean Challenge:</strong> Reached the <strong>National Top 8</strong> in 2024; advanced further with enhanced ecological models in 2025.</li><li><strong>2025 AI/STEM Frontiers:</strong> Spearheading high-level technical projects and currently compiling research into a formal <strong>academic paper</strong>.</li>">
-                    <li><strong>2024 3min4Science：</strong>勇奪科學敘事與簡報<strong>全國第一名</strong>。</li>
-                    <li><strong>Ocean Challenge：</strong>2024 年成功打入<strong>全國前八強 (Top 8)</strong>。</li>
-                    <li><strong>2025 AI/STEM：</strong>投入最新技術專案開發，並準備發表<strong>學術論文</strong>。</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="activity-card row-reverse" id="event-film">
-            <div class="activity-image-wrapper">
-                <img src="https://s.yimg.com/ny/api/res/1.2/cJEa6IJRrcXe5m5bp2KW.g--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTQyNg--/https://media.zenfs.com/en/cts.com.tw/7ebb79b123e603d0f1b0882a626065e2" alt="Filmmaking" onclick="openLightbox(this.src)">
-            </div>
-            <div class="activity-content">
-                <h2 class="lang-data" data-tw="影視創作 ✕ 雙語主持" data-en="Cinematic Creation & Bilingual Hosting">影視創作 ✕ 雙語主持</h2>
-                <div class="activity-meta">
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-video'></i> 內容創作者" data-en="<i class='fa-solid fa-video'></i> Content Creator"><i class='fa-solid fa-video'></i> 內容創作者</span>
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-microphone'></i> 電視主持人" data-en="<i class='fa-solid fa-microphone'></i> TV Show Host"><i class='fa-solid fa-microphone'></i> 電視主持人</span>
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-award'></i> 影賽大獎橫掃" data-en="<i class='fa-solid fa-award'></i> 4-Time Film Award Winner"><i class='fa-solid fa-award'></i> 影賽大獎橫掃</span>
-                </div>
-                <ul class="achievements-list lang-data" data-type="list"
-                    data-tw="<li><strong>小主播經歷：</strong>連續 5 年於大愛電視台擔任小主播。</li><li><strong>金鐘合作：</strong>與金鐘獎最佳主持人共同搭檔主持電視節目。</li><li><strong>影賽殊榮：</strong>累計奪下 4 座大獎，斬獲 <strong>10萬新台幣</strong> 總獎金。</li>"
-                    data-en="<li><strong>DaAi TV Anchor:</strong> Accumulated 5 years of professional media experience as a youth anchor on national television.</li><li><strong>Golden Bell Collaboration:</strong> Co-hosted mainstream television programs alongside prominent Golden Bell Award-winning hosts.</li><li><strong>Film Accolades:</strong> Clinched 4 major film production awards, securing a combined total of over <strong>NT$100,000</strong> in prize money.</li>">
-                    <li><strong>小主播經歷：</strong>連續 5 年於大愛電視台擔任小主播。</li>
-                    <li><strong>金鐘合作：</strong>與金鐘獎最佳主持人共同搭檔主持電視節目。</li>
-                    <li><strong>影賽殊榮：</strong>累計奪下 4 座大獎，斬獲 <strong>10萬新台幣</strong> 總獎金。</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="activity-card" id="event-band">
-            <div class="activity-image-wrapper">
-                <img src="image/截圖 2026-06-05 下午1.59.06.png" alt="Band" onclick="openLightbox(this.src)">
-            </div>
-            <div class="activity-content">
-                <h2 class="lang-data" data-tw="爵士樂團 (Band)" data-en="Jazz Band">爵士樂團 (Band)</h2>
-                <div class="activity-meta">
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-music'></i> 創辦人 兼 主唱" data-en="<i class='fa-solid fa-music'></i> Founder & Lead Vocalist"><i class='fa-solid fa-music'></i> 創辦人 兼 主唱</span>
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-clock'></i> 2 小時 / 月" data-en="<i class='fa-solid fa-clock'></i> 2 hrs / month"><i class='fa-solid fa-clock'></i> 2 小時 / 月</span>
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-calendar'></i> 4 年歷程" data-en="<i class='fa-solid fa-calendar'></i> 4-Year Tenure"><i class='fa-solid fa-calendar'></i> 4 年歷程</span>
-                </div>
-                <ul class="achievements-list lang-data" data-type="list"
-                    data-tw="<li><strong>舞台實戰：</strong>累計 <strong>7次正式大型 Live 演出</strong>，並創作多首原創歌曲。</li><li><strong>公益音樂：</strong>前往<strong>養老院與公園</strong>舉辦義演，回饋社區。</li>"
-                    data-en="<li><strong>Stage Performance:</strong> Choreographed and headlined over <strong>7 large-scale live concerts</strong>; composed original theme songs for high-profile school ceremonies.</li><li><strong>Altruistic Recitals:</strong> Hosted charity music tours at nursing homes, senior centers, and public parks to give back to the community.</li>">
-                    <li><strong>舞台實戰：</strong>累計 <strong>7次正式大型 Live 演出</strong>，並創作多首原創歌曲。</li>
-                    <li><strong>公益音樂：</strong>前往<strong>養老院與公園</strong>舉辦義演，回饋社區。</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="activity-card row-reverse" id="event-english">
-            <div class="activity-image-wrapper">
-                <img src="image/IMG_9714.JPG" alt="Lessons" onclick="openLightbox(this.src)">
-            </div>
-            <div class="activity-content">
-                <h2 class="lang-data" data-tw="社區公益英語課程" data-en="Community English Initiative">社區公益英語課程</h2>
-                <div class="activity-meta">
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-chalkboard-user'></i> 發起人 兼 教師" data-en="<i class='fa-solid fa-chalkboard-user'></i> Founder & Instructor"><i class='fa-solid fa-chalkboard-user'></i> 發起人 兼 教師</span>
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-clock'></i> 5 小時 / 月" data-en="<i class='fa-solid fa-clock'></i> 5 hrs / month"><i class='fa-solid fa-clock'></i> 5 小時 / 月</span>
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-calendar'></i> 2 年歷程" data-en="<i class='fa-solid fa-calendar'></i> 2-Year Tenure"><i class='fa-solid fa-calendar'></i> 2 年歷程</span>
-                </div>
-                <ul class="achievements-list lang-data" data-type="list"
-                    data-tw="<li><strong>造福社區：</strong>支援超過 60 位學生，研發圖像記憶法與複習影片。</li><li><strong>雙軌教學：</strong>針對不同程度設計客製化字彙單與討論教材。</li>"
-                    data-en="<li><strong>Empowering Youth:</strong> Taught and supported over 60+ underprivileged students; established digital learning archives on YouTube.</li><li><strong>Differentiated Syllabi:</strong> Created customized mnemonic vocab sheets for beginners and advanced debate prompts for higher-level learners.</li>">
-                    <li><strong>造福社區：</strong>支援超過 60 位學生，研發圖像記憶法與複習影片。</li>
-                    <li><strong>雙軌教學：</strong>針對不同程度設計客製化字彙單與討論教材。</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="activity-card" id="event-diplomat">
-            <div class="activity-image-wrapper">
-                <img src="image/tde.jpg" alt="Diplomat" onclick="openLightbox(this.src)">
-            </div>
-            <div class="activity-content">
-                <h2 class="lang-data" data-tw="外交小尖兵 (Teen Diplomat)" data-en="Teen Diplomatic Envoys">外交小尖兵 (Teen Diplomat)</h2>
-                <div class="activity-meta">
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-star'></i> 前 18 位官方代表" data-en="<i class='fa-solid fa-star'></i> Top 18 National Delegate"><i class='fa-solid fa-star'></i> 前 18 位官方代表</span>
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-plane'></i> 赴美外交參訪" data-en="<i class='fa-solid fa-plane'></i> Diplomatic Mission to US"><i class='fa-solid fa-plane'></i> 赴美外交參訪</span>
-                </div>
-                <ul class="achievements-list lang-data" data-type="list"
-                    data-tw="<li><strong>菁英選拔：</strong>從 2,000 名申請者中脫穎而出，參與密集外交訓練。</li><li><strong>國家代表：</strong>獲選為<strong>最頂尖 6 位學生之一</strong>，代表台灣赴洛杉磯與舊金山參訪。</li>"
-                    data-en="<li><strong>Elite National Selection:</strong> Emerged from an extremely competitive pool of 2,000+ applicants to win selection as one of 18 official Envoys.</li><li><strong>Official US Delegation:</strong> Ranked as one of the <strong>top 6 outstanding envoys</strong>, representing Taiwan on a high-level 10-day diplomatic mission to Los Angeles and San Francisco.</li>">
-                    <li><strong>菁英選拔：</strong>從 2,000 名申請者中脫穎而出，參與密集外交訓練。</li>
-                    <li><strong>國家代表：</strong>獲選為<strong>最頂尖 6 位學生之一</strong>，代表台灣赴洛杉磯與舊金山參訪。</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="activity-card row-reverse" id="event-debate">
-            <div class="activity-image-wrapper">
-                <img src="image/截圖 2025-08-14 凌晨12.25.57.png" alt="Debates" onclick="openLightbox(this.src)">
-            </div>
-            <div class="activity-content">
-                <h2 class="lang-data" data-tw="全英語思辨與競賽辯論" data-en="English Forensics & Competitive Debate">全英語思辨與競賽辯論</h2>
-                <div class="activity-meta">
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-comments'></i> 核心辯論賽手" data-en="<i class='fa-solid fa-comments'></i> Varsity Debater"><i class='fa-solid fa-comments'></i> 核心辯論賽手</span>
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-calendar'></i> 4 年歷程" data-en="<i class='fa-solid fa-calendar'></i> 4-Year Experience"><i class='fa-solid fa-calendar'></i> 4 年歷程</span>
-                </div>
-                <ul class="achievements-list lang-data" data-type="list"
-                    data-tw="<li><strong>最佳辯士：</strong>於 Lincoln-Douglas 辯論賽中勇奪<strong>最佳辯士大獎</strong>。</li><li><strong>Cicero 戰隊：</strong>獲選入列 Cicero 全英思辨賽<strong>第一戰隊成員</strong>。</li>"
-                    data-en="<li><strong>Best Speaker Laurels:</strong> Awarded the coveted <strong>Best Speaker Award</strong> in highly demanding, logic-driven Lincoln-Douglas single debate tournaments.</li><li><strong>Cicero First Seed:</strong> Selected as a cornerstone member of the prestigious Cicero English Debate First Elite Varsity Team.</li>">
-                    <li><strong>最佳辯士：</strong>於 Lincoln-Douglas 辯論賽中勇奪<strong>最佳辯士大獎</strong>。</li>
-                    <li><strong>Cicero 戰隊：</strong>獲選入列 Cicero 全英思辨賽<strong>第一戰隊成員</strong>。</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="activity-card" id="event-intern">
-            <div class="activity-image-wrapper">
-                <img src="image/截圖 2026-06-05 下午2.01.57.png" alt="Internship" onclick="openLightbox(this.src)">
-            </div>
-            <div class="activity-content">
-                <h2 class="lang-data" data-tw="智庫與頂尖機構研究實習" data-en="Think Tank & Academic Research Fellowships">智庫與頂尖機構研究實習</h2>
-                <div class="activity-meta">
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-book'></i> NTU E3Center" data-en="<i class='fa-solid fa-book'></i> NTU E3Center (16 Wks)"><i class='fa-solid fa-book'></i> NTU E3Center</span>
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-landmark'></i> CAPRI 亞太智庫" data-en="<i class='fa-solid fa-landmark'></i> CAPRI Think Tank (8 Wks)"><i class='fa-solid fa-landmark'></i> CAPRI 亞太智庫</span>
-                </div>
-                <ul class="achievements-list lang-data" data-type="list"
-                    data-tw="<li><strong>台大綠能研究：</strong>發表關於<strong>永續航空燃油 (SAF)</strong> 之政策論文。</li><li><strong>CAPRI 淨零分析：</strong>撰寫《全球淨零排放政策比較》，於智庫學者前完成答辯。</li>"
-                    data-en="<li><strong>NTU E3Center Fellowship:</strong> Conducted a 16-week intensive policy research project on <strong>Sustainable Aviation Fuel (SAF)</strong>, presenting final discoveries in English to NTU professors.</li><li><strong>CAPRI Global Net-Zero Analysis:</strong> Authored a major comparative report on global carbon emission frameworks and successfully defended findings before full panels of CAPRI scholars.</li>">
-                    <li><strong>台大綠能研究：</strong>發表關於<strong>永續航空燃油 (SAF)</strong> 之政策論文。</li>
-                    <li><strong>CAPRI 淨零分析：</strong>撰寫《全球淨零排放政策比較》，於智庫學者前完成答辯。</li>
+                <ul class="achievements-list">
+                    <li lang="zh">創辦全方位聲音節目，旨在搭建跨世代之間的理性對話橋樑。</li>
+                    <li lang="zh">自主研發並主持多期節目，向社會大眾傳遞屬於當代青年的優秀聲音與前瞻觀點。</li>
+                    <li lang="en">Founded the podcast channel to bridge intergenerational communication gaps.</li>
+                    <li lang="en">Produced and hosted insightful episodes amplifying youth perspectives and global outlooks.</li>
                 </ul>
             </div>
         </div>
@@ -474,97 +243,30 @@
     </footer>
 
     <script>
-        // ── 燈箱功能 ──
+        function toggleLanguage() { document.body.classList.toggle('en-mode'); }
         function openLightbox(src) {
             const modal = document.getElementById("imageLightbox");
-            const img = document.getElementById("lightboxImg");
+            document.getElementById("lightboxImg").src = src;
             modal.style.display = "flex";
-            img.src = src;
         }
-
-        function closeLightbox() {
-            document.getElementById("imageLightbox").style.display = "none";
-        }
-
-        // ── ✨ 高精準度動態對齊時間軸捲動機制 (Scrollspy Engine V2) ──
-        function updateScrollspy() {
-            const sections = [
-                { id: 'event-mun', node: 'node-mun' },
-                { id: 'event-icdf', node: 'node-icdf' },
-                { id: 'event-stem', node: 'node-stem' },
-                { id: 'event-film', node: 'node-film' },
-                { id: 'event-band', node: 'node-band' },
-                { id: 'event-english', node: 'node-english' },
-                { id: 'event-diplomat', node: 'node-diplomat' },
-                { id: 'event-debate', node: 'node-debate' },
-                { id: 'event-intern', node: 'node-intern' }
+        function closeLightbox() { document.getElementById("imageLightbox").style.display = "none"; }
+        
+        window.addEventListener('scroll', () => {
+            const targets = [
+                { id: 'act-mun', node: 'node-mun' },
+                { id: 'act-icdf', node: 'node-icdf' },
+                { id: 'act-podcast', node: 'node-podcast' }
             ];
-            
-            let currentActiveNode = sections[0].node; 
-            
-            // 偵測是否已經滑動到網頁最底部（觸底保證機制）
-            const isAtBottom = (window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 60;
-
-            if (isAtBottom) {
-                // 如果觸底，直接強制鎖定最後一個「智庫實習」亮起
-                currentActiveNode = sections[sections.length - 1].node;
-            } else {
-                // 如果沒有觸底，採用視窗中上部黃金焦點比例（Window Height * 0.45）進行精準對齊判定
-                const triggerLine = window.innerHeight * 0.45;
-
-                for (const sec of sections) {
-                    const el = document.getElementById(sec.id);
-                    if (el) {
-                        const rect = el.getBoundingClientRect();
-                        // 當格子的頂部滑過視窗中上部黃金線時，就將其判定為當前主焦點
-                        if (rect.top <= triggerLine) {
-                            currentActiveNode = sec.node;
-                        }
-                    }
-                }
-            }
-
-            // 更新左側節點 active 狀態
-            sections.forEach(sec => {
-                const nodeEl = document.getElementById(sec.node);
-                if (nodeEl) {
-                    if (sec.node === currentActiveNode) {
-                        nodeEl.classList.add('active');
-                    } else {
-                        nodeEl.classList.remove('active');
-                    }
-                }
+            let activeId = 'node-mun';
+            targets.forEach(t => {
+                const el = document.getElementById(t.id);
+                if(el && window.pageYOffset >= el.offsetTop - 200) activeId = t.node;
             });
-        }
+            document.querySelectorAll('.side-timeline .node').forEach(n => n.classList.remove('active'));
+            if(document.getElementById(activeId)) document.getElementById(activeId).classList.add('active');
+        });
 
-        window.addEventListener('scroll', updateScrollspy);
-        window.addEventListener('load', updateScrollspy);
-        window.addEventListener('resize', updateScrollspy);
-
-        // ── 語言切換引擎 ──
-        let currentLang = 'tw';
-
-        function toggleLanguage() {
-            currentLang = (currentLang === 'tw') ? 'en' : 'tw';
-            const btn = document.querySelector('.lang-switch');
-            btn.textContent = (currentLang === 'tw') ? 'EN' : 'TW';
-
-            const elements = document.querySelectorAll('.lang-data');
-            elements.forEach(el => {
-                const twText = el.getAttribute('data-tw');
-                const enText = el.getAttribute('data-en');
-                el.innerHTML = (currentLang === 'tw') ? twText : enText;
-            });
-            
-            // 切換語言教材長度改變後，重新整理計算對齊軸
-            setTimeout(updateScrollspy, 100);
-        }
-
-        window.onclick = function(event) {
-            if (event.target == document.getElementById("imageLightbox")) {
-                closeLightbox();
-            }
-        }
+        window.onclick = function(e) { if(e.target == document.getElementById("imageLightbox")) closeLightbox(); }
     </script>
 </body>
 </html>
