@@ -261,6 +261,44 @@
             .story-container { padding: 2.5rem 1.5rem; }
             .contact-form { width: 100%; padding: 2rem 1.5rem; }
         }
+
+        /* ── 趣味問答小遊戲外掛樣式 ── */
+        .york-quiz-section {
+            background: #0d1523; 
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 16px; padding: 3rem 2rem; margin: 5rem auto 2rem auto;
+            max-width: 800px; box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            font-family: 'Noto Sans TC', sans-serif; color: #f8fafc;
+        }
+        .quiz-title { text-align: center; color: #d4af37; font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1rem; letter-spacing: 1px; }
+        .quiz-subtitle { text-align: center; color: #94a3b8; font-size: 1rem; margin-bottom: 2.5rem; }
+        
+        .admin-toggle-zone { text-align: right; margin-bottom: 1.5rem; }
+        .admin-btn { background: transparent; border: 1px dashed #d4af37; color: #d4af37; padding: 6px 14px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; transition: all 0.3s; }
+        .admin-btn:hover { background: rgba(212, 175, 55, 0.1); }
+
+        .quiz-box { max-width: 600px; margin: 0 auto; }
+        .q-card { display: none; transform: translateY(10px); opacity: 0; transition: all 0.3s ease; }
+        .q-card.active { display: block; transform: translateY(0); opacity: 1; }
+        .q-num { color: #f3e5ab; font-size: 0.85rem; font-weight: bold; margin-bottom: 0.5rem; letter-spacing: 1px; font-family: 'Playfair Display', serif; }
+        .q-text { font-size: 1.25rem; margin-bottom: 2rem; color: #f8fafc; font-weight: 500; }
+        
+        .opt-grid { display: grid; grid-template-columns: 1fr; gap: 0.8rem; }
+        .opt-btn {
+            background: rgba(5, 8, 15, 0.6); border: 1px solid rgba(212, 175, 55, 0.2);
+            color: #f8fafc; padding: 1.1rem 1.5rem; border-radius: 8px; cursor: pointer;
+            font-size: 1rem; transition: all 0.2s; text-align: left; position: relative;
+        }
+        .opt-btn:hover { background: rgba(212, 175, 55, 0.1); border-color: #d4af37; }
+        
+        .opt-btn.owner-selected { border-color: #d4af37; background: rgba(212, 175, 55, 0.2); }
+        .opt-btn.owner-selected::after { content: "✓ 我的答案"; position: absolute; right: 20px; color: #f3e5ab; font-size: 0.85rem; }
+
+        .quiz-result { display: none; text-align: center; padding: 2rem 0; }
+        .quiz-score { font-size: 3.5rem; color: #d4af37; font-weight: 700; margin-bottom: 0.5rem; font-family: 'Playfair Display', serif; }
+        .quiz-feedback { font-size: 1.25rem; color: #f3e5ab; margin-bottom: 2.5rem; }
+        .quiz-reset-btn { background: #d4af37; color: #05080f; border: none; padding: 10px 30px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .quiz-reset-btn:hover { background: #f3e5ab; transform: scale(1.02); }
     </style>
 </head>
 <body>
@@ -313,6 +351,7 @@
             </p>
         </div>
 
+        <!-- 故事段落 1 -->
         <div class="story-container" id="sec-h2">
             <div class="bubble bubble-left" onclick="openLightbox('image/截圖 2026-06-05 上午11.48.32.png')">
                 <img src="image/截圖 2026-06-05 上午11.48.32.png" alt="樂團主唱照片">
@@ -327,6 +366,7 @@
             <p lang="en">On the court, I hone my resilience; on stage, I perform as a lead vocalist, channeling my passion into music. I steadfastly believe that a good story can transcend borders and touch people's hearts.</p>
         </div>
 
+        <!-- 故事段落 2 -->
         <div class="story-container" id="sec-j3">
             <div class="bubble bubble-right" onclick="openLightbox('https://www.avjet.com.tw/api/uploads/poster/poster_1774497314860_epg5ie.jpg')">
                 <img src="https://www.avjet.com.tw/api/uploads/poster/poster_1774497314860_epg5ie.jpg" alt="影音主持">
@@ -341,6 +381,7 @@
             <p lang="en">I also founded a YouTube channel analyzing serious global issues like educational rights in Afghanistan and pension reforms in France. Through journalism and analysis, I turn English proficiency into social impact, earning a Gold Award in the Student Merit Newspaper competition.</p>
         </div>
 
+        <!-- 故事段落 3 -->
         <div class="story-container" id="sec-mun">
             <div class="bubble bubble-left" onclick="openLightbox('image/截圖 2025-08-17 凌晨2.38.13.png')">
                 <img src="image/截圖 2025-08-17 凌晨2.38.13.png" alt="MUN模擬聯合國">
@@ -353,6 +394,7 @@
             <p lang="en">I dedicate myself to promoting Model United Nations, designing routine club courses and establishing after-school training classes for non-club members, leading teams to win multiple awards. I have chaired conferences of around 300 delegates, mentoring over 100 students, with more than 10 securing awards. Additionally, I served as an Assistant Director for Yale MUN Taiwan.</p>
         </div>
 
+        <!-- 故事段落 4 -->
         <div class="story-container" id="sec-h1">
             <div class="bubble bubble-right" onclick="openLightbox('image/IMG_7992.jpeg')">
                 <img src="image/IMG_7992.jpeg" alt="ICDF社團">
@@ -366,6 +408,7 @@
             <p lang="en">I founded the Wego ICDF club and served as the CEO. To raise funds, we went onto the streets to sell apparel we designed ourselves. Encountering countless rejections taught us to refine our pitches, ultimately leading to a successful fundraising campaign. This April, we will travel to Palau to donate essential resources to local primary schools, highlighting Taiwan's warmth through grassroots action.</p>
         </div>
 
+        <!-- 故事段落 5 -->
         <div class="story-container">
             <div class="bubble bubble-left" onclick="openLightbox('image/IMG_8718.jpg')">
                 <img src="image/IMG_8718.jpg" alt="外交小尖兵">
@@ -379,6 +422,7 @@
             <p lang="en">Being selected as a National Diplomatic Envoy for an official visit to the United States marked a defining milestone. Stepping onto the front lines of global affairs, I witnessed how diplomats sustain Taiwan's presence amidst shifting geopolitical tides. This profound exposure solidified my ambition to fully dedicate my future studies to diplomacy and international relations.</p>
         </div>
 
+        <!-- 故事段落 6 -->
         <div class="story-container" id="sec-future">
             <div class="bubble bubble-right" onclick="openLightbox('image/IMG_8936 (1).JPG')">
                 <img src="image/IMG_8936 (1).JPG" alt="未來展望">
@@ -392,6 +436,27 @@
             <p lang="en">Looking ahead, I aspire to seamlessly integrate all-English debating and negotiation proficiencies, a macro perspective on international relations, and the modern communicative influence of media. I will bring together rational debate and emotional storytelling to share the inspiring accounts of our generation.</p>
         </div>
 
+        <!-- ── 趣味問答小遊戲區（已移至聯絡表單上方） ── -->
+        <div class="york-quiz-section">
+            <div class="admin-toggle-zone">
+                <button class="admin-btn" onclick="toggleAdminMode()"><i class="fa-solid fa-gear"></i> 設定 York 的真實答案</button>
+            </div>
+
+            <div class="quiz-title">ABOUT ME QUIZ</div>
+            <div class="quiz-subtitle" id="quiz-mode-tip">回答 10 個簡短問答，測試你對我的了解程度。</div>
+
+            <div class="quiz-box">
+                <div id="game-play-area"></div>
+
+                <div id="game-score-area" class="quiz-result">
+                    <div class="quiz-score" id="display-final-score">0 / 10</div>
+                    <div class="quiz-feedback" id="display-feedback">結果計算中...</div>
+                    <button class="quiz-reset-btn" onclick="initGame()">再試一次</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── 聯絡表單區塊 ── -->
         <h2 class="connect-title">CONNECT WITH YORK</h2>
         <form class="contact-form" onsubmit="event.preventDefault(); alert('感謝您的聯絡！郵件模擬發送成功。');">
             <input type="text" placeholder="Your Name" required>
@@ -414,10 +479,12 @@
     </footer>
 
     <script>
+        // 語系切換功能
         function toggleLanguage() {
             document.body.classList.toggle('en-mode');
         }
 
+        // 燈箱大圖功能
         function openLightbox(imageSrc) {
             const modal = document.getElementById("imageLightbox");
             const lightboxImg = document.getElementById("lightboxImg");
@@ -429,6 +496,7 @@
             document.getElementById("imageLightbox").style.display = "none";
         }
 
+        // 側邊時光軸滾動偵測
         window.addEventListener('scroll', () => {
             const sectionsMapping = [
                 { id: 'sec-h2', node: 'node-h2' },
@@ -465,177 +533,118 @@
                 closeLightbox();
             }
         }
-    </script>
-    <!-- ── 趣味問答小遊戲外掛區（直接貼在 </body> 前） ── -->
-<style>
-    .york-quiz-section {
-        background: #0d1523; 
-        border: 1px solid rgba(212, 175, 55, 0.3);
-        border-radius: 16px; padding: 3rem 2rem; margin: 5rem auto 2rem auto;
-        max-width: 800px; box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-        font-family: 'Noto Sans TC', sans-serif; color: #f8fafc;
-    }
-    .quiz-title { text-align: center; color: #d4af37; font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1rem; letter-spacing: 1px; }
-    .quiz-subtitle { text-align: center; color: #94a3b8; font-size: 1rem; margin-bottom: 2.5rem; }
-    
-    .admin-toggle-zone { text-align: right; margin-bottom: 1.5rem; }
-    .admin-btn { background: transparent; border: 1px dashed #d4af37; color: #d4af37; padding: 6px 14px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; transition: all 0.3s; }
-    .admin-btn:hover { background: rgba(212, 175, 55, 0.1); }
 
-    .quiz-box { max-width: 600px; margin: 0 auto; }
-    .q-card { display: none; transform: translateY(10px); opacity: 0; transition: all 0.3s ease; }
-    .q-card.active { display: block; transform: translateY(0); opacity: 1; }
-    .q-num { color: #f3e5ab; font-size: 0.85rem; font-weight: bold; margin-bottom: 0.5rem; letter-spacing: 1px; font-family: 'Playfair Display', serif; }
-    .q-text { font-size: 1.25rem; margin-bottom: 2rem; color: #f8fafc; font-weight: 500; }
-    
-    .opt-grid { display: grid; grid-template-columns: 1fr; gap: 0.8rem; }
-    .opt-btn {
-        background: rgba(5, 8, 15, 0.6); border: 1px solid rgba(212, 175, 55, 0.2);
-        color: #f8fafc; padding: 1.1rem 1.5rem; border-radius: 8px; cursor: pointer;
-        font-size: 1rem; transition: all 0.2s; text-align: left; position: relative;
-    }
-    .opt-btn:hover { background: rgba(212, 175, 55, 0.1); border-color: #d4af37; }
-    
-    .opt-btn.owner-selected { border-color: #d4af37; background: rgba(212, 175, 55, 0.2); }
-    .opt-btn.owner-selected::after { content: "✓ 我的答案"; position: absolute; right: 20px; color: #f3e5ab; font-size: 0.85rem; }
+        // ── 趣味問答小遊戲核心邏輯 ──
+        const questions = [
+            { q: "寵物喜好偏向？", opts: ["貓派", "狗派"] },
+            { q: "咖哩飯的吃法習慣？", opts: ["攪拌均勻再吃", "飯醬分開直接吃"] },
+            { q: "在模擬聯合國與談判場合中，較傾向哪種溝通風格？", opts: ["著重邏輯架構與條文規範", "著重軟實力外交與共識建立"] },
+            { q: "若能選擇一項實用能力，會優先選擇？", opts: ["空間移動（節省通勤移動時間）", "理解他人思維（提升談判與溝通效率）"] },
+            { q: "平常最常聆聽的音樂類型？", opts: ["英倫搖滾 / 龐克", "City Pop / 獨立民謠"] },
+            { q: "經營的 Podcast 頻道名稱是？", opts: ["aGENda", "Diplomacy Hub", "York's Radio"] },
+            { q: "在籌辦活動或影片製作時的工作習慣？", opts: ["偏向細節控，重視精準的時程計畫", "偏向靈感流，保留臨場發揮的彈性"] },
+            { q: "在大學申請與個人履歷中，認為哪一項要素最關鍵？", opts: ["標準化考試與語言證書", "文書中的個人真實故事與敘事觀點"] },
+            { q: "工作或錄音時習慣準備的飲品？", opts: ["黑咖啡", "珍珠奶茶", "溫開水"] },
+            { q: "對於未來職涯理想的長遠規劃？", opts: ["從事國際組織與外交談判領域", "投入科技新創與頂尖產品營運"] }
+        ];
 
-    .quiz-result { display: none; text-align: center; padding: 2rem 0; }
-    .quiz-score { font-size: 3.5rem; color: #d4af37; font-weight: 700; margin-bottom: 0.5rem; font-family: 'Playfair Display', serif; }
-    .quiz-feedback { font-size: 1.25rem; color: #f3e5ab; margin-bottom: 2.5rem; }
-    .quiz-reset-btn { background: #d4af37; color: #05080f; border: none; padding: 10px 30px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-    .quiz-reset-btn:hover { background: #f3e5ab; transform: scale(1.02); }
-</style>
+        let ownerAnswers = JSON.parse(localStorage.getItem('york_answers')) || [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        let isAdminMode = false; 
+        let currentQIndex = 0;
+        let userScore = 0;
 
-<div class="york-quiz-section">
-    <div class="admin-toggle-zone">
-        <button class="admin-btn" onclick="toggleAdminMode()"><i class="fa-solid fa-gear"></i> 設定 York 的真實答案</button>
-    </div>
-
-    <div class="quiz-title">ABOUT ME QUIZ</div>
-    <div class="quiz-subtitle" id="quiz-mode-tip">回答 10 個簡短問答，測試你對我的了解程度。</div>
-
-    <div class="quiz-box">
-        <div id="game-play-area"></div>
-
-        <div id="game-score-area" class="quiz-result">
-            <div class="quiz-score" id="display-final-score">0 / 10</div>
-            <div class="quiz-feedback" id="display-feedback">結果計算中...</div>
-            <button class="quiz-reset-btn" onclick="initGame()">再試一次</button>
-        </div>
-    </div>
-</div>
-
-<script>
-    // 修正後：字句精簡、無誇張修飾詞的 10 題正常選項
-    const questions = [
-        { q: "寵物喜好偏向？", opts: ["貓派", "狗派"] },
-        { q: "咖哩飯的吃法習慣？", opts: ["攪拌均勻再吃", "飯醬分開直接吃"] },
-        { q: "在模擬聯合國與談判場合中，較傾向哪種溝通風格？", opts: ["著重邏輯架構與條文規範", "著重軟實力外交與共識建立"] },
-        { q: "若能選擇一項實用能力，會優先選擇？", opts: ["空間移動（節省通勤移動時間）", "理解他人思維（提升談判與溝通效率）"] },
-        { q: "平常最常聆聽的音樂類型？", opts: ["英倫搖滾 / 龐克", "City Pop / 獨立民謠"] },
-        { q: "經營的 Podcast 頻道名稱是？", opts: ["aGENda", "Diplomacy Hub", "York's Radio"] },
-        { q: "在籌辦活動或影片製作時的工作習慣？", opts: ["偏向細節控，重視精準的時程計畫", "偏向靈感流，保留臨場發揮的彈性"] },
-        { q: "在大學申請與個人履歷中，認為哪一項要素最關鍵？", opts: ["標準化考試與語言證書", "文書中的個人真實故事與敘事觀點"] },
-        { q: "工作或錄音時習慣準備的飲品？", opts: ["黑咖啡", "珍珠奶茶", "溫開水"] },
-        { q: "對於未來職涯理想的長遠規劃？", opts: ["從事國際組織與外交談判領域", "投入科技新創與頂尖產品營運"] }
-    ];
-
-    let ownerAnswers = JSON.parse(localStorage.getItem('york_answers')) || [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    let isAdminMode = false; 
-    let currentQIndex = 0;
-    let userScore = 0;
-
-    function toggleAdminMode() {
-        isAdminMode = !isAdminMode;
-        const tip = document.getElementById('quiz-mode-tip');
-        if (isAdminMode) {
-            tip.innerHTML = "<span style='color:#e11d48; font-weight:bold;'>【設定模式】請依序點選符合你真實情況的選項，系統將自動儲存答案。</span>";
-            currentQIndex = 0; 
-            renderQuizCard();
-        } else {
-            tip.innerText = "回答 10 個簡短問答，測試你對我的了解程度。";
-            initGame();
-        }
-    }
-
-    function initGame() {
-        currentQIndex = 0;
-        userScore = 0;
-        document.getElementById('game-score-area').style.display = 'none';
-        document.getElementById('game-play-area').style.display = 'block';
-        renderQuizCard();
-    }
-
-    function renderQuizCard() {
-        const area = document.getElementById('game-play-area');
-        if (currentQIndex >= questions.length) {
+        function toggleAdminMode() {
+            isAdminMode = !isAdminMode;
+            const tip = document.getElementById('quiz-mode-tip');
             if (isAdminMode) {
-                alert("已成功更新你的真實答案。即將切換回訪客測試模式。");
-                toggleAdminMode();
+                tip.innerHTML = "<span style='color:#e11d48; font-weight:bold;'>【設定模式】請依序點選符合你真實情況的選項，系統將自動儲存答案。</span>";
+                currentQIndex = 0; 
+                renderQuizCard();
             } else {
-                showFinalResults();
+                tip.innerText = "回答 10 個簡短問答，測試你對我的了解程度。";
+                initGame();
             }
-            return;
         }
 
-        const currentQ = questions[currentQIndex];
-        let optionsHTML = '';
-
-        currentQ.opts.forEach((opt, idx) => {
-            let activeClass = (isAdminMode && ownerAnswers[currentQIndex] === idx) ? 'owner-selected' : '';
-            optionsHTML += `<button class="opt-btn ${activeClass}" onclick="handleSelect(${idx})">${opt}</button>`;
-        });
-
-        area.innerHTML = `
-            <div class="q-card active">
-                <div class="q-num">QUESTION ${currentQIndex + 1} / ${questions.length}</div>
-                <div class="q-text">${currentQ.q}</div>
-                <div class="opt-grid">${optionsHTML}</div>
-            </div>
-        `;
-    }
-
-    function handleSelect(selectedIndex) {
-        if (isAdminMode) {
-            ownerAnswers[currentQIndex] = selectedIndex;
-            localStorage.setItem('york_answers', JSON.stringify(ownerAnswers));
-            currentQIndex++;
+        function initGame() {
+            currentQIndex = 0;
+            userScore = 0;
+            document.getElementById('game-score-area').style.display = 'none';
+            document.getElementById('game-play-area').style.display = 'block';
             renderQuizCard();
-        } else {
-            if (selectedIndex === ownerAnswers[currentQIndex]) {
-                userScore++;
+        }
+
+        function renderQuizCard() {
+            const area = document.getElementById('game-play-area');
+            if (currentQIndex >= questions.length) {
+                if (isAdminMode) {
+                    alert("已成功更新你的真實答案。即將切換回訪客測試模式。");
+                    toggleAdminMode();
+                } else {
+                    showFinalResults();
+                }
+                return;
             }
-            
-            const card = document.querySelector('.q-card');
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(-5px)';
-            
-            setTimeout(() => {
+
+            const currentQ = questions[currentQIndex];
+            let optionsHTML = '';
+
+            currentQ.opts.forEach((opt, idx) => {
+                let activeClass = (isAdminMode && ownerAnswers[currentQIndex] === idx) ? 'owner-selected' : '';
+                optionsHTML += `<button class="opt-btn ${activeClass}" onclick="handleSelect(${idx})">${opt}</button>`;
+            });
+
+            area.innerHTML = `
+                <div class="q-card active">
+                    <div class="q-num">QUESTION ${currentQIndex + 1} / ${questions.length}</div>
+                    <div class="q-text">${currentQ.q}</div>
+                    <div class="opt-grid">${optionsHTML}</div>
+                </div>
+            `;
+        }
+
+        function handleSelect(selectedIndex) {
+            if (isAdminMode) {
+                ownerAnswers[currentQIndex] = selectedIndex;
+                localStorage.setItem('york_answers', JSON.stringify(ownerAnswers));
                 currentQIndex++;
                 renderQuizCard();
-            }, 250);
+            } else {
+                if (selectedIndex === ownerAnswers[currentQIndex]) {
+                    userScore++;
+                }
+                
+                const card = document.querySelector('.q-card');
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(-5px)';
+                
+                setTimeout(() => {
+                    currentQIndex++;
+                    renderQuizCard();
+                }, 250);
+            }
         }
-    }
 
-    function showFinalResults() {
-        document.getElementById('game-play-area').style.display = 'none';
-        const scoreArea = document.getElementById('game-score-area');
-        scoreArea.style.display = 'block';
-        
-        document.getElementById('display-final-score').innerText = `${userScore} / ${questions.length}`;
-        
-        let feedback = '';
-        if (userScore <= 3) {
-            feedback = "測驗完成。看來你還需要多多瀏覽這個網站來認識 York。";
-        } else if (userScore <= 7) {
-            feedback = "測驗完成。你對 York 的背景與想法有一定程度的了解。";
-        } else {
-            feedback = "測驗完成。你與 York 的觀點高度契合，非常具備默契。";
+        function showFinalResults() {
+            document.getElementById('game-play-area').style.display = 'none';
+            const scoreArea = document.getElementById('game-score-area');
+            scoreArea.style.display = 'block';
+            
+            document.getElementById('display-final-score').innerText = `${userScore} / ${questions.length}`;
+            
+            let feedback = '';
+            if (userScore <= 3) {
+                feedback = "測驗完成。看來你還需要多多瀏覽這個網站來認識 York。";
+            } else if (userScore <= 7) {
+                feedback = "測驗完成。你對 York 的背景與想法有一定程度的了解。";
+            } else {
+                feedback = "測驗完成。你與 York 的觀點高度契合，非常具備默契。";
+            }
+            document.getElementById('display-feedback').innerText = feedback;
         }
-        document.getElementById('display-feedback').innerText = feedback;
-    }
 
-    window.addEventListener('DOMContentLoaded', initGame);
-</script>
+        // 初始化遊戲
+        window.addEventListener('DOMContentLoaded', initGame);
+    </script>
 </body>
 </html>
