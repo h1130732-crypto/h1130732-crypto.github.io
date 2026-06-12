@@ -466,5 +466,176 @@
             }
         }
     </script>
+    <!-- ── 趣味問答小遊戲外掛區（直接貼在 </body> 前） ── -->
+<style>
+    .york-quiz-section {
+        background: #0d1523; 
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        border-radius: 16px; padding: 3rem 2rem; margin: 5rem auto 2rem auto;
+        max-width: 800px; box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        font-family: 'Noto Sans TC', sans-serif; color: #f8fafc;
+    }
+    .quiz-title { text-align: center; color: #d4af37; font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1rem; letter-spacing: 1px; }
+    .quiz-subtitle { text-align: center; color: #94a3b8; font-size: 1rem; margin-bottom: 2.5rem; }
+    
+    .admin-toggle-zone { text-align: right; margin-bottom: 1.5rem; }
+    .admin-btn { background: transparent; border: 1px dashed #d4af37; color: #d4af37; padding: 6px 14px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; transition: all 0.3s; }
+    .admin-btn:hover { background: rgba(212, 175, 55, 0.1); }
+
+    .quiz-box { max-width: 600px; margin: 0 auto; }
+    .q-card { display: none; transform: translateY(10px); opacity: 0; transition: all 0.3s ease; }
+    .q-card.active { display: block; transform: translateY(0); opacity: 1; }
+    .q-num { color: #f3e5ab; font-size: 0.85rem; font-weight: bold; margin-bottom: 0.5rem; letter-spacing: 1px; font-family: 'Playfair Display', serif; }
+    .q-text { font-size: 1.25rem; margin-bottom: 2rem; color: #f8fafc; font-weight: 500; }
+    
+    .opt-grid { display: grid; grid-template-columns: 1fr; gap: 0.8rem; }
+    .opt-btn {
+        background: rgba(5, 8, 15, 0.6); border: 1px solid rgba(212, 175, 55, 0.2);
+        color: #f8fafc; padding: 1.1rem 1.5rem; border-radius: 8px; cursor: pointer;
+        font-size: 1rem; transition: all 0.2s; text-align: left; position: relative;
+    }
+    .opt-btn:hover { background: rgba(212, 175, 55, 0.1); border-color: #d4af37; }
+    
+    .opt-btn.owner-selected { border-color: #d4af37; background: rgba(212, 175, 55, 0.2); }
+    .opt-btn.owner-selected::after { content: "✓ 我的答案"; position: absolute; right: 20px; color: #f3e5ab; font-size: 0.85rem; }
+
+    .quiz-result { display: none; text-align: center; padding: 2rem 0; }
+    .quiz-score { font-size: 3.5rem; color: #d4af37; font-weight: 700; margin-bottom: 0.5rem; font-family: 'Playfair Display', serif; }
+    .quiz-feedback { font-size: 1.25rem; color: #f3e5ab; margin-bottom: 2.5rem; }
+    .quiz-reset-btn { background: #d4af37; color: #05080f; border: none; padding: 10px 30px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+    .quiz-reset-btn:hover { background: #f3e5ab; transform: scale(1.02); }
+</style>
+
+<div class="york-quiz-section">
+    <div class="admin-toggle-zone">
+        <button class="admin-btn" onclick="toggleAdminMode()"><i class="fa-solid fa-gear"></i> 設定 York 的真實答案</button>
+    </div>
+
+    <div class="quiz-title">ABOUT ME QUIZ</div>
+    <div class="quiz-subtitle" id="quiz-mode-tip">回答 10 個簡短問答，測試你對我的了解程度。</div>
+
+    <div class="quiz-box">
+        <div id="game-play-area"></div>
+
+        <div id="game-score-area" class="quiz-result">
+            <div class="quiz-score" id="display-final-score">0 / 10</div>
+            <div class="quiz-feedback" id="display-feedback">結果計算中...</div>
+            <button class="quiz-reset-btn" onclick="initGame()">再試一次</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 修正後：字句精簡、無誇張修飾詞的 10 題正常選項
+    const questions = [
+        { q: "寵物喜好偏向？", opts: ["貓派", "狗派"] },
+        { q: "咖哩飯的吃法習慣？", opts: ["攪拌均勻再吃", "飯醬分開直接吃"] },
+        { q: "在模擬聯合國與談判場合中，較傾向哪種溝通風格？", opts: ["著重邏輯架構與條文規範", "著重軟實力外交與共識建立"] },
+        { q: "若能選擇一項實用能力，會優先選擇？", opts: ["空間移動（節省通勤移動時間）", "理解他人思維（提升談判與溝通效率）"] },
+        { q: "平常最常聆聽的音樂類型？", opts: ["英倫搖滾 / 龐克", "City Pop / 獨立民謠"] },
+        { q: "經營的 Podcast 頻道名稱是？", opts: ["aGENda", "Diplomacy Hub", "York's Radio"] },
+        { q: "在籌辦活動或影片製作時的工作習慣？", opts: ["偏向細節控，重視精準的時程計畫", "偏向靈感流，保留臨場發揮的彈性"] },
+        { q: "在大學申請與個人履歷中，認為哪一項要素最關鍵？", opts: ["標準化考試與語言證書", "文書中的個人真實故事與敘事觀點"] },
+        { q: "工作或錄音時習慣準備的飲品？", opts: ["黑咖啡", "珍珠奶茶", "溫開水"] },
+        { q: "對於未來職涯理想的長遠規劃？", opts: ["從事國際組織與外交談判領域", "投入科技新創與頂尖產品營運"] }
+    ];
+
+    let ownerAnswers = JSON.parse(localStorage.getItem('york_answers')) || [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    let isAdminMode = false; 
+    let currentQIndex = 0;
+    let userScore = 0;
+
+    function toggleAdminMode() {
+        isAdminMode = !isAdminMode;
+        const tip = document.getElementById('quiz-mode-tip');
+        if (isAdminMode) {
+            tip.innerHTML = "<span style='color:#e11d48; font-weight:bold;'>【設定模式】請依序點選符合你真實情況的選項，系統將自動儲存答案。</span>";
+            currentQIndex = 0; 
+            renderQuizCard();
+        } else {
+            tip.innerText = "回答 10 個簡短問答，測試你對我的了解程度。";
+            initGame();
+        }
+    }
+
+    function initGame() {
+        currentQIndex = 0;
+        userScore = 0;
+        document.getElementById('game-score-area').style.display = 'none';
+        document.getElementById('game-play-area').style.display = 'block';
+        renderQuizCard();
+    }
+
+    function renderQuizCard() {
+        const area = document.getElementById('game-play-area');
+        if (currentQIndex >= questions.length) {
+            if (isAdminMode) {
+                alert("已成功更新你的真實答案。即將切換回訪客測試模式。");
+                toggleAdminMode();
+            } else {
+                showFinalResults();
+            }
+            return;
+        }
+
+        const currentQ = questions[currentQIndex];
+        let optionsHTML = '';
+
+        currentQ.opts.forEach((opt, idx) => {
+            let activeClass = (isAdminMode && ownerAnswers[currentQIndex] === idx) ? 'owner-selected' : '';
+            optionsHTML += `<button class="opt-btn ${activeClass}" onclick="handleSelect(${idx})">${opt}</button>`;
+        });
+
+        area.innerHTML = `
+            <div class="q-card active">
+                <div class="q-num">QUESTION ${currentQIndex + 1} / ${questions.length}</div>
+                <div class="q-text">${currentQ.q}</div>
+                <div class="opt-grid">${optionsHTML}</div>
+            </div>
+        `;
+    }
+
+    function handleSelect(selectedIndex) {
+        if (isAdminMode) {
+            ownerAnswers[currentQIndex] = selectedIndex;
+            localStorage.setItem('york_answers', JSON.stringify(ownerAnswers));
+            currentQIndex++;
+            renderQuizCard();
+        } else {
+            if (selectedIndex === ownerAnswers[currentQIndex]) {
+                userScore++;
+            }
+            
+            const card = document.querySelector('.q-card');
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(-5px)';
+            
+            setTimeout(() => {
+                currentQIndex++;
+                renderQuizCard();
+            }, 250);
+        }
+    }
+
+    function showFinalResults() {
+        document.getElementById('game-play-area').style.display = 'none';
+        const scoreArea = document.getElementById('game-score-area');
+        scoreArea.style.display = 'block';
+        
+        document.getElementById('display-final-score').innerText = `${userScore} / ${questions.length}`;
+        
+        let feedback = '';
+        if (userScore <= 3) {
+            feedback = "測驗完成。看來你還需要多多瀏覽這個網站來認識 York。";
+        } else if (userScore <= 7) {
+            feedback = "測驗完成。你對 York 的背景與想法有一定程度的了解。";
+        } else {
+            feedback = "測驗完成。你與 York 的觀點高度契合，非常具備默契。";
+        }
+        document.getElementById('display-feedback').innerText = feedback;
+    }
+
+    window.addEventListener('DOMContentLoaded', initGame);
+</script>
 </body>
 </html>
