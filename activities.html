@@ -55,7 +55,7 @@
         nav a { text-decoration: none; color: var(--text-muted); font-size: 1.3rem; font-weight: 500; transition: var(--transition); letter-spacing: 1px; font-family: 'Playfair Display', serif; }
         nav a:hover, nav a.active { color: var(--gold); text-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
 
-        /* ✨ 圓圈形式的中英切換按鈕樣式 */
+        /* 中英切換圓形按鈕 */
         .lang-switch {
             width: 60px;
             height: 60px;
@@ -88,19 +88,18 @@
             transform: translateY(-50%);
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.8rem;
             z-index: 10;
         }
         .node { 
             color: var(--text-muted); 
-            font-size: 0.95rem; 
+            font-size: 0.9rem; 
             font-weight: 500; 
             writing-mode: vertical-rl; 
             letter-spacing: 2px; 
             border-left: 2px solid rgba(212,175,55,0.1); 
             padding-left: 8px; 
             transition: var(--transition); 
-            cursor: pointer; 
             text-decoration: none;
             text-align: right;
         }
@@ -132,7 +131,7 @@
         .page-header h1 { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--gold-soft); letter-spacing: 4px; margin-bottom: 1rem; }
         .page-header p { font-size: 1.2rem; color: var(--text-muted); letter-spacing: 2px; font-weight: 300; }
 
-        /* ── 直排活動大格子 ── */
+        /* ── 直排活動卡片 ── */
         .activity-card {
             display: flex;
             align-items: center;
@@ -144,7 +143,7 @@
             overflow: hidden;
             box-shadow: 0 20px 40px rgba(0,0,0,0.4);
             transition: var(--transition);
-            scroll-margin-top: 140px; /* 點擊錨點跳轉後的留白空間 */
+            scroll-margin-top: 140px;
         }
         .activity-card:hover { transform: translateY(-5px); border-color: rgba(212, 175, 55, 0.3); box-shadow: 0 25px 50px rgba(0,0,0,0.6); }
 
@@ -190,9 +189,7 @@
             font-weight: 500;
         }
 
-        .achievements-list {
-            list-style: none;
-        }
+        .achievements-list { list-style: none; }
         .achievements-list li {
             position: relative;
             padding-left: 1.8rem;
@@ -262,14 +259,13 @@
         <a href="#event-english" class="node" id="node-english">公益教學</a>
         <a href="#event-diplomat" class="node" id="node-diplomat">外交使節</a>
         <a href="#event-debate" class="node" id="node-debate">全英辯論</a>
-        <a href="#event-podcast" class="node" id="node-podcast">播客主持</a>
+        <a href="#event-agenda" class="node" id="node-agenda">播客創辦</a>
         <a href="#event-intern" class="node" id="node-intern">智庫實習</a>
     </div>
 
     <div class="side-social">
         <a href="https://www.youtube.com/@ANGEL19760920" target="_blank" class="social-btn"><i class="fa-brands fa-youtube"></i></a>
         <a href="https://open.spotify.com/show/5uiQfwUfnyPh9AwtMR6Q4q?si=d614d41c7870413a" target="_blank" class="social-btn"><i class="fa-solid fa-microphone"></i></a>
-        <a href="#" target="_blank" class="social-btn"><i class="fa-solid fa-podcast"></i></a>
         <a href="mailto:h1130732@stu.wghs.tp.edu.tw" class="social-btn"><i class="fa-solid fa-envelope"></i></a>
     </div>
 
@@ -291,12 +287,12 @@
                     <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-calendar'></i> 3 年歷程" data-en="<i class='fa-solid fa-calendar'></i> 3 Years"><i class='fa-solid fa-calendar'></i> 3 年歷程</span>
                 </div>
                 <ul class="achievements-list lang-data" data-type="list"
-                    data-tw="<li><strong>課程開創：</strong>規劃社團核心課程，並創辦校內課後模聯培訓班。</li><li><strong>會議領導：</strong>擔任過累積 <strong>300人規模</strong> 會議的主席與學術主導。</li><li><strong>教學影響：</strong>指導超過 100 位學員，其中 10 位以上於各大會議奪獎。</li><li><strong>耶魯模聯：</strong>參與 Yale MUN Taiwan 擔任<strong>助理主席 (Assistant Director)</strong>。</li>"
+                    data-tw="<li><strong>課程開創：</strong>規劃社團核心學術課程，並創辦校內課後模聯培訓班，培育新一代賽手。</li><li><strong>會議領導：</strong>擔任過累積 <strong>300人規模</strong> 會議的主席（Director）與學術總負責人。</li><li><strong>教學影響：</strong>指導超過 100 位學員，其中 10 位以上於各大全國會議奪下大獎。</li><li><strong>耶魯模聯：</strong>獲選參與 Yale MUN Taiwan 擔任<strong>助理主席 (Assistant Director)</strong>。</li>"
                     data-en="<li><strong>Curriculum Innovation:</strong> Spearheaded the core training framework and launched after-school MUN workshops.</li><li><strong>Conference Leadership:</strong> Served as Director and Academic Head for large-scale conferences of up to <strong>300 delegates</strong>.</li><li><strong>Mentorship Impact:</strong> Instructed 100+ students, guiding more than 10 delegates to win major awards in national conferences.</li><li><strong>Yale MUN Taiwan:</strong> Selected to serve as the <strong>Assistant Director</strong> at the prestigious Yale Model United Nations Taiwan.</li>">
-                    <li><strong>課程開創：</strong>規劃社團核心課程，並創辦校內課後模聯培訓班。</li>
-                    <li><strong>會議領導：</strong>擔任過累積 <strong>300人規模</strong> 會議的主席與學術主導。</li>
-                    <li><strong>教學影響：</strong>指導超過 100 位學員，其中 10 位以上於各大會議奪獎。</li>
-                    <li><strong>耶魯模聯：</strong>參與 Yale MUN Taiwan 擔任<strong>助理主席 (Assistant Director)</strong>。</li>
+                    <li><strong>課程開創：</strong>規劃社團核心學術課程，並創辦校內課後模聯培訓班，培育新一代賽手。</li>
+                    <li><strong>會議領導：</strong>擔任過累積 <strong>300人規模</strong> 會議的主席（Director）與學術總負責人。</li>
+                    <li><strong>教學影響：</strong>指導超過 100 位學員，其中 10 位以上於各大全國會議奪下大獎。</li>
+                    <li><strong>耶魯模聯：</strong>獲選參與 Yale MUN Taiwan 擔任<strong>助理主席 (Assistant Director)</strong>。</li>
                 </ul>
             </div>
         </div>
@@ -308,17 +304,17 @@
             <div class="activity-content">
                 <h2 class="lang-data" data-tw="Wego ICDF 社團" data-en="Wego ICDF Association">Wego ICDF 社團</h2>
                 <div class="activity-meta">
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-user-tie'></i> 共同創辦人 兼 副社長" data-en="<i class='fa-solid fa-user-tie'></i> Co-founder & VP"><i class='fa-solid fa-user-tie'></i> 共同創辦人 兼 副社長</span>
+                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-user-tie'></i> 共同創辦人 兼 副社長" data-en="<i class='fa-solid fa-user-tie'></i> Co-founder & Vice President"><i class='fa-solid fa-user-tie'></i> 共同創辦人 兼 副社長</span>
                     <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-clock'></i> 2 小時 / 週" data-en="<i class='fa-solid fa-clock'></i> 2 hrs / week"><i class='fa-solid fa-clock'></i> 2 小時 / 週</span>
                     <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-calendar'></i> 2 年歷程" data-en="<i class='fa-solid fa-calendar'></i> 2 Years"><i class='fa-solid fa-calendar'></i> 2 年歷程</span>
                 </div>
                 <ul class="achievements-list lang-data" data-type="list"
-                    data-tw="<li><strong>百萬募款：</strong>跨校合作募得 <strong>100萬新台幣</strong> 援助物資。</li><li><strong>外交實踐：</strong>親赴<strong>帛琉</strong>實地參訪，致贈愛心物資予當地國小。</li><li><strong>專案統籌：</strong>策劃募款執行計畫，領導跨領域專案小組。</li><li><strong>智庫對話：</strong>參訪 ICDF 總部，與第一線外交人員展開深度實務對話。</li>"
+                    data-tw="<li><strong>百萬募款：</strong>跨校合作成功募得 <strong>100萬新台幣</strong> 醫療援助物資與慈善基金。</li><li><strong>外交實踐：</strong>親赴邦交國<strong>帛琉</strong>進行國際人道救援實地參訪，致贈愛心物資予當地國小。</li><li><strong>專案統籌：</strong>策劃完整的募款執行計畫，領導跨領域專案小組與國際NGO對接。</li><li><strong>智庫對話：</strong>受邀參訪國合會 (ICDF) 總部，與第一線資深外交人員展開深度實務對話。</li>"
                     data-en="<li><strong>Million-Dollar Fundraising:</strong> Collaborated across 4 schools to raise over <strong>NT$1 Million</strong> in charity funds and supplies.</li><li><strong>Global Aid in Action:</strong> Journeyed to <strong>Palau</strong> for humanitarian fieldwork, delivering appliances and resources to local elementary schools.</li><li><strong>Project Management:</strong> Orchestrated comprehensive execution roadmaps and led cross-functional focus groups.</li><li><strong>Diplomatic Dialogue:</strong> Invited to the official ICDF headquarters to engage in policy discussions with senior diplomatic officials.</li>">
-                    <li><strong>百萬募款：</strong>跨校合作募得 <strong>100萬新台幣</strong> 援助物資。</li>
-                    <li><strong>外交實踐：</strong>親赴<strong>帛琉</strong>實地參訪，致贈愛心物資予當地國小。</li>
-                    <li><strong>專案統籌：</strong>策劃募款執行計畫，領導跨領域專案小組。</li>
-                    <li><strong>智庫對話：</strong>參訪 ICDF 總部，與第一線外交人員展開深度實務對話。</li>
+                    <li><strong>百萬募款：</strong>跨校合作成功募得 <strong>100萬新台幣</strong> 醫療援助物資與慈善基金。</li>
+                    <li><strong>外交實踐：</strong>親赴邦交國<strong>帛琉</strong>進行國際人道救援實地參訪，致贈愛心物資予當地國小。</li>
+                    <li><strong>專案統籌：</strong>策劃完整的募款執行計畫，領導跨領域專案小組與國際NGO對接。</li>
+                    <li><strong>智庫對話：</strong>受邀參訪國合會 (ICDF) 總部，與第一線資深外交人員展開深度實務對話。</li>
                 </ul>
             </div>
         </div>
@@ -328,18 +324,17 @@
                 <img src="image/截圖 2025-12-25 晚上8.20.59.png" alt="STEM Research" onclick="openLightbox(this.src)">
             </div>
             <div class="activity-content">
-                <h2 class="lang-data" data-tw="STEM 科學研究 ✕ 論文發表" data-en="STEM Research & Academic Publication">STEM 科學研究 ✕ 論文發表</h2>
+                <h2 class="lang-data" data-tw="STEM 科學研究" data-en="STEM Research">STEM 科學研究</h2>
                 <div class="activity-meta">
                     <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-user-tie'></i> 團隊協調人" data-en="<i class='fa-solid fa-user-tie'></i> Team Coordinator"><i class='fa-solid fa-user-tie'></i> 團隊協調人</span>
                     <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-clock'></i> 1 小時 / 週" data-en="<i class='fa-solid fa-clock'></i> 1 hr / week"><i class='fa-solid fa-clock'></i> 1 小時 / 週</span>
                     <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-calendar'></i> 3 年歷程" data-en="<i class='fa-solid fa-calendar'></i> 3 Years"><i class='fa-solid fa-calendar'></i> 3 年歷程</span>
                 </div>
                 <ul class="achievements-list lang-data" data-type="list"
-                    data-tw="<li><strong>2024 3min4Science：</strong>勇奪科學敘事與簡報<strong>全國第一名</strong>。</li><li><strong>Ocean Challenge：</strong>2024 年成功打入<strong>全國前八強 (Top 8)</strong>。</li><li><strong>2025 AI/STEM：</strong>投入最新技術專案開發，並準備發表<strong>學術論文</strong>。</li>"
-                    data-en="<li><strong>2024 3min4Science:</strong> Awarded <strong>First Place Nationwide</strong> for outstanding scientific narrative and presentation eloquence.</li><li><strong>Taiwan Ocean Challenge:</strong> Reached the <strong>National Top 8</strong> in 2024; advanced further with enhanced ecological models in 2025.</li><li><strong>2025 AI/STEM Frontiers:</strong> Spearheading high-level technical projects and currently compiling research into a formal <strong>academic paper</strong>.</li>">
-                    <li><strong>2024 3min4Science：</strong>勇奪科學敘事與簡報<strong>全國第一名</strong>。</li>
-                    <li><strong>Ocean Challenge：</strong>2024 年成功打入<strong>全國前八強 (Top 8)</strong>。</li>
-                    <li><strong>2025 AI/STEM：</strong>投入最新技術專案開發，並準備發表<strong>學術論文</strong>。</li>
+                    data-tw="<li><strong>2024 3min4Science：</strong>勇奪科學敘事與簡報<strong>全國第一名 (1st Place)</strong>。</li><li><strong>Ocean Challenge：</strong>2024 年打入<strong>全國前八強 (Top 8)</strong>，持續深化海洋環境科學研究與 AI 應用探討。</li>"
+                    data-en="<li><strong>2024 3min4Science:</strong> Awarded <strong>First Place Nationwide</strong> for outstanding scientific narrative and presentation eloquence.</li><li><strong>Ocean Challenge:</strong> Reached National Top 8 in Taiwan Ocean Challenge; advanced research in marine environmental science.</li>">
+                    <li><strong>2024 3min4Science：</strong>勇奪科學敘事與簡報<strong>全國第一名 (1st Place)</strong>。</li>
+                    <li><strong>Ocean Challenge：</strong>2024 年打入<strong>全國前八強 (Top 8)</strong>，持續深化海洋環境科學研究與 AI 應用探討。</li>
                 </ul>
             </div>
         </div>
@@ -352,15 +347,14 @@
                 <h2 class="lang-data" data-tw="影視創作 ✕ 雙語主持" data-en="Cinematic Creation & Bilingual Hosting">影視創作 ✕ 雙語主持</h2>
                 <div class="activity-meta">
                     <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-video'></i> 內容創作者" data-en="<i class='fa-solid fa-video'></i> Content Creator"><i class='fa-solid fa-video'></i> 內容創作者</span>
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-microphone'></i> 電視主持人" data-en="<i class='fa-solid fa-microphone'></i> TV Show Host"><i class='fa-solid fa-microphone'></i> 電視主持人</span>
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-award'></i> 影賽大獎橫掃" data-en="<i class='fa-solid fa-award'></i> Film Award Winner"><i class='fa-solid fa-award'></i> 影賽大獎橫掃</span>
+                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-microphone'></i> 電視節目主持人" data-en="<i class='fa-solid fa-microphone'></i> TV Show Host"><i class='fa-solid fa-microphone'></i> 電視節目主持人</span>
+                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-award'></i> 橫掃 4 座影賽大獎" data-en="<i class='fa-solid fa-award'></i> 4-Time Film Award Winner"><i class='fa-solid fa-award'></i> 橫掃 4 座影賽大獎</span>
                 </div>
                 <ul class="achievements-list lang-data" data-type="list"
-                    data-tw="<li><strong>小主播經歷：</strong>連續 5 年於大愛電視台擔任小主播。</li><li><strong>金鐘合作：</strong>與金鐘獎最佳主持人共同搭檔主持電視節目。</li><li><strong>影賽殊榮：</strong>累計奪下 4 座大獎，斬獲 <strong>10萬新台幣</strong> 總獎金。</li>"
-                    data-en="<li><strong>DaAi TV Anchor:</strong> Accumulated 5 years of professional media experience as a youth anchor on national television.</li><li><strong>Golden Bell Collaboration:</strong> Co-hosted mainstream television programs alongside prominent Golden Bell Award-winning hosts.</li><li><strong>Film Accolades:</strong> Clinched 4 major film production awards, securing a combined total of over <strong>NT$100,000</strong> in prize money.</li>">
-                    <li><strong>小主播經歷：</strong>連續 5 年於大愛電視台擔任小主播。</li>
-                    <li><strong>金鐘合作：</strong>與金鐘獎最佳主持人共同搭檔主持電視節目。</li>
-                    <li><strong>影賽殊榮：</strong>累計奪下 4 座大獎，斬獲 <strong>10萬新台幣</strong> 總獎金。</li>
+                    data-tw="<li><strong>小主播經歷：</strong>連續 5 年於大愛電視台主流節目擔任青年主播，具備高階面對鏡頭與公眾演說能力。</li><li><strong>影賽殊榮：</strong>個人獨立與團隊作品累計奪下 4 座全國微電影大獎，斬獲 <strong>10萬新台幣</strong> 總獎金。</li>"
+                    data-en="<li><strong>DaAi TV Anchor:</strong> Accumulated 5 years of professional media experience as a youth anchor on DaAi TV.</li><li><strong>Film Accolades:</strong> Clinched 4 major film production awards, securing a combined total of over <strong>NT$100,000</strong> in prize money.</li>">
+                    <li><strong>小主播經歷：</strong>連續 5 年於大愛電視台主流節目擔任青年主播，具備高階面對鏡頭與公眾演說能力。</li>
+                    <li><strong>影賽殊榮：</strong>個人獨立與團隊作品累計奪下 4 座全國微電影大獎，斬獲 <strong>10萬新台幣</strong> 總獎金。</li>
                 </ul>
             </div>
         </div>
@@ -373,14 +367,14 @@
                 <h2 class="lang-data" data-tw="爵士樂團 (Band)" data-en="Jazz Band">爵士樂團 (Band)</h2>
                 <div class="activity-meta">
                     <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-music'></i> 樂團團長 / 創辦人 / 主唱" data-en="<i class='fa-solid fa-music'></i> Band Leader / Founder / Vocalist"><i class='fa-solid fa-music'></i> 樂團團長 / 創辦人 / 主唱</span>
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-clock'></i> 2 小時 / 月" data-en="<i class='fa-solid fa-clock'></i> 2 hrs / month"><i class='fa-solid fa-clock'></i> 2 小時 / 月</span>
+                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-clock'></i> 2 小時 / 月" data-en="<i class='fa-solid fa-clock'></i> 2 hrs / month"><i class='fa-solid fa-clock'></i> 2 hrs / month</span>
                     <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-calendar'></i> 4 年歷程" data-en="<i class='fa-solid fa-calendar'></i> 4 Years"><i class='fa-solid fa-calendar'></i> 4 年歷程</span>
                 </div>
                 <ul class="achievements-list lang-data" data-type="list"
-                    data-tw="<li><strong>舞台實戰：</strong>累計 <strong>7次正式大型 Live 演出</strong>，並創作多首原創歌曲。</li><li><strong>公益音樂：</strong>前往<strong>養老院與公園</strong>舉辦義演，回饋社區。</li>"
+                    data-tw="<li><strong>舞台實戰：</strong>組建並領導樂團，累計 <strong>7次正式大型 Live 演出</strong>，並為學校大型慶典創作原創主題歌曲。</li><li><strong>公益音樂：</strong>發起「音樂回饋專案」，前往在地<strong>養老院、銀髮中心與社區公園</strong>舉辦慈善義演，用音樂溫暖社會。</li>"
                     data-en="<li><strong>Stage Performance:</strong> Choreographed and headlined over <strong>7 large-scale live concerts</strong>; composed original theme songs for high-profile school ceremonies.</li><li><strong>Altruistic Recitals:</strong> Hosted charity music tours at nursing homes, senior centers, and public parks to give back to the community.</li>">
-                    <li><strong>舞台實戰：</strong>累計 <strong>7次正式大型 Live 演出</strong>，並創作多首原創歌曲。</li>
-                    <li><strong>公益音樂：</strong>前往<strong>養老院與公園</strong>舉辦義演，回饋社區。</li>
+                    <li><strong>舞台實戰：</strong>組建並領導樂團，累計 <strong>7次正式大型 Live 演出</strong>，並為學校大型慶典創作原創主題歌曲。</li>
+                    <li><strong>公益音樂：</strong>發起「音樂回饋專案」，前往在地<strong>養老院、銀髮中心與社區公園</strong>舉辦慈善義演，用音樂溫暖社會。</li>
                 </ul>
             </div>
         </div>
@@ -392,15 +386,15 @@
             <div class="activity-content">
                 <h2 class="lang-data" data-tw="社區公益英語課程" data-en="Community English Initiative">社區公益英語課程</h2>
                 <div class="activity-meta">
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-chalkboard-user'></i> 講師" data-en="<i class='fa-solid fa-chalkboard-user'></i> Lecturer"><i class='fa-solid fa-chalkboard-user'></i> 講師</span>
+                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-chalkboard-user'></i> 發起人 兼 核心講師" data-en="<i class='fa-solid fa-chalkboard-user'></i> Founder & Lead Lecturer"><i class='fa-solid fa-chalkboard-user'></i> 發起人 兼 核心講師</span>
                     <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-clock'></i> 4 小時 / 月" data-en="<i class='fa-solid fa-clock'></i> 4 hrs / month"><i class='fa-solid fa-clock'></i> 4 小時 / 月</span>
                     <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-calendar'></i> 2 年歷程" data-en="<i class='fa-solid fa-calendar'></i> 2 Years"><i class='fa-solid fa-calendar'></i> 2 年歷程</span>
                 </div>
                 <ul class="achievements-list lang-data" data-type="list"
-                    data-tw="<li><strong>造福社區：</strong>支援超過 60 位學生，研發圖像記憶法與複習影片。</li><li><strong>雙軌教學：</strong>針對不同程度設計客製化字彙單與討論教材。</li>"
+                    data-tw="<li><strong>造福社區：</strong>長期支援並輔導超過 60 位弱勢家庭學生，研發獨創的「圖像記憶字彙法」並錄製數位複習影片。</li><li><strong>雙軌教學：</strong>針對學員程度進行差異化教材設計，從初階發音字彙單到高階時事思辨討論，全面提升社區青年雙語力。</li>"
                     data-en="<li><strong>Empowering Youth:</strong> Taught and supported over 60+ underprivileged students; established digital learning archives on YouTube.</li><li><strong>Differentiated Syllabi:</strong> Created customized mnemonic vocab sheets for beginners and advanced debate prompts for higher-level learners.</li>">
-                    <li><strong>造福社區：</strong>支援超過 60 位學生，研發圖像記憶法與複習影片。</li>
-                    <li><strong>雙軌教學：</strong>針對不同程度設計客製化字彙單與討論教材。</li>
+                    <li><strong>造福社區：</strong>長期支援並輔導超過 60 位弱勢家庭學生，研發獨創的「圖像記憶字彙法」並錄製數位複習影片。</li>
+                    <li><strong>雙軌教學：</strong>針對學員程度進行差異化教材設計，從初階發音字彙單到高階時事思辨討論，全面提升社區青年雙語力。</li>
                 </ul>
             </div>
         </div>
@@ -412,14 +406,14 @@
             <div class="activity-content">
                 <h2 class="lang-data" data-tw="外交小尖兵 (Teen Diplomat)" data-en="Teen Diplomatic Envoys">外交小尖兵 (Teen Diplomat)</h2>
                 <div class="activity-meta">
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-star'></i> 官方參與代表" data-en="<i class='fa-solid fa-star'></i> Official Participant"><i class='fa-solid fa-star'></i> 官方參與代表</span>
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-plane'></i> 赴美外交參訪" data-en="<i class='fa-solid fa-plane'></i> Diplomatic Mission to US"><i class='fa-solid fa-plane'></i> 赴美外交參訪</span>
+                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-star'></i> 官方參與代表" data-en="<i class='fa-solid fa-star'></i> Official High School Participant"><i class='fa-solid fa-star'></i> 官方參與代表</span>
+                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-plane'></i> 赴美官方外交參訪" data-en="<i class='fa-solid fa-plane'></i> Official Diplomatic Mission to US"><i class='fa-solid fa-plane'></i> 赴美官方外交參訪</span>
                 </div>
                 <ul class="achievements-list lang-data" data-type="list"
-                    data-tw="<li><strong>菁英選拔：</strong>從 全台名校競爭者中脫穎而出，參與密集外交與國情簡報訓練。</li><li><strong>國家代表：</strong>獲選為官方外交代表之一，代表赴美展開深度青年外交與文化交流。</li>"
-                    data-en="<li><strong>Elite National Selection:</strong> Emerged from an extremely competitive pool of high school applicants to win selection as an official Envoy.</li><li><strong>Official US Delegation:</strong> Represented Taiwan on a high-level official diplomatic mission to the United States for international exchange.</li>">
-                    <li><strong>菁英選拔：</strong>從 全台名校競爭者中脫穎而出，參與密集外交與國情簡報訓練。</li>
-                    <li><strong>國家代表：</strong>獲選為官方外交代表之一，代表赴美展開深度青年外交與文化交流。</li>
+                    data-tw="<li><strong>菁英選拔：</strong>從全台頂尖名校上千名競爭者中脫穎而出，參與外交部舉辦之密集青年外交與國情簡報訓練。</li><li><strong>國家代表：</strong>獲選為官方青年外交代表之一，代表赴美國洛杉磯、舊金山等地展開為期 10 天的高階官方拜會、智庫交流與文化國民外交。</li>"
+                    data-en="<li><strong>Elite National Selection:</strong> Emerged from an extremely competitive pool of high school applicants to win selection as an official Envoy.</li><li><strong>Official US Delegation:</strong> Represented Taiwan on a high-level official diplomatic mission to Los Angeles and San Francisco for international exchange.</li>">
+                    <li><strong>菁英選拔：</strong>從全台頂尖名校上千名競爭者中脫穎而出，參與外交部舉辦之密集青年外交與國情簡報訓練。</li>
+                    <li><strong>國家代表：</strong>獲選為官方青年外交代表之一，代表赴美國洛杉磯、舊金山等地展開為期 10 天的高階官方拜會、智庫交流與文化國民外交。</li>
                 </ul>
             </div>
         </div>
@@ -431,21 +425,21 @@
             <div class="activity-content">
                 <h2 class="lang-data" data-tw="全英語思辨與競賽辯論" data-en="English Forensics & Competitive Debate">全英語思辨與競賽辯論</h2>
                 <div class="activity-meta">
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-comments'></i> 核心辯論賽手" data-en="<i class='fa-solid fa-comments'></i> Varsity Debater"><i class='fa-solid fa-comments'></i> 核心辯論賽手</span>
+                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-comments'></i> 核心辯論賽手 (Varsity)" data-en="<i class='fa-solid fa-comments'></i> Varsity Debater"><i class='fa-solid fa-comments'></i> 核心辯論賽手 (Varsity)</span>
                     <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-calendar'></i> 4 年歷程" data-en="<i class='fa-solid fa-calendar'></i> 4-Year Experience"><i class='fa-solid fa-calendar'></i> 4 年歷程</span>
                 </div>
                 <ul class="achievements-list lang-data" data-type="list"
-                    data-tw="<li><strong>最佳辯士：</strong>於 Lincoln-Douglas 辯論賽中勇奪<strong>最佳辯士大獎</strong>。</li><li><strong>Cicero 戰隊：</strong>獲選入列 Cicero 全英思辨賽<strong>第一戰隊成員</strong>。</li>"
+                    data-tw="<li><strong>最佳辯士：</strong>於極高邏輯強度的 Lincoln-Douglas (LD) 單人思辨辯論賽中，勇奪象徵最高個人榮譽的<strong>最佳辯士大獎 (Best Speaker Award)</strong>。</li><li><strong>Cicero 戰隊：</strong>憑藉強大論證實力，獲選入列 Cicero 全英思辨賽<strong>第一戰隊核心成員 (First Seed Member)</strong>。</li>"
                     data-en="<li><strong>Best Speaker Laurels:</strong> Awarded the coveted <strong>Best Speaker Award</strong> in highly demanding, logic-driven Lincoln-Douglas single debate tournaments.</li><li><strong>Cicero First Seed:</strong> Selected as a cornerstone member of the prestigious Cicero English Debate First Elite Varsity Team.</li>">
-                    <li><strong>最佳辯士：</strong>於 Lincoln-Douglas 辯論賽中勇奪<strong>最佳辯士大獎</strong>。</li>
-                    <li><strong>Cicero 戰隊：</strong>獲選入列 Cicero 全英思辨賽<strong>第一戰隊成員</strong>。</li>
+                    <li><strong>最佳辯士：</strong>於極高邏輯強度的 Lincoln-Douglas (LD) 單人思辨辯論賽中，勇奪象徵最高個人榮譽的<strong>最佳辯士大獎 (Best Speaker Award)</strong>。</li>
+                    <li><strong>Cicero 戰隊：</strong>憑藉強大論證實力，獲選入列 Cicero 全英思辨賽<strong>第一戰隊核心成員 (First Seed Member)</strong>。</li>
                 </ul>
             </div>
         </div>
 
-        <div class="activity-card" id="event-podcast">
+        <div class="activity-card" id="event-agenda">
             <div class="activity-image-wrapper">
-                <img src="image/podcast_cover.jpg" alt="aGENda Podcast" onclick="openLightbox(this.src)">
+                <img src="image/截圖 2026-06-12 上午10.32.42.png" alt="aGENda Podcast" onclick="openLightbox(this.src)">
             </div>
             <div class="activity-content">
                 <h2 class="lang-data" data-tw="aGENda Podcast" data-en="aGENda Podcast">aGENda Podcast</h2>
@@ -455,10 +449,10 @@
                     <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-calendar'></i> 1 年歷程" data-en="<i class='fa-solid fa-calendar'></i> 1 Year"><i class='fa-solid fa-calendar'></i> 1 年歷程</span>
                 </div>
                 <ul class="achievements-list lang-data" data-type="list"
-                    data-tw="<li><strong>自媒體創辦：</strong>獨立策劃並創辦聚焦青年觀點、國際時事與社會思辨的數位播客節目。</li><li><strong>深度訪談：</strong>擔綱節目主理人，邀訪不同領域青年代表，鍛鍊高階雙語訪談與議題企劃力。</li>"
+                    data-tw="<li><strong>自媒體創辦：</strong>獨立規劃、技術架設並創辦聚焦青年觀點、國際時事與社會思辨的數位播客（Podcast）節目。</li><li><strong>深度訪談：</strong>擔綱節目主理人，邀訪多位不同領域的青年代表及專家，鍛鍊高階雙語訪談企劃力、新媒體行銷與聲音敘事影響力。</li>"
                     data-en="<li><strong>Digital Media Launch:</strong> Independently founded and curated a digital podcast series focusing on youth perspectives, global affairs, and intellectual discourse.</li><li><strong>Show Hosting:</strong> Served as the primary host, conducting interviews with diverse student leaders to cultivate bilingual broadcasting and content marketing skills.</li>">
-                    <li><strong>自媒體創辦：</strong>獨立策劃並創辦聚焦青年觀點、國際時事與社會思辨的數位播客節目。</li>
-                    <li><strong>深度訪談：</strong>擔綱節目主理人，邀訪不同領域青年代表，鍛鍊高階雙語訪談與議題企劃力。</li>
+                    <li><strong>自媒體創辦：</strong>獨立規劃、技術架設並創辦聚焦青年觀點、國際時事與社會思辨的數位播客（Podcast）節目。</li>
+                    <li><strong>深度訪談：</strong>擔綱節目主理人，邀訪多位不同領域的青年代表及專家，鍛鍊高階雙語訪談企劃力、新媒體行銷與聲音敘事影響力。</li>
                 </ul>
             </div>
         </div>
@@ -470,14 +464,14 @@
             <div class="activity-content">
                 <h2 class="lang-data" data-tw="智庫與頂尖機構研究實習" data-en="Think Tank & Academic Research Fellowships">智庫與頂尖機構研究實習</h2>
                 <div class="activity-meta">
-                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-book'></i> 台大 E3 中心 (16週)" data-en="<i class='fa-solid fa-book'></i> NTU E3Center (16 Wks)"><i class='fa-solid fa-book'></i> 台大 E3 中心 (16週)</span>
+                    <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-book'></i> 台大 E3 中心 (16週)" data-en="<i class='fa-solid fa-book'></i> NTU E3 Center (16 Wks)"><i class='fa-solid fa-book'></i> 台大 E3 中心 (16週)</span>
                     <span class="meta-badge lang-data" data-tw="<i class='fa-solid fa-landmark'></i> CAPRI 亞太智庫 (8週)" data-en="<i class='fa-solid fa-landmark'></i> CAPRI Think Tank (8 Wks)"><i class='fa-solid fa-landmark'></i> CAPRI 亞太智庫 (8週)</span>
                 </div>
                 <ul class="achievements-list lang-data" data-type="list"
-                    data-tw="<li><strong>台大綠能研究：</strong>發表關於<strong>永續航空燃油 (SAF)</strong> 之政策論文。</li><li><strong>CAPRI 淨零分析：</strong>撰寫《全球淨零排放政策比較》，於智庫學者前完成答辯。</li>"
-                    data-en="<li><strong>NTU E3Center Fellowship:</strong> Conducted a 16-week intensive policy research project on <strong>Sustainable Aviation Fuel (SAF)</strong>, presenting final discoveries in English to NTU professors.</li><li><strong>CAPRI Global Net-Zero Analysis:</strong> Authored a major comparative report on global carbon emission frameworks and successfully defended findings before full panels of CAPRI scholars.</li>">
-                    <li><strong>台大綠能研究：</strong>發表關於<strong>永續航空燃油 (SAF)</strong> 之政策論文。</li>
-                    <li><strong>CAPRI 淨零分析：</strong>撰寫《全球淨零排放政策比較》，於智庫學者前完成答辯。</li>
+                    data-tw="<li><strong>台大綠能研究：</strong>於台大 E3 中心完成為期 16 週深度研究，發表關於<strong>永續航空燃油 (SAF)</strong> 之英文政策報告，並向台大教授進行正式答辯。</li><li><strong>CAPRI 淨零分析：</strong>於亞太堅韌研究基金會 (CAPRI) 撰寫《全球淨零排放政策比較分析》，展現頂尖智庫規格的政策分析與文獻研究水準。</li>"
+                    data-en="<li><strong>NTU Green Energy Project:</strong> Completed a rigorous 16-week research fellowship at NTU's E3 Center, producing an English policy proposal on Sustainable Aviation Fuel (SAF).</li><li><strong>CAPRI Climate Policy Analysis:</strong> Authored a comprehensive comparative framework evaluating net-zero transition models across the Asia-Pacific region.</li>">
+                    <li><strong>台大綠能研究：</strong>於台大 E3 中心完成為期 16 週深度研究，發表關於<strong>永續航空燃油 (SAF)</strong> 之英文政策報告，並向台大教授進行正式答辯。</li>
+                    <li><strong>CAPRI 淨零分析：</strong>於亞太堅韌研究基金會 (CAPRI) 撰寫《全球淨零排放政策比較分析》，展現頂尖智庫規格的政策分析與文獻研究水準。</li>
                 </ul>
             </div>
         </div>
@@ -508,7 +502,7 @@
             document.getElementById("imageLightbox").style.display = "none";
         }
 
-        // ── ✨ 高精準度動態對齊時間軸捲動機制 (Scrollspy Engine V2) ──
+        // ── 高精準度滾動監聽 (Scrollspy Engine V2) ──
         const sectionsData = [
             { id: 'event-mun', node: 'node-mun' },
             { id: 'event-icdf', node: 'node-icdf' },
@@ -518,13 +512,13 @@
             { id: 'event-english', node: 'node-english' },
             { id: 'event-diplomat', node: 'node-diplomat' },
             { id: 'event-debate', node: 'node-debate' },
-            { id: 'event-podcast', node: 'node-podcast' },
+            { id: 'event-agenda', node: 'node-agenda' },
             { id: 'event-intern', node: 'node-intern' }
         ];
 
         function updateScrollspy() {
             let currentActiveId = sectionsData[0].node;
-            const scrollPos = window.scrollY + 200; // 精準偵測點偏移量
+            const scrollPos = window.scrollY + 200; 
 
             for (const section of sectionsData) {
                 const el = document.getElementById(section.id);
@@ -553,7 +547,7 @@
         window.addEventListener('scroll', updateScrollspy);
         window.addEventListener('load', updateScrollspy);
 
-        // ── 中英文多國語系切換引擎 ──
+        // ── 中英文雙語切換引擎 ──
         let currentLang = 'TW';
 
         function toggleLanguage() {
