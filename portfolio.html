@@ -3,68 +3,307 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[你的名字] 的學習歷程 - 作品集</title>
+    <title>York Chen | University Prep 大學申請戰略藍圖</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,700;1,300;1,700&family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <style>
-        /* 保持一致的優雅暗色調樣式 */
-        :root { --bg-main: #0f141c; --bg-card: #18202c; --text-main: #f1f5f9; --text-muted: #94a3b8; --gold: #d4af37; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Georgia", "Noto Sans TC", serif; }
-        body { background-color: var(--bg-main); color: var(--text-main); line-height: 1.8; }
+        /* 完美承接高階外交藍金配色 */
+        :root {
+            --bg-deep: #05080f;       
+            --bg-card: #0d1523;       
+            --gold: #d4af37;          
+            --gold-soft: #f3e5ab;     
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --gold-glow: rgba(212, 175, 55, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background-color: var(--bg-deep); 
+            color: var(--text-main); 
+            font-family: 'Noto Sans TC', sans-serif;
+            line-height: 1.9; 
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .bg-decorative {
+            position: fixed; top: 0; width: 30%; height: 100vh;
+            background-size: cover; background-position: center;
+            opacity: 0.05; filter: grayscale(100%); z-index: -1; pointer-events: none;
+        }
+        .bg-left { left: 0; background-image: url('https://images.unsplash.com/photo-1580129959606-d71d9d9bcda3?q=80&w=1200&auto=format&fit=crop'); }
+        .bg-right { right: 0; background-image: url('https://images.unsplash.com/photo-1541872703-74c5e44368f9?q=80&w=1200&auto=format&fit=crop'); }
+
+        /* ── 導覽列 ── */
+        nav {
+            background: rgba(13, 21, 35, 0.95); backdrop-filter: blur(10px);
+            padding: 1.5rem 4rem; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3); position: sticky; top: 0; z-index: 1000;
+        }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold); letter-spacing: 3px; font-weight: 700; text-decoration: none; }
+        nav ul { display: flex; list-style: none; gap: 3.5rem; align-items: center; }
+        nav a { text-decoration: none; color: var(--text-muted); font-size: 1.3rem; font-weight: 500; transition: var(--transition); letter-spacing: 1px; font-family: 'Playfair Display', serif; }
+        nav a:hover, nav a.active { color: var(--gold); text-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
+
+        .lang-switch {
+            background: transparent; border: 1px solid var(--gold); color: var(--gold);
+            padding: 6px 16px; border-radius: 20px; cursor: pointer;
+            font-family: 'Playfair Display', serif; font-weight: bold; transition: var(--transition);
+        }
+        .lang-switch:hover { background: var(--gold); color: var(--bg-deep); box-shadow: 0 0 12px var(--gold-glow); }
+
+        /* ── 左側時光軸 ── */
+        .side-timeline {
+            position: fixed; left: 2.5rem; top: 55%; transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 1.5rem; z-index: 10;
+        }
+        .node { 
+            color: var(--text-muted); font-size: 1rem; font-weight: 500; 
+            writing-mode: vertical-rl; letter-spacing: 2px; border-left: 2px solid rgba(212,175,55,0.1); 
+            padding-left: 8px; transition: var(--transition); cursor: pointer; text-decoration: none;
+        }
+        .node.active { 
+            color: var(--gold); border-left-color: var(--gold); 
+            transform: scale(1.1); text-shadow: 0 0 8px var(--gold-glow); font-weight: 700;
+        }
+
+        /* ── 主內容區塊 ── */
+        main { max-width: 1000px; margin: 0 auto; padding: 4rem 2rem; }
         
-        nav { background-color: var(--bg-card); padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(212, 175, 55, 0.2); }
-        nav .logo { font-size: 1.3rem; font-weight: bold; color: var(--gold); }
-        nav ul { display: flex; list-style: none; gap: 2rem; }
-        nav a { text-decoration: none; color: var(--text-muted); transition: 0.3s; }
-        nav a:hover, nav a.active { color: var(--gold); }
+        .header-section { text-align: center; margin-bottom: 5rem; }
+        .header-section h1 { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--gold-soft); letter-spacing: 3px; margin-bottom: 1rem; }
+        .header-section p { font-size: 1.2rem; color: var(--text-muted); }
 
-        main { max-width: 1000px; margin: 4rem auto; padding: 0 2rem; }
-        h2 { font-size: 2rem; color: var(--gold); margin-bottom: 2.5rem; text-align: center; letter-spacing: 2px; }
+        .prep-card {
+            background: var(--bg-card); border: 1px solid rgba(212, 175, 55, 0.1);
+            border-radius: 20px; padding: 3.5rem; margin-bottom: 5rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5); scroll-margin-top: 140px;
+        }
+        .prep-card h2 { font-family: 'Playfair Display', 'Noto Sans TC', serif; font-size: 2rem; color: var(--gold); margin-bottom: 2rem; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 0.8rem; }
+        
+        /* 數據表格美化 */
+        .plan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.5rem; }
+        .grid-box { background: rgba(5, 8, 15, 0.6); border: 1px solid rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 12px; }
+        .grid-box h4 { color: var(--gold-soft); margin-bottom: 0.5rem; font-size: 1.1rem; }
+        
+        .badge { background: rgba(212,175,55,0.1); color: var(--gold-soft); padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.85rem; font-weight: bold; margin-right: 0.5rem; }
+        
+        /* 列表樣式 */
+        .prep-list { list-style: none; margin-left: 0.5rem; }
+        .prep-list li { position: relative; padding-left: 1.5rem; margin-bottom: 0.8rem; color: var(--text-muted); }
+        .prep-list li::before { content: "•"; position: absolute; left: 0; color: var(--gold); font-size: 1.5rem; top: -4px; }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; }
-        .card { background-color: var(--bg-card); border-radius: 4px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
-        .card:hover { transform: translateY(-5px); border-color: var(--gold); }
-        .card-img { width: 100%; height: 220px; object-fit: cover; opacity: 0.85; transition: 0.3s; }
-        .card:hover .card-img { opacity: 1; }
-        .card-body { padding: 2rem; }
-        .card-tag { color: var(--gold); font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 0.5rem; display: block; }
-        .card-title { font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--text-main); }
-        .card-text { color: var(--text-muted); font-size: 0.95rem; }
+        /* 雙語顯示切換 */
+        [lang="en"] { display: none; }
+        body.en-mode [lang="zh"] { display: none; }
+        body.en-mode [lang="en"] { display: block; }
 
-        footer { text-align: center; padding: 3rem; color: var(--text-muted); font-size: 0.85rem; margin-top: 6rem; }
-        @media (max-width: 768px) { nav { flex-direction: column; gap: 1rem; } }
+        @media (max-width: 1000px) {
+            .side-timeline, .bg-decorative { display: none; }
+            .plan-grid { grid-template-columns: 1fr; }
+            .prep-card { padding: 2rem 1.5rem; }
+        }
     </style>
 </head>
 <body>
+
+    <div class="bg-decorative bg-left"></div>
+    <div class="bg-decorative bg-right"></div>
+
     <nav>
-        <div class="logo">PORTFOLIO</div>
+        <a href="index.html" class="logo">YORK CHEN</a>
         <ul>
-            <li><a href="index.html">自我介紹</a></li>
-            <li><a href="activities.html">課外活動</a></li>
-            <li><a href="portfolio.html" class="active">作品集</a></li>
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="activities.html">ACTIVITIES</a></li>
+            <li><a href="#" class="active">UNIVERSITY PREP</a></li>
+            <button class="lang-switch" onclick="toggleLanguage()">EN / 中文</button>
         </ul>
     </nav>
 
+    <div class="side-timeline">
+        <a href="#sec-plans" class="node active" id="node-plans">1. 國家藍圖</a>
+        <a href="#sec-hours" class="node" id="node-hours">2. 時間盤點</a>
+        <a href="#sec-essays" class="node" id="node-essays">3. 文書自述</a>
+        <a href="#sec-majors" class="node" id="node-majors">4. 目標科系</a>
+    </div>
+
     <main>
-        <h2>核心作品集</h2>
-        <div class="grid">
-            <div class="card">
-                <img src="images/project1.jpg" alt="作品照片" class="card-img">
-                <div class="card-body">
-                    <span class="card-tag">// 專題研究</span>
-                    <h3 class="card-title">[專題/作品名稱一]</h3>
-                    <p class="card-text">詳細說明你做這個專案的起因、使用的研究方法、以及最關鍵的研究發現或實作成果。</p>
+        <div class="header-section">
+            <h1 lang="zh">University Prep 留學申請戰略藍圖</h1>
+            <h1 lang="en">University Prep Strategy Profile</h1>
+            <p lang="zh">全方位盤點目前所學、課外活動權重、留學方針與目標主修科系架構</p>
+            <p lang="en">A comprehensive analysis of study plans, activity commitments, essays, and target majors.</p>
+        </div>
+
+        <div class="prep-card" id="sec-plans">
+            <h2 lang="zh"><i class="fa-solid fa-map-location-dot"></i> 1. 全球留學戰略計畫 (ABC 計畫)</h2>
+            <h2 lang="en"><i class="fa-solid fa-map-location-dot"></i> 1. Global Strategy & Target Schools</h2>
+            <p lang="zh" style="margin-bottom: 1rem; color:var(--gold-soft)">*學費方針：需自行負擔或透過獎學金/助學貸款支付。</p>
+            <p lang="en" style="margin-bottom: 1rem; color:var(--gold-soft)">*Tuition Policy: Self-funding required, targeting scholarships or student loans.</p>
+
+            <div class="plan-grid">
+                <div class="grid-box">
+                    <h4 lang="zh">【方案 A】美國 (United States)</h4>
+                    <h4 lang="en">【Plan A】United States</h4>
+                    <p lang="zh" style="font-size:0.95rem; color:var(--gold)">目標學校：Cornell, Yale, UPenn, Dartmouth, UC Berkeley, UCLA, UCSD, Georgetown, UMich, NYU</p>
+                    <p lang="en" style="font-size:0.95rem; color:var(--gold)">Targets: Cornell, Yale, UPenn, Dartmouth, UC Berkeley, UCLA, UCSD, Georgetown, UMich, NYU</p>
+                    <ul class="prep-list" style="margin-top:0.5rem">
+                        <li lang="zh">優勢：最頂尖的產品經理 (PM)、創投、AI 與科技生態圈；跨學門彈性極大。</li>
+                        <li lang="zh">劣勢：學費極其昂貴；H-1B 簽證抽籤具備高度不確定性。</li>
+                        <li lang="en">Pros: Ideal ecosystem for PM, tech, AI, and startups. Academic flexibility.</li>
+                        <li lang="en">Cons: Extremely expensive; H-1B visa uncertainty.</li>
+                    </ul>
+                </div>
+                <div class="grid-box">
+                    <h4 lang="zh">【方案 B】加拿大 / 新加坡 / 香港</h4>
+                    <h4 lang="en">【Plan B】Canada / SG / HK</h4>
+                    <p lang="zh" style="font-size:0.95rem; color:var(--gold)">目標學校：Waterloo, UTo, McGill, UBC / NUS, NTU / HKU, HKUST</p>
+                    <p lang="en" style="font-size:0.95rem; color:var(--gold)">Targets: Waterloo, Toronto, McGill, UBC / NUS, NTU / HKU, HKUST</p>
+                    <ul class="prep-list" style="margin-top:0.5rem">
+                        <li lang="zh">優勢：滑鐵盧實習系統 (Co-op) 強大；學費較低且移民政策相對友善。</li>
+                        <li lang="zh">劣勢：文化更偏向純工程領域；薪資天花板通常比美國低。</li>
+                        <li lang="en">Pros: Highly recognized tech Co-op (Waterloo); easier immigration pathways.</li>
+                        <li lang="en">Cons: Engineering-focused tech cultures; slightly lower salaries.</li>
+                    </ul>
                 </div>
             </div>
-            <div class="card">
-                <img src="images/project2.jpg" alt="作品照片" class="card-img">
-                <div class="card-body">
-                    <span class="card-tag">// 課堂成果</span>
-                    <h3 class="card-title">[專題/作品名稱二]</h3>
-                    <p class="card-text">可以是具代表性的簡報、程式作品或文學創作。著重描寫你在當中所展現的專業技能。</p>
+            
+            <div class="grid-box" style="margin-top: 1.5rem;">
+                <h4 lang="zh">【方案 C】台灣不分系 (Taiwan Open Curriculum)</h4>
+                <h4 lang="en">【Plan C】Taiwan Universities (Undecided Major)</h4>
+                <ul class="prep-list">
+                    <li lang="zh">優勢：成本最低；擁有極致自由度來設計個人課表、營運個人新創、YouTube 頻道與模聯活動。</li>
+                    <li lang="zh">劣勢：全球品牌效應相較於美加名校較弱；科技業產品經理 (PM) 的直接管道非常有限。</li>
+                    <li lang="en">Pros: Lowest cost, ultimate freedom to pursue side projects, startups, YouTube, and MUN.</li>
+                    <li lang="en">Cons: Weaker global brand; limited pipeline for PM recruiting compared to the US.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="prep-card" id="sec-hours">
+            <h2 lang="zh"><i class="fa-solid fa-clock"></i> 2. 課外活動權重與每週時間盤點</h2>
+            <h2 lang="en"><i class="fa-solid fa-clock"></i> 2. Extracurricular Profiles & Commitments</h2>
+            <p lang="zh" style="color: var(--text-muted); margin-bottom: 1.5rem;">為確保大學申請文書（如 Common App Activities List）之真實性與深度，將所有歷程的投入時長與職責進行系統化梳理：</p>
+            <p lang="en" style="color: var(--text-muted); margin-bottom: 1.5rem;">Systematic analysis of roles and time commitments for the Common App activities roster:</p>
+            
+            <ul class="prep-list">
+                <li lang="zh"><span class="badge">3~4 hr / week</span> <strong>模擬聯合國 (Model United Nations)</strong> | 職稱：社辦主席、秘書長 (3年歷程)</li>
+                <li lang="en"><span class="badge">3~4 hr / week</span> <strong>Model United Nations</strong> | Club President & SG (3 years)</li>
+                
+                <li lang="zh"><span class="badge">2 hr / week</span> <strong>Wego ICDF 社團</strong> | 職稱：共同創辦人、副主席兼執行長 (2年歷程)</li>
+                <li lang="en"><span class="badge">2 hr / week</span> <strong>Wego ICDF Club</strong> | Co-founder, Vice President & CEO (2 years)</li>
+
+                <li lang="zh"><span class="badge">3 hr / week</span> <strong>aGENda Podcast 頻道</strong> | 職稱：創辦人兼主持人 (1年歷程)</li>
+                <li lang="en"><span class="badge">3 hr / week</span> <strong>aGENda Podcast</strong> | Founder & Host (1 year)</li>
+
+                <li lang="zh"><span class="badge">4~5 hr / week</span> <strong>E3 智庫中心學術研究</strong> | 職稱：青年研究成員 (為期 16 週)</li>
+                <li lang="en"><span class="badge">4~5 hr / week</span> <strong>Research at E3 Center</strong> | Research Participant (16 weeks)</li>
+
+                <li lang="zh"><span class="badge">4~5 hr / week</span> <strong>CAPRI 亞太區域影響力研究</strong> | 職稱：研究專案成員 (為期 8 週)</li>
+                <li lang="en"><span class="badge">4~5 hr / week</span> <strong>Research at CAPRI</strong> | Research Participant (8 weeks)</li>
+
+                <li lang="zh"><span class="badge">4 hr / month</span> <strong>社區英文免費支教</strong> | 職稱：英語主講人 (2年歷程)</li>
+                <li lang="en"><span class="badge">4 hr / month</span> <strong>Community English Lessons</strong> | English Lecturer (2 years)</li>
+
+                <li lang="zh"><span class="badge">2 hr / month</span> <strong>學生獨立樂團與音樂創作</strong> | 職稱：樂團團長、主唱 (4年歷程)</li>
+                <li lang="en"><span class="badge">2 hr / month</span> <strong>Band & Music Production</strong> | Band Leader & Lead Vocalist (4 years)</li>
+
+                <li lang="zh"><span class="badge">持續累積</span> <strong>外交小尖兵 / 全國影視主持</strong> | 職稱：全國代表、影音創作者</li>
+                <li lang="en"><span class="badge">Ongoing</span> <strong>Teen Diplomat Envoys / Filmmaking / TV Hosting</strong> | National Envoy & Creator</li>
+            </ul>
+        </div>
+
+        <div class="prep-card" id="sec-essays">
+            <h2 lang="zh"><i class="fa-solid fa-file-pen"></i> 3. 申請文書故事線 (Essays & Personal Statement)</h2>
+            <h2 lang="en"><i class="fa-solid fa-file-pen"></i> 3. Application Narrative & Essay Blueprint</h2>
+            <div class="grid-box">
+                <h4 lang="zh">核心敘事核心 (The Narrative Voice)</h4>
+                <h4 lang="en">The Narrative Voice</h4>
+                <p lang="zh">拒絕流水帳，將所有的申請文書（Essay）聚焦於我「個人的獨特故事與真實聲音」。透過媒體（YouTube/Podcast）的主持感染力，結合外交（ICDF/外交小尖兵）的街頭實踐，向主審官傳遞一位具備理性談判能力、又有感性敘事溫度的青年領袖形象。</p>
+                <p lang="en">Reject typical formats. Focus on individual story and personal voice. Combine media communication with global diplomacy initiatives to project a rational yet highly empathetic changemaker.</p>
+            </div>
+            <div class="grid-box" style="margin-top:1.5rem">
+                <h4 lang="zh">目前正全力衝刺的剩餘項目 (What is Left to Do)</h4>
+                <h4 lang="en">Ongoing Action Items</h4>
+                <ul class="prep-list">
+                    <li lang="zh"><strong>活動強化：</strong>持續拉高核心課外活動的影響力與實質成果，以建構無懈可擊的主故事線。</li>
+                    <li lang="en"><strong>Extracurriculars:</strong> Solidifying milestone outcomes to complete the narrative.</li>
+                    <li lang="zh"><strong>標準化考試：</strong>全面衝刺 SAT 與 Duolingo English Test (DET) 的極致高分。</li>
+                    <li lang="en"><strong>Standardized Tests:</strong> Maximizing SAT and Duolingo English Test performance.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="prep-card" id="sec-majors">
+            <h2 lang="zh"><i class="fa-solid fa-graduation-cap"></i> 4. 擬定主修科系與未來職涯對照</h2>
+            <h2 lang="en"><i class="fa-solid fa-graduation-cap"></i> 4. Target Majors & Prospective Careers</h2>
+            
+            <div class="plan-grid">
+                <div class="grid-box">
+                    <h4 lang="zh">1. 國際關係 (International Relations)</h4>
+                    <h4 lang="en">1. International Relations</h4>
+                    <p lang="zh" style="font-size:0.9rem; color:var(--text-muted)">專注領域：全球政治、現代外交、國際合作與衝突解決、國家安全方針。</p>
+                    <p lang="en" style="font-size:0.9rem; color:var(--text-muted)">Focus: Global politics, modern diplomacy, international conflict resolution.</p>
+                    <p lang="zh" style="font-size:0.9rem; color:var(--gold)">🎯 理想職涯：外交官 (Diplomat)、政策分析師、國際戰略顧問</p>
+                    <p lang="en" style="font-size:0.9rem; color:var(--gold)">🎯 Careers: Diplomat, Policy Analyst, International Consultant</p>
+                </div>
+
+                <div class="grid-box">
+                    <h4 lang="zh">2. 傳播學 (Communication)</h4>
+                    <h4 lang="en">2. Communication</h4>
+                    <p lang="zh" style="font-size:0.9rem; color:var(--text-muted)">專注領域：公眾演說與說服藝術、媒體策略、戰略性訊息傳遞、組織溝通學。</p>
+                    <p lang="en" style="font-size:0.9rem; color:var(--text-muted)">Focus: Public speaking, persuasion mechanics, media and strategic messaging.</p>
+                    <p lang="zh" style="font-size:0.9rem; color:var(--gold)">🎯 理想職涯：公關經理 (PR Manager)、行銷策略師、企業傳播專家</p>
+                    <p lang="en" style="font-size:0.9rem; color:var(--gold)">🎯 Careers: Public Relations Manager, Marketing Strategist</p>
+                </div>
+
+                <div class="grid-box">
+                    <h4 lang="zh">3. 政治學 (Political Science)</h4>
+                    <h4 lang="en">3. Political Science</h4>
+                    <p lang="zh" style="font-size:0.9rem; color:var(--text-muted)">專注領域：政府體制、公共政策模型剖析、政治行為與全球選舉戰略。</p>
+                    <p lang="en" style="font-size:0.9rem; color:var(--text-muted)">Focus: Government frameworks, public policy analysis, election dynamics.</p>
+                    <p lang="zh" style="font-size:0.9rem; color:var(--gold)">🎯 理想職涯：政治顧問、政府體系官員、智庫政策學者</p>
+                    <p lang="en" style="font-size:0.9rem; color:var(--gold)">🎯 Careers: Political Consultant, Government Official</p>
+                </div>
+
+                <div class="grid-box">
+                    <h4 lang="zh">4. 媒體研究 (Media Studies)</h4>
+                    <h4 lang="en">4. Media Studies</h4>
+                    <p lang="zh" style="font-size:0.9rem; color:var(--text-muted)">專注領域：大眾媒體對社會之衝擊、數位平台演算法、文化與科技傳播交織。</p>
+                    <p lang="en" style="font-size:0.9rem; color:var(--text-muted)">Focus: Media's social impacts, digital platform growth, and technology.</p>
+                    <p lang="zh" style="font-size:0.9rem; color:var(--gold)">🎯 理想職涯：媒體戰略總監、數位內容製作人、社群平台經理</p>
+                    <p lang="en" style="font-size:0.9rem; color:var(--gold)">🎯 Careers: Media Strategist, Content Producer, Social Media Manager</p>
                 </div>
             </div>
         </div>
     </main>
 
-    <footer><p>&copy; 2026 [你的名字]. All rights reserved.</p></footer>
+    <footer>
+        <p>© 2026 YORK CHEN. POWERED BY DIPLOMACY & STORYTELLING.</p>
+    </footer>
+
+    <script>
+        function toggleLanguage() { document.body.classList.toggle('en-mode'); }
+        
+        window.addEventListener('scroll', () => {
+            const targets = [
+                { id: 'sec-plans', node: 'node-plans' },
+                { id: 'sec-hours', node: 'node-hours' },
+                { id: 'sec-essays', node: 'node-essays' },
+                { id: 'sec-majors', node: 'node-majors' }
+            ];
+            let activeNode = 'node-plans';
+            targets.forEach(t => {
+                const el = document.getElementById(t.id);
+                if(el && window.pageYOffset >= el.offsetTop - 250) activeNode = t.node;
+            });
+            document.querySelectorAll('.side-timeline .node').forEach(n => n.classList.remove('active'));
+            if(document.getElementById(activeNode)) document.getElementById(activeNode).classList.add('active');
+        });
+    </script>
 </body>
 </html>
