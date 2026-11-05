@@ -7,7 +7,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@600&family=Permanent+Marker&display=swap">
 <style>
 /* Layout: full-screen tablet OS — power on → 15s welcome video → shrinks to corner guide → home screen; apps open as full-screen layers */
 :root{
@@ -86,18 +86,35 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;paddin
 .ns-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--flix-red);font-weight:700}
 .ns-title{font-size:18px;font-weight:700;margin-top:4px}
 .ns-sub{font-size:12.5px;color:rgba(255,255,255,.72);margin-top:4px;line-height:1.4}
-.icons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:26px 10px}
-.app-icon{display:flex;flex-direction:column;align-items:center;gap:7px;font-size:12px;font-weight:500;text-shadow:0 1px 3px rgba(0,0,0,.45)}
-.glyph{width:70px;max-width:100%;aspect-ratio:1;border-radius:23%;display:grid;place-items:center;box-shadow:0 8px 18px rgba(0,0,0,.28);transition:transform .18s;position:relative}
+.icons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(26px,3vw,40px) clamp(10px,1.4vw,22px)}
+.app-icon{display:flex;flex-direction:column;align-items:center;gap:9px;font-size:clamp(12px,1.05vw,15px);font-weight:500;text-shadow:0 1px 3px rgba(0,0,0,.45)}
+.glyph{width:clamp(60px,6.6vw,98px);max-width:100%;aspect-ratio:1;border-radius:23%;display:grid;place-items:center;box-shadow:0 8px 18px rgba(0,0,0,.28);transition:transform .18s;position:relative}
+.yf-logo{width:66%!important;height:66%!important;filter:drop-shadow(0 2px 3px rgba(0,0,0,.5))}
 .glyph svg{width:58%;height:58%}
 .app-icon:hover .glyph{transform:translateY(-2px)}
 .app-icon:active .glyph{transform:scale(.9)}
 .app-icon.hint .glyph{animation:hint 1.5s ease-out infinite}
 @keyframes hint{0%{box-shadow:0 0 0 0 rgba(255,255,255,.75),0 8px 18px rgba(0,0,0,.28)}100%{box-shadow:0 0 0 16px rgba(255,255,255,0),0 8px 18px rgba(0,0,0,.28)}}
 .yf-glyph{font-family:var(--display);color:var(--flix-red);font-size:44px;line-height:1;transform:translateY(1px)}
-.dock{align-self:center;display:flex;gap:18px;padding:12px 16px;border-radius:30px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.12);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);max-width:100%}
+.dock{align-self:center;display:flex;gap:clamp(14px,1.8vw,26px);padding:clamp(10px,1.2vw,16px) clamp(14px,1.6vw,22px);border-radius:clamp(26px,2.6vw,38px);background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.12);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);max-width:100%}
 .dock .app-icon span{display:none}
-.dock .glyph{width:62px}
+.dock .glyph{width:clamp(56px,6.4vw,92px)}
+@media (min-width:1000px){
+  .springboard{width:min(1240px,100%);gap:56px}
+  .statusbar{font-size:15px;padding:6px 10px}
+  .widgets{gap:22px}
+  .widget{border-radius:30px}
+  .nowshowing{padding:22px;gap:20px}
+  .nowshowing .mini{flex-basis:100px}
+  .ns-label{font-size:12px}
+  .ns-title{font-size:22px}
+  .ns-sub{font-size:14.5px}
+  .p-label{font-size:12px;left:22px;top:18px}
+  .p-dots{right:22px;top:22px}
+  .p-cap{left:22px;right:22px;bottom:20px}
+  .p-cap b{font-size:23px}
+  .p-cap span{font-size:14.5px}
+}
 
 @media (max-width:720px){
   .springboard{grid-template-columns:minmax(0,1fr);gap:24px;align-items:start}
@@ -106,6 +123,49 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;paddin
   .dock{gap:12px;padding:10px 12px}
   .dock .glyph{width:54px}
 }
+
+/* wallpaper layers */
+.statusbar,.home-main,.dock{position:relative;z-index:1}
+.wall-photo{position:absolute;inset:-40px;background-size:cover;background-position:center;filter:blur(26px) saturate(1.15);opacity:.55}
+.wall-photo[hidden]{display:none}
+.wall-type{position:absolute;left:-1.5vw;bottom:-5vw;font-family:var(--display);font-size:36vw;line-height:.8;letter-spacing:-.01em;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.09);pointer-events:none;user-select:none;white-space:nowrap}
+
+/* three-column springboard */
+.widgets.right{grid-column:1 / -1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:stretch}
+@media (min-width:1000px){
+  .springboard{grid-template-columns:minmax(0,1fr) minmax(0,1.3fr) minmax(0,.95fr);align-items:center}
+  .widgets.right{grid-column:auto;display:flex;flex-direction:column;gap:22px}
+}
+@media (max-width:720px){.widgets.right{grid-template-columns:minmax(0,1fr)}}
+.w-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:rgba(255,255,255,.7)}
+
+.clock{display:flex;align-items:center;gap:16px}
+.dial{flex:0 0 auto;width:clamp(60px,6vw,84px);height:auto}
+.c-time{font-size:clamp(22px,2.1vw,30px);font-weight:600;letter-spacing:-.01em;font-variant-numeric:tabular-nums;margin-top:2px}
+.c-line{font-size:13px;color:rgba(255,255,255,.78);line-height:1.4;margin-top:2px}
+
+.pod{display:flex;gap:16px;align-items:center;color:inherit;text-decoration:none;transition:transform .2s;flex-wrap:wrap}
+.pod:hover{transform:translateY(-2px)}
+.pod-cover{flex:0 0 auto;width:clamp(72px,6.6vw,96px);aspect-ratio:1;border-radius:14px;object-fit:cover;background:#fff;box-shadow:0 6px 16px rgba(0,0,0,.3)}
+.pod-body{flex:1 1 140px;min-width:0}
+.pod-name{font-size:clamp(17px,1.5vw,20px);font-weight:700;margin-top:3px}
+.pod-sub{font-size:13px;color:rgba(255,255,255,.78);line-height:1.4;margin-top:3px}
+.pod-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:10px}
+.pod-play{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;padding:7px 13px 7px 10px;border-radius:99px;background:#fff;color:#111}
+.pod-play svg{width:14px;height:14px}
+.pod-eps{font-size:12.5px;color:rgba(255,255,255,.7);font-variant-numeric:tabular-nums}
+
+.note{position:relative;text-align:left;padding:26px 24px 18px;border-radius:6px;transform:rotate(-1.6deg);color:#1b1b24;
+  background:repeating-linear-gradient(180deg,transparent 0 27px,rgba(70,110,200,.16) 27px 28px) 0 18px/100% auto,#f9f9f6;
+  box-shadow:0 14px 30px rgba(0,0,0,.35);border:0;transition:transform .25s}
+.note::before{content:"";position:absolute;left:18px;top:0;bottom:0;width:1.5px;background:rgba(214,60,80,.35)}
+.note::after{content:"";position:absolute;left:50%;top:-11px;width:92px;height:24px;transform:translateX(-50%) rotate(3deg);background:rgba(255,255,255,.55);box-shadow:0 1px 3px rgba(0,0,0,.15);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+.note:hover{transform:rotate(-.6deg) translateY(-2px)}
+.note.flip{animation:flip .5s ease}
+@keyframes flip{50%{transform:rotate(-1.6deg) rotateY(90deg)}}
+.note .q{font-family:"Permanent Marker","Comic Sans MS",cursive;font-size:clamp(17px,1.55vw,21px);line-height:1.35;margin:0 0 10px 10px;text-wrap:balance}
+.note .by{font-family:"Caveat","Segoe Print",cursive;font-size:clamp(17px,1.5vw,20px);color:#c43a58;margin:0 0 0 10px;line-height:1.2}
+.note .tap{position:absolute;right:14px;bottom:8px;font-family:"Caveat",cursive;font-size:14px;color:#8a8a96}
 
 /* dim layer while the welcome video plays */
 #dim{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);transition:opacity .6s}
@@ -288,10 +348,12 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;paddin
 
 <!-- Home screen -->
 <div id="home">
+  <div class="wall-photo" id="wallPhoto" hidden></div>
+  <div class="wall-type" aria-hidden="true">YORK</div>
   <div class="statusbar"><span id="clock">9:41</span><span class="status-right"><span id="dateMini"></span><span class="battery"><i></i></span></span></div>
   <div class="home-main">
     <div class="springboard">
-      <div class="widgets">
+      <div class="widgets left">
         <button class="widget photos" id="photoWidget" aria-label="Next photo">
           <div class="shade"></div>
           <div class="p-label">York Chen · Photos</div>
@@ -308,6 +370,37 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;paddin
         </button>
       </div>
       <div class="icons" id="grid"></div>
+      <div class="widgets right">
+        <div class="widget clock">
+          <svg class="dial" viewBox="0 0 100 100" aria-hidden="true">
+            <circle cx="50" cy="50" r="47" fill="#f7f7f8"/>
+            <g id="ticks"></g>
+            <line id="hh" x1="50" y1="50" x2="50" y2="27" stroke="#141418" stroke-width="5" stroke-linecap="round"/>
+            <line id="mh" x1="50" y1="50" x2="50" y2="15" stroke="#141418" stroke-width="3.2" stroke-linecap="round"/>
+            <line id="sh" x1="50" y1="58" x2="50" y2="12" stroke="#d7262f" stroke-width="1.6" stroke-linecap="round"/>
+            <circle cx="50" cy="50" r="3.2" fill="#d7262f"/>
+          </svg>
+          <div>
+            <div class="w-label">Taipei</div>
+            <div class="c-time" id="cTime">9:41 PM</div>
+            <div class="c-line" id="cLine">Where I am right now.</div>
+          </div>
+        </div>
+        <a class="widget pod" id="pod" target="_blank" rel="noopener">
+          <img class="pod-cover" id="podCover" alt="aGENda Podcast cover art">
+          <div class="pod-body">
+            <div class="w-label">Podcast</div>
+            <div class="pod-name" id="podName"></div>
+            <div class="pod-sub" id="podSub"></div>
+            <div class="pod-row"><span class="pod-play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg>Listen on Spotify</span><span class="pod-eps" id="podEps"></span></div>
+          </div>
+        </a>
+        <button class="widget note" id="note" aria-label="Show another quote">
+          <p class="q" id="noteQ"></p>
+          <p class="by" id="noteBy"></p>
+          <span class="tap">tap ↻</span>
+        </button>
+      </div>
     </div>
   </div>
   <div class="dock" id="dock"></div>
@@ -437,12 +530,30 @@ const PHOTO_SECONDS = 4.5;
 // Shows the "Now on YorkFlix" widget rotates through.
 const NOW_SHOWING = ["action-families","action-kids","young-voice","tamsui"];
 
+// Home screen wallpaper photo (blurred behind everything). Empty = colored wallpaper only.
+const WALLPAPER = "";
+
+// Podcast widget
+const PODCAST = {
+  name:"aGENda Podcast",
+  sub:"Students' opinions on Taiwan's education system",
+  episodes:"11 episodes",
+  url:"https://open.spotify.com/show/5uiQfwUfnyPh9AwtMR6Q4q",
+  cover:"data:image/webp;base64,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"
+};
+
+// Handwritten note (tap to switch)
+const QUOTES = [
+  { q:"But how could you live and have no story to tell?", by:"Fyodor Dostoevsky, White Nights (1848)" },
+  { q:"The most powerful person in the world is the storyteller.", by:"Steve Jobs" }
+];
+
 /* ========================================================= */
 
 const gear = (()=>{let t="";for(let i=0;i<8;i++)t+=`<rect x="10.5" y="1.8" width="3" height="4.4" rx=".7" transform="rotate(${i*45} 12 12)"/>`;
   return `<svg viewBox="0 0 24 24"><g fill="#fff">${t}<circle cx="12" cy="12" r="6.6"/></g><circle cx="12" cy="12" r="2.7" fill="#5f6a75"/></svg>`;})();
 const APPS = {
-  yorkflix:{ name:"YorkFlix", bg:"#0b0b0d", svg:`<span class="yf-glyph">Y</span>` },
+  yorkflix:{ name:"YorkFlix", bg:"#0b0b0d", svg:`<svg class="yf-logo" viewBox="0 0 24 24"><defs><linearGradient id="yfg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff5148"/><stop offset=".55" stop-color="#d7262f"/><stop offset="1" stop-color="#8e0f17"/></linearGradient></defs><path d="M2.8 2.5h5.4L12 9.1l3.8-6.6h5.4l-6.6 10.6v8.4H9.4v-8.4z" fill="url(#yfg)"/><path d="M12 9.1 15.8 2.5h5.4l-6.6 10.6z" fill="#000" opacity=".22"/><path d="M10.7 14.4v5.4l4.2-2.7z" fill="#fff"/></svg>` },
   settings:{ name:"Settings", bg:"linear-gradient(160deg,#9aa5b1,#4f5964)", svg:gear,
     info:"The basics about me: who I am, my school, the languages I speak and what I care about." },
   browser:{ name:"Browser", bg:"linear-gradient(160deg,#5cc8f8,#1565c0)",
@@ -535,6 +646,42 @@ setInterval(() => {
   }, 400);
 }, 6000);
 
+/* wallpaper */
+if (WALLPAPER){ const wp = $("#wallPhoto"); wp.style.backgroundImage = `url("${WALLPAPER}")`; wp.hidden = false; }
+
+/* clock widget (always Taipei time) */
+$("#ticks").innerHTML = Array.from({length:12},(_,i)=>`<line x1="50" y1="8" x2="50" y2="${i%3?13:16}" stroke="#141418" stroke-width="${i%3?1.4:2.4}" stroke-linecap="round" transform="rotate(${i*30} 50 50)"/>`).join("");
+const tpeFmt = new Intl.DateTimeFormat("en-US",{timeZone:"Asia/Taipei",hour:"numeric",minute:"2-digit",second:"2-digit",hour12:false});
+function taipeiClock(){
+  const parts = Object.fromEntries(tpeFmt.formatToParts(new Date()).map(p => [p.type, p.value]));
+  const h = (+parts.hour) % 24, m = +parts.minute, s = +parts.second;
+  $("#hh").setAttribute("transform",`rotate(${(h%12)*30 + m*.5} 50 50)`);
+  $("#mh").setAttribute("transform",`rotate(${m*6 + s*.1} 50 50)`);
+  $("#sh").setAttribute("transform",`rotate(${s*6} 50 50)`);
+  const h12 = h % 12 || 12, ap = h < 12 ? "AM" : "PM";
+  $("#cTime").textContent = `${h12}:${String(m).padStart(2,"0")} ${ap}`;
+  const diff = 8 + new Date().getTimezoneOffset()/60;
+  const rel = diff === 0 ? "Same time zone as you." : `${Math.abs(diff)} hour${Math.abs(diff)===1?"":"s"} ${diff>0?"ahead of":"behind"} you.`;
+  $("#cLine").textContent = `It's ${h12}:${String(m).padStart(2,"0")} ${ap} in Taipei, where I am. ${rel}`;
+}
+taipeiClock(); setInterval(taipeiClock, 1000);
+
+/* podcast widget */
+$("#pod").href = PODCAST.url;
+$("#podCover").src = PODCAST.cover;
+$("#podName").textContent = PODCAST.name;
+$("#podSub").textContent = PODCAST.sub;
+$("#podEps").textContent = PODCAST.episodes;
+
+/* handwritten note */
+let quoteIdx = 0;
+function showQuote(){ $("#noteQ").textContent = QUOTES[quoteIdx].q; $("#noteBy").textContent = "— " + QUOTES[quoteIdx].by; }
+showQuote();
+$("#note").addEventListener("click", () => {
+  const n = $("#note"); n.classList.remove("flip"); void n.offsetWidth; n.classList.add("flip");
+  setTimeout(() => { quoteIdx = (quoteIdx + 1) % QUOTES.length; showQuote(); }, 250);
+});
+
 function tick(){
   const d = new Date();
   $("#clock").textContent = d.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}).replace(/\s?[AP]M/,"");
@@ -608,7 +755,7 @@ function layout(){
     return;
   }
   const narrow = vw < 640;
-  const size = appOpen ? (narrow ? 58 : 76) : (narrow ? 78 : 104);
+  const size = appOpen ? (narrow ? 58 : 76) : (narrow ? 78 : (vw >= 1000 ? 124 : 104));
   const bottomGap = appOpen ? 18 : (narrow ? 112 : 26);
   const left = vw - size - 18, top = vh - size - bottomGap;
   Object.assign(presenter.style,{ width:size+"px", height:size+"px", left:left+"px", top:top+"px", borderRadius:"50%" });
