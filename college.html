@@ -1,14 +1,782 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <title>My Favorite Anime</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>York OS</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&display=swap">
+<style>
+/* Layout: full-screen tablet OS — power on → 15s welcome video → shrinks to corner guide → home screen; apps open as full-screen layers */
+:root{
+  --black:#050507;
+  --white:#f5f5f7;
+  --muted:#a6a6b0;
+  --line:rgba(255,255,255,.14);
+  --glass:rgba(16,24,28,.40);
+  --panel:#18181b;
+  --flix-bg:#0e0e10;
+  --flix-red:#d7262f;
+  --flix-gold:#f2c14e;
+  --display:"Anton","Impact","Arial Narrow",sans-serif;
+  --ui:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Noto Sans TC","PingFang TC",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--black);color:var(--white);overflow:hidden}
+body{font-family:var(--ui);-webkit-font-smoothing:antialiased;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+:focus-visible{outline:2px solid #fff;outline-offset:3px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- Boot ---------- */
+#boot{position:fixed;inset:0;z-index:95;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;transition:opacity .7s ease}
+#boot.off{opacity:0;pointer-events:none}
+.boot-name{font-family:var(--display);font-size:30px;letter-spacing:.08em}
+.power{width:94px;height:94px;border-radius:50%;border:1.5px solid rgba(255,255,255,.4);display:grid;place-items:center;animation:breathe 2.6s ease-in-out infinite;transition:transform .2s}
+.power:hover{transform:scale(1.05)}
+.power svg{width:34px;height:34px}
+.boot-label{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+@keyframes breathe{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.22)}50%{box-shadow:0 0 0 18px rgba(255,255,255,0)}}
+
+/* ---------- Home screen ---------- */
+#home{position:fixed;inset:0;display:flex;flex-direction:column;
+  padding:calc(env(safe-area-inset-top,0px) + 6px) max(20px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 14px) max(20px,env(safe-area-inset-left,0px));
+  background:
+    radial-gradient(60% 50% at 85% 8%, rgba(242,170,74,.55), transparent 70%),
+    radial-gradient(55% 55% at 8% 95%, rgba(196,58,88,.50), transparent 70%),
+    radial-gradient(70% 60% at 50% 50%, #12404a, transparent 80%),
+    #0b2229;}
+.statusbar{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:600;padding:4px 6px;font-variant-numeric:tabular-nums}
+.status-right{display:flex;gap:8px;align-items:center}
+.battery{width:24px;height:12px;border:1.5px solid rgba(255,255,255,.85);border-radius:3px;padding:1.5px;position:relative}
+.battery::after{content:"";position:absolute;right:-4px;top:3px;width:2px;height:4px;background:rgba(255,255,255,.85);border-radius:0 1px 1px 0}
+.battery i{display:block;height:100%;width:82%;background:#fff;border-radius:1px}
+.home-main{flex:1;min-height:0;overflow-y:auto;display:flex;align-items:center;justify-content:center;padding-block:20px}
+.springboard{width:min(900px,100%);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:32px;align-items:center}
+.widgets{display:flex;flex-direction:column;gap:16px;min-width:0}
+.widget{border-radius:26px;padding:20px;background:var(--glass);border:1px solid var(--line);-webkit-backdrop-filter:blur(22px) saturate(1.3);backdrop-filter:blur(22px) saturate(1.3);text-align:left;width:100%}
+.hello{display:flex;gap:16px;align-items:center}
+.avatar{flex:0 0 auto;width:62px;height:62px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-size:24px;letter-spacing:.04em;background:linear-gradient(140deg,#f2aa4a,#c43a58);box-shadow:inset 0 0 0 2px rgba(255,255,255,.35)}
+.hello h1{margin:0;font-size:22px;letter-spacing:-.01em}
+.hello p{margin:4px 0 0;font-size:13px;color:rgba(255,255,255,.75);line-height:1.4}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.tags span{font-size:11px;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.12);letter-spacing:.02em}
+.photos{padding:0;overflow:hidden;position:relative;aspect-ratio:4/3;cursor:pointer;display:block}
+.photos .slide{position:absolute;inset:0;opacity:0;transform:scale(1.06);transition:opacity 1s ease,transform 6s ease}
+.photos .slide.on{opacity:1;transform:scale(1)}
+.photos .slide img{width:100%;height:100%;object-fit:cover;display:block;max-width:none}
+.slide.ph-photo{background:linear-gradient(150deg,var(--a),var(--b));display:grid;place-items:center;align-content:center;gap:8px;font-size:12px;color:rgba(255,255,255,.7)}
+.ph-photo svg{width:46px;height:46px;opacity:.5}
+.photos .shade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,rgba(0,0,0,.62),rgba(0,0,0,0) 45%),linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,0) 28%)}
+.p-label{position:absolute;left:18px;top:15px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+.p-dots{position:absolute;right:18px;top:19px;display:flex;gap:5px}
+.p-dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4);transition:background .3s}
+.p-dots i.on{background:#fff}
+.p-cap{position:absolute;left:18px;right:18px;bottom:15px;transition:opacity .4s}
+.p-cap b{display:block;font-size:18px}
+.p-cap span{font-size:12.5px;color:rgba(255,255,255,.82)}
+.nowshowing > *{transition:opacity .4s}
+.nowshowing.swap > *{opacity:0}
+.nowshowing{display:flex;gap:14px;align-items:center;cursor:pointer;transition:transform .2s}
+.nowshowing:hover{transform:translateY(-2px)}
+.nowshowing .mini{flex:0 0 74px;aspect-ratio:2/3;border-radius:8px;overflow:hidden}
+.ns-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--flix-red);font-weight:700}
+.ns-title{font-size:18px;font-weight:700;margin-top:4px}
+.ns-sub{font-size:12.5px;color:rgba(255,255,255,.72);margin-top:4px;line-height:1.4}
+.icons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:26px 10px}
+.app-icon{display:flex;flex-direction:column;align-items:center;gap:7px;font-size:12px;font-weight:500;text-shadow:0 1px 3px rgba(0,0,0,.45)}
+.glyph{width:70px;max-width:100%;aspect-ratio:1;border-radius:23%;display:grid;place-items:center;box-shadow:0 8px 18px rgba(0,0,0,.28);transition:transform .18s;position:relative}
+.glyph svg{width:58%;height:58%}
+.app-icon:hover .glyph{transform:translateY(-2px)}
+.app-icon:active .glyph{transform:scale(.9)}
+.app-icon.hint .glyph{animation:hint 1.5s ease-out infinite}
+@keyframes hint{0%{box-shadow:0 0 0 0 rgba(255,255,255,.75),0 8px 18px rgba(0,0,0,.28)}100%{box-shadow:0 0 0 16px rgba(255,255,255,0),0 8px 18px rgba(0,0,0,.28)}}
+.yf-glyph{font-family:var(--display);color:var(--flix-red);font-size:44px;line-height:1;transform:translateY(1px)}
+.dock{align-self:center;display:flex;gap:18px;padding:12px 16px;border-radius:30px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.12);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);max-width:100%}
+.dock .app-icon span{display:none}
+.dock .glyph{width:62px}
+
+@media (max-width:720px){
+  .springboard{grid-template-columns:minmax(0,1fr);gap:24px;align-items:start}
+  .home-main{align-items:flex-start}
+  .glyph{width:60px}
+  .dock{gap:12px;padding:10px 12px}
+  .dock .glyph{width:54px}
+}
+
+/* dim layer while the welcome video plays */
+#dim{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);transition:opacity .6s}
+#dim.off{opacity:0;pointer-events:none}
+
+/* ---------- Presenter (welcome video → corner guide) ---------- */
+#presenter{position:fixed;z-index:85;overflow:hidden;background:#111;box-shadow:0 30px 80px rgba(0,0,0,.55);
+  transition:left .7s cubic-bezier(.65,0,.25,1),top .7s cubic-bezier(.65,0,.25,1),width .7s cubic-bezier(.65,0,.25,1),height .7s cubic-bezier(.65,0,.25,1),border-radius .7s,opacity .3s}
+#presenter[hidden]{display:none}
+#presenter.pip{cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.5),0 0 0 3px rgba(255,255,255,.85)}
+#presenter.away{opacity:0;pointer-events:none}
+#presenter video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ph{position:absolute;inset:0;display:grid;place-items:center;text-align:center;
+  background:radial-gradient(80% 90% at 70% 20%,rgba(242,170,74,.5),transparent 60%),radial-gradient(70% 80% at 10% 100%,rgba(196,58,88,.55),transparent 60%),#0d2a31}
+.ph-tag{position:absolute;left:14px;top:12px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;background:rgba(0,0,0,.45);padding:5px 9px;border-radius:6px;color:rgba(255,255,255,.8)}
+.ph-line{font-family:var(--display);font-size:clamp(28px,6vw,58px);letter-spacing:.02em;line-height:1.05;padding:0 24px;text-wrap:balance;animation:lineIn .7s ease both}
+.ph-small{display:block;font-family:var(--ui);font-size:clamp(13px,1.8vw,16px);letter-spacing:.02em;margin-top:10px;color:rgba(255,255,255,.8);font-weight:500}
+@keyframes lineIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.ph-avatar{display:none;font-family:var(--display);font-size:32px;letter-spacing:.04em}
+#presenter.pip .ph-tag,#presenter.pip .ph-text,#presenter.pip .prog{display:none}
+#presenter.pip .ph-avatar{display:block}
+.prog{position:absolute;left:0;bottom:0;height:4px;width:0;background:var(--white);opacity:.85}
+#skip{position:fixed;z-index:86;font-size:13px;font-weight:600;padding:8px 14px;border-radius:99px;background:rgba(255,255,255,.16);border:1px solid var(--line)}
+#skip:hover{background:rgba(255,255,255,.26)}
+
+#bubble{position:fixed;z-index:84;width:min(300px,calc(100vw - 32px));padding:14px 16px 12px;border-radius:18px;background:rgba(250,250,252,.96);color:#141418;box-shadow:0 14px 34px rgba(0,0,0,.35);transition:opacity .3s,transform .3s}
+#bubble.off{opacity:0;transform:translateY(8px);pointer-events:none}
+.b-who{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#c43a58}
+.b-text{margin:6px 0 10px;font-size:15px;line-height:1.45;font-weight:500}
+.b-row{display:flex;align-items:center;gap:6px}
+.b-count{font-size:12px;color:#6b6b75;margin-right:auto;font-variant-numeric:tabular-nums}
+.b-btn{width:30px;height:30px;border-radius:50%;background:#ececf0;display:grid;place-items:center;font-size:16px;color:#141418}
+.b-btn:hover{background:#dedee4}
+.b-btn:focus-visible{outline-color:#141418}
+
+/* ---------- Coming-soon sheet ---------- */
+.sheet-wrap{position:fixed;inset:0;z-index:72;background:rgba(0,0,0,.45);display:grid;place-items:center;padding:20px;animation:fade .2s}
+.sheet{width:min(400px,100%);border-radius:24px;padding:26px;background:rgba(28,30,34,.92);border:1px solid var(--line);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);text-align:center;animation:pop .28s cubic-bezier(.2,.9,.3,1.2)}
+.sheet .glyph{margin:0 auto 14px;width:76px}
+.sheet h2{margin:0 0 4px;font-size:20px}
+.sheet .soon{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--flix-gold);font-weight:700}
+.sheet p{color:rgba(255,255,255,.78);line-height:1.5;font-size:14.5px;margin:12px 0 20px}
+.pill-btn{padding:10px 22px;border-radius:99px;background:var(--white);color:#111;font-weight:700;font-size:14px}
+@keyframes fade{from{opacity:0}}
+@keyframes pop{from{opacity:0;transform:scale(.9)}}
+
+/* ---------- YorkFlix ---------- */
+#app{position:fixed;inset:0;z-index:60;background:var(--flix-bg);overflow-y:auto;overflow-x:hidden;animation:appIn .32s cubic-bezier(.2,.8,.2,1)}
+@keyframes appIn{from{opacity:0;transform:scale(.94)}}
+.flix-top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:22px;
+  padding:calc(env(safe-area-inset-top,0px) + 14px) max(24px,env(safe-area-inset-right,0px)) 14px max(24px,env(safe-area-inset-left,0px));
+  background:linear-gradient(var(--flix-bg) 35%,rgba(14,14,16,0))}
+.wordmark{font-family:var(--display);color:var(--flix-red);font-size:30px;letter-spacing:.03em;line-height:1}
+.flix-nav{display:flex;gap:18px;font-size:14px}
+.flix-nav button{color:rgba(255,255,255,.72)}
+.flix-nav button:hover{color:#fff}
+.close-app{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;padding:8px 14px 8px 10px;border-radius:99px;background:rgba(255,255,255,.12)}
+.close-app:hover{background:rgba(255,255,255,.2)}
+.close-app svg{width:16px;height:16px}
+@media (max-width:620px){.flix-nav{display:none}.wordmark{font-size:26px}}
+
+.gate{min-height:calc(100% - 70px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px;padding:40px 24px 80px;text-align:center}
+.gate h2{margin:0;font-size:clamp(28px,4.5vw,44px);font-weight:600;letter-spacing:-.01em}
+.profiles{display:flex;flex-wrap:wrap;justify-content:center;gap:26px}
+.profile{display:flex;flex-direction:column;align-items:center;gap:10px;color:var(--muted);font-size:15px;width:120px}
+.profile .pf{width:110px;height:110px;border-radius:10px;display:grid;place-items:center;font-family:var(--display);font-size:40px;color:#fff;transition:box-shadow .15s,transform .15s}
+.profile:hover{color:#fff}
+.profile:hover .pf{box-shadow:0 0 0 3px #fff;transform:translateY(-2px)}
+@media (max-width:480px){.profile{width:96px}.profile .pf{width:88px;height:88px;font-size:32px}}
+
+.hero{position:relative;min-height:min(72vh,580px);display:flex;align-items:flex-end;margin-top:-70px}
+.hero > .art{position:absolute;inset:0}
+.hero-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(14,14,16,.92) 0%,rgba(14,14,16,.55) 45%,rgba(14,14,16,0) 75%),linear-gradient(0deg,var(--flix-bg) 0%,rgba(14,14,16,0) 35%)}
+.hero-body{position:relative;padding:110px max(24px,env(safe-area-inset-right,0px)) 40px max(24px,env(safe-area-inset-left,0px));max-width:620px}
+.greet{font-size:13px;color:rgba(255,255,255,.7);margin-bottom:14px}
+.kicker{display:flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:rgba(255,255,255,.85)}
+.kicker b{font-family:var(--display);color:var(--flix-red);font-size:20px;letter-spacing:0;font-weight:400}
+.hero h2{font-family:var(--display);font-weight:400;font-size:clamp(46px,8vw,84px);line-height:.95;margin:10px 0 12px;text-transform:uppercase;letter-spacing:.01em;text-wrap:balance}
+.meta{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:14px;color:rgba(255,255,255,.82);align-items:center}
+.meta .hd{border:1px solid rgba(255,255,255,.45);border-radius:3px;padding:0 5px;font-size:11px;font-weight:700}
+.award{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-size:13px;font-weight:600;color:var(--flix-gold)}
+.award svg{width:16px;height:16px;flex:0 0 auto}
+.hero p{font-size:16px;line-height:1.55;color:rgba(255,255,255,.88);margin:14px 0 22px;max-width:52ch}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+.btn-play,.btn-info{display:inline-flex;align-items:center;gap:9px;padding:11px 24px 11px 20px;border-radius:5px;font-weight:700;font-size:15.5px}
+.btn-play{background:#fff;color:#111}
+.btn-play:hover{background:rgba(255,255,255,.82)}
+.btn-play:focus-visible{outline-color:var(--flix-red)}
+.btn-info{background:rgba(110,110,120,.6)}
+.btn-info:hover{background:rgba(110,110,120,.42)}
+.btn-play svg,.btn-info svg{width:20px;height:20px}
+
+.stats{display:flex;flex-wrap:wrap;gap:10px 28px;padding:6px max(24px,env(safe-area-inset-right,0px)) 18px max(24px,env(safe-area-inset-left,0px))}
+.stat{display:flex;align-items:baseline;gap:8px;font-size:13px;color:var(--muted)}
+.stat b{font-family:var(--display);font-weight:400;font-size:26px;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:.01em}
+
+.row{padding:10px 0 18px}
+.row h3{margin:0 0 10px;font-size:19px;font-weight:700;padding-left:max(24px,env(safe-area-inset-left,0px))}
+.rail{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-left:24px;padding:6px max(24px,env(safe-area-inset-right,0px)) 14px max(24px,env(safe-area-inset-left,0px));scrollbar-width:none}
+.rail::-webkit-scrollbar{display:none}
+.card{flex:0 0 clamp(132px,15vw,190px);scroll-snap-align:start;border-radius:6px;overflow:hidden;transition:transform .22s,box-shadow .22s;text-align:left}
+.card:hover{transform:scale(1.05);box-shadow:0 12px 30px rgba(0,0,0,.6)}
+.card .art{aspect-ratio:2/3}
+.flix-foot{padding:20px max(24px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 120px) max(24px,env(safe-area-inset-left,0px));font-size:12.5px;color:#76767f}
+
+/* generated poster art */
+.art{position:relative;overflow:hidden;background:linear-gradient(155deg,var(--a),var(--b));isolation:isolate}
+.art::before{content:"";position:absolute;width:120%;aspect-ratio:1;right:-55%;top:-40%;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.28),transparent 62%);z-index:-1}
+.motif{position:absolute;inset:0;z-index:-1;opacity:.9}
+.m-rings{background:repeating-radial-gradient(circle at 85% 15%,rgba(255,255,255,.13) 0 2px,transparent 2px 22px)}
+.m-stripes{background:repeating-linear-gradient(115deg,rgba(255,255,255,.08) 0 10px,transparent 10px 28px)}
+.m-grid{background:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px) 0 0/22px 22px,linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px) 0 0/22px 22px}
+.m-dots{background:radial-gradient(rgba(255,255,255,.2) 1.5px,transparent 1.7px) 0 0/16px 16px}
+.m-wave{background:repeating-radial-gradient(ellipse at 50% 130%,rgba(255,255,255,.11) 0 3px,transparent 3px 18px)}
+.art .y{position:absolute;left:9px;top:7px;font-family:var(--display);color:var(--flix-red);font-size:20px;line-height:1;text-shadow:0 1px 4px rgba(0,0,0,.4)}
+.art .net{position:absolute;right:9px;top:9px;font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.85)}
+.art .t{position:absolute;left:10px;right:10px;bottom:12px;font-family:var(--display);text-transform:uppercase;font-size:clamp(20px,2.4vw,28px);line-height:.98;letter-spacing:.01em;text-shadow:0 2px 12px rgba(0,0,0,.35);overflow-wrap:break-word}
+.art .t.long{font-size:clamp(16px,1.9vw,22px)}
+.art .t small{display:block;font-family:var(--ui);font-size:10px;letter-spacing:.14em;font-weight:700;margin-top:6px;opacity:.85}
+.art .rib{position:absolute;left:0;top:34px;background:var(--flix-gold);color:#1a1300;font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:3px 7px 3px 9px;border-radius:0 3px 3px 0}
+.art.wide .t,.hero .art .t,.hero .art .y,.hero .art .net,.hero .art .rib{display:none}
+
+/* detail modal */
+.modal-wrap{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.72);overflow-y:auto;padding:max(20px,env(safe-area-inset-top,0px)) 12px 40px;animation:fade .2s}
+.modal{max-width:800px;margin:20px auto;background:var(--panel);border-radius:12px;overflow:hidden;animation:pop .28s cubic-bezier(.2,.9,.3,1.1);box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.m-banner{position:relative;aspect-ratio:16/8;min-height:240px}
+.m-banner .art{position:absolute;inset:0}
+.m-banner .shade{position:absolute;inset:0;background:linear-gradient(0deg,var(--panel) 0%,rgba(24,24,27,0) 60%)}
+.m-close{position:absolute;right:14px;top:14px;width:38px;height:38px;border-radius:50%;background:rgba(14,14,16,.8);display:grid;place-items:center;font-size:20px}
+.m-head{position:absolute;left:28px;right:28px;bottom:22px}
+.m-head h2{font-family:var(--display);font-weight:400;font-size:clamp(34px,6vw,58px);line-height:.95;margin:8px 0 16px;text-transform:uppercase;text-wrap:balance}
+.m-body{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:28px;padding:6px 28px 24px}
+.m-body p{font-size:15px;line-height:1.6;color:rgba(255,255,255,.88);margin:14px 0}
+.m-body h4,.m-more h4{margin:20px 0 10px;font-size:16px}
+.m-body ul{margin:0;padding-left:18px;line-height:1.6;color:rgba(255,255,255,.85);font-size:14.5px}
+.m-side dl{margin:0;display:grid;gap:12px;font-size:13.5px}
+.m-side dt{color:#8a8a94;font-size:12px}
+.m-side dd{margin:2px 0 0;color:#eee;line-height:1.4}
+.eps{display:flex;flex-direction:column;border-top:1px solid #2c2c31}
+.ep{display:flex;gap:16px;align-items:center;padding:14px 4px;border-bottom:1px solid #2c2c31;font-size:14.5px}
+.ep b{font-family:var(--display);font-weight:400;font-size:22px;color:#8a8a94;width:24px;text-align:center;font-variant-numeric:tabular-nums}
+.m-more{padding:0 28px 30px}
+.more-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.more-grid .card{flex:none}
+@media (max-width:620px){
+  .m-body{grid-template-columns:minmax(0,1fr);gap:0;padding:6px 18px 18px}
+  .m-head{left:18px;right:18px}
+  .m-more{padding:0 18px 22px}
+}
+
+/* trailer player */
+.player{position:fixed;inset:0;z-index:78;background:#000;display:flex;flex-direction:column;animation:fade .2s}
+.player-top{display:flex;align-items:center;gap:12px;padding:calc(env(safe-area-inset-top,0px) + 12px) max(16px,env(safe-area-inset-right,0px)) 12px max(16px,env(safe-area-inset-left,0px));font-size:15px;font-weight:600}
+.player-top button{display:flex;align-items:center;gap:8px;padding:8px 14px 8px 10px;border-radius:99px;background:rgba(255,255,255,.12)}
+.player-top svg{width:18px;height:18px}
+.player-stage{flex:1;display:grid;place-items:center;padding:0 max(16px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 24px) max(16px,env(safe-area-inset-left,0px));min-height:0}
+.screen16{width:min(1100px,100%,calc((100vh - 140px) * 16 / 9));aspect-ratio:16/9;max-width:100%;position:relative;border-radius:8px;overflow:hidden;background:#111}
+.screen16 iframe,.screen16 video{position:absolute;inset:0;width:100%;height:100%;border:0}
+.soon-trailer{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.soon-trailer .art{position:absolute;inset:0}
+.soon-trailer .veil{position:absolute;inset:0;background:rgba(0,0,0,.55)}
+.soon-trailer div.msg{position:relative;padding:20px}
+.soon-trailer h3{font-family:var(--display);font-weight:400;font-size:clamp(28px,5vw,48px);margin:0 0 8px;text-transform:uppercase}
+.soon-trailer p{margin:0;color:rgba(255,255,255,.8);font-size:15px}
+.scrub{position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.2)}
+.scrub i{display:block;height:100%;width:0;background:var(--flix-red);animation:scrub 12s linear infinite}
+@keyframes scrub{to{width:100%}}
+</style>
 </head>
 <body>
-    <h1>我是利姆路</h1>
-    <img src = "https://storage.moegirl.org.cn/moegirl/commons/5/54/Ch1-body.png"
-    <h1>連結測試</h1>
-</table>
 
+<!-- Boot screen -->
+<div id="boot">
+  <div class="boot-name">YORK OS</div>
+  <button class="power" id="powerBtn" aria-label="Turn on">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M12 3v8"/><path d="M6.3 6.8a8 8 0 1 0 11.4 0"/></svg>
+  </button>
+  <div class="boot-label">Tap to turn on · Sound on</div>
+</div>
+
+<!-- Home screen -->
+<div id="home">
+  <div class="statusbar"><span id="clock">9:41</span><span class="status-right"><span id="dateMini"></span><span class="battery"><i></i></span></span></div>
+  <div class="home-main">
+    <div class="springboard">
+      <div class="widgets">
+        <button class="widget photos" id="photoWidget" aria-label="Next photo">
+          <div class="shade"></div>
+          <div class="p-label">York Chen · Photos</div>
+          <div class="p-dots" id="pDots"></div>
+          <div class="p-cap" id="pCap"></div>
+        </button>
+        <button class="widget nowshowing" id="nowShowing" aria-label="Open YorkFlix">
+          <div class="mini" id="nsArt"></div>
+          <div>
+            <div class="ns-label">Now on YorkFlix</div>
+            <div class="ns-title" id="nsTitle">Action Families · Season 2</div>
+            <div class="ns-sub" id="nsSub">Best Show of the Year · Taiwan Media Watch Conference 2025</div>
+          </div>
+        </button>
+      </div>
+      <div class="icons" id="grid"></div>
+    </div>
+  </div>
+  <div class="dock" id="dock"></div>
+</div>
+
+<div id="dim" class="off"></div>
+
+<!-- Presenter -->
+<div id="presenter" hidden>
+  <div class="ph" id="ph">
+    <div class="ph-tag">Placeholder · 15-sec welcome video</div>
+    <div class="ph-text" id="phText"></div>
+    <div class="ph-avatar">YC</div>
+  </div>
+  <div class="prog" id="prog"></div>
+</div>
+<button id="skip" hidden>Skip intro</button>
+
+<div id="bubble" class="off" role="status" aria-live="polite">
+  <div class="b-who">York</div>
+  <div class="b-text" id="bText"></div>
+  <div class="b-row">
+    <span class="b-count" id="bCount"></span>
+    <button class="b-btn" id="bPrev" aria-label="Previous tip">‹</button>
+    <button class="b-btn" id="bNext" aria-label="Next tip">›</button>
+    <button class="b-btn" id="bHide" aria-label="Hide tips">×</button>
+  </div>
+</div>
+
+<div id="app" hidden></div>
+<div id="layer"></div>
+
+<script>
+/* =========================================================
+   EDIT HERE — York's content
+   ========================================================= */
+
+// 15-second welcome video. Put an .mp4 next to index.html (e.g. "welcome.mp4").
+// Leave empty to show the placeholder.
+const WELCOME_VIDEO = "";
+const INTRO_MS = 15000;
+
+// trailer: a YouTube video ID (the part after "v=") or an .mp4 file name. Empty = "coming soon".
+const SHOWS = [
+  { id:"action-families", title:"Action Families", season:"Season 2", year:"2024", network:"CTS", networkFull:"Chinese Television System",
+    eps:"8 episodes", role:"Host · Pre-production Assistant", award:"Best Show of the Year · Taiwan Media Watch Conference 2025",
+    a:"#6e1220", b:"#e0542f", motif:"rings", trailer:"",
+    desc:"Season 2 of the Action series on Chinese Television System. Three years after competing as a kid in Season 1, I came back as the show's host and worked on pre-production.",
+    bullets:["Hosted all 8 episodes on camera","Helped prepare shoots and segments in pre-production","The season won Best Show of the Year at the 2025 Taiwan Media Watch Conference"] },
+  { id:"action-kids", title:"Action Kids", season:"Season 1", year:"2021", network:"CTS · AXN", networkFull:"Chinese Television System & AXN",
+    eps:"8 episodes", role:"Contestant · Filmmaker", award:"1st Place · Action Kids Season 1",
+    a:"#0c3460", b:"#1f8ac0", motif:"stripes", trailer:"",
+    desc:"A bilingual reality competition where kid teams from across Asia make short films under pressure. Each round we had one hour to film and one hour to edit a 3–5 minute video on an assigned topic. One team went home every episode.",
+    bullets:["Filmed and edited a new short film every episode","Made it through to the final of 8 teams and took 1st place","Competed in a bilingual English–Mandarin format"],
+    epTitle:"Challenges", episodes:["Tourist attraction","Introduce a café","Underwater filming","The zoo","A baseball game"] },
+  { id:"kids-newsroom", title:"Kids Newsroom", season:"Da-Ai TV", year:"2019–2024", network:"Da-Ai TV", networkFull:"Da-Ai TV (Tzu-Chi)",
+    eps:"Part of 33 Da-Ai episodes", role:"TV Anchor · On-site Journalist",
+    a:"#0b2a3a", b:"#2e9c8f", motif:"grid", trailer:"",
+    desc:"A news program presented by kids. I anchored world and domestic news from the studio and reported from the field.",
+    bullets:["Anchored world and domestic news segments","Reported on location as an on-site journalist"] },
+  { id:"boyuan", title:"Brother Boyuan's Secret House", season:"Da-Ai TV", year:"2019–2024", network:"Da-Ai TV", networkFull:"Da-Ai TV (Tzu-Chi)",
+    eps:"Part of 33 Da-Ai episodes", role:"Participant · Production Assistant",
+    a:"#2b1d3f", b:"#b5658a", motif:"dots", trailer:"",
+    desc:"A program about the emotional problems teenagers face. I took part on screen and helped the production team behind it.",
+    bullets:["Shared my perspective on teen emotional issues on screen","Assisted the production team"] },
+  { id:"children", title:"Children Around the World", season:"Da-Ai TV", year:"2019–2024", network:"Da-Ai TV", networkFull:"Da-Ai TV (Tzu-Chi)",
+    eps:"Part of 33 Da-Ai episodes", role:"Host · Participant",
+    a:"#123d2b", b:"#d1a23a", motif:"wave", trailer:"",
+    desc:"Stories of children in other countries, told through the UN Sustainable Development Goals. I hosted and took part in episodes.",
+    bullets:["Hosted segments about children around the world","Connected each story to the Sustainable Development Goals"] },
+  { id:"tamsui", title:"Follow Me Go! Tamsui", season:"The Global Warming Series", year:"2021", network:"PTS", networkFull:"Public Television Service",
+    eps:"4 episodes", role:"Variety Show Participant",
+    a:"#073d3c", b:"#46b5a3", motif:"wave", trailer:"",
+    desc:"An outdoor variety series about the environmental problems along the Tamsui River. Everything was shot on location with no retakes.",
+    bullets:["Investigated environmental problems along the Tamsui River","Shot outdoors in single takes, with no retakes"] },
+  { id:"young-voice", title:"Young Voice", season:"CommonWealth Education Media", year:"2025–2026", network:"YouTube · Podcast", networkFull:"CommonWealth Education Media & Publishing",
+    eps:"4 YouTube episodes · 2 podcasts", role:"Journalist · Host", award:"1st Place · Young Voice Talent Competition (YouTuber)",
+    a:"#3d1f05", b:"#f08c2a", motif:"stripes", trailer:"",
+    desc:"I entered the Young Voice Talent Competition with a video unboxing shops in Zhongshan District and won 1st place in the YouTuber category. CommonWealth then invited me back as a journalist and host for a series on how teenagers see their academic future.",
+    bullets:["Won 1st place in the YouTuber category","Reported and hosted 4 YouTube episodes","Hosted 2 podcast episodes"],
+    epTitle:"Episodes", episodes:["Qualifying round: unboxing shops in Zhongshan District","YouTube series: teenagers' academic outlook (4 episodes)","Podcast: teenagers' academic outlook (2 episodes)"] },
+  { id:"sibling", title:"The Sibling Chronicles", season:"YouTube Original", year:"2020–now", network:"YouTube", networkFull:"YouTube",
+    eps:"Ongoing", role:"Director · Editor · Actor",
+    a:"#1d2b22", b:"#8db83a", motif:"dots", trailer:"",
+    desc:"My own YouTube channel, which I direct, edit and act in. It has English teaching videos, English singing videos, and Mandarin translations of diplomatic visit videos.",
+    bullets:["Directed, filmed, edited and acted","Made English teaching and singing videos","Translated diplomatic visit videos from English to Mandarin"] },
+  { id:"career", title:"Career Discovery", season:"Documentary Short", year:"2022", network:"Ministry of Education", networkFull:"Ministry of Education competition",
+    eps:"Short film", role:"Filmmaker", award:"1st Place · Career Discovery Documentary Competition",
+    a:"#262626", b:"#c9a227", motif:"grid", trailer:"",
+    desc:"A short documentary made for the Ministry of Education's Career Discovery competition. It won 1st place.",
+    bullets:["Made a documentary short","Won 1st place in the Ministry of Education competition"] }
+];
+
+const FEATURED = "action-families";
+const ROWS = [
+  { title:"Award Winners", ids:["action-families","action-kids","young-voice","career"] },
+  { title:"On Network TV", ids:["action-families","action-kids","tamsui","kids-newsroom","boyuan","children"] },
+  { title:"Da-Ai TV · 2019–2024", ids:["kids-newsroom","boyuan","children"] },
+  { title:"Filmed & Edited by York", ids:["action-kids","sibling","career","young-voice"] }
+];
+const STATS = [["53","TV episodes"],["4","broadcasters"],["4","awards"],["2019","on air since"]];
+
+// What York "says" in the corner after the welcome video.
+const TIPS = [
+  { app:"yorkflix", text:"Welcome to my world! Start with YorkFlix to watch trailers of the TV shows I've worked on." },
+  { app:"settings", text:"Click Settings to know the basics about me!" },
+  { app:"music", text:"Music has my singing clips and my band, Blank Space." },
+  { app:"files", text:"Need my résumé? It's in Files." },
+  { app:"maps", text:"Maps shows the places MUN and diplomacy have taken me." },
+  { app:"weather", text:"Weather is where my environmental research lives." },
+  { app:"camera", text:"Take a photo-booth picture with me in Camera :)" },
+  { app:"flashlight", text:"One last thing. Try the Flashlight." }
+];
+const FLIX_TIP = "Pick any show and press Play Trailer. Close YorkFlix with the button at the top right.";
+
+// Photo widget on the home screen. Put photos in a "photos" folder next to college.html,
+// then write the file name in src, e.g. src:"photos/action-kids.jpg". Empty src = colored placeholder.
+const PHOTOS = [
+  { src:"", title:"On set", note:"Action Kids · 2021", a:"#0c3460", b:"#1f8ac0" },
+  { src:"", title:"Hosting", note:"Action Families · 2024", a:"#6e1220", b:"#e0542f" },
+  { src:"", title:"Palau", note:"ICDF Youth Club", a:"#073d3c", b:"#46b5a3" },
+  { src:"", title:"Secretary General", note:"WegoMUN 2026", a:"#2b1d3f", b:"#b5658a" },
+  { src:"", title:"Blank Space live", note:"School concert", a:"#3d1f05", b:"#f08c2a" }
+];
+const PHOTO_SECONDS = 4.5;
+
+// Shows the "Now on YorkFlix" widget rotates through.
+const NOW_SHOWING = ["action-families","action-kids","young-voice","tamsui"];
+
+/* ========================================================= */
+
+const gear = (()=>{let t="";for(let i=0;i<8;i++)t+=`<rect x="10.5" y="1.8" width="3" height="4.4" rx=".7" transform="rotate(${i*45} 12 12)"/>`;
+  return `<svg viewBox="0 0 24 24"><g fill="#fff">${t}<circle cx="12" cy="12" r="6.6"/></g><circle cx="12" cy="12" r="2.7" fill="#5f6a75"/></svg>`;})();
+const APPS = {
+  yorkflix:{ name:"YorkFlix", bg:"#0b0b0d", svg:`<span class="yf-glyph">Y</span>` },
+  settings:{ name:"Settings", bg:"linear-gradient(160deg,#9aa5b1,#4f5964)", svg:gear,
+    info:"The basics about me: who I am, my school, the languages I speak and what I care about." },
+  browser:{ name:"Browser", bg:"linear-gradient(160deg,#5cc8f8,#1565c0)",
+    svg:`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#fff" stroke-width="1.7"/><path d="M15.8 8.2 13.2 13.2 8.2 15.8 10.8 10.8z" fill="#fff"/><circle cx="12" cy="12" r="1.1" fill="#1565c0"/></svg>`,
+    info:"A short video that walks you through how to use this site." },
+  music:{ name:"Music", bg:"linear-gradient(160deg,#ff7a5c,#d81b60)",
+    svg:`<svg viewBox="0 0 24 24"><path d="M9 17.6a2.6 2.6 0 1 1-2-2.5V5.6L19 3.4v11.9a2.6 2.6 0 1 1-2-2.5V7.3L9 8.8z" fill="#fff"/></svg>`,
+    info:"Singing clips, my band Blank Space, the Taipei Music Center Golden Voice Contest (Top 40 of 1,800) and nursery-rhyme studio recordings." },
+  files:{ name:"Files", bg:"linear-gradient(160deg,#ffffff,#dfe6ee)",
+    svg:`<svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="#2f80ed"/><path d="M3 10h18v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="#5aa2ff"/></svg>`,
+    info:"My résumé, to read here or download as a PDF." },
+  camera:{ name:"Camera", bg:"linear-gradient(160deg,#606a75,#2b3036)",
+    svg:`<svg viewBox="0 0 24 24"><path d="M8 7.2 9.6 4.8h4.8L16 7.2z" fill="#e8eaed"/><rect x="3" y="7" width="18" height="12" rx="3" fill="#e8eaed"/><circle cx="12" cy="13" r="3.8" fill="#2b3036"/><circle cx="12" cy="13" r="2.2" fill="#71839a"/></svg>`,
+    info:"A photo booth: take a picture with me, add a frame and save it." },
+  maps:{ name:"Maps", bg:"linear-gradient(160deg,#d3f3c9,#7fcb9f)",
+    svg:`<svg viewBox="0 0 24 24"><path d="M3 6.5 9 4.5l6 2 6-2v13l-6 2-6-2-6 2z" fill="#fff"/><path d="M9 4.5v13M15 6.5v13" stroke="#7fcb9f" stroke-width="1.2"/><path d="M16 6.8a2.6 2.6 0 0 0-2.6 2.6c0 2 2.6 4.6 2.6 4.6s2.6-2.6 2.6-4.6A2.6 2.6 0 0 0 16 6.8z" fill="#e53935"/><circle cx="16" cy="9.4" r=".9" fill="#fff"/></svg>`,
+    info:"Pins for Model UN in Taipei, the Teen Diplomat Envoys trip to Los Angeles, San Francisco and West Covina, and the ICDF Youth Club's USD 31K fundraiser for schools in Palau." },
+  weather:{ name:"Weather", bg:"linear-gradient(160deg,#5ab4ff,#2560c8)",
+    svg:`<svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="4.2" fill="#ffd54f"/><path d="M8 19.5h9.2a3.6 3.6 0 0 0 .3-7.2 5.1 5.1 0 0 0-9.8 1.3A3 3 0 0 0 8 19.5z" fill="#fff"/></svg>`,
+    info:"My environmental work: Heron's Fountain, CoralFeeder, the Ocean Challenge, and policy research at the NTU E3 Center and CAPRI." },
+  flashlight:{ name:"Flashlight", bg:"linear-gradient(160deg,#2a2342,#0d0b18)",
+    svg:`<svg viewBox="0 0 24 24" style="filter:drop-shadow(0 0 3px #7cf7ff) drop-shadow(0 0 4px #ff5fd2)"><rect x="10.8" y="2.5" width="2.4" height="19" rx="1.2" fill="#7cf7ff" transform="rotate(28 12 12)"/><rect x="10.8" y="2.5" width="2.4" height="19" rx="1.2" fill="#ff5fd2" transform="rotate(-28 12 12)"/></svg>`,
+    info:"A dark room with glow-stick light trails, an intro to Wotagei, and a clip of me performing." }
+};
+const GRID_APPS = ["maps","weather","camera","flashlight","music","files","settings"];
+const DOCK_APPS = ["yorkflix","settings","music","files"];
+const IS_LIVE = /github\.io$/.test(location.hostname); // hides "placeholder" labels on the real site
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const byId = id => SHOWS.find(s => s.id === id);
+const store = { get(k){try{return localStorage.getItem(k)}catch(e){return null}}, set(k,v){try{localStorage.setItem(k,v)}catch(e){}} };
+const ICON_PLAY = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg>`;
+const ICON_INFO = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>`;
+const ICON_BACK = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>`;
+const ICON_HOME = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>`;
+const ICON_TROPHY = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3h10v2h3v3a4 4 0 0 1-4 4h-.3A5 5 0 0 1 13 14.9V18h3v2H8v-2h3v-3.1A5 5 0 0 1 8.3 12H8a4 4 0 0 1-4-4V5h3zm0 4H6v1a2 2 0 0 0 1.3 1.9A5 5 0 0 1 7 8zm10 0v1a5 5 0 0 1-.3 1.9A2 2 0 0 0 18 8V7z"/></svg>`;
+
+function art(s, wide){
+  const long = s.title.length > 16 ? " long" : "";
+  return `<div class="art${wide?" wide":""}" style="--a:${s.a};--b:${s.b}">
+    <div class="motif m-${s.motif}"></div>
+    <span class="y">Y</span><span class="net">${s.network}</span>
+    ${s.award ? `<span class="rib">Award</span>` : ""}
+    <div class="t${long}">${s.title}<small>${s.season}</small></div></div>`;
+}
+function iconHTML(id){
+  const a = APPS[id];
+  return `<button class="app-icon" data-app="${id}" aria-label="${a.name}"><div class="glyph" style="background:${a.bg}">${a.svg}</div><span>${a.name}</span></button>`;
+}
+
+/* ---------- home ---------- */
+$("#grid").innerHTML = GRID_APPS.map(iconHTML).join("");
+$("#dock").innerHTML = DOCK_APPS.map(iconHTML).join("");
+$("#nsArt").innerHTML = art(byId(FEATURED));
+document.querySelectorAll(".app-icon").forEach(b => b.addEventListener("click", () => openApp(b.dataset.app)));
+$("#nowShowing").addEventListener("click", () => openApp("yorkflix"));
+
+/* photo widget */
+const ICON_PHOTO = `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="8.5" cy="10" r="1.8"/><path d="M4 17l5-4.5 4 3.5 3-2.5 4 3.5"/></svg>`;
+const pw = $("#photoWidget");
+pw.insertAdjacentHTML("afterbegin", PHOTOS.map(p => p.src
+  ? `<div class="slide"><img src="${p.src}" alt="${p.title}, ${p.note}"></div>`
+  : `<div class="slide ph-photo" style="--a:${p.a};--b:${p.b}">${ICON_PHOTO}${IS_LIVE ? "" : "<span>Add photo</span>"}</div>`).join(""));
+$("#pDots").innerHTML = PHOTOS.map(() => "<i></i>").join("");
+let photoIdx = -1, photoTimer;
+function showPhoto(i){
+  photoIdx = (i + PHOTOS.length) % PHOTOS.length;
+  pw.querySelectorAll(".slide").forEach((s,k) => s.classList.toggle("on", k === photoIdx));
+  $("#pDots").querySelectorAll("i").forEach((d,k) => d.classList.toggle("on", k === photoIdx));
+  const p = PHOTOS[photoIdx];
+  $("#pCap").innerHTML = `<b>${p.title}</b><span>${p.note}</span>`;
+  clearInterval(photoTimer);
+  photoTimer = setInterval(() => showPhoto(photoIdx + 1), PHOTO_SECONDS * 1000);
+}
+showPhoto(0);
+pw.addEventListener("click", () => showPhoto(photoIdx + 1));
+
+/* now-showing widget */
+let nsIdx = 0;
+setInterval(() => {
+  nsIdx = (nsIdx + 1) % NOW_SHOWING.length;
+  const s = byId(NOW_SHOWING[nsIdx]), w = $("#nowShowing");
+  w.classList.add("swap");
+  setTimeout(() => {
+    $("#nsArt").innerHTML = art(s);
+    $("#nsTitle").textContent = `${s.title} · ${s.season}`;
+    $("#nsSub").textContent = s.award || `${s.networkFull} · ${s.year}`;
+    w.classList.remove("swap");
+  }, 400);
+}, 6000);
+
+function tick(){
+  const d = new Date();
+  $("#clock").textContent = d.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}).replace(/\s?[AP]M/,"");
+  $("#dateMini").textContent = d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
+}
+tick(); setInterval(tick, 20000);
+
+/* ---------- boot + presenter ---------- */
+const presenter = $("#presenter"), bubble = $("#bubble"), skipBtn = $("#skip");
+let presState = "stage", introDone = false, tipIdx = 0, bubbleOpen = true, appOpen = null, video = null;
+
+$("#powerBtn").addEventListener("click", startIntro);
+
+function startIntro(){
+  $("#boot").classList.add("off");
+  $("#dim").classList.remove("off");
+  presenter.hidden = false;
+  presenter.querySelector(".ph-tag").hidden = IS_LIVE;
+  presState = "stage"; layout();
+  if (store.get("yorkos_seen") === "1"){ skipBtn.hidden = false; }
+  if (WELCOME_VIDEO){
+    $("#ph").hidden = true;
+    video = document.createElement("video");
+    video.src = WELCOME_VIDEO; video.playsInline = true;
+    presenter.prepend(video);
+    video.addEventListener("timeupdate", () => { if (video.duration) $("#prog").style.width = (video.currentTime/video.duration*100)+"%"; });
+    video.addEventListener("ended", endIntro);
+    video.play().catch(() => { video.remove(); video = null; $("#ph").hidden = false; runPlaceholder(); });
+  } else runPlaceholder();
+}
+
+function runPlaceholder(){
+  const lines = [
+    ["Welcome to my world", "I'm York Chen"],
+    ["Host. Podcaster. Delegate.", "and a few more things"],
+    ["Let me show you around", "Tap the apps to explore"]
+  ];
+  const t0 = performance.now();
+  let shown = -1;
+  (function frame(now){
+    if (introDone) return;
+    const p = Math.min(1, (now - t0) / INTRO_MS);
+    $("#prog").style.width = (p*100) + "%";
+    const i = Math.min(lines.length-1, Math.floor(p * lines.length));
+    if (i !== shown){ shown = i; $("#phText").innerHTML = `<div class="ph-line">${lines[i][0]}<span class="ph-small">${lines[i][1]}</span></div>`; }
+    if (p < 1) requestAnimationFrame(frame); else endIntro();
+  })(t0);
+}
+
+skipBtn.addEventListener("click", endIntro);
+
+function endIntro(){
+  if (introDone) return;
+  introDone = true;
+  store.set("yorkos_seen","1");
+  if (video) video.pause();
+  skipBtn.hidden = true;
+  $("#dim").classList.add("off");
+  presState = "pip";
+  presenter.classList.add("pip");
+  layout();
+  setTimeout(() => { bubbleOpen = true; showTip(); }, 650);
+}
+
+function layout(){
+  const vw = innerWidth, vh = innerHeight;
+  if (presState === "stage"){
+    const w = Math.min(760, vw - 32), h = w * 9 / 16;
+    Object.assign(presenter.style,{ width:w+"px", height:h+"px", left:(vw-w)/2+"px", top:(vh-h)/2+"px", borderRadius:"18px" });
+    Object.assign(skipBtn.style,{ right:((vw-w)/2)+"px", top:((vh-h)/2 + h + 14)+"px" });
+    return;
+  }
+  const narrow = vw < 640;
+  const size = appOpen ? (narrow ? 58 : 76) : (narrow ? 78 : 104);
+  const bottomGap = appOpen ? 18 : (narrow ? 112 : 26);
+  const left = vw - size - 18, top = vh - size - bottomGap;
+  Object.assign(presenter.style,{ width:size+"px", height:size+"px", left:left+"px", top:top+"px", borderRadius:"50%" });
+  if (narrow){ bubble.style.right = "16px"; bubble.style.bottom = (vh - top + 10) + "px"; }
+  else { bubble.style.right = (18 + size + 12) + "px"; bubble.style.bottom = (bottomGap + 6) + "px"; }
+}
+addEventListener("resize", layout);
+
+function showTip(){
+  document.querySelectorAll(".app-icon.hint").forEach(e => e.classList.remove("hint"));
+  if (!introDone) return;
+  const hideForLayer = !!document.querySelector(".modal-wrap, .player");
+  if (!bubbleOpen || hideForLayer){ bubble.classList.add("off"); return; }
+  if (appOpen === "yorkflix"){
+    $("#bText").textContent = FLIX_TIP; $("#bCount").textContent = "YorkFlix";
+    $("#bPrev").hidden = $("#bNext").hidden = true;
+  } else {
+    const t = TIPS[tipIdx];
+    $("#bText").textContent = t.text; $("#bCount").textContent = `${tipIdx+1} / ${TIPS.length}`;
+    $("#bPrev").hidden = $("#bNext").hidden = false;
+    if (!appOpen) document.querySelectorAll(`.app-icon[data-app="${t.app}"]`).forEach(e => e.classList.add("hint"));
+  }
+  bubble.classList.remove("off");
+}
+$("#bNext").addEventListener("click", () => { tipIdx = (tipIdx + 1) % TIPS.length; showTip(); });
+$("#bPrev").addEventListener("click", () => { tipIdx = (tipIdx - 1 + TIPS.length) % TIPS.length; showTip(); });
+$("#bHide").addEventListener("click", () => { bubbleOpen = false; showTip(); });
+presenter.addEventListener("click", () => { if (presState === "pip"){ bubbleOpen = !bubbleOpen; showTip(); } });
+
+/* ---------- apps ---------- */
+function openApp(id){
+  if (!introDone) return;
+  if (id === "yorkflix") return openFlix();
+  const a = APPS[id];
+  const wrap = document.createElement("div");
+  wrap.className = "sheet-wrap";
+  wrap.innerHTML = `<div class="sheet" role="dialog" aria-label="${a.name}">
+    <div class="glyph" style="background:${a.bg}">${a.svg}</div>
+    <h2>${a.name}</h2><div class="soon">Coming soon</div>
+    <p>${a.info}</p><button class="pill-btn">Back to home</button></div>`;
+  const close = () => { wrap.remove(); advanceIf(id); };
+  wrap.addEventListener("click", e => { if (e.target === wrap) close(); });
+  wrap.querySelector(".pill-btn").addEventListener("click", close);
+  $("#layer").append(wrap);
+  wrap.querySelector(".pill-btn").focus();
+}
+function advanceIf(id){
+  if (TIPS[tipIdx].app === id){ tipIdx = (tipIdx + 1) % TIPS.length; }
+  showTip();
+}
+
+/* ---------- YorkFlix ---------- */
+const appEl = $("#app");
+let profile = null;
+
+function openFlix(){
+  appOpen = "yorkflix"; appEl.hidden = false; layout(); showTip();
+  renderFlix();
+}
+function closeFlix(){
+  appEl.hidden = true; appOpen = null; layout(); advanceIf("yorkflix");
+}
+function topBar(nav){
+  return `<header class="flix-top"><span class="wordmark">YORKFLIX</span>
+    ${nav ? `<nav class="flix-nav"><button data-jump="0">Home</button><button data-jump="1">Award Winners</button><button data-jump="4">Made by York</button></nav>` : ""}
+    <button class="close-app" id="flixClose">${ICON_HOME}Close</button></header>`;
+}
+function renderFlix(){
+  if (!profile){
+    const profs = [["Admissions Officer","#d7262f","A"],["Curious Guest","#1f8ac0","G"],["Future Classmate","#c99a1f","C"]];
+    appEl.innerHTML = topBar(false) + `<section class="gate"><h2>Who's watching?</h2><div class="profiles">
+      ${profs.map(p => `<button class="profile" data-name="${p[0]}"><span class="pf" style="background:${p[1]}">${p[2]}</span>${p[0]}</button>`).join("")}
+      </div></section>`;
+    appEl.querySelectorAll(".profile").forEach(b => b.addEventListener("click", () => { profile = b.dataset.name; renderFlix(); }));
+  } else {
+    const f = byId(FEATURED);
+    appEl.innerHTML = topBar(true) + `
+      <section class="hero" data-anchor="0">${art(f, true)}<div class="hero-shade"></div>
+        <div class="hero-body">
+          <div class="greet">Welcome, ${profile}</div>
+          <div class="kicker"><b>Y</b> Series</div>
+          <h2>${f.title}</h2>
+          <div class="meta"><span>${f.year}</span><span>${f.networkFull}</span><span>${f.eps}</span><span class="hd">HD</span></div>
+          <div class="award">${ICON_TROPHY}${f.award}</div>
+          <p>${f.desc}</p>
+          <div class="btns"><button class="btn-play" data-play="${f.id}">${ICON_PLAY}Play Trailer</button><button class="btn-info" data-show="${f.id}">${ICON_INFO}More Info</button></div>
+        </div></section>
+      <div class="stats">${STATS.map(s => `<div class="stat"><b>${s[0]}</b>${s[1]}</div>`).join("")}</div>
+      ${ROWS.map((r,i) => `<section class="row" data-anchor="${i+1}"><h3>${r.title}</h3><div class="rail">${r.ids.map(card).join("")}</div></section>`).join("")}
+      <footer class="flix-foot">Every title on YorkFlix is a real project York Chen worked on. Episode counts and awards are listed on each show.</footer>`;
+  }
+  appEl.scrollTop = 0;
+  $("#flixClose").addEventListener("click", closeFlix);
+  appEl.querySelectorAll("[data-jump]").forEach(b => b.addEventListener("click", () => {
+    const el = appEl.querySelector(`[data-anchor="${b.dataset.jump}"]`);
+    if (el) appEl.scrollTo({ top: b.dataset.jump === "0" ? 0 : el.offsetTop - 70, behavior:"smooth" });
+  }));
+  wireCards(appEl);
+}
+function card(id){ const s = byId(id); return `<button class="card" data-show="${id}" aria-label="${s.title}">${art(s)}</button>`; }
+function wireCards(root){
+  root.querySelectorAll("[data-show]").forEach(b => b.addEventListener("click", () => openDetail(b.dataset.show)));
+  root.querySelectorAll("[data-play]").forEach(b => b.addEventListener("click", () => openPlayer(b.dataset.play)));
+}
+
+function openDetail(id){
+  document.querySelector(".modal-wrap")?.remove();
+  const s = byId(id);
+  const more = SHOWS.filter(x => x.id !== id).sort((x,y) => (y.network===s.network) - (x.network===s.network)).slice(0,3);
+  const wrap = document.createElement("div");
+  wrap.className = "modal-wrap";
+  wrap.innerHTML = `<div class="modal" role="dialog" aria-label="${s.title}">
+    <div class="m-banner">${art(s, true)}<div class="shade"></div>
+      <button class="m-close" aria-label="Close">×</button>
+      <div class="m-head"><div class="kicker"><b>Y</b> ${s.season}</div><h2>${s.title}</h2>
+        <div class="btns"><button class="btn-play" data-play="${s.id}">${ICON_PLAY}Play Trailer</button></div></div>
+    </div>
+    <div class="m-body">
+      <div>
+        <div class="meta"><span>${s.year}</span><span>${s.eps}</span><span class="hd">HD</span></div>
+        ${s.award ? `<div class="award">${ICON_TROPHY}${s.award}</div>` : ""}
+        <p>${s.desc}</p>
+        <h4>What I did</h4><ul>${s.bullets.map(b => `<li>${b}</li>`).join("")}</ul>
+        ${s.episodes ? `<h4>${s.epTitle}</h4><div class="eps">${s.episodes.map((e,i) => `<div class="ep"><b>${i+1}</b><span>${e}</span></div>`).join("")}</div>` : ""}
+      </div>
+      <aside class="m-side"><dl>
+        <div><dt>Role</dt><dd>${s.role}</dd></div>
+        <div><dt>Aired on</dt><dd>${s.networkFull}</dd></div>
+        <div><dt>Year</dt><dd>${s.year}</dd></div>
+        <div><dt>Length</dt><dd>${s.eps}</dd></div>
+      </dl></aside>
+    </div>
+    <div class="m-more"><h4>More like this</h4><div class="more-grid">${more.map(x => card(x.id)).join("")}</div></div>
+  </div>`;
+  wrap.addEventListener("click", e => { if (e.target === wrap) closeDetail(); });
+  wrap.querySelector(".m-close").addEventListener("click", closeDetail);
+  $("#layer").append(wrap);
+  wireCards(wrap);
+  wrap.querySelector(".m-close").focus();
+  showTip();
+}
+function closeDetail(){ document.querySelector(".modal-wrap")?.remove(); showTip(); }
+
+function openPlayer(id){
+  const s = byId(id);
+  const p = document.createElement("div");
+  p.className = "player";
+  let media;
+  if (/\.mp4$/i.test(s.trailer)) media = `<video src="${s.trailer}" controls autoplay playsinline></video>`;
+  else if (s.trailer) media = `<iframe src="https://www.youtube-nocookie.com/embed/${s.trailer}?autoplay=1&rel=0&modestbranding=1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="${s.title} trailer"></iframe>`;
+  else media = `<div class="soon-trailer">${art(s, true)}<div class="veil"></div><div class="msg"><h3>${s.title}</h3><p>Trailer coming soon</p></div><div class="scrub"><i></i></div></div>`;
+  p.innerHTML = `<div class="player-top"><button aria-label="Back">${ICON_BACK}Back</button><span>${s.title} · Trailer</span></div>
+    <div class="player-stage"><div class="screen16">${media}</div></div>`;
+  p.querySelector("button").addEventListener("click", closePlayer);
+  $("#layer").append(p);
+  presenter.classList.add("away");
+  showTip();
+  p.querySelector("button").focus();
+}
+function closePlayer(){ document.querySelector(".player")?.remove(); presenter.classList.remove("away"); showTip(); }
+
+addEventListener("keydown", e => {
+  if (e.key !== "Escape") return;
+  if (document.querySelector(".player")) return closePlayer();
+  if (document.querySelector(".modal-wrap")) return closeDetail();
+  const sheet = document.querySelector(".sheet-wrap .pill-btn"); if (sheet) return sheet.click();
+  if (appOpen) return closeFlix();
+});
+</script>
 </body>
-
 </html>
