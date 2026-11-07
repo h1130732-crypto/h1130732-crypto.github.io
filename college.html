@@ -392,6 +392,14 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;paddin
 #home{padding:0}
 .home-scale{position:absolute;left:0;top:0;width:100%;height:100%;z-index:1;display:flex;flex-direction:column;transform-origin:0 0;
   padding:calc(env(safe-area-inset-top,0px) + 6px) max(20px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 14px) max(20px,env(safe-area-inset-left,0px))}
+/* v9: cut-out photos on the posters */
+.art .cut{position:absolute;left:0;bottom:0;width:100%;height:78%;max-width:none;object-fit:contain;object-position:50% 100%;z-index:0;filter:drop-shadow(0 8px 18px rgba(0,0,0,.45));pointer-events:none}
+.art .cut-shade{position:absolute;inset:auto 0 0 0;height:48%;z-index:0;background:linear-gradient(0deg,rgba(0,0,0,.72),rgba(0,0,0,0));pointer-events:none}
+.art .y,.art .net,.art .t,.art .rib{z-index:1}
+.art.wide .cut{left:auto;right:5%;width:55%;height:94%;object-position:100% 100%}
+.art.wide .cut-shade{display:none}
+.mini .art .cut{height:84%}
+@media (max-width:620px){.art.wide .cut{right:0;width:70%;height:82%;opacity:.9}}
 </style>
 </head>
 <body>
@@ -505,30 +513,31 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;paddin
 const WELCOME_VIDEO = "";
 const INTRO_MS = 15000;
 
-// trailer: a YouTube video ID (the part after "v=") or an .mp4 file name. Empty = "coming soon".
+// trailer: a YouTube link (or its ID) or an .mp4 file name. Empty = "coming soon".
+// start / end (optional): only play that part of the YouTube video, e.g. start:"1:20", end:"1:50".
 const SHOWS = [
-  { id:"action-families", title:"Action Families", season:"Season 2", year:"2024", network:"CTS", networkFull:"Chinese Television System",
+  { id:"action-families", cut:"image/covers/action-families.webp", title:"Action Families", season:"Season 2", year:"2024", network:"CTS", networkFull:"Chinese Television System",
     eps:"8 episodes", role:"Host · Pre-production Assistant", award:"Best Show of the Year · Taiwan Media Watch Conference 2025",
     a:"#6e1220", b:"#e0542f", motif:"rings", trailer:"",
     desc:"Season 2 of the Action series on Chinese Television System. Three years after competing as a kid in Season 1, I came back as the show's host and worked on pre-production.",
     bullets:["Hosted all 8 episodes on camera","Helped prepare shoots and segments in pre-production","The season won Best Show of the Year at the 2025 Taiwan Media Watch Conference"] },
-  { id:"action-kids", title:"Action Kids", season:"Season 1", year:"2021", network:"CTS · AXN", networkFull:"Chinese Television System & AXN",
+  { id:"action-kids", cut:"image/covers/action-kids.webp", title:"Action Kids", season:"Season 1", year:"2021", network:"CTS · AXN", networkFull:"Chinese Television System & AXN",
     eps:"8 episodes", role:"Contestant · Filmmaker", award:"1st Place · Action Kids Season 1",
     a:"#0c3460", b:"#1f8ac0", motif:"stripes", trailer:"",
     desc:"A bilingual reality competition where kid teams from across Asia make short films under pressure. Each round we had one hour to film and one hour to edit a 3–5 minute video on an assigned topic. One team went home every episode.",
     bullets:["Filmed and edited a new short film every episode","Made it through to the final of 8 teams and took 1st place","Competed in a bilingual English–Mandarin format"],
     epTitle:"Challenges", episodes:["Tourist attraction","Introduce a café","Underwater filming","The zoo","A baseball game"] },
-  { id:"kids-newsroom", title:"Kids Newsroom", season:"Da-Ai TV", year:"2019–2024", network:"Da-Ai TV", networkFull:"Da-Ai TV (Tzu-Chi)",
+  { id:"kids-newsroom", cut:"image/covers/kids-newsroom.webp", title:"Kids Newsroom", season:"Da-Ai TV", year:"2019–2024", network:"Da-Ai TV", networkFull:"Da-Ai TV (Tzu-Chi)",
     eps:"Part of 33 Da-Ai episodes", role:"TV Anchor · On-site Journalist",
     a:"#0b2a3a", b:"#2e9c8f", motif:"grid", trailer:"",
     desc:"A news program presented by kids. I anchored world and domestic news from the studio and reported from the field.",
     bullets:["Anchored world and domestic news segments","Reported on location as an on-site journalist"] },
-  { id:"boyuan", title:"Brother Boyuan's Secret House", season:"Da-Ai TV", year:"2019–2024", network:"Da-Ai TV", networkFull:"Da-Ai TV (Tzu-Chi)",
+  { id:"boyuan", cut:"image/covers/boyuan.webp", title:"Brother Boyuan's Secret House", season:"Da-Ai TV", year:"2019–2024", network:"Da-Ai TV", networkFull:"Da-Ai TV (Tzu-Chi)",
     eps:"Part of 33 Da-Ai episodes", role:"Participant · Production Assistant",
     a:"#2b1d3f", b:"#b5658a", motif:"dots", trailer:"",
     desc:"A program about the emotional problems teenagers face. I took part on screen and helped the production team behind it.",
     bullets:["Shared my perspective on teen emotional issues on screen","Assisted the production team"] },
-  { id:"children", title:"Children Around the World", season:"Da-Ai TV", year:"2019–2024", network:"Da-Ai TV", networkFull:"Da-Ai TV (Tzu-Chi)",
+  { id:"children", cut:"image/covers/children.webp", title:"Children Around the World", season:"Da-Ai TV", year:"2019–2024", network:"Da-Ai TV", networkFull:"Da-Ai TV (Tzu-Chi)",
     eps:"Part of 33 Da-Ai episodes", role:"Host · Participant",
     a:"#123d2b", b:"#d1a23a", motif:"wave", trailer:"",
     desc:"Stories of children in other countries, told through the UN Sustainable Development Goals. I hosted and took part in episodes.",
@@ -538,18 +547,18 @@ const SHOWS = [
     a:"#073d3c", b:"#46b5a3", motif:"wave", trailer:"",
     desc:"An outdoor variety series about the environmental problems along the Tamsui River. Everything was shot on location with no retakes.",
     bullets:["Investigated environmental problems along the Tamsui River","Shot outdoors in single takes, with no retakes"] },
-  { id:"young-voice", title:"Young Voice", season:"CommonWealth Education Media", year:"2025–2026", network:"YouTube · Podcast", networkFull:"CommonWealth Education Media & Publishing",
+  { id:"young-voice", cut:"image/covers/young-voice.webp", title:"Young Voice", season:"CommonWealth Education Media", year:"2025–2026", network:"YouTube · Podcast", networkFull:"CommonWealth Education Media & Publishing",
     eps:"4 YouTube episodes · 2 podcasts", role:"Journalist · Host", award:"1st Place · Young Voice Talent Competition (YouTuber)",
     a:"#3d1f05", b:"#f08c2a", motif:"stripes", trailer:"",
     desc:"I entered the Young Voice Talent Competition with a video unboxing shops in Zhongshan District and won 1st place in the YouTuber category. CommonWealth then invited me back as a journalist and host for a series on how teenagers see their academic future.",
     bullets:["Won 1st place in the YouTuber category","Reported and hosted 4 YouTube episodes","Hosted 2 podcast episodes"],
     epTitle:"Episodes", episodes:["Qualifying round: unboxing shops in Zhongshan District","YouTube series: teenagers' academic outlook (4 episodes)","Podcast: teenagers' academic outlook (2 episodes)"] },
-  { id:"sibling", title:"The Sibling Chronicles", season:"YouTube Original", year:"2020–now", network:"YouTube", networkFull:"YouTube",
+  { id:"sibling", cut:"image/covers/sibling.webp", title:"The Sibling Chronicles", season:"YouTube Original", year:"2020–now", network:"YouTube", networkFull:"YouTube",
     eps:"Ongoing", role:"Director · Editor · Actor",
     a:"#1d2b22", b:"#8db83a", motif:"dots", trailer:"",
     desc:"My own YouTube channel, which I direct, edit and act in. It has English teaching videos, English singing videos, and Mandarin translations of diplomatic visit videos.",
     bullets:["Directed, filmed, edited and acted","Made English teaching and singing videos","Translated diplomatic visit videos from English to Mandarin"] },
-  { id:"career", title:"Career Discovery", season:"Documentary Short", year:"2022", network:"YouTube", networkFull:"YouTube · Ministry of Education competition",
+  { id:"career", cut:"image/covers/career.webp", title:"Career Discovery", season:"Documentary Short", year:"2022", network:"YouTube", networkFull:"YouTube · Ministry of Education competition",
     eps:"Short film", role:"Filmmaker", award:"1st Place · Career Discovery Documentary Competition",
     a:"#262626", b:"#c9a227", motif:"grid", trailer:"",
     desc:"A short documentary made for the Ministry of Education's Career Discovery competition. It won 1st place.",
@@ -558,7 +567,7 @@ const SHOWS = [
 
 const FEATURED = "action-families";
 const ROWS = [
-  { title:"On Network TV", ids:["action-families","action-kids","tamsui","kids-newsroom","boyuan","children"] },
+  { title:"On Network TV", ids:["action-families","action-kids","kids-newsroom","boyuan","children","tamsui"] },
   { title:"Da-Ai TV · 2019–2024", ids:["kids-newsroom","boyuan","children"] },
   { title:"Filmed & Edited by York", ids:["sibling","career","young-voice"] }
 ];
@@ -656,6 +665,7 @@ function art(s, wide){
   const long = s.title.length > 16 ? " long" : "";
   return `<div class="art${wide?" wide":""}" style="--a:${s.a};--b:${s.b}">
     <div class="motif m-${s.motif}"></div>
+    ${s.cut ? `<img class="cut" src="${s.cut}" alt="" loading="lazy" decoding="async"><div class="cut-shade"></div>` : ""}
     <span class="y">Y</span><span class="net">${s.network.split(" · ").join("<br>")}</span>
     ${s.award ? `<span class="rib">Award</span>` : ""}
     <div class="t${long}">${s.title}<small>${s.season}</small></div></div>`;
@@ -978,13 +988,18 @@ function openDetail(id){
 }
 function closeDetail(){ document.querySelector(".modal-wrap")?.remove(); showTip(); }
 
+// accepts a full YouTube link or just the video ID
+function ytId(v){ const m = String(v).match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/); return m ? m[1] : v; }
+// accepts "1:25" or 85
+function toSec(t){ return String(t).split(":").reduce((a, n) => a * 60 + Number(n), 0); }
+
 function openPlayer(id){
   const s = byId(id);
   const p = document.createElement("div");
   p.className = "player";
   let media;
   if (/\.mp4$/i.test(s.trailer)) media = `<video src="${s.trailer}" controls autoplay playsinline></video>`;
-  else if (s.trailer) media = `<iframe src="https://www.youtube-nocookie.com/embed/${s.trailer}?autoplay=1&rel=0&modestbranding=1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="${s.title} trailer"></iframe>`;
+  else if (s.trailer) media = `<iframe src="https://www.youtube-nocookie.com/embed/${ytId(s.trailer)}?autoplay=1&rel=0&modestbranding=1${s.start ? "&start=" + toSec(s.start) : ""}${s.end ? "&end=" + toSec(s.end) : ""}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="${s.title} trailer"></iframe>`;
   else media = `<div class="soon-trailer">${art(s, true)}<div class="veil"></div><div class="msg"><h3>${s.title}</h3><p>Trailer coming soon</p></div><div class="scrub"><i></i></div></div>`;
   p.innerHTML = `<div class="player-top"><button aria-label="Back">${ICON_BACK}Back</button><span>${s.title} · Trailer</span></div>
     <div class="player-stage"><div class="screen16">${media}</div></div>`;
