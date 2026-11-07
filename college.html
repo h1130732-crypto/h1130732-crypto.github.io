@@ -554,7 +554,7 @@ const SHOWS = [
     bullets:["Shared my perspective on teen emotional issues on screen","Assisted the production team"] },
   { id:"children", cut:"image/covers/children.webp", title:"Children Around the World", season:"Da-Ai TV", year:"2019–2024", network:"Da-Ai TV", networkFull:"Da-Ai TV (Tzu-Chi)",
     eps:"Part of 33 Da-Ai episodes", role:"Host · Participant",
-    a:"#123d2b", b:"#d1a23a", motif:"wave", trailer:"",
+    a:"#123d2b", b:"#d1a23a", motif:"wave", trailer:"videos/children.mp4",
     desc:"Stories of children in other countries, told through the UN Sustainable Development Goals. I hosted and took part in episodes.",
     bullets:["Hosted segments about children around the world","Connected each story to the Sustainable Development Goals"] },
   { id:"tamsui", cut:"image/covers/tamsui.webp", title:"Follow Me Go! Tamsui", season:"The Global Warming Series", year:"2021", network:"PTS", networkFull:"Public Television Service",
@@ -597,13 +597,13 @@ const STATS = [["53","TV episodes"],["4","broadcasters"],["4","awards"],["2019",
 // What York "says" in the corner after the welcome video.
 const TIPS = [
   { app:"yorkflix", text:"Welcome to my world! Start with YorkFlix to watch trailers of the TV shows I've worked on." },
-  { app:"settings", text:"Click Settings to know the basics about me!" },
+  { app:"mun", text:"Open MUN to see my Model UN and debate journey." },
   { app:"music", text:"Music has my singing clips and my band, Blank Space." },
   { app:"files", text:"Need my résumé? It's in Files." },
   { app:"maps", text:"Maps shows the places MUN and diplomacy have taken me." },
   { app:"weather", text:"Weather is where my environmental research lives." },
   { app:"camera", text:"Take a photo-booth picture with me in Camera :)" },
-  { app:"flashlight", text:"One last thing. Try the Flashlight." }
+  { app:"camera", text:"One last thing. Take a photo-booth picture with me!" }
 ];
 const FLIX_TIP = "Pick any show and press Play Trailer. Close YorkFlix with the button at the top right.";
 
@@ -659,6 +659,9 @@ const APPS = {
   camera:{ name:"Camera", bg:"linear-gradient(160deg,#606a75,#2b3036)",
     svg:`<svg viewBox="0 0 24 24"><path d="M8 7.2 9.6 4.8h4.8L16 7.2z" fill="#e8eaed"/><rect x="3" y="7" width="18" height="12" rx="3" fill="#e8eaed"/><circle cx="12" cy="13" r="3.8" fill="#2b3036"/><circle cx="12" cy="13" r="2.2" fill="#71839a"/></svg>`,
     info:"A photo booth: take a picture with me, add a frame and save it." },
+  mun:{ name:"MUN", bg:"linear-gradient(160deg,#3d6fd6,#1b2f7a)",
+    svg:`<svg viewBox="0 0 24 24"><g transform="rotate(-38 12 12)"><rect x="5.2" y="4.2" width="9.6" height="5.2" rx="1.6" fill="#fff"/><rect x="4.2" y="4.8" width="1.6" height="4" rx=".6" fill="#f2c14e"/><rect x="14.2" y="4.8" width="1.6" height="4" rx=".6" fill="#f2c14e"/><rect x="9.1" y="9.2" width="1.8" height="10" rx=".9" fill="#f2c14e"/></g><rect x="3.5" y="18.6" width="10" height="2.4" rx="1.2" fill="#fff" opacity=".9"/></svg>`,
+    info:"Model UN and debate: 13 conferences, Secretary-General of WegoMUN 2026, awards, and the delegates I have trained." },
   maps:{ name:"Maps", bg:"linear-gradient(160deg,#d3f3c9,#7fcb9f)",
     svg:`<svg viewBox="0 0 24 24"><path d="M3 6.5 9 4.5l6 2 6-2v13l-6 2-6-2-6 2z" fill="#fff"/><path d="M9 4.5v13M15 6.5v13" stroke="#7fcb9f" stroke-width="1.2"/><path d="M16 6.8a2.6 2.6 0 0 0-2.6 2.6c0 2 2.6 4.6 2.6 4.6s2.6-2.6 2.6-4.6A2.6 2.6 0 0 0 16 6.8z" fill="#e53935"/><circle cx="16" cy="9.4" r=".9" fill="#fff"/></svg>`,
     info:"Pins for Model UN in Taipei, the Teen Diplomat Envoys trip to Los Angeles, San Francisco and West Covina, and the ICDF Youth Club's USD 31K fundraiser for schools in Palau." },
@@ -669,7 +672,7 @@ const APPS = {
     svg:`<svg viewBox="0 0 24 24"><path d="M7 2.5h10v3.2l-2.6 4V20a1.6 1.6 0 0 1-1.6 1.6h-1.6A1.6 1.6 0 0 1 9.6 20V9.7L7 5.7z" fill="#fff"/><rect x="7" y="5.6" width="10" height="1.3" fill="#f2902e" opacity=".55"/><circle cx="12" cy="13.4" r="1.3" fill="#f2902e"/></svg>`,
     info:"A dark room with glow-stick light trails, an intro to Wotagei, and a clip of me performing." }
 };
-const GRID_APPS = ["yorkflix","maps","weather","camera","music","files","settings","flashlight"];
+const GRID_APPS = ["yorkflix","mun","maps","weather","music","files","camera"];
 const IS_LIVE = /github\.io$/.test(location.hostname); // hides "placeholder" labels on the real site
 
 /* ---------- helpers ---------- */
