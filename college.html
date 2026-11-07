@@ -307,6 +307,21 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;paddin
 .m-side dd{margin:2px 0 0;color:#eee;line-height:1.4}
 .eps{display:flex;flex-direction:column;border-top:1px solid #2c2c31}
 .ep{display:flex;gap:16px;align-items:center;padding:14px 4px;border-bottom:1px solid #2c2c31;font-size:14.5px}
+.vep{display:grid;grid-template-columns:24px minmax(0,190px) minmax(0,1fr);gap:16px;align-items:center;padding:14px 8px;border-bottom:1px solid #2c2c31;color:inherit;text-decoration:none;border-radius:6px;transition:background .15s}
+.vep:hover{background:#26262b}
+.vep b{font-family:var(--display);font-weight:400;font-size:22px;color:#8a8a94;text-align:center}
+.vthumb{position:relative;aspect-ratio:16/9;border-radius:5px;overflow:hidden;display:block;max-width:100%}
+.vthumb .art{position:absolute;inset:0}
+.vthumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+.vthumb i{position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.25);opacity:.9;transition:opacity .15s}
+.vthumb i svg{width:34px;height:34px;padding:9px;border-radius:50%;background:rgba(0,0,0,.55);border:1.5px solid #fff;color:#fff}
+.vep:hover .vthumb i{opacity:1;background:rgba(0,0,0,.1)}
+.vtxt{display:flex;flex-direction:column;gap:5px;min-width:0}
+.vtxt strong{font-size:15px;line-height:1.35}
+.vtxt em{font-style:normal;font-size:13.5px;line-height:1.45;color:#c8c8d0}
+.vtxt small{font-size:12.5px;color:#9a9aa4}
+a.btn-play{text-decoration:none}
+@media (max-width:620px){.vep{grid-template-columns:18px minmax(0,130px) minmax(0,1fr);gap:10px}}
 .ep b{font-family:var(--display);font-weight:400;font-size:22px;color:#8a8a94;width:24px;text-align:center;font-variant-numeric:tabular-nums}
 .m-more{padding:0 28px 30px}
 .more-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
@@ -519,7 +534,7 @@ const SHOWS = [
   { id:"action-families", cut:"image/covers/action-families.webp", title:"Action Families", season:"Season 2", year:"2024", network:"CTS", networkFull:"Chinese Television System",
     eps:"8 episodes", role:"Host · Pre-production Assistant", award:"Best Show of the Year · Taiwan Media Watch Conference 2025",
     a:"#6e1220", b:"#e0542f", motif:"rings", trailer:"videos/action-families.mp4",
-    desc:"Season 2 of the Action series on Chinese Television System. Three years after competing as a kid in Season 1, I came back as the show's host and worked on pre-production.",
+    desc:"A parent-and-child filmmaking reality show on Chinese Television System. I won Season 1 (Action Kids) as a contestant, so the show invited me back to host Season 2. I also helped with pre-production.",
     bullets:["Hosted all 8 episodes on camera","Helped prepare shoots and segments in pre-production","The season won Best Show of the Year at the 2025 Taiwan Media Watch Conference"] },
   { id:"action-kids", cut:"image/covers/action-kids.webp", title:"Action Kids", season:"Season 1", year:"2021", network:"CTS · AXN", networkFull:"Chinese Television System & AXN",
     eps:"8 episodes", role:"Contestant · Filmmaker", award:"1st Place · Action Kids Season 1",
@@ -529,7 +544,7 @@ const SHOWS = [
     epTitle:"Challenges", episodes:["Tourist attraction","Introduce a café","Underwater filming","The zoo","A baseball game"] },
   { id:"kids-newsroom", cut:"image/covers/kids-newsroom.webp", title:"Kids Newsroom", season:"Da-Ai TV", year:"2019–2024", network:"Da-Ai TV", networkFull:"Da-Ai TV (Tzu-Chi)",
     eps:"Part of 33 Da-Ai episodes", role:"TV Anchor · On-site Journalist",
-    a:"#0b2a3a", b:"#2e9c8f", motif:"grid", trailer:"",
+    a:"#0b2a3a", b:"#2e9c8f", motif:"grid", trailer:"videos/kids-newsroom.mp4",
     desc:"A news program presented by kids. I anchored world and domestic news from the studio and reported from the field.",
     bullets:["Anchored world and domestic news segments","Reported on location as an on-site journalist"] },
   { id:"boyuan", cut:"image/covers/boyuan.webp", title:"Brother Boyuan's Secret House", season:"Da-Ai TV", year:"2019–2024", network:"Da-Ai TV", networkFull:"Da-Ai TV (Tzu-Chi)",
@@ -542,17 +557,22 @@ const SHOWS = [
     a:"#123d2b", b:"#d1a23a", motif:"wave", trailer:"",
     desc:"Stories of children in other countries, told through the UN Sustainable Development Goals. I hosted and took part in episodes.",
     bullets:["Hosted segments about children around the world","Connected each story to the Sustainable Development Goals"] },
-  { id:"tamsui", title:"Follow Me Go! Tamsui", season:"The Global Warming Series", year:"2021", network:"PTS", networkFull:"Public Television Service",
+  { id:"tamsui", cut:"image/covers/tamsui.webp", title:"Follow Me Go! Tamsui", season:"The Global Warming Series", year:"2021", network:"PTS", networkFull:"Public Television Service",
     eps:"4 episodes", role:"Variety Show Participant",
     a:"#073d3c", b:"#46b5a3", motif:"wave", trailer:"",
-    desc:"An outdoor variety series about the environmental problems along the Tamsui River. Everything was shot on location with no retakes.",
-    bullets:["Investigated environmental problems along the Tamsui River","Shot outdoors in single takes, with no retakes"] },
+    desc:"An outdoor variety series about global warming and the Tamsui River. We explored the history of Tamsui, joined environmental campaigns, and cleaned up trash along the riverbanks.",
+    bullets:["Discovered the history of Tamsui","Joined environmental campaigns in the community","Collected trash along the Tamsui riverbanks"],
+    epTitle:"Episodes", episodes:[
+      { yt:"YNNYOx_Ah4M", cover:"image/eps/tamsui-1.webp", len:"26 min", title:"The Past and Present of the Tamsui River", note:"A journey along the century-old Blue Highway waterway." },
+      { yt:"BAqula7qmPU", cover:"image/eps/tamsui-2.webp", len:"26 min", title:"Adventures on Shezi Island", note:"Taipei has farmers and fishermen too?!" },
+      { yt:"-BQ7iEz23GE", cover:"image/eps/tamsui-3.webp", len:"27 min", title:"Doing Something for the Tamsui River", note:"Catching marine debris and campaigning to cut plastic use.", t:1290 },
+      { yt:"YAOFNGeiemU", cover:"image/eps/tamsui-4.webp", len:"27 min", title:"Tamsui River, Where Do You Come From?", note:"The ultimate challenge: tracing the river back to its source at Smangus.", t:204 } ] },
   { id:"young-voice", cut:"image/covers/young-voice.webp", title:"Young Voice", season:"CommonWealth Education Media", year:"2025–2026", network:"YouTube · Podcast", networkFull:"CommonWealth Education Media & Publishing",
     eps:"4 YouTube episodes · 2 podcasts", role:"Journalist · Host", award:"1st Place · Young Voice Talent Competition (YouTuber)",
     a:"#3d1f05", b:"#f08c2a", motif:"stripes", trailer:"",
     desc:"I entered the Young Voice Talent Competition with a video unboxing shops in Zhongshan District and won 1st place in the YouTuber category. CommonWealth then invited me back as a journalist and host for a series on how teenagers see their academic future.",
     bullets:["Won 1st place in the YouTuber category","Reported and hosted 4 YouTube episodes","Hosted 2 podcast episodes"],
-    epTitle:"Episodes", episodes:["Qualifying round: unboxing shops in Zhongshan District","YouTube series: teenagers' academic outlook (4 episodes)","Podcast: teenagers' academic outlook (2 episodes)"] },
+    epTitle:"Episodes", episodes:[{ yt:"RINrglIcFhk", cover:"image/eps/young-voice-1.webp", len:"2 min", title:"Young Voice No. 827: York Chen", note:"Qualifying round: unboxing shops in Zhongshan District." },"YouTube series: teenagers' academic outlook (4 episodes)","Podcast: teenagers' academic outlook (2 episodes)"] },
   { id:"sibling", cut:"image/covers/sibling.webp", title:"The Sibling Chronicles", season:"YouTube Original", year:"2020–now", network:"YouTube", networkFull:"YouTube",
     eps:"Ongoing", role:"Director · Editor · Actor",
     a:"#1d2b22", b:"#8db83a", motif:"dots", trailer:"",
@@ -562,7 +582,8 @@ const SHOWS = [
     eps:"Short film", role:"Filmmaker", award:"1st Place · Career Discovery Documentary Competition",
     a:"#262626", b:"#c9a227", motif:"grid", trailer:"",
     desc:"A short documentary made for the Ministry of Education's Career Discovery competition. It won 1st place.",
-    bullets:["Made a documentary short","Won 1st place in the Ministry of Education competition"] }
+    bullets:["Made a documentary short","Won 1st place in the Ministry of Education competition"],
+    epTitle:"Watch", episodes:[{ yt:"q4VLzFW5GII", cover:"image/eps/career-1.webp", title:"The Coolest Job Ever", note:"The full documentary." }] }
 ];
 
 const FEATURED = "action-families";
@@ -960,7 +981,7 @@ function openDetail(id){
     <div class="m-banner">${art(s, true)}<div class="shade"></div>
       <button class="m-close" aria-label="Close">×</button>
       <div class="m-head"><div class="kicker"><b>Y</b> ${s.season}</div><h2>${s.title}</h2>
-        <div class="btns"><button class="btn-play" data-play="${s.id}">${ICON_PLAY}Play Trailer</button></div></div>
+        <div class="btns">${playBtn(s)}</div></div>
     </div>
     <div class="m-body">
       <div>
@@ -968,7 +989,7 @@ function openDetail(id){
         ${s.award ? `<div class="award">${ICON_TROPHY}${s.award}</div>` : ""}
         <p>${s.desc}</p>
         <h4>What I did</h4><ul>${s.bullets.map(b => `<li>${b}</li>`).join("")}</ul>
-        ${s.episodes ? `<h4>${s.epTitle}</h4><div class="eps">${s.episodes.map((e,i) => `<div class="ep"><b>${i+1}</b><span>${e}</span></div>`).join("")}</div>` : ""}
+        ${s.episodes ? `<h4>${s.epTitle}</h4><div class="eps">${s.episodes.map((e,i) => typeof e === "string" ? `<div class="ep"><b>${i+1}</b><span>${e}</span></div>` : epRow(s,e,i)).join("")}</div>` : ""}
       </div>
       <aside class="m-side"><dl>
         <div><dt>Role</dt><dd>${s.role}</dd></div>
@@ -992,6 +1013,21 @@ function closeDetail(){ document.querySelector(".modal-wrap")?.remove(); showTip
 function ytId(v){ const m = String(v).match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/); return m ? m[1] : v; }
 // accepts "1:25" or 85
 function toSec(t){ return String(t).split(":").reduce((a, n) => a * 60 + Number(n), 0); }
+
+// YouTube episode rows
+function ytUrl(e){ return `https://www.youtube.com/watch?v=${e.yt}${e.t ? "&t=" + e.t + "s" : ""}`; }
+function epRow(s, e, i){
+  return `<a class="vep" href="${ytUrl(e)}" target="_blank" rel="noopener">
+    <b>${i+1}</b>
+    <span class="vthumb">${art(s, true)}<img src="${e.cover || `https://i.ytimg.com/vi/${e.yt}/hqdefault.jpg`}" alt="" loading="lazy" onerror="this.remove()"><i>${ICON_PLAY}</i></span>
+    <span class="vtxt"><strong>${e.title}</strong>${e.note ? `<em>${e.note}</em>` : ""}<small>${e.len ? e.len + " · " : ""}Watch on YouTube ↗</small></span></a>`;
+}
+function playBtn(s){
+  if (s.trailer) return `<button class="btn-play" data-play="${s.id}">${ICON_PLAY}Play Trailer</button>`;
+  const v = (s.episodes || []).find(e => typeof e === "object");
+  if (v) return `<a class="btn-play" href="${ytUrl(v)}" target="_blank" rel="noopener">${ICON_PLAY}${s.episodes.filter(e => typeof e === "object").length > 1 ? "Watch Episode 1" : "Watch Now"}</a>`;
+  return `<button class="btn-play" data-play="${s.id}">${ICON_PLAY}Play Trailer</button>`;
+}
 
 function openPlayer(id){
   const s = byId(id);
