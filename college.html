@@ -369,7 +369,10 @@ a.btn-play{text-decoration:none}
 .statusbar{font-size:clamp(14px,calc(1.1 * var(--vw,1vw)),21px);padding:clamp(4px,calc(.7 * var(--vw,1vw)),14px) clamp(6px,calc(1.1 * var(--vw,1vw)),22px)}
 .status-right{gap:clamp(8px,calc(.7 * var(--vw,1vw)),14px)}
 .battery{width:clamp(24px,calc(1.7 * var(--vw,1vw)),34px);height:clamp(12px,calc(.85 * var(--vw,1vw)),17px)}
-.mini .art{width:100%;height:100%}
+.mini{position:relative}
+.p-count{font-size:11px;font-weight:700;letter-spacing:.06em;color:rgba(255,255,255,.85);background:rgba(0,0,0,.35);padding:3px 8px;border-radius:99px;font-variant-numeric:tabular-nums}
+.mini .art{position:absolute;left:0;top:0;width:190px;height:285px;transform:scale(var(--ms,.4));transform-origin:0 0}
+.mini .art .t{font-size:28px}.mini .art .t.long{font-size:22px}
 .topnote{width:min(860px,100%);padding-top:8px}
 .topnote .note{width:100%;display:block;padding:clamp(22px,calc(2 * var(--vw,1vw)),32px) clamp(24px,calc(2.4 * var(--vw,1vw)),40px) clamp(16px,calc(1.4 * var(--vw,1vw)),22px)}
 .topnote .note .q{font-size:clamp(18px,calc(1.75 * var(--vw,1vw)),32px)}
@@ -413,7 +416,7 @@ a.btn-play{text-decoration:none}
 .art .y,.art .net,.art .t,.art .rib{z-index:1}
 .art.wide .cut{left:auto;right:5%;width:55%;height:94%;object-position:100% 100%}
 .art.wide .cut-shade{display:none}
-.mini .art .cut{height:84%}
+.mini .art .cut{height:78%}
 @media (max-width:620px){.art.wide .cut{right:0;width:70%;height:82%;opacity:.9}}
 /* ---------- Maps ---------- */
 #mapsApp{position:fixed;inset:0;z-index:60;background:#eef2f5;display:flex;flex-direction:column;color:#1d2530;animation:appIn .32s cubic-bezier(.2,.8,.2,1)}
@@ -605,6 +608,366 @@ a.btn-play{text-decoration:none}
 @media (max-width:700px){.map-legend{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;padding:8px 10px;font-size:11px;bottom:auto;top:66px;left:10px;right:auto}}
 #mapsApp[data-level-ui="taipei"] .map-legend{bottom:calc(env(safe-area-inset-bottom,0px) + 16px)}
 .mt-photo{aspect-ratio:4/3}
+/* ---------- Music app (streaming-player style) ---------- */
+#musicApp{--mu-bg:#121212;--mu-panel:#181818;--mu-hi:#2a2a2a;--mu-text:#fff;--mu-dim:#b3b3b3;--mu-green:#1ed760;
+  position:fixed;inset:0;z-index:60;background:#000;color:var(--mu-text);display:grid;grid-template-columns:300px 1fr;grid-template-rows:auto 1fr auto;gap:8px;padding:8px;
+  font-family:var(--ui);animation:appIn .32s cubic-bezier(.2,.8,.2,1)}
+#musicApp[hidden]{display:none}
+#musicApp button{color:inherit}
+.mu-top{grid-column:1 / -1;display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top,0px) + 2px) 4px 0}
+.mu-brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:17px;letter-spacing:-.01em;padding-left:6px}
+.mu-brand i{width:30px;height:30px;border-radius:50%;background:var(--mu-green);display:grid;place-items:center}
+.mu-brand i svg{width:16px;height:16px}
+.mu-nav{display:flex;gap:8px;margin-left:14px}
+.mu-nav button{width:32px;height:32px;border-radius:50%;background:#1f1f1f;display:grid;place-items:center}
+.mu-nav button:disabled{opacity:.4;cursor:default}
+.mu-nav svg{width:16px;height:16px}
+.mu-search{flex:0 1 380px;margin:0 auto;display:flex;align-items:center;gap:10px;height:44px;border-radius:99px;background:#1f1f1f;padding:0 16px;color:var(--mu-dim);font-size:14px}
+.mu-search svg{width:20px;height:20px;flex:none}
+#musicApp .close-app{margin-left:0}
+.mu-side{background:var(--mu-panel);border-radius:10px;overflow:auto;padding:14px 8px;min-height:0}
+.mu-side h2{font-size:16px;margin:2px 10px 12px;display:flex;align-items:center;gap:10px;color:var(--mu-dim)}
+.mu-side h2 svg{width:22px;height:22px}
+.mu-chips{display:flex;gap:8px;margin:0 10px 12px;flex-wrap:wrap}
+.mu-chips span{font-size:13px;padding:6px 12px;border-radius:99px;background:#2a2a2a}
+.mu-lib{display:flex;align-items:center;gap:12px;width:100%;padding:8px 10px;border-radius:8px;text-align:left}
+.mu-lib:hover{background:#1f1f1f}
+.mu-lib.on{background:#2a2a2a}
+.mu-lib img,.mu-lib .mu-collage{width:48px;height:48px;border-radius:5px;object-fit:cover;flex:none}
+.mu-lib b{display:block;font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mu-lib b.playing{color:var(--mu-green)}
+.mu-lib small{display:block;font-size:13px;color:var(--mu-dim);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mu-lib div{min-width:0}
+.mu-collage{display:grid;grid-template-columns:1fr 1fr;overflow:hidden}
+.mu-collage img{width:100%;height:100%;object-fit:cover;border-radius:0}
+.mu-main{background:var(--mu-panel);border-radius:10px;overflow:auto;min-height:0;position:relative}
+.mu-head{display:flex;align-items:flex-end;gap:24px;padding:72px 28px 24px;background:linear-gradient(180deg,#a8342f 0%,#6d2320 100%)}
+.mu-head .mu-collage{width:clamp(150px,18vw,232px);height:clamp(150px,18vw,232px);border-radius:6px;box-shadow:0 8px 40px rgba(0,0,0,.55);flex:none}
+.mu-head .eyebrow{font-size:13px;font-weight:600}
+.mu-head h1{font-size:clamp(40px,6.4vw,92px);line-height:1;letter-spacing:-.04em;margin:8px 0 14px;font-weight:900}
+.mu-head p{margin:0 0 8px;color:rgba(255,255,255,.75);font-size:14px;max-width:620px;line-height:1.5}
+.mu-head .meta{font-size:14px;font-weight:600}
+.mu-head .meta span{color:rgba(255,255,255,.75);font-weight:400}
+.mu-body{background:linear-gradient(180deg,rgba(109,35,32,.55) 0,var(--mu-panel) 240px);padding:22px 28px 40px}
+.mu-actions{display:flex;align-items:center;gap:22px;margin-bottom:22px}
+.mu-big{width:56px;height:56px;border-radius:50%;background:var(--mu-green);display:grid;place-items:center;transition:transform .15s,background .15s}
+.mu-big:hover{transform:scale(1.05);background:#3be477}
+#musicApp .mu-big{color:#000}.mu-big svg{width:24px;height:24px}
+.mu-ghost{color:var(--mu-dim)}
+.mu-ghost:hover{color:#fff}
+.mu-ghost svg{width:30px;height:30px}
+.mu-ghost.on{color:var(--mu-green)}
+.mu-table{width:100%;table-layout:fixed;border-collapse:collapse;font-size:14px;color:var(--mu-dim)}
+.mu-table th{font-weight:400;text-align:left;font-size:13px;padding:0 12px 10px;border-bottom:1px solid #2c2c2c}
+.mu-table th.n,.mu-table td.n{width:44px;text-align:right;padding-right:16px}
+.mu-table th.t,.mu-table td.t{text-align:right;width:70px}
+.mu-table th.w{width:34%}
+.mu-table th svg{width:16px;height:16px;vertical-align:middle}
+.mu-table tr.row{cursor:pointer}
+.mu-table tr.row td{padding:8px 12px}
+.mu-table tr.row td:first-child{border-radius:6px 0 0 6px}
+.mu-table tr.row td:last-child{border-radius:0 6px 6px 0}
+.mu-table tr.row:hover td{background:#2a2a2a}
+.mu-table tr.row.cur td{background:#333}
+.mu-table tbody:before{content:"";display:block;height:10px}
+.mu-ttl{display:flex;align-items:center;gap:12px;min-width:0}
+.mu-ttl img{width:44px;height:44px;border-radius:4px;object-fit:cover;flex:none}
+.mu-ttl b{display:block;color:#fff;font-size:15px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mu-ttl small{display:block;font-size:13.5px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mu-ttl > div{min-width:0}
+tr.cur .mu-ttl b{color:var(--mu-green)}
+.mu-num .pl{display:none;width:14px;height:14px;color:#fff}
+tr.row:hover .mu-num .nm{display:none}
+tr.row:hover .mu-num .pl{display:inline}
+.eq{display:none;align-items:flex-end;gap:2px;height:14px;justify-content:flex-end}
+.eq i{width:3px;background:var(--mu-green);animation:eq .9s ease-in-out infinite;border-radius:1px}
+.eq i:nth-child(2){animation-delay:-.3s}.eq i:nth-child(3){animation-delay:-.6s}
+@keyframes eq{0%,100%{height:3px}50%{height:14px}}
+tr.cur.is-playing .eq{display:inline-flex}
+tr.cur.is-playing .nm,tr.cur.is-playing:hover .pl{display:none!important}
+#musicApp.paused .eq i{animation-play-state:paused}
+.mu-where{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:300px}
+.mu-note{margin-top:28px;font-size:13px;color:#8a8a8a}
+/* now playing (video) */
+.mu-np{display:grid;grid-template-columns:1fr 340px;height:100%;min-height:0}
+.mu-stage{position:relative;overflow:hidden;background:#000;display:grid;place-items:center;min-height:0}
+.mu-stage .blur{position:absolute;inset:-40px;background-size:cover;background-position:center;filter:blur(40px) brightness(.45);transform:scale(1.1)}
+.mu-stage video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
+.mu-stage .mu-tap{position:absolute;inset:0;z-index:1}
+.mu-stage .mu-bigplay{position:absolute;z-index:2;width:76px;height:76px;border-radius:50%;background:rgba(0,0,0,.55);display:grid;place-items:center;opacity:0;transition:opacity .2s;pointer-events:none}
+.mu-stage .mu-bigplay svg{width:34px;height:34px}
+#musicApp.paused .mu-stage .mu-bigplay{opacity:1}
+.mu-info{overflow:auto;padding:20px 18px 28px;border-left:1px solid #242424}
+.mu-backall{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:11px 16px;margin:0 0 16px;border-radius:99px;background:#fff;color:#000!important;font-size:14.5px;font-weight:700;transition:transform .15s}
+.mu-backall:hover{transform:scale(1.03)}
+.mu-backall svg{width:17px;height:17px}
+.mu-backall.mu-onstage{position:absolute;z-index:3;top:14px;left:14px;width:auto;margin:0;padding:8px 14px 8px 10px;background:rgba(0,0,0,.6);color:#fff!important;backdrop-filter:blur(8px);font-size:13.5px}
+.mu-info .lbl{font-size:16px;font-weight:700;margin:0 0 14px;display:flex;justify-content:space-between;align-items:center}
+.mu-info .lbl button{color:var(--mu-dim);font-size:13px;font-weight:600}
+.mu-info .lbl button:hover{color:#fff}
+.mu-info .cover{width:100%;aspect-ratio:1;border-radius:8px;object-fit:cover;display:block}
+.mu-info h3{font-size:22px;margin:16px 0 4px;letter-spacing:-.01em;line-height:1.2}
+.mu-info .by{color:var(--mu-dim);font-size:14.5px;margin:0}
+.mu-card{background:#242424;border-radius:8px;padding:14px 16px;margin-top:16px}
+.mu-card h4{margin:0 0 6px;font-size:15px}
+.mu-card .tag{display:inline-block;font-size:12px;font-weight:700;color:#000;background:var(--mu-green);border-radius:99px;padding:3px 9px;margin-bottom:8px}
+.mu-card p{margin:0;font-size:14px;color:var(--mu-dim);line-height:1.55}
+.mu-card .cred{margin-top:8px;font-size:13.5px;color:var(--mu-dim)}
+.mu-card .cred b{color:#fff;font-weight:600}
+.mu-next{display:flex;align-items:center;gap:12px;width:100%;padding:8px;border-radius:6px;text-align:left;margin-top:6px}
+.mu-next:hover{background:#2f2f2f}
+.mu-next img{width:44px;height:44px;border-radius:4px;object-fit:cover}
+.mu-next b{display:block;font-size:14.5px;font-weight:500}
+.mu-next small{display:block;color:var(--mu-dim);font-size:13px;margin-top:2px}
+/* bottom player bar */
+.mu-bar{grid-column:1 / -1;display:grid;grid-template-columns:minmax(180px,30%) 1fr minmax(180px,30%);align-items:center;gap:12px;padding:6px 8px calc(env(safe-area-inset-bottom,0px) + 6px);min-height:72px}
+.mu-now{display:flex;align-items:center;gap:12px;min-width:0}
+.mu-now img{width:56px;height:56px;border-radius:5px;object-fit:cover;cursor:pointer;flex:none}
+.mu-now b{display:block;font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.mu-now b:hover{text-decoration:underline}
+.mu-now small{display:block;font-size:12.5px;color:var(--mu-dim);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mu-now > div{min-width:0}
+.mu-now .heart{color:var(--mu-green);flex:none}
+.mu-now .heart svg{width:18px;height:18px}
+.mu-ctl{display:flex;flex-direction:column;align-items:center;gap:6px;max-width:720px;width:100%;justify-self:center}
+.mu-btns{display:flex;align-items:center;gap:20px}
+.mu-btns button{color:var(--mu-dim)}
+.mu-btns button:hover{color:#fff}
+.mu-btns button svg{width:18px;height:18px;display:block}
+.mu-btns button.on{color:var(--mu-green)}
+#musicApp .mu-btns .pp{width:34px;height:34px;border-radius:50%;background:#fff;color:#000;display:grid;place-items:center}
+#musicApp .mu-btns .pp:hover{color:#000;transform:scale(1.05)}
+.mu-btns .pp svg{width:16px;height:16px}
+.mu-prog{display:flex;align-items:center;gap:8px;width:100%;font-size:12px;color:var(--mu-dim);font-variant-numeric:tabular-nums}
+.mu-prog span{min-width:36px;text-align:center}
+.mu-range{flex:1;height:14px;display:flex;align-items:center;cursor:pointer;position:relative;touch-action:none}
+.mu-range .track{height:4px;width:100%;border-radius:2px;background:#4d4d4d;overflow:hidden}
+.mu-range .fill{height:100%;background:#fff;width:0}
+.mu-range:hover .fill{background:var(--mu-green)}
+.mu-range .knob{position:absolute;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:#fff;opacity:0;left:0;box-shadow:0 1px 4px rgba(0,0,0,.5)}
+.mu-range:hover .knob{opacity:1}
+.mu-right{display:flex;align-items:center;justify-content:flex-end;gap:14px;color:var(--mu-dim)}
+.mu-right button:hover{color:#fff}
+.mu-right button.on{color:var(--mu-green)}
+.mu-right svg{width:18px;height:18px;display:block}
+.mu-right .mu-range{flex:0 0 96px}
+.mu-pill{display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:6px 11px;border-radius:99px;background:#2a2a2a;color:#fff}
+.mu-pill svg{width:15px!important;height:15px!important}
+@media (max-width:900px){.mu-np{grid-template-columns:1fr}.mu-info{border-left:0;border-top:1px solid #242424}.mu-stage{min-height:58vh}.mu-np{height:auto}.mu-info .cover{display:none}}
+@media (max-width:760px){
+  #musicApp{grid-template-columns:1fr;padding:0;gap:0}
+  .mu-side,.mu-search,.mu-nav,.mu-table th.w,.mu-table td.w,.mu-right .vol,.mu-right .mu-range,.mu-btns .sh,.mu-btns .rp{display:none}
+  .mu-top{padding:calc(env(safe-area-inset-top,0px) + 10px) 12px 8px}
+  #musicApp .close-app{margin-left:auto}
+  .mu-table th.t,.mu-table td.t{width:48px;padding-left:4px}
+  .mu-main{border-radius:0}
+  .mu-head{flex-direction:column;align-items:flex-start;padding:24px 16px 18px;gap:16px}
+  .mu-body{padding:16px 10px 30px}
+  .mu-table th.n,.mu-table td.n{width:30px;padding-right:6px}
+  .mu-bar{grid-template-columns:1fr auto;padding:8px 12px calc(env(safe-area-inset-bottom,0px) + 8px);background:#181818}
+  .mu-ctl{grid-column:1 / -1;grid-row:2}
+  .mu-right{grid-column:2;grid-row:1}
+}
+/* ---------- Files app: résumé reader ---------- */
+#filesApp{--fl-bg:#0b1426;--fl-side:#0f1b33;--fl-page:#13213d;--fl-line:#22355a;--fl-text:#e4ebf6;--fl-dim:#93a3bf;--fl-head:#ffffff;--fl-acc:#7cb0ff;--fl-chip:#1b2b4b;
+  position:fixed;inset:0;z-index:60;background:var(--fl-bg);color:var(--fl-text);display:flex;flex-direction:column;font-family:var(--ui);animation:appIn .32s cubic-bezier(.2,.8,.2,1)}
+#filesApp[hidden]{display:none}
+.fl-top{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top,0px) + 10px) max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));background:rgba(11,20,38,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--fl-line)}
+.fl-crumbs{display:flex;align-items:center;gap:7px;font-size:14px;color:var(--fl-dim);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-right:auto}
+.fl-crumbs i{font-style:normal;color:#5b6d8e}
+.fl-crumbs b{color:var(--fl-head);font-weight:600;overflow:hidden;text-overflow:ellipsis}
+.fl-ico svg{width:22px;height:22px;display:block}
+.fl-btn{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;padding:8px 14px;border-radius:99px;background:#2f6fd0;color:#fff;text-decoration:none;white-space:nowrap}
+.fl-btn:hover{background:#3b7ee4}
+.fl-btn svg{width:16px;height:16px}
+.fl-btn.ghost{background:var(--fl-chip);color:var(--fl-text)}
+.fl-btn.ghost:hover{background:#243a63}
+#filesApp .close-app{margin-left:0;background:var(--fl-chip);color:var(--fl-text)}
+.fl-body{flex:1;display:grid;grid-template-columns:230px 1fr;min-height:0}
+.fl-toc{padding:22px 12px;border-right:1px solid var(--fl-line);background:var(--fl-side);overflow:auto;display:flex;flex-direction:column;gap:2px}
+.fl-toc-h{font-size:11.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#6f82a3;margin:0 10px 10px}
+.fl-toc button{text-align:left;font-size:14px;font-weight:500;padding:9px 12px;border-radius:8px;color:#c4d0e4}
+.fl-toc button:hover{background:#18284a}
+.fl-toc button.on{background:#2f6fd0;color:#fff;font-weight:600}
+.fl-toc-dl{margin:16px 10px 0;font-size:13px;font-weight:600;color:var(--fl-acc);text-decoration:none}
+.fl-scroll{overflow:auto;padding:32px 24px 80px;position:relative;scroll-behavior:smooth}
+.rs-page{max-width:820px;margin:0 auto;background:var(--fl-page);color:var(--fl-text);border:1px solid var(--fl-line);border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.35);padding:48px 56px 40px;font-size:14.5px;line-height:1.55}
+.rs-head{padding-bottom:18px;border-bottom:2px solid var(--fl-acc)}
+.rs-head h1{font-family:Georgia,"Times New Roman",serif;font-size:40px;letter-spacing:-.01em;margin:0;line-height:1.05;color:var(--fl-head)}
+.rs-tag{margin:8px 0 0;color:var(--fl-dim);font-size:14px}
+.rs-contact{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:13.5px;margin-top:12px}
+.rs-contact a{color:var(--fl-acc);text-decoration:none}
+.rs-contact a:hover{text-decoration:underline}
+.rs-sec{padding-top:24px;scroll-margin-top:14px}
+.rs-sec h3{font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--fl-acc);margin:0 0 12px;padding-bottom:6px;border-bottom:1px solid var(--fl-line)}
+.rs-item{display:grid;grid-template-columns:108px 1fr;gap:16px;margin-bottom:14px}
+.rs-when{font-size:13px;font-weight:600;color:var(--fl-dim);padding-top:1px}
+.rs-what h4{margin:0;font-size:15px;color:var(--fl-head)}
+.rs-org{color:var(--fl-dim);font-size:13.5px;margin-top:1px}
+.rs-what ul{margin:6px 0 0;padding-left:18px}
+.rs-what li{margin:2px 0}
+.rs-what li::marker{color:var(--fl-acc)}
+.rs-what b{color:var(--fl-head)}
+.rs-mun{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;color:var(--fl-text)}
+.rs-mun th{text-align:left;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--fl-dim);padding:6px 8px;border-bottom:1px solid var(--fl-line)}
+.rs-mun td{padding:5px 8px;border-bottom:1px solid #1a2a49;color:var(--fl-text)}
+.rs-mun tr:nth-child(even) td{background:#172848}
+.rs-sec h5{margin:12px 0 6px;font-size:13.5px;color:var(--fl-head)}
+.rs-awards{list-style:none;margin:0;padding:0}
+.rs-awards li{display:grid;grid-template-columns:56px 1fr;gap:10px;padding:3px 0}
+.rs-awards li span{font-weight:600;color:var(--fl-dim);font-size:13px}
+.rs-foot{margin-top:30px;padding-top:14px;border-top:1px solid var(--fl-line);font-size:12.5px;color:var(--fl-dim);text-align:center}
+.rs-foot a{color:var(--fl-acc)}
+.fl-top-btn{position:sticky;float:right;bottom:20px;margin-right:-8px;padding:9px 14px;border-radius:99px;background:#2f6fd0;color:#fff;font-size:13px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.fl-top-btn.show{opacity:1;pointer-events:auto}
+@media (max-width:860px){
+  .fl-body{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .fl-toc{flex-direction:row;overflow-x:auto;padding:8px 10px;border-right:0;border-bottom:1px solid var(--fl-line);gap:6px;scrollbar-width:none}
+  .fl-toc::-webkit-scrollbar{display:none}
+  .fl-toc-h,.fl-toc-dl{display:none}
+  .fl-toc button{white-space:nowrap;background:var(--fl-chip);border-radius:99px;padding:7px 13px;font-size:13px}
+  .fl-scroll{padding:14px 10px 70px}
+  .rs-page{padding:26px 20px 26px}
+  .rs-head h1{font-size:32px}
+  .rs-contact{flex-direction:column}
+  .rs-item{grid-template-columns:1fr;gap:2px}
+  .fl-btn span{display:none}
+  .fl-crumbs{font-size:0}
+  .fl-crumbs b{font-size:14px}
+  .rs-mun{font-size:12px}.rs-mun th,.rs-mun td{padding:5px 4px}
+}
+/* ---------- Camera app: photo booth (dark, futuristic) ---------- */
+#boothApp{--bt-bg:#05070d;--bt-panel:rgba(16,22,38,.78);--bt-line:rgba(120,160,255,.16);--bt-text:#e8eeff;--bt-dim:#8a96b8;
+  --bt-cyan:#3ef0ff;--bt-violet:#8b5cff;--bt-pink:#ff4fd8;--bt-grad:linear-gradient(100deg,#3ef0ff,#8b5cff 55%,#ff4fd8);
+  position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;color:var(--bt-text);font-family:var(--ui);
+  background:
+    radial-gradient(900px 500px at 10% -10%,rgba(62,240,255,.14),transparent 60%),
+    radial-gradient(800px 600px at 110% 110%,rgba(139,92,255,.2),transparent 60%),
+    linear-gradient(rgba(120,160,255,.05) 1px,transparent 1px) 0 0/44px 44px,
+    linear-gradient(90deg,rgba(120,160,255,.05) 1px,transparent 1px) 0 0/44px 44px,
+    var(--bt-bg);
+  animation:appIn .32s cubic-bezier(.2,.8,.2,1)}
+#boothApp[hidden]{display:none}
+#boothApp [hidden]{display:none!important}
+#boothApp button{font-family:inherit;color:inherit}
+.bt-mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.bt-top{display:flex;align-items:center;gap:16px;padding:calc(env(safe-area-inset-top,0px) + 12px) 18px 10px;border-bottom:1px solid var(--bt-line)}
+.bt-logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;letter-spacing:.16em;white-space:nowrap}
+.bt-logo i{width:12px;height:12px;border-radius:50%;background:#ff3b5c;box-shadow:0 0 12px #ff3b5c;animation:btRec 1.6s ease-in-out infinite}
+.bt-logo em{font-style:normal;background:var(--bt-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+@keyframes btRec{50%{opacity:.25}}
+.bt-steps{display:flex;gap:4px;list-style:none;margin:0 auto;padding:0;counter-reset:s}
+.bt-steps li{counter-increment:s;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:7px 12px;color:#56607e;display:flex;align-items:center;gap:8px;border-bottom:2px solid transparent}
+.bt-steps li::before{content:"0" counter(s);font-family:ui-monospace,Menlo,monospace;font-size:11px;color:inherit;opacity:.8}
+.bt-steps li.on{color:#fff;border-color:var(--bt-cyan);text-shadow:0 0 12px rgba(62,240,255,.6)}
+.bt-steps li.done{color:var(--bt-dim)}
+#boothApp .close-app{margin-left:0;background:rgba(255,255,255,.08);color:#fff;border:1px solid var(--bt-line)}
+.bt-screen{flex:1;min-height:0;overflow:auto;padding:14px 22px 26px}
+.bt-screen h2{font-size:clamp(26px,3.2vw,40px);margin:10px 0 6px;text-align:center;letter-spacing:-.02em;font-weight:800}
+.bt-screen h2 span{background:var(--bt-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.bt-lead{text-align:center;color:var(--bt-dim);margin:0 0 22px;font-size:15.5px}
+.bt-tpls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;max-width:1100px;margin:0 auto}
+.bt-tpl{position:relative;background:var(--bt-panel);border:1px solid var(--bt-line);border-radius:18px;padding:12px 12px 14px;display:flex;flex-direction:column;align-items:flex-start;gap:3px;transition:transform .18s,border-color .18s,box-shadow .18s;text-align:left}
+.bt-tpl:hover{transform:translateY(-5px);border-color:rgba(62,240,255,.6);box-shadow:0 0 0 1px rgba(62,240,255,.3),0 18px 50px rgba(62,240,255,.15)}
+.bt-tpl canvas{width:100%;aspect-ratio:2/3;border-radius:10px;margin-bottom:10px;background:#0b1020}
+.bt-tpl b{font-size:16px;letter-spacing:.02em}
+.bt-tpl small{color:var(--bt-dim);font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-family:ui-monospace,Menlo,monospace}
+.bt-tpl .no{position:absolute;top:20px;left:20px;font:700 11px ui-monospace,Menlo,monospace;letter-spacing:.1em;color:var(--bt-cyan);background:rgba(5,7,13,.7);padding:3px 7px;border-radius:5px;border:1px solid rgba(62,240,255,.35)}
+.bt-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 18px;border-radius:12px;font-weight:700;font-size:14.5px;letter-spacing:.02em;background:rgba(255,255,255,.07);border:1px solid var(--bt-line);text-decoration:none;color:var(--bt-text);cursor:pointer;transition:transform .15s,background .15s,box-shadow .15s}
+.bt-btn:hover{background:rgba(255,255,255,.12)}
+.bt-btn:disabled{opacity:.45;cursor:default}
+.bt-btn.pink{background:var(--bt-grad);border:0;color:#05070d!important;box-shadow:0 8px 28px rgba(139,92,255,.35)}
+.bt-btn.pink:hover{box-shadow:0 10px 36px rgba(62,240,255,.45);transform:translateY(-1px)}
+.bt-btn.ghost{background:rgba(255,255,255,.05)}
+.bt-btn.big{padding:15px 22px;font-size:16px;width:100%}
+.bt-shootwrap{display:grid;grid-template-columns:1fr 260px;gap:24px;height:100%;max-width:1200px;margin:0 auto;align-items:center}
+.bt-live{position:relative;max-height:100%;max-width:100%;margin:0 auto;height:100%;border-radius:14px;overflow:hidden;background:#0b1020;box-shadow:0 0 0 1px rgba(62,240,255,.35),0 0 60px rgba(62,240,255,.12)}
+.bt-live video{width:100%;height:100%;object-fit:cover;transform:scaleX(-1);display:block}
+.bt-hud{position:absolute;inset:14px;pointer-events:none}
+.bt-hud i{position:absolute;width:26px;height:26px;border:2px solid var(--bt-cyan);opacity:.85}
+.bt-hud i:nth-child(1){left:0;top:0;border-right:0;border-bottom:0}
+.bt-hud i:nth-child(2){right:0;top:0;border-left:0;border-bottom:0}
+.bt-hud i:nth-child(3){left:0;bottom:0;border-right:0;border-top:0}
+.bt-hud i:nth-child(4){right:0;bottom:0;border-left:0;border-top:0}
+.bt-hud b{position:absolute;left:50%;top:50%;width:18px;height:18px;margin:-9px;border:1px solid rgba(255,255,255,.5);border-radius:50%}
+.bt-hud span{position:absolute;right:6px;top:6px;font:700 11px ui-monospace,Menlo,monospace;letter-spacing:.12em;color:#fff;display:flex;align-items:center;gap:6px}
+.bt-hud span::before{content:"";width:8px;height:8px;border-radius:50%;background:#ff3b5c;box-shadow:0 0 10px #ff3b5c;animation:btRec 1.2s infinite}
+.bt-count{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+.bt-count .ring{position:relative;height:min(72%,46vh);aspect-ratio:1;display:grid;place-items:center;opacity:0}
+.bt-count .ring svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.bt-count .ring circle{fill:none;stroke-width:3}
+.bt-count .ring .bg{stroke:rgba(255,255,255,.18)}
+.bt-count .ring .fg{stroke:url(#btGrad);stroke-linecap:round;stroke-dasharray:302;stroke-dashoffset:302}
+.bt-count .num{font:800 clamp(56px,min(20vh,18vw),200px)/1 var(--ui);color:#fff;text-shadow:0 0 30px rgba(62,240,255,.8),0 0 70px rgba(139,92,255,.6);letter-spacing:-.04em}
+.bt-count.pop .ring{opacity:1;animation:btRing 1s ease-out}
+.bt-count.pop .fg{animation:btSweep 1s linear forwards}
+.bt-count.pop .num{animation:btNum 1s ease-out}
+.bt-count .say{position:absolute;bottom:12%;left:0;right:0;text-align:center;font:700 13px ui-monospace,Menlo,monospace;letter-spacing:.3em;color:var(--bt-cyan);opacity:0}
+.bt-count.pop .say{opacity:1}
+@keyframes btRing{0%{transform:scale(1.25);opacity:0}20%{transform:scale(1);opacity:1}}
+@keyframes btSweep{to{stroke-dashoffset:0}}
+@keyframes btNum{0%{transform:scale(1.6);opacity:0;filter:blur(8px)}22%{transform:scale(1);opacity:1;filter:blur(0)}85%{opacity:1}100%{opacity:.2;transform:scale(.92)}}
+.bt-flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+.bt-flash.go{animation:btFlash .55s ease-out}
+@keyframes btFlash{0%{opacity:1}100%{opacity:0}}
+.bt-shotlabel{position:absolute;left:24px;top:22px;font:700 12px ui-monospace,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:rgba(5,7,13,.6);padding:6px 10px;border-radius:6px;border:1px solid var(--bt-line)}
+.bt-nocam{position:absolute;inset:0;display:grid;place-content:center;gap:16px;text-align:center;color:#fff;padding:20px;background:#0b1020}
+.bt-nocam p{margin:0;line-height:1.55;color:var(--bt-dim)}
+.bt-nocam p b{color:#fff}
+.bt-side{display:flex;flex-direction:column;gap:12px;align-items:stretch}
+.bt-side canvas{width:100%;border-radius:10px;border:1px solid var(--bt-line);background:#0b1020}
+.bt-side .tip{font-size:12.5px;color:var(--bt-dim);line-height:1.5;margin:2px 2px 0}
+.bt-editwrap{display:grid;grid-template-columns:auto 330px;gap:24px;height:100%;justify-content:center;align-items:start}
+.bt-stage{position:relative;height:calc(100vh - 150px);max-height:100%;aspect-ratio:2/3;border-radius:12px;overflow:hidden;box-shadow:0 0 0 1px rgba(62,240,255,.35),0 0 60px rgba(139,92,255,.18);touch-action:none}
+.bt-stage canvas{position:absolute;inset:0;width:100%;height:100%}
+#btDraw{cursor:crosshair}
+.bt-tools{background:var(--bt-panel);border:1px solid var(--bt-line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:16px;backdrop-filter:blur(14px)}
+.bt-group h4{margin:0 0 9px;font:700 11px ui-monospace,Menlo,monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--bt-dim)}
+.bt-seg{display:flex;gap:6px}
+.bt-seg.wrap{flex-wrap:wrap}
+.bt-seg button{flex:1;padding:9px 10px;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid var(--bt-line);font-weight:600;font-size:13.5px;white-space:nowrap}
+.bt-seg button.on{background:rgba(62,240,255,.12);border-color:var(--bt-cyan);color:#fff;box-shadow:0 0 16px rgba(62,240,255,.25)}
+.bt-colors{display:grid;grid-template-columns:repeat(8,1fr);gap:7px}
+.bt-colors button{aspect-ratio:1;border-radius:50%;background:var(--c);box-shadow:0 0 10px var(--c),inset 0 0 0 1px rgba(255,255,255,.25)}
+.bt-colors button.on{box-shadow:0 0 0 2px #05070d,0 0 0 4px #fff,0 0 16px var(--c)}
+.bt-stamps{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.bt-stamps button{font-size:22px;padding:6px 0;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid var(--bt-line)}
+.bt-stamps button.on{border-color:var(--bt-cyan);box-shadow:0 0 14px rgba(62,240,255,.3)}
+.bt-row{display:flex;align-items:center;gap:10px;margin-top:10px;font-size:13.5px;font-weight:600;color:var(--bt-dim)}
+.bt-row input[type=range]{flex:1;accent-color:var(--bt-cyan)}
+.bt-row input[type=checkbox]{accent-color:var(--bt-cyan);width:18px;height:18px}
+.bt-row2{display:flex;gap:8px}
+.bt-row2 > *{flex:1}
+.bt-row2.end{margin-top:auto}
+.bt-sendwrap{display:grid;grid-template-columns:auto minmax(280px,420px);gap:34px;justify-content:center;align-items:center;height:100%}
+#btFinal{height:calc(100vh - 160px);max-height:100%;aspect-ratio:2/3;border-radius:12px;box-shadow:0 0 0 1px rgba(62,240,255,.35),0 0 70px rgba(139,92,255,.25)}
+.bt-form,.bt-done{display:flex;flex-direction:column;gap:12px;background:var(--bt-panel);border:1px solid var(--bt-line);border-radius:18px;padding:24px;backdrop-filter:blur(14px)}
+.bt-form h2,.bt-done h2{text-align:left;margin:0}
+.bt-form .bt-lead,.bt-done .bt-lead{text-align:left;margin:0 0 4px}
+.bt-form label{display:flex;flex-direction:column;gap:6px;font:700 11px ui-monospace,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--bt-dim)}
+.bt-form input,.bt-form textarea{font:400 16px var(--ui);letter-spacing:0;text-transform:none;border:1px solid var(--bt-line);border-radius:10px;padding:11px 12px;background:rgba(5,7,13,.6);color:var(--bt-text);resize:vertical}
+.bt-form input:focus,.bt-form textarea:focus{outline:none;border-color:var(--bt-cyan);box-shadow:0 0 0 3px rgba(62,240,255,.15)}
+.bt-link{background:none;color:var(--bt-dim)!important;font-weight:600;font-size:13.5px;align-self:center}
+.bt-link:hover{color:#fff!important}
+.bt-status{margin:0;font-size:13.5px;color:#ffb36b;min-height:1em}
+.bt-privacy{font-size:12px;color:#5f6a8a;margin:0;line-height:1.5}
+@media (max-width:900px){
+  .bt-steps{display:none}
+  .bt-top{justify-content:space-between}
+  .bt-logo{font-size:15px}
+  .bt-screen{padding:8px 12px 20px}
+  .bt-tpls{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .bt-shootwrap{grid-template-columns:1fr;height:auto}
+  .bt-live{height:auto;width:100%;max-height:62vh}
+  .bt-side{flex-direction:row;flex-wrap:wrap}
+  .bt-side canvas{width:84px;flex:none}
+  .bt-side .bt-btn{flex:1}
+  .bt-side .tip{display:none}
+  .bt-editwrap{grid-template-columns:1fr;height:auto}
+  .bt-stage{height:auto;width:100%;max-width:440px;margin:0 auto}
+  .bt-sendwrap{grid-template-columns:1fr;height:auto}
+  #btFinal{height:auto;width:min(100%,360px);margin:6px auto 0}
+}
 </style>
 </head>
 <body>
@@ -799,12 +1162,39 @@ const FLIX_TIP = "Pick any show and press Play Trailer. Close YorkFlix with the 
 
 // Photo widget on the home screen. Put photos in a "photos" folder next to college.html,
 // then write the file name in src, e.g. src:"photos/action-kids.jpg". Empty src = colored placeholder.
-const PHOTOS = [
-  { src:"", title:"On set", note:"Action Kids · 2021", a:"#0c3460", b:"#1f8ac0" },
-  { src:"", title:"Hosting", note:"Action Families · 2024", a:"#6e1220", b:"#e0542f" },
-  { src:"", title:"Palau", note:"ICDF Youth Club", a:"#073d3c", b:"#46b5a3" },
-  { src:"", title:"Secretary General", note:"WegoMUN 2026", a:"#2b1d3f", b:"#b5658a" },
-  { src:"", title:"Blank Space live", note:"School concert", a:"#3d1f05", b:"#f08c2a" }
+const PHOTOS = [ // the same photos as the Maps pins
+  { src:"image/map/goldenvoice.webp", title:"Golden Voice Contest", note:"Taipei Music Center \u00b7 Nangang" },
+  { src:"image/map/palau.webp", title:"ICDF Youth Exchange", note:"Palau" },
+  { src:"image/map/goldengate.webp", title:"Golden Gate Bridge", note:"San Francisco" },
+  { src:"image/map/emun.webp", title:"EMUN", note:"Nanshan High School" },
+  { src:"image/map/smangus.webp", title:"Follow Me Go! at Smangus", note:"Smangus, Hsinchu" },
+  { src:"image/map/flag.webp", title:"Teen Diplomatic Envoys Flag Ceremony", note:"Ministry of Foreign Affairs" },
+  { src:"image/map/japan.webp", title:"Keio Shiki Exchange Program", note:"Shiki, Saitama \u00b7 Japan" },
+  { src:"image/map/hollywood.webp", title:"Hollywood Sign Hike", note:"Los Angeles" },
+  { src:"image/map/daai.webp", title:"Filming at Da-Ai TV", note:"Da-Ai TV headquarters \u00b7 Beitou" },
+  { src:"image/map/sntmun.webp", title:"SNTMUN", note:"Chenggong High School" },
+  { src:"image/map/europe.webp", title:"Mediterranean Family Trip", note:"Europe" },
+  { src:"image/map/youngvoice.webp", title:"Young Voice Competition", note:"Zhongshan District" },
+  { src:"image/map/sfcityhall.webp", title:"San Francisco City Hall Visit", note:"Teen Diplomatic Envoys \u00b7 San Francisco" },
+  { src:"image/map/aquarium.webp", title:"Ocean Challenge", note:"National Museum of Marine Biology & Aquarium \u00b7 Pingtung" },
+  { src:"image/map/e3.webp", title:"NTU E3 Center Internship", note:"National Taiwan University" },
+  { src:"image/map/wego.webp", title:"Taipei Wego Senior High School", note:"Xinbeitou" },
+  { src:"image/map/teco-la.webp", title:"Taipei Economic and Cultural Office", note:"Teen Diplomatic Envoys \u00b7 Los Angeles" },
+  { src:"image/map/centmun.webp", title:"CENTMUN", note:"Taichung" },
+  { src:"image/map/yilan.webp", title:"Youth Diplomat Camp", note:"Yilan" },
+  { src:"image/map/3min4sci.webp", title:"3 Minutes 4 Science", note:"National Taiwan University" },
+  { src:"image/map/dolby.webp", title:"Dolby Theatre Tour", note:"Hollywood" },
+  { src:"image/map/capri.webp", title:"CAPRI Internship", note:"CAPRI" },
+  { src:"image/map/saratoga.webp", title:"Saratoga High School Exchange", note:"Teen Diplomatic Envoys \u00b7 Saratoga" },
+  { src:"image/map/thailand.webp", title:"Family Trip to Bangkok", note:"Thailand" },
+  { src:"image/map/mockmun.webp", title:"Mock MUN Conference", note:"Hsi Sung High School" },
+  { src:"image/map/westcovina.webp", title:"West Covina City Hall Visit", note:"Teen Diplomatic Envoys \u00b7 West Covina" },
+  { src:"image/map/transmun.webp", title:"TransMUN", note:"Taichung" },
+  { src:"image/map/mediacamp.webp", title:"Media Camp", note:"Yuanshan" },
+  { src:"image/map/tzuchi.webp", title:"FASCA at Tzu-Chi USA", note:"Tzu-Chi USA headquarters" },
+  { src:"image/map/adata.webp", title:"ADATA Company Visit", note:"Los Angeles" },
+  { src:"image/map/taoyuan.webp", title:"Lunar New Year with My Grandparents", note:"Taoyuan" },
+  { src:"image/map/neihu.webp", title:"Where I Grew Up", note:"Neihu" }
 ];
 const PHOTO_SECONDS = 4.5;
 
@@ -848,7 +1238,7 @@ const APPS = {
     info:"My résumé, to read here or download as a PDF." },
   camera:{ name:"Camera", bg:"linear-gradient(160deg,#606a75,#2b3036)",
     svg:`<svg viewBox="0 0 24 24"><path d="M8 7.2 9.6 4.8h4.8L16 7.2z" fill="#e8eaed"/><rect x="3" y="7" width="18" height="12" rx="3" fill="#e8eaed"/><circle cx="12" cy="13" r="3.8" fill="#2b3036"/><circle cx="12" cy="13" r="2.2" fill="#71839a"/></svg>`,
-    info:"A photo booth: take a picture with me, add a frame and save it." },
+    info:"A photo booth: pick a frame, smile at the countdown, draw on your photo and send it to me." },
   mun:{ name:"MUN", bg:"linear-gradient(160deg,#3d6fd6,#1b2f7a)",
     svg:`<svg viewBox="0 0 24 24"><g transform="rotate(-38 12 12)"><rect x="5.2" y="4.2" width="9.6" height="5.2" rx="1.6" fill="#fff"/><rect x="4.2" y="4.8" width="1.6" height="4" rx=".6" fill="#f2c14e"/><rect x="14.2" y="4.8" width="1.6" height="4" rx=".6" fill="#f2c14e"/><rect x="9.1" y="9.2" width="1.8" height="10" rx=".9" fill="#f2c14e"/></g><rect x="3.5" y="18.6" width="10" height="2.4" rx="1.2" fill="#fff" opacity=".9"/></svg>`,
     info:"Model UN and debate: 13 conferences, Secretary-General of WegoMUN 2026, awards, and the delegates I have trained." },
@@ -892,6 +1282,8 @@ function iconHTML(id){
 /* ---------- home ---------- */
 $("#grid").innerHTML = GRID_APPS.map(iconHTML).join("");
 $("#nsArt").innerHTML = art(byId(FEATURED));
+const nsFit = () => { const m = $("#nsArt"); m.style.setProperty("--ms", m.clientWidth / 190); };
+new ResizeObserver(nsFit).observe($("#nsArt")); nsFit();
 document.querySelectorAll(".app-icon").forEach(b => b.addEventListener("click", () => openApp(b.dataset.app)));
 $("#nowShowing").addEventListener("click", () => openApp("yorkflix"));
 
@@ -901,12 +1293,13 @@ const pw = $("#photoWidget");
 pw.insertAdjacentHTML("afterbegin", PHOTOS.map(p => p.src
   ? `<div class="slide"><img src="${p.src}" alt="${p.title}, ${p.note}"></div>`
   : `<div class="slide ph-photo" style="--a:${p.a};--b:${p.b}">${ICON_PHOTO}${IS_LIVE ? "" : "<span>Add photo</span>"}</div>`).join(""));
-$("#pDots").innerHTML = PHOTOS.map(() => "<i></i>").join("");
+$("#pDots").innerHTML = PHOTOS.length > 8 ? `<span class="p-count"></span>` : PHOTOS.map(() => "<i></i>").join("");
 let photoIdx = -1, photoTimer;
 function showPhoto(i){
   photoIdx = (i + PHOTOS.length) % PHOTOS.length;
   pw.querySelectorAll(".slide").forEach((s,k) => s.classList.toggle("on", k === photoIdx));
   $("#pDots").querySelectorAll("i").forEach((d,k) => d.classList.toggle("on", k === photoIdx));
+  const pc = $("#pDots .p-count"); if (pc) pc.textContent = `${photoIdx + 1} / ${PHOTOS.length}`;
   const p = PHOTOS[photoIdx];
   $("#pCap").innerHTML = `<b>${p.title}</b><span>${p.note}</span>`;
   clearInterval(photoTimer);
@@ -1066,7 +1459,7 @@ function showTip(){
   document.querySelectorAll(".app-icon.hint").forEach(e => e.classList.remove("hint"));
   if (!introDone) return;
   const hideForLayer = !!document.querySelector(".modal-wrap, .player");
-  if (!bubbleOpen || hideForLayer){ bubble.classList.add("off"); return; }
+  if (!bubbleOpen || hideForLayer || (appOpen === "music" || appOpen === "files" || appOpen === "camera")){ bubble.classList.add("off"); return; }
   if (appOpen === "maps"){
     $("#bText").textContent = "Click a blinking region to zoom in. Hover a pin to see the story."; $("#bCount").textContent = "Maps";
     $("#bPrev").hidden = $("#bNext").hidden = true;
@@ -1091,6 +1484,9 @@ function openApp(id){
   if (!introDone) return;
   if (id === "yorkflix") return openFlix();
   if (id === "maps") return openMaps();
+  if (id === "music") return openMusic();
+  if (id === "files") return openFiles();
+  if (id === "camera") return openCamera();
   const a = APPS[id];
   const wrap = document.createElement("div");
   wrap.className = "sheet-wrap";
@@ -1628,11 +2024,636 @@ function openPlayer(id){
 }
 function closePlayer(){ document.querySelector(".player")?.remove(); presenter.classList.remove("away"); showTip(); }
 
+/* ---------- Music app: a streaming-style player for York's singing clips ---------- */
+const TRACKS = [
+  { id:"love-ing", title:"Love ing (戀愛ing)", artist:"York Chen", orig:"Mayday", where:"Blank Space live · School concert", year:"", dur:158.7,
+    tag:"Live with Blank Space", about:"Fronting my band Blank Space on the big stage at school, singing Mayday's Love ing with the whole hall clapping along.",
+    cred:"<b>York Chen</b> lead vocals · <b>Joshua Yeh</b> piano · <b>Alan Lee</b> guitar · <b>Ziv Wu</b> drums" },
+  { id:"if-i-were-young", title:"If I Were Young (年少有為)", artist:"York Chen", orig:"Ronghao Li", where:"Street performance · Ximending, Taipei", year:"", dur:129.9,
+    tag:"Busking", about:"Just me, a mic stand and whoever was walking past on a summer night in Ximending. Singing for strangers on the street taught me to hold a crowd that never planned to stop." },
+  { id:"nothings-gonna-change", title:"Nothing's Gonna Change My Love For You", artist:"York Chen", orig:"George Benson", where:"School stage · Acoustic duet", year:"", dur:129.5,
+    tag:"Acoustic", about:"A stripped-back acoustic version of the classic, with a friend on guitar." },
+  { id:"ai-xin-nian", title:"Love the New Year (愛新年)", artist:"York Chen", orig:"Kim Hsieh (謝欣芷)", where:"Studio recording · Let's Sing and Celebrate!", year:"", dur:162.9,
+    tag:"Studio", about:"A studio recording for Kim Hsieh's children's album Let's Sing and Celebrate! (走吧！唱歌慶祝去)." },
+  { id:"world-cup-remix", title:"Remix of 2022 World Cup Songs", artist:"York Chen & Class 8 Hsiao", orig:"", where:"Wego English Singing Contest · Champion", year:"2023", dur:322.5,
+    tag:"🏆 Champion", about:"Our class's own-choice piece at the 2023 Wego Junior High English Singing Contest: a remix of songs from the 2022 World Cup. We took first place." }
+];
+const MU_ICON = {
+  play:`<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.4-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg>`,
+  pause:`<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>`,
+  prev:`<svg viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="4" width="2.4" height="16" rx="1"/><path d="M20 5.2v13.6a1 1 0 0 1-1.5.85L8.2 13.2a1.4 1.4 0 0 1 0-2.4l10.3-6.45A1 1 0 0 1 20 5.2z"/></svg>`,
+  next:`<svg viewBox="0 0 24 24" fill="currentColor"><rect x="17.6" y="4" width="2.4" height="16" rx="1"/><path d="M4 5.2v13.6a1 1 0 0 0 1.5.85l10.3-6.45a1.4 1.4 0 0 0 0-2.4L5.5 4.35A1 1 0 0 0 4 5.2z"/></svg>`,
+  shuffle:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h3.5c2 0 3.2 1 4.3 2.6l2.4 3.8c1.1 1.6 2.3 2.6 4.3 2.6H21"/><path d="M3 18h3.5c1.6 0 2.7-.7 3.6-1.8M14 7.8c.9-1.1 2-1.8 3.5-1.8H21"/><path d="m18.5 3.5 2.5 2.5-2.5 2.5M18.5 15.5l2.5 2.5-2.5 2.5"/></svg>`,
+  repeat:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11V9a3 3 0 0 1 3-3h13"/><path d="m17 3 3 3-3 3"/><path d="M20 13v2a3 3 0 0 1-3 3H4"/><path d="m7 21-3-3 3-3"/></svg>`,
+  vol:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>`,
+  mute:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path d="m16 9 6 6M22 9l-6 6"/></svg>`,
+  video:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="5" width="13" height="14" rx="2"/><path d="m16 10 5-3v10l-5-3z"/></svg>`,
+  full:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>`,
+  clock:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>`,
+  heart:`<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.3C1 8.4 3 4.5 6.8 4.5c2.2 0 3.6 1.2 4.4 2.5h1.6c.8-1.3 2.2-2.5 4.4-2.5 3.8 0 5.8 3.9 4.4 7.2C19.5 16.4 12 21 12 21z"/></svg>`,
+  note:`<svg viewBox="0 0 24 24" fill="#000"><path d="M9 17.6a2.6 2.6 0 1 1-2-2.5V5.6L19 3.4v11.9a2.6 2.6 0 1 1-2-2.5V7.3L9 8.8z"/></svg>`,
+  lib:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 3v18M9 3v18M14 4l6 16"/></svg>`,
+  search:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>`,
+  back:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-7 7 7 7"/></svg>`
+};
+// Preview-only: long clips split into byte-chunks (the hosted site loads the single file instead).
+const MU_PARTS = {};
+TRACKS.forEach(t => { if (MU_PARTS[t.id]) t.parts = MU_PARTS[t.id]; });
+const muCover = t => `image/music/${t.id}.webp`;
+const muSrc = t => `music/${t.id}.mp4`;
+const fmtT = s => { s = Math.max(0, Math.floor(s || 0)); return `${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`; };
+const muBy = t => t.orig ? `${t.artist} · cover of ${t.orig}` : t.artist;
+const MU = { i:-1, view:"list", shuffle:false, repeat:false, vol:1, muted:false };
+
+function muCollage(){ return `<div class="mu-collage">${TRACKS.slice(0,4).map(t => `<img src="${muCover(t)}" alt="">`).join("")}</div>`; }
+
+function openMusic(){
+  appOpen = "music"; presenter.classList.add("away"); layout(); showTip();
+  let el = $("#musicApp");
+  if (!el){
+    el = document.createElement("div"); el.id = "musicApp"; el.className = "paused";
+    const total = Math.round(TRACKS.reduce((a,t) => a + t.dur, 0) / 60);
+    el.innerHTML = `
+      <header class="mu-top">
+        <div class="mu-brand"><i>${MU_ICON.note}</i>York Music</div>
+        <div class="mu-nav"><button id="muBack" aria-label="Back to playlist" disabled>${MU_ICON.back}</button></div>
+        <div class="mu-search">${MU_ICON.search}What do you want to hear York sing?</div>
+        <button class="close-app" id="musicClose">${ICON_HOME}Close</button>
+      </header>
+      <aside class="mu-side">
+        <h2>${MU_ICON.lib}Your Library</h2>
+        <div class="mu-chips"><span>Playlists</span><span>Live</span><span>Studio</span></div>
+        <button class="mu-lib on" data-lib="list">${muCollage()}<div><b>York Sings</b><small>Playlist · York Chen</small></div></button>
+        ${TRACKS.map((t,i) => `<button class="mu-lib" data-play="${i}"><img src="${muCover(t)}" alt=""><div><b>${t.title}</b><small>${t.where.split(" · ")[0]} · York Chen</small></div></button>`).join("")}
+      </aside>
+      <main class="mu-main" id="muMain">
+        <section id="muList">
+          <div class="mu-head">${muCollage()}
+            <div><div class="eyebrow">Public Playlist</div><h1>York Sings</h1>
+              <p>Big stages, a street corner in Ximending and one studio session. Tap any song to watch me sing it.</p>
+              <div class="meta">York Chen <span>· ${TRACKS.length} songs, about ${total} min</span></div></div>
+          </div>
+          <div class="mu-body">
+            <div class="mu-actions">
+              <button class="mu-big" id="muPlayAll" aria-label="Play">${MU_ICON.play}</button>
+              <button class="mu-ghost" id="muShuf" aria-label="Shuffle">${MU_ICON.shuffle}</button>
+            </div>
+            <table class="mu-table"><thead><tr><th class="n">#</th><th>Title</th><th class="w">Performance</th><th class="t">${MU_ICON.clock}</th></tr></thead>
+              <tbody>${TRACKS.map((t,i) => `<tr class="row" data-play="${i}">
+                <td class="n mu-num"><span class="nm">${i+1}</span><span class="pl">${MU_ICON.play}</span><span class="eq"><i></i><i></i><i></i></span></td>
+                <td><div class="mu-ttl"><img src="${muCover(t)}" alt=""><div><b>${t.title}</b><small>${muBy(t)}</small></div></div></td>
+                <td class="w"><div class="mu-where">${t.where}</div></td>
+                <td class="t">${fmtT(t.dur)}</td></tr>`).join("")}</tbody></table>
+            <div class="mu-note">Every track is a video. Press a song and the performance plays.</div>
+          </div>
+        </section>
+        <section id="muNP" class="mu-np" hidden>
+          <div class="mu-stage" id="muStage"><div class="blur" id="muBlur"></div><button class="mu-backall mu-onstage" id="muToList2">${MU_ICON.back}All songs</button>
+            <video id="muVideo" playsinline preload="metadata"></video>
+            <div class="mu-tap" id="muTap"></div><div class="mu-bigplay">${MU_ICON.play}</div></div>
+          <div class="mu-info" id="muInfo"></div>
+        </section>
+      </main>
+      <footer class="mu-bar">
+        <div class="mu-now" id="muNow"></div>
+        <div class="mu-ctl">
+          <div class="mu-btns">
+            <button class="sh" id="muShuf2" aria-label="Shuffle">${MU_ICON.shuffle}</button>
+            <button id="muPrev" aria-label="Previous">${MU_ICON.prev}</button>
+            <button class="pp" id="muPP" aria-label="Play">${MU_ICON.play}</button>
+            <button id="muNext" aria-label="Next">${MU_ICON.next}</button>
+            <button class="rp" id="muRep" aria-label="Repeat">${MU_ICON.repeat}</button>
+          </div>
+          <div class="mu-prog"><span id="muCur">0:00</span><div class="mu-range" id="muSeek"><div class="track"><div class="fill"></div></div><div class="knob"></div></div><span id="muDur">0:00</span></div>
+        </div>
+        <div class="mu-right">
+          <button class="mu-pill" id="muVidBtn" aria-label="Show video">${MU_ICON.video}Video</button>
+          <button class="vol" id="muMute" aria-label="Mute">${MU_ICON.vol}</button>
+          <div class="mu-range" id="muVol"><div class="track"><div class="fill" style="width:100%"></div></div><div class="knob" style="left:100%"></div></div>
+          <button id="muFull" aria-label="Full screen">${MU_ICON.full}</button>
+        </div>
+      </footer>`;
+    document.body.append(el);
+    const v = $("#muVideo");
+    $("#musicClose").addEventListener("click", closeMusic);
+    el.querySelectorAll("[data-play]").forEach(b => b.addEventListener("click", () => muPlay(+b.dataset.play)));
+    el.querySelector('[data-lib="list"]').addEventListener("click", () => muShow("list"));
+    $("#muBack").addEventListener("click", () => muShow("list"));
+    $("#muToList2").addEventListener("click", () => muShow("list"));
+    $("#muPlayAll").addEventListener("click", () => { if (MU.i < 0) muPlay(MU.shuffle ? Math.floor(Math.random()*TRACKS.length) : 0); else muToggle(); });
+    const shuf = () => { MU.shuffle = !MU.shuffle; ["#muShuf","#muShuf2"].forEach(s => $(s).classList.toggle("on", MU.shuffle)); };
+    $("#muShuf").addEventListener("click", shuf); $("#muShuf2").addEventListener("click", shuf);
+    $("#muRep").addEventListener("click", () => { MU.repeat = !MU.repeat; $("#muRep").classList.toggle("on", MU.repeat); });
+    $("#muPP").addEventListener("click", muToggle);
+    $("#muTap").addEventListener("click", muToggle);
+    $("#muPrev").addEventListener("click", () => { if (v.currentTime > 3 || MU.i <= 0) v.currentTime = 0; else muPlay(MU.i - 1); });
+    $("#muNext").addEventListener("click", () => muAdvance(true));
+    $("#muVidBtn").addEventListener("click", () => { if (MU.i < 0) return muPlay(0); muShow(MU.view === "np" ? "list" : "np"); });
+    $("#muFull").addEventListener("click", () => { if (MU.i < 0) return; muShow("np"); const s = $("#muStage"); (s.requestFullscreen || s.webkitRequestFullscreen || (() => v.webkitEnterFullscreen?.())).call(s); });
+    $("#muMute").addEventListener("click", () => { MU.muted = !MU.muted; muVolUI(); });
+    v.addEventListener("timeupdate", muProg);
+    v.addEventListener("loadedmetadata", muProg);
+    v.addEventListener("play", muState); v.addEventListener("pause", muState);
+    v.addEventListener("ended", () => { if (MU.repeat){ v.currentTime = 0; v.play(); } else muAdvance(false); });
+    muDrag($("#muSeek"), f => { if (v.duration) v.currentTime = f * v.duration; muProg(); });
+    muDrag($("#muVol"), f => { MU.vol = f; MU.muted = f === 0; muVolUI(); });
+    muNowUI(); muVolUI();
+  }
+  el.hidden = false;
+}
+function closeMusic(){
+  const v = $("#muVideo"); v?.pause();
+  if (document.fullscreenElement) document.exitFullscreen?.();
+  $("#musicApp").hidden = true; appOpen = null; presenter.classList.remove("away"); layout(); advanceIf("music");
+}
+function muDrag(el, cb){
+  const at = e => { const r = el.getBoundingClientRect(); return Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)); };
+  el.addEventListener("pointerdown", e => { el.setPointerCapture(e.pointerId); cb(at(e));
+    const mv = ev => cb(at(ev)), up = () => { el.removeEventListener("pointermove", mv); el.removeEventListener("pointerup", up); };
+    el.addEventListener("pointermove", mv); el.addEventListener("pointerup", up); });
+}
+function muSet(el, f){ el.querySelector(".fill").style.width = (f*100) + "%"; el.querySelector(".knob").style.left = (f*100) + "%"; }
+function muVolUI(){ const v = $("#muVideo"); v.volume = MU.vol; v.muted = MU.muted; muSet($("#muVol"), MU.muted ? 0 : MU.vol); $("#muMute").innerHTML = MU.muted || MU.vol === 0 ? MU_ICON.mute : MU_ICON.vol; }
+function muProg(){
+  const v = $("#muVideo"), t = TRACKS[MU.i], d = isFinite(v.duration) && v.duration > 0 ? v.duration : (t?.dur || 0);
+  $("#muCur").textContent = fmtT(v.currentTime); $("#muDur").textContent = fmtT(d);
+  muSet($("#muSeek"), d ? v.currentTime / d : 0);
+}
+function muState(){
+  const v = $("#muVideo"), playing = !v.paused && MU.i >= 0;
+  $("#musicApp").classList.toggle("paused", !playing);
+  $("#muPP").innerHTML = playing ? MU_ICON.pause : MU_ICON.play; $("#muPP").setAttribute("aria-label", playing ? "Pause" : "Play");
+  $("#muPlayAll").innerHTML = playing ? MU_ICON.pause : MU_ICON.play;
+  document.querySelectorAll("#musicApp tr.row").forEach((r,i) => { r.classList.toggle("cur", i === MU.i); r.classList.toggle("is-playing", i === MU.i && playing); });
+  document.querySelectorAll("#musicApp .mu-lib[data-play] b").forEach((b,i) => b.classList.toggle("playing", i === MU.i));
+}
+function muToggle(){ const v = $("#muVideo"); if (MU.i < 0) return muPlay(0); v.paused ? v.play() : v.pause(); }
+function muAdvance(manual){
+  let n;
+  if (MU.shuffle && TRACKS.length > 1){ do n = Math.floor(Math.random()*TRACKS.length); while (n === MU.i); }
+  else n = MU.i + 1;
+  if (n >= TRACKS.length){ if (!manual){ $("#muVideo").pause(); return; } n = 0; }
+  muPlay(n);
+}
+function muPlay(i){
+  const v = $("#muVideo"), t = TRACKS[i];
+  if (i === MU.i){ muShow("np"); if (v.paused) v.play(); return; }
+  MU.i = i; v.poster = muCover(t);
+  if (t.parts && window.MediaSource) muMSE(v, t); else { MU.load = null; v.src = muSrc(t); }
+  $("#muBlur").style.backgroundImage = `url("${muCover(t)}")`;
+  v.play().catch(() => {});
+  muNowUI(); muInfoUI(); muShow("np"); muState(); muProg();
+}
+// Long clips can be stored as several byte-chunks of one fragmented MP4 and streamed back together.
+function muMSE(v, t){
+  const ms = new MediaSource(), token = {}; MU.load = token;
+  v.src = URL.createObjectURL(ms);
+  ms.addEventListener("sourceopen", async () => {
+    const sb = ms.addSourceBuffer(t.mime || 'video/mp4; codecs="avc1.640029, mp4a.40.2"');
+    try { ms.duration = t.dur; } catch(e){}
+    for (let k = 0; k < t.parts; k++){
+      if (MU.load !== token) return;
+      const buf = await (await fetch(`music/${t.id}-p${k}.mp4`)).arrayBuffer();
+      if (MU.load !== token || ms.readyState !== "open") return;
+      await new Promise(r => { sb.addEventListener("updateend", r, { once:true }); sb.appendBuffer(buf); });
+    }
+    if (MU.load === token && ms.readyState === "open") ms.endOfStream();
+  }, { once:true });
+}
+function muShow(view){
+  MU.view = view;
+  $("#muList").hidden = view !== "list"; $("#muNP").hidden = view !== "np";
+  $("#muBack").disabled = view === "list";
+  $("#muVidBtn").classList.toggle("on", view === "np");
+  document.querySelector('#musicApp [data-lib="list"]').classList.toggle("on", view === "list");
+  $("#muMain").scrollTop = 0;
+}
+function muNowUI(){
+  const t = TRACKS[MU.i];
+  $("#muNow").innerHTML = t ? `<img src="${muCover(t)}" alt="" id="muNowImg"><div><b id="muNowT">${t.title}</b><small>${muBy(t)}</small></div><span class="heart" aria-label="Liked">${MU_ICON.heart}</span>`
+    : `<div><b style="cursor:default">Pick a song</b><small>York Sings · ${TRACKS.length} songs</small></div>`;
+  if (t){ $("#muNowImg").addEventListener("click", () => muShow("np")); $("#muNowT").addEventListener("click", () => muShow("np")); }
+}
+function muInfoUI(){
+  const t = TRACKS[MU.i], nx = [1,2].map(k => (MU.i + k) % TRACKS.length);
+  $("#muInfo").innerHTML = `<button class="mu-backall" id="muToList">${MU_ICON.back}Back to all songs</button>
+    <img class="cover" src="${muCover(t)}" alt="">
+    <h3>${t.title}</h3><p class="by">${muBy(t)}</p>
+    <div class="mu-card"><span class="tag">${t.tag}</span><h4>${t.where}${t.year ? " · " + t.year : ""}</h4><p>${t.about}</p>${t.cred ? `<div class="cred">${t.cred}</div>` : ""}</div>
+    <div class="mu-card"><h4>Next in queue</h4>${nx.map(k => `<button class="mu-next" data-next="${k}"><img src="${muCover(TRACKS[k])}" alt=""><div><b>${TRACKS[k].title}</b><small>${TRACKS[k].where.split(" · ")[0]}</small></div></button>`).join("")}</div>`;
+  $("#muToList").addEventListener("click", () => muShow("list"));
+  $("#muInfo").querySelectorAll("[data-next]").forEach(b => b.addEventListener("click", () => muPlay(+b.dataset.next)));
+}
+addEventListener("keydown", e => {
+  if (appOpen !== "music" || e.target.closest?.("input,textarea")) return;
+  if (e.code === "Space"){ e.preventDefault(); muToggle(); }
+  if (e.key === "ArrowRight" && MU.i >= 0){ const v = $("#muVideo"); v.currentTime = Math.min(v.duration || 0, v.currentTime + 5); }
+  if (e.key === "ArrowLeft" && MU.i >= 0){ const v = $("#muVideo"); v.currentTime = Math.max(0, v.currentTime - 5); }
+});
+
+/* ---------- Files app: résumé reader with section navigation ---------- */
+const RESUME_PDF = "files/York_Chen_Resume.pdf";
+const RS = [ // [id, nav label, heading]
+  ["education","Education","Education"],
+  ["media","Media & Film","Media / Filming"],
+  ["ir","International Relations","International Relations"],
+  ["environment","Environment","Environment"],
+  ["service","Service","Service"],
+  ["music","Music & Dance","Music & Dance"],
+  ["awards","Awards","Awards & Honors"]
+];
+const rItem = (when, title, org, bullets = [], extra = "") => `<div class="rs-item"><div class="rs-when">${when}</div><div class="rs-what">
+  <h4>${title}</h4>${org ? `<div class="rs-org">${org}</div>` : ""}${bullets.length ? `<ul>${bullets.map(b => `<li>${b}</li>`).join("")}</ul>` : ""}${extra}</div></div>`;
+const MUN_ROWS = [["2024","MUN Workshop","ECOSOC","Delegate"],["2024","CentMUN","UN-Habitat","Honorable Mention"],["2025","YaleMUN Taiwan","ESCAP","Honorable Mention"],
+  ["2025","TESMUN","UN Ad Hoc","Outstanding Delegate"],["2025","WegoMUN","UNSC","Co-Chair"],["2025","SNTMUN","Historical Crisis","Outstanding Delegate"],
+  ["2025","MockMUN","GA3 (SOCHUM)","Head Chair"],["2025","CentMUN","GA2 (ECOFIN)","Vice Chair"],["2026","HWISMUN","Historical Crisis","Co-Chair"],
+  ["2026","YMUNT","Crisis Committee","Co-Chair"],["2026","EMUN","UNEA","Best Delegate"],["2026","TransMUN","Crisis","Delegate"],["2026","WegoMUN 2026","—","Secretary General"]];
+const AWARDS = [
+  ["Model United Nations & Debate",[["2024","Top 32 (Nov–Dec), National Speech & Debate Association"],["2024","Honorable Mention (Top 4/48), Yale MUN Taiwan, ESCAP Committee"],
+    ["2025","Outstanding Delegate (Top 2/36), Summer Northern Taiwan MUN"],["2025","100% win rate, Taipei Cicero English Debate Tournament"],["2026","Best Delegate (Top 1/50), EMUN, UNEA, Nanshan Senior High School"]]],
+  ["Filmmaking",[["2021","1st Place, Action Kids Season 1 (filmmaking elimination reality show)"],["2022","1st Place, “Career Discovery” Documentary Competition, Ministry of Education"],
+    ["2023","Honorable Mention, Ü-Good Photography Competition, Ministry of Education"],["2024","1st Place, The Young Voice Talent Competition (YouTuber category), CommonWealth Education Media"]]],
+  ["Speech Contests",[["2023","Honorable Mention, English Book Talkers Expo and Competition"],["2024","2nd Place, English Book Talkers Expo and Competition"],["2026","1st Place, National English Creative Book Talk Contest (1/800)"]]],
+  ["Science",[["2024","1st Place, 3min4Science Competition, Yuan T. Lee Foundation Science Education for All"],["2024","Finalist, Ocean Challenge, Ocean Affairs Council & American Institute in Taiwan"]]],
+  ["Certification",[["","Python, Information Technology Specialist (ITS) Certificate"]]],
+  ["Honors & Others",[["2024","Top 40/1800, Taipei Music Center Golden Voice Contest"],["2025","Teen Diplomat Envoys (Top 18/2000), Ministry of Foreign Affairs & Ministry of Education"],
+    ["2026","Teenager Representative, Taiwan Media Watch Foundation: reviewed 50+ TV series"]]]
+];
+function resumeHTML(){
+  const sec = (id, body) => { const r = RS.find(x => x[0] === id); return `<section class="rs-sec" id="rs-${id}" data-sec="${id}"><h3>${r[2]}</h3>${body}</section>`; };
+  return `
+  <header class="rs-head">
+    <div><h1>York Chen</h1><p class="rs-tag">Host · Filmmaker · MUN Secretary General · Environmental Policy Researcher</p></div>
+    <div class="rs-contact">
+      <a href="mailto:yorkchen827827827@gmail.com">yorkchen827827827@gmail.com</a>
+      <a href="tel:+886909067827">(+886) 909-067-827</a>
+    </div>
+  </header>
+  ${sec("education", rItem("2021 – Present","Taipei Wego Private Senior High School","7th – 12th grade") + rItem("2015 – 2021","Taipei Municipal Lihu Elementary School","1st – 6th grade"))}
+  ${sec("media",
+    rItem("2019 – 24","TV Host, Anchor, Production Assistant","Da-Ai TV (Tzu-Chi)",["33 TV episodes aired on Da-Ai TV","<i>Kids Newsroom</i>: TV anchor, on-site journalist · world & domestic news","<i>Brother Boyuan's Secret House</i>: participant / production assistant · teenagers' emotional problems","<i>Children Around the World</i>: host / participant · children around the world & the SDGs"]) +
+    rItem("2021","Variety Show Participant, <i>Follow Me Go! Tamsui – The Global Warming Series</i>","Public Television Service",["4 TV episodes, outdoor shooting with no retakes","Discovered environmental problems along the Tamsui River"]) +
+    rItem("2021","Reality Competition Contestant, <i>Action Kids</i> Season 1","Chinese Television System",["8 episodes of a bilingual filmmaking competition for kids in Asia, aired on AXN & CTS","Finalist of 8 teams, with one team eliminated each episode","Each round: film a 3–5 minute video on an assigned topic with 1 hour to shoot and 1 hour to edit","Topics: a tourist attraction, a café, underwater filming, a zoo, a baseball game"]) +
+    rItem("2024","Host, Pre-production Assistant, <i>Action Families</i> Season 2","Chinese Television System",["8 TV episodes aired on CTS","Winner, Best Show of the Year, Taiwan Media Watch Conference 2025"]) +
+    rItem("2026","Founder, Host, Content Strategist, <i>aGENda</i> Podcast","Spotify · Apple Music · YouTube",["11 episodes on student opinions about the Taiwanese education system"]) +
+    rItem("2025 – 26","Journalist, Host","CommonWealth Education Media & Publishing",["Preliminary round video: unboxing shops in Zhongshan District","Final round: 1st Place, The Young Voice Talent Competition (YouTuber category)","Invited to host 4 YouTube episodes and 2 podcasts on teenagers' academic outlook"]) +
+    rItem("2020 – Now","Director, Editor, Content Strategist, Actor","YouTube channel “The Sibling Chronicles”",["Recorded and reviewed English teaching and English singing videos","Translated videos of diplomatic visits from English to Mandarin"]))}
+  ${sec("ir",
+    rItem("2024 – 26","President, Secretary General, Chair, Teacher","WEGO Model United Nations, Wego Private Senior High School",
+      ["Founded MUN club lessons for high-school students; taught and chaired mock conferences. 20+ students went on to win MUN awards.","Taught MUN topics and international relations to 50+ elementary-school students","Organized 3 social events and mock MUN conferences with other high schools"],
+      `<table class="rs-mun"><thead><tr><th>Year</th><th>Conference</th><th>Committee</th><th>Role / Award</th></tr></thead><tbody>${MUN_ROWS.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>`) +
+    rItem("2023 – 26","Teacher, Debater","Debate Activities & Tournaments, Wego Private Senior High School",["Taught debate to high-school students after school","2024 Best Speaker, National HS Debate League of China","2024 Participant, Taiwan Speech and Debate Invitational","2024 Top 32, National Speech & Debate Association (Nov/Dec)","2025 100% win rate, Taipei Cicero Debate"]) +
+    rItem("2025","Teen Diplomatic Envoys · Teenager Representative (Top 18/2000)","Ministry of Foreign Affairs & Ministry of Education, Taiwan",["Leadership Camp (Jul 2025): completed coursework on Taiwanese geopolitical strategy, international relations and international etiquette","Visited the Taiwan International Cooperation and Development Fund (ICDF) and the American Institute in Taiwan (AIT)","Government-sponsored US trip: visited and exchanged with officials at West Covina and San Francisco City Halls and the Taipei Economic and Cultural Offices in Los Angeles & San Francisco"]) +
+    rItem("2023 – 26","Vice-President, Co-Founder, Event Coordinator","Taiwan ICDF Youth Club",["Fundraised USD 31K for school aid in Palau through merchandise sales, street campaigns and street music performances","Visited ICDF technology centers and donation recipients (schools and farms) in Palau"]))}
+  ${sec("environment",
+    rItem("2024 – 26","Team Coordinator, Environmental Policy Researcher","STEM Competitions",["2024 3min4Science, Y.T. Lee Foundation: 1st Place, national competition","2024 Ocean Challenge: Top 8, national competition","2025 Ocean Challenge: Participant","2025 AI/STEM Competition: Participant",
+      "<b>Heron's Fountain</b>: a pumped-storage hydropower device that powers a fan and works as battery storage","<b>Heron's Fountain V2</b>: a centrifuge washer that separates microplastics from ocean water","<b>CoralFeeder</b>: proposal for an automated robotic-arm system to improve the efficiency, scale and survival rate of coral farming"]) +
+    rItem("2026","Environmental Policy Researcher","E3 Center, National Taiwan University",["Research paper: <i>Comparative Analysis of Sustainable Aviation Fuel Carbon Intensity Across International LCA Frameworks: Implications for Taiwan's Policy Development</i>","Best Presentation Award, E3 Center Final Presentation"]) +
+    rItem("2026","Environmental Policy Researcher, Future Policy Leaders Internship","Center for Asia-Pacific Resilience and Innovation (CAPRI)",["Research paper: <i>Driving the Energy Transition: A Comparative Study of Vehicle-to-Grid Policies in Taiwan, Japan & South Korea</i>, presented at the CAPRI Final Presentation"]))}
+  ${sec("service",
+    rItem("2022 – 25","Teacher, Tutorial Video Producer","Community English Lessons, Zhoumei Village",["Taught English to 60+ students in the village community and created lessons and tutorial videos","Created a system that maps Mandarin phonetic symbols to English"]) +
+    rItem("2026 – Now","Tutor, Lesson Organizer","Infinitas (NGO)",["Tutors English to middle-school students in rural villages"]))}
+  ${sec("music",
+    rItem("2022 – Now","Founder, Vocalist, Rhythm Guitarist","Blank Space (Mandopop band)",["7 school performances at Christmas parties and freshman welcome parties","Performed at village offices and parks","Wrote and recorded songs for the graduation ceremony and Teachers' Day"]) +
+    rItem("2022 – Now","Voiceover Singer (Bass)","Happy Singing Co., Ltd. · Nursery-rhyme vocal recording",["Recorded 7 nursery songs"]) +
+    rItem("2024","Top 40/1800","Taipei Music Center Golden Voice Contest",["Songs by Tian Ho, Andrew Tan and Chen Shih-An"]) +
+    rItem("Dance","Founder, Performer","Wotagei Interest Group, Wego Private Senior High School",["Performed vocal cheers with light trails created by glow sticks"]))}
+  ${sec("awards", AWARDS.map(([g, list]) => `<h5>${g}</h5><ul class="rs-awards">${list.map(([y,t]) => `<li><span>${y}</span>${t}</li>`).join("")}</ul>`).join(""))}
+  <footer class="rs-foot">York Chen · Résumé · <a href="${RESUME_PDF}" download="York_Chen_Resume.pdf">Download the PDF</a></footer>`;
+}
+function openFiles(){
+  appOpen = "files"; presenter.classList.add("away"); layout(); showTip();
+  let el = $("#filesApp");
+  if (!el){
+    el = document.createElement("div"); el.id = "filesApp";
+    el.innerHTML = `
+      <header class="fl-top">
+        <div class="fl-crumbs"><span class="fl-ico"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="#2f80ed"/><path d="M3 10h18v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="#5aa2ff"/></svg></span>Files <i>›</i> Documents <i>›</i> <b>York_Chen_Resume.pdf</b></div>
+        <a class="fl-btn" href="${RESUME_PDF}" download="York_Chen_Resume.pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span>Download PDF</span></a>
+        <a class="fl-btn ghost" href="${RESUME_PDF}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg><span>Original</span></a>
+        <button class="close-app" id="filesClose">${ICON_HOME}Close</button>
+      </header>
+      <div class="fl-body">
+        <nav class="fl-toc" id="flToc"><div class="fl-toc-h">Jump to section</div>${RS.map(([id,label]) => `<button data-go="${id}">${label}</button>`).join("")}
+          <a class="fl-toc-dl" href="${RESUME_PDF}" download="York_Chen_Resume.pdf">↓ Download PDF</a></nav>
+        <div class="fl-scroll" id="flScroll"><article class="rs-page">${resumeHTML()}</article>
+          <button class="fl-top-btn" id="flTopBtn" aria-label="Back to top">↑ Top</button></div>
+      </div>`;
+    document.body.append(el);
+    $("#filesClose").addEventListener("click", closeFiles);
+    const sc = $("#flScroll");
+    el.querySelectorAll("[data-go]").forEach(b => b.addEventListener("click", () => {
+      const t = $("#rs-" + b.dataset.go); sc.scrollTo({ top: t.offsetTop - 14, behavior:"smooth" });
+    }));
+    $("#flTopBtn").addEventListener("click", () => sc.scrollTo({ top:0, behavior:"smooth" }));
+    const spy = () => {
+      let cur = RS[0][0];
+      el.querySelectorAll(".rs-sec").forEach(s => { if (s.offsetTop - 80 <= sc.scrollTop) cur = s.dataset.sec; });
+      if (sc.scrollTop + sc.clientHeight >= sc.scrollHeight - 4) cur = RS[RS.length-1][0];
+      el.querySelectorAll("[data-go]").forEach(b => b.classList.toggle("on", b.dataset.go === cur));
+      const on = el.querySelector("[data-go].on"); if (on && innerWidth <= 860) on.scrollIntoView({ inline:"center", block:"nearest" });
+      $("#flTopBtn").classList.toggle("show", sc.scrollTop > 500);
+    };
+    sc.addEventListener("scroll", spy, { passive:true }); spy();
+  }
+  el.hidden = false;
+}
+function closeFiles(){ $("#filesApp").hidden = true; appOpen = null; presenter.classList.remove("away"); layout(); advanceIf("files"); }
+
+/* ---------- Camera app: York's Photo Booth (purikura) ---------- */
+const BW = 1200, BH = 1800;           // output size (2:3)
+const BOOTH_COUNT = 5;                 // countdown seconds
+// Frames. When York's own template PNGs arrive, set overlay:"image/booth/<file>.png" (transparent where the photos go)
+// and adjust the shot rectangles to match the holes. Until then each frame is drawn in code (bg + deco).
+const BOOTH_TEMPLATES = [
+  { id:"grid", name:"Grid", no:"04", sub:"4 shots", overlay:"", bg:["#070b18","#151036"], accent:"#3ef0ff",
+    shots:[[60,150,525,690],[615,150,525,690],[60,870,525,690],[615,870,525,690]], deco:"grid" },
+  { id:"strip", name:"Strip", no:"03", sub:"3 shots", overlay:"", bg:["#05070d","#0e1424"], accent:"#ff4fd8",
+    shots:[[170,110,860,500],[170,650,860,500],[170,1190,860,500]], deco:"strip" },
+  { id:"solo", name:"Solo", no:"01", sub:"1 shot", overlay:"", bg:["#0a0f1f","#1a0f2e"], accent:"#8b5cff",
+    shots:[[90,180,1020,1320]], deco:"solo" },
+  { id:"duo", name:"Duo", no:"02", sub:"2 shots", overlay:"", bg:["#06101a","#101c33"], accent:"#4dff9a",
+    shots:[[80,190,1040,680],[80,910,1040,680]], deco:"duo" }
+];
+const BOOTH_FILTERS = [
+  { id:"natural", name:"Natural", f:"none" },
+  { id:"glow", name:"Glow", f:"brightness(1.1) contrast(.94) saturate(1.1)", soft:.35 },
+  { id:"neon", name:"Neon", f:"contrast(1.12) saturate(1.35) hue-rotate(-8deg) brightness(1.02)", tint:"rgba(80,60,255,.16)" },
+  { id:"mono", name:"Mono", f:"grayscale(1) contrast(1.18) brightness(1.04)" }
+];
+const BOOTH_PENS = ["#ffffff","#3ef0ff","#8b5cff","#ff4fd8","#ffe14f","#4dff9a","#ff6b4a","#0a0a0a"];
+const BOOTH_STAMPS = ["✨","⭐","💫","⚡","🔥","🚀","🪐","👾","💜","😎","🌙","💬"];
+const BT = { tpl:null, shots:[], stream:null, filter:"natural", pen:"#3ef0ff", size:14, glow:true, tool:"pen", stamp:"💖", undo:[], sent:false, busy:false };
+
+function bDecoTitle(ctx, t){
+  const M = "ui-monospace, Menlo, Consolas, monospace", a = t.accent;
+  ctx.save();
+  ctx.fillStyle = "#fff"; ctx.font = `800 64px ${M}`; ctx.textBaseline = "alphabetic";
+  const top = t.shots[0][1];
+  ctx.textAlign = "left"; ctx.fillText("YORK'S WORLD", 64, top - 40);
+  ctx.textAlign = "right"; ctx.fillStyle = a; ctx.font = `700 34px ${M}`; ctx.fillText(`// ${t.name.toUpperCase()}.${t.no}`, BW - 64, top - 44);
+  const last = t.shots[t.shots.length - 1], bot = last[1] + last[3];
+  ctx.textAlign = "left"; ctx.fillStyle = "rgba(255,255,255,.75)"; ctx.font = `600 34px ${M}`; ctx.fillText(bDate().toUpperCase(), 64, Math.min(BH - 60, bot + 90));
+  ctx.textAlign = "right"; ctx.fillStyle = a; ctx.fillText("PHOTO.LAB  ●", BW - 64, Math.min(BH - 60, bot + 90));
+  ctx.strokeStyle = a; ctx.lineWidth = 6; ctx.shadowColor = a; ctx.shadowBlur = 18;
+  [[30,30,1,1],[BW-30,30,-1,1],[30,BH-30,1,-1],[BW-30,BH-30,-1,-1]].forEach(([x,y,dx,dy]) => { ctx.beginPath(); ctx.moveTo(x, y + 70*dy); ctx.lineTo(x, y); ctx.lineTo(x + 70*dx, y); ctx.stroke(); });
+  ctx.restore();
+}
+function bBackdrop(ctx, t){
+  ctx.save(); ctx.strokeStyle = "rgba(140,170,255,.07)"; ctx.lineWidth = 2;
+  for (let x = 0; x <= BW; x += 60){ ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, BH); ctx.stroke(); }
+  for (let y = 0; y <= BH; y += 60){ ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(BW, y); ctx.stroke(); }
+  if (t.deco === "strip"){ ctx.fillStyle = "rgba(255,255,255,.12)"; for (let y = 140; y < BH - 120; y += 64){ ctx.fillRect(70, y, 46, 30); ctx.fillRect(BW - 116, y, 46, 30); } }
+  ctx.restore();
+}
+function bStar(ctx, x, y, r){ ctx.beginPath(); for (let i = 0; i < 10; i++){ const a = -Math.PI/2 + i*Math.PI/5, rr = i % 2 ? r*.45 : r; ctx.lineTo(x + Math.cos(a)*rr, y + Math.sin(a)*rr); } ctx.closePath(); ctx.fill(); }
+function bDate(){ return new Date().toLocaleDateString("en-US", { year:"numeric", month:"short", day:"numeric" }); }
+function bRound(ctx, x, y, w, h, r){ ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x, y, w, h, r) : ctx.rect(x, y, w, h); }
+const bImgCache = {};
+function bLoad(src){ return bImgCache[src] ||= new Promise(r => { const i = new Image(); i.onload = () => r(i); i.onerror = () => r(null); i.src = src; }); }
+
+// Draw a template; shots = array of canvases (or null for an empty hole)
+async function bCompose(ctx, t, shots, filterId){
+  const g = ctx.createLinearGradient(0, 0, BW, BH); g.addColorStop(0, t.bg[0]); g.addColorStop(1, t.bg[1]);
+  ctx.fillStyle = g; ctx.fillRect(0, 0, BW, BH);
+  const glow = ctx.createRadialGradient(BW*.2, BH*.1, 0, BW*.2, BH*.1, BW); glow.addColorStop(0, t.accent + "33"); glow.addColorStop(1, "rgba(0,0,0,0)"); ctx.fillStyle = glow; ctx.fillRect(0, 0, BW, BH);
+  if (!t.overlay) bBackdrop(ctx, t);
+  const flt = BOOTH_FILTERS.find(f => f.id === filterId) || BOOTH_FILTERS[0];
+  t.shots.forEach(([x,y,w,h], i) => {
+    ctx.save(); bRound(ctx, x, y, w, h, 18); ctx.clip();
+    const s = shots[i];
+    if (s){
+      ctx.filter = flt.f; ctx.drawImage(s, x, y, w, h);
+      if (flt.soft){ ctx.filter = flt.f + " blur(10px)"; ctx.globalAlpha = flt.soft; ctx.globalCompositeOperation = "screen"; ctx.drawImage(s, x, y, w, h); }
+      ctx.filter = "none"; ctx.globalAlpha = 1; ctx.globalCompositeOperation = "source-over";
+      if (flt.tint){ ctx.fillStyle = flt.tint; ctx.globalCompositeOperation = "soft-light"; ctx.fillRect(x, y, w, h); ctx.globalCompositeOperation = "source-over"; }
+    } else {
+      ctx.fillStyle = "rgba(255,255,255,.05)"; ctx.fillRect(x, y, w, h);
+      ctx.fillStyle = "rgba(255,255,255,.28)"; ctx.font = "800 110px ui-monospace, Menlo, monospace"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillText(String(i + 1).padStart(2, "0"), x + w/2, y + h/2);
+    }
+    ctx.restore();
+    ctx.save(); bRound(ctx, x, y, w, h, 18); ctx.lineWidth = 4; ctx.strokeStyle = t.accent; ctx.shadowColor = t.accent; ctx.shadowBlur = 24; ctx.stroke(); ctx.restore();
+  });
+  if (t.overlay){ const o = await bLoad(t.overlay); if (o) ctx.drawImage(o, 0, 0, BW, BH); }
+  else bDecoTitle(ctx, t);
+}
+
+function openCamera(){
+  appOpen = "camera"; presenter.classList.add("away"); layout(); showTip();
+  let el = $("#boothApp");
+  if (!el){
+    el = document.createElement("div"); el.id = "boothApp";
+    el.innerHTML = `
+      <header class="bt-top">
+        <div class="bt-logo"><i></i>PHOTO<em>.LAB</em></div>
+        <ol class="bt-steps"><li data-s="pick">Frame</li><li data-s="shoot">Shoot</li><li data-s="edit">Draw</li><li data-s="send">Save</li></ol>
+        <button class="close-app" id="boothClose">${ICON_HOME}Close</button>
+      </header>
+      <section class="bt-screen" id="btPick">
+        <h2>Take a photo <span>with York</span></h2><p class="bt-lead">Pick a frame, strike a pose on the 5-second countdown, then draw on your photo and download it.</p>
+        <div class="bt-tpls">${BOOTH_TEMPLATES.map(t => `<button class="bt-tpl" data-tpl="${t.id}"><canvas width="${BW}" height="${BH}"></canvas><b>${t.name}</b><small>${t.sub}</small></button>`).join("")}</div>
+      </section>
+      <section class="bt-screen" id="btShoot" hidden>
+        <div class="bt-shootwrap">
+          <div class="bt-live" id="btLive">
+            <video id="btVideo" playsinline muted autoplay></video>
+            <div class="bt-hud"><i></i><i></i><i></i><i></i><b></b><span>LIVE</span></div>
+            <div class="bt-count" id="btCount"><div class="ring"><svg viewBox="0 0 100 100"><defs><linearGradient id="btGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3ef0ff"/><stop offset=".55" stop-color="#8b5cff"/><stop offset="1" stop-color="#ff4fd8"/></linearGradient></defs><circle class="bg" cx="50" cy="50" r="48"/><circle class="fg" cx="50" cy="50" r="48"/></svg><span class="num"></span></div><div class="say">GET READY</div></div>
+            <div class="bt-flash" id="btFlash"></div>
+            <div class="bt-shotlabel" id="btShotLabel"></div>
+            <div class="bt-nocam" id="btNoCam" hidden>
+              <p><b>Camera not available.</b><br>Allow camera access in your browser, or use a photo instead.</p>
+              <label class="bt-btn pink">Choose a photo<input type="file" accept="image/*" capture="user" id="btFile" hidden></label>
+            </div>
+          </div>
+          <aside class="bt-side">
+            <canvas id="btMini" width="${BW}" height="${BH}"></canvas>
+            <button class="bt-btn big pink" id="btGo">Start · ${BOOTH_COUNT}s countdown</button>
+            <button class="bt-btn ghost" id="btBackPick">← Change frame</button>
+            <p class="tip">Each shot counts down from 5. Look at the camera and pose. You can draw on the photos afterwards.</p>
+          </aside>
+        </div>
+      </section>
+      <section class="bt-screen" id="btEdit" hidden>
+        <div class="bt-editwrap">
+          <div class="bt-stage" id="btStage"><canvas id="btBase" width="${BW}" height="${BH}"></canvas><canvas id="btDraw" width="${BW}" height="${BH}"></canvas></div>
+          <aside class="bt-tools">
+            <div class="bt-group"><h4>Tool</h4><div class="bt-seg">
+              <button data-tool="pen" class="on">Pen</button><button data-tool="stamp">Stickers</button><button data-tool="erase">Eraser</button></div></div>
+            <div class="bt-group" id="btPenOpts"><h4>Color</h4><div class="bt-colors">${BOOTH_PENS.map(c => `<button data-pen="${c}" style="--c:${c}"${c === BT.pen ? ' class="on"' : ""} aria-label="Pen color ${c}"></button>`).join("")}</div>
+              <label class="bt-row"><span>Size</span><input type="range" min="4" max="40" value="${BT.size}" id="btSize"></label>
+              <label class="bt-row"><input type="checkbox" id="btGlow" checked><span>Neon glow</span></label></div>
+            <div class="bt-group" id="btStampOpts" hidden><h4>Stickers</h4><div class="bt-stamps">${BOOTH_STAMPS.map(s => `<button data-stamp="${s}"${s === BT.stamp ? ' class="on"' : ""}>${s}</button>`).join("")}</div>
+              <label class="bt-row"><span>Size</span><input type="range" min="60" max="260" value="130" id="btStampSize"></label></div>
+            <div class="bt-group"><h4>Filter</h4><div class="bt-seg wrap">${BOOTH_FILTERS.map(f => `<button data-filter="${f.id}"${f.id === BT.filter ? ' class="on"' : ""}>${f.name}</button>`).join("")}</div></div>
+            <div class="bt-row2"><button class="bt-btn ghost" id="btUndo">↶ Undo</button><button class="bt-btn ghost" id="btClear">Clear drawing</button></div>
+            <div class="bt-row2 end"><button class="bt-btn ghost" id="btRetake1">↺ Retake</button><button class="bt-btn pink" id="btToSend">Done →</button></div>
+          </aside>
+        </div>
+      </section>
+      <section class="bt-screen" id="btSend" hidden>
+        <div class="bt-sendwrap">
+          <img id="btFinal" alt="Your photo-booth picture">
+          <div class="bt-form" id="btForm">
+            <h2>Looking good!</h2>
+            <p class="bt-lead">Save your photo to keep it. Nothing is uploaded: it stays on your device.</p>
+            <a class="bt-btn big pink" id="btSave" download="york-photo-lab.jpg">Download photo ↓</a>
+            <div class="bt-row2"><button class="bt-btn ghost" id="btRetake2">↺ Retake</button><button class="bt-btn ghost" id="btAgain">New frame</button></div>
+            <button class="bt-link" id="btBackEdit">← Keep drawing</button>
+          </div>
+        </div>
+      </section>`;
+    document.body.append(el);
+    $("#boothClose").addEventListener("click", closeCamera);
+    el.querySelectorAll(".bt-tpl").forEach(b => {
+      const t = BOOTH_TEMPLATES.find(x => x.id === b.dataset.tpl);
+      bCompose(b.querySelector("canvas").getContext("2d"), t, [], "natural");
+      b.addEventListener("click", () => bStartShoot(t));
+    });
+    $("#btGo").addEventListener("click", bRunShots);
+    $("#btBackPick").addEventListener("click", () => bScreen("pick"));
+    $("#btFile").addEventListener("change", bFromFile);
+    $("#btRetake1").addEventListener("click", () => bStartShoot(BT.tpl));
+    $("#btRetake2").addEventListener("click", () => bStartShoot(BT.tpl));
+    $("#btToSend").addEventListener("click", bToSend);
+    $("#btBackEdit").addEventListener("click", () => bScreen("edit"));
+    $("#btAgain").addEventListener("click", () => bScreen("pick"));
+    el.querySelectorAll("[data-tool]").forEach(b => b.addEventListener("click", () => {
+      BT.tool = b.dataset.tool; el.querySelectorAll("[data-tool]").forEach(x => x.classList.toggle("on", x === b));
+      $("#btPenOpts").hidden = BT.tool === "stamp"; $("#btStampOpts").hidden = BT.tool !== "stamp";
+    }));
+    el.querySelectorAll("[data-pen]").forEach(b => b.addEventListener("click", () => { BT.pen = b.dataset.pen; BT.tool === "erase" && el.querySelector('[data-tool="pen"]').click(); el.querySelectorAll("[data-pen]").forEach(x => x.classList.toggle("on", x === b)); }));
+    el.querySelectorAll("[data-stamp]").forEach(b => b.addEventListener("click", () => { BT.stamp = b.dataset.stamp; el.querySelectorAll("[data-stamp]").forEach(x => x.classList.toggle("on", x === b)); }));
+    el.querySelectorAll("[data-filter]").forEach(b => b.addEventListener("click", () => { BT.filter = b.dataset.filter; el.querySelectorAll("[data-filter]").forEach(x => x.classList.toggle("on", x === b)); bRenderBase(); }));
+    $("#btSize").addEventListener("input", e => BT.size = +e.target.value);
+    $("#btGlow").addEventListener("change", e => BT.glow = e.target.checked);
+    $("#btUndo").addEventListener("click", () => { const d = BT.undo.pop(); if (d) $("#btDraw").getContext("2d").putImageData(d, 0, 0); });
+    $("#btClear").addEventListener("click", () => { bPushUndo(); $("#btDraw").getContext("2d").clearRect(0, 0, BW, BH); });
+    bDrawing($("#btDraw"));
+  }
+  el.hidden = false; bScreen("pick");
+}
+function closeCamera(){ bStopCam(); $("#boothApp").hidden = true; appOpen = null; presenter.classList.remove("away"); layout(); advanceIf("camera"); }
+function bScreen(s){
+  ["pick","shoot","edit","send"].forEach(k => { $("#bt" + k[0].toUpperCase() + k.slice(1)).hidden = k !== s; });
+  const order = ["pick","shoot","edit","send"];
+  document.querySelectorAll("#boothApp .bt-steps li").forEach(li => { const i = order.indexOf(li.dataset.s), c = order.indexOf(s); li.className = i < c ? "done" : i === c ? "on" : ""; });
+  if (s !== "shoot") bStopCam();
+}
+async function bStartCam(){
+  if (BT.stream) return true;
+  try {
+    BT.stream = await navigator.mediaDevices.getUserMedia({ video:{ facingMode:"user", width:{ ideal:1920 }, height:{ ideal:1080 } }, audio:false });
+    const v = $("#btVideo"); v.srcObject = BT.stream; await v.play().catch(() => {});
+    $("#btNoCam").hidden = true; return true;
+  } catch (e){ $("#btNoCam").hidden = false; return false; }
+}
+function bStopCam(){ BT.stream?.getTracks().forEach(t => t.stop()); BT.stream = null; }
+function bMini(){ bCompose($("#btMini").getContext("2d"), BT.tpl, BT.shots, "natural"); }
+async function bStartShoot(t){
+  BT.tpl = t; BT.shots = []; BT.busy = false; BT.sent = false;
+  bScreen("shoot"); bMini(); bShotUI();
+  const ok = await bStartCam();
+  $("#btGo").hidden = !ok;
+}
+function bShotUI(){
+  const n = BT.shots.length, tot = BT.tpl.shots.length, [,,w,h] = BT.tpl.shots[Math.min(n, tot - 1)];
+  $("#btLive").style.aspectRatio = `${w} / ${h}`;
+  $("#btShotLabel").textContent = n < tot ? `Shot ${n + 1} of ${tot}` : "All done!";
+  $("#btGo").textContent = n === 0 ? `Start · ${BOOTH_COUNT}s countdown` : `Next shot · ${n + 1} of ${tot}`;
+}
+const bSleep = ms => new Promise(r => setTimeout(r, ms));
+let bAudio;
+function bBeep(f, d, vol = .12){
+  try { bAudio ||= new (window.AudioContext || window.webkitAudioContext)(); const o = bAudio.createOscillator(), g = bAudio.createGain();
+    o.frequency.value = f; g.gain.value = vol; o.connect(g).connect(bAudio.destination); o.start(); g.gain.exponentialRampToValueAtTime(.0001, bAudio.currentTime + d); o.stop(bAudio.currentTime + d); } catch {}
+}
+function bShutter(){
+  try { bAudio ||= new (window.AudioContext || window.webkitAudioContext)(); const len = bAudio.sampleRate * .12, buf = bAudio.createBuffer(1, len, bAudio.sampleRate), d = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) d[i] = (Math.random()*2 - 1) * (1 - i/len) ** 3; const s = bAudio.createBufferSource(), g = bAudio.createGain(); g.gain.value = .5; s.buffer = buf; s.connect(g).connect(bAudio.destination); s.start(); } catch {}
+}
+async function bRunShots(){
+  if (BT.busy) return; BT.busy = true; $("#btGo").disabled = true; $("#btBackPick").disabled = true;
+  const tot = BT.tpl.shots.length;
+  while (BT.shots.length < tot && appOpen === "camera" && BT.stream){
+    bShotUI();
+    for (let k = BOOTH_COUNT; k >= 1; k--){
+      const c = $("#btCount"); c.querySelector(".num").textContent = k; c.querySelector(".say").textContent = k > 2 ? "GET READY" : "SMILE"; c.classList.remove("pop"); void c.offsetWidth; c.classList.add("pop");
+      bBeep(k === 1 ? 1320 : 880, .15); await bSleep(1000);
+    }
+    $("#btCount").classList.remove("pop"); bShutter();
+    const f = $("#btFlash"); f.classList.remove("go"); void f.offsetWidth; f.classList.add("go");
+    BT.shots.push(bGrab($("#btVideo"), true)); bMini();
+    await bSleep(BT.shots.length < tot ? 1300 : 700);
+  }
+  BT.busy = false; $("#btGo").disabled = false; $("#btBackPick").disabled = false;
+  if (BT.shots.length >= tot) bToEdit(); else bShotUI();
+}
+// Crop a source (video / image) to the current hole's aspect, mirrored like a selfie
+function bGrab(src, mirror){
+  const i = BT.shots.length, [,,w,h] = BT.tpl.shots[i], sc = Math.min(2, 1600 / Math.max(w, h));
+  const cv = document.createElement("canvas"); cv.width = Math.round(w*sc); cv.height = Math.round(h*sc);
+  const sw = src.videoWidth || src.naturalWidth, sh = src.videoHeight || src.naturalHeight, ar = w / h;
+  let cw = sw, ch = sw / ar; if (ch > sh){ ch = sh; cw = sh * ar; }
+  const ctx = cv.getContext("2d");
+  if (mirror){ ctx.translate(cv.width, 0); ctx.scale(-1, 1); }
+  ctx.drawImage(src, (sw - cw)/2, (sh - ch)/2, cw, ch, 0, 0, cv.width, cv.height);
+  return cv;
+}
+function bFromFile(e){
+  const file = e.target.files[0]; e.target.value = ""; if (!file) return;
+  const img = new Image(); img.onload = () => {
+    BT.shots.push(bGrab(img, false)); URL.revokeObjectURL(img.src); bMini();
+    if (BT.shots.length >= BT.tpl.shots.length) bToEdit(); else bShotUI();
+  }; img.src = URL.createObjectURL(file);
+}
+async function bRenderBase(){ await bCompose($("#btBase").getContext("2d"), BT.tpl, BT.shots, BT.filter); }
+async function bToEdit(){
+  bScreen("edit"); BT.undo = []; $("#btDraw").getContext("2d").clearRect(0, 0, BW, BH); await bRenderBase();
+}
+function bPushUndo(){ const c = $("#btDraw").getContext("2d"); BT.undo.push(c.getImageData(0, 0, BW, BH)); if (BT.undo.length > 25) BT.undo.shift(); }
+function bDrawing(cv){
+  const ctx = cv.getContext("2d"); let last = null;
+  const pt = e => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * BW / r.width, (e.clientY - r.top) * BH / r.height]; };
+  const style = () => {
+    ctx.lineCap = ctx.lineJoin = "round";
+    if (BT.tool === "erase"){ ctx.globalCompositeOperation = "destination-out"; ctx.lineWidth = BT.size * 3; ctx.shadowBlur = 0; ctx.strokeStyle = "#000"; return; }
+    ctx.globalCompositeOperation = "source-over"; ctx.lineWidth = BT.size; ctx.strokeStyle = BT.pen;
+    ctx.shadowColor = BT.glow ? BT.pen : "transparent"; ctx.shadowBlur = BT.glow ? BT.size * 1.4 : 0;
+  };
+  cv.addEventListener("pointerdown", e => {
+    e.preventDefault(); bPushUndo(); const p = pt(e);
+    if (BT.tool === "stamp"){
+      ctx.save(); ctx.globalCompositeOperation = "source-over"; ctx.shadowBlur = 0; const s = +$("#btStampSize").value;
+      ctx.font = `${s}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.translate(p[0], p[1]); ctx.rotate((Math.random() - .5) * .5); ctx.fillText(BT.stamp, 0, 0); ctx.restore(); return;
+    }
+    cv.setPointerCapture(e.pointerId); last = p; style();
+    ctx.beginPath(); ctx.moveTo(p[0], p[1]); ctx.lineTo(p[0] + .1, p[1] + .1); ctx.stroke();
+  });
+  cv.addEventListener("pointermove", e => { if (!last) return; const p = pt(e); style(); ctx.beginPath(); ctx.moveTo(last[0], last[1]); ctx.lineTo(p[0], p[1]); ctx.stroke(); last = p; });
+  const end = () => { last = null; ctx.globalCompositeOperation = "source-over"; };
+  cv.addEventListener("pointerup", end); cv.addEventListener("pointercancel", end);
+}
+function bFinalURL(){
+  const cv = document.createElement("canvas"); cv.width = BW; cv.height = BH; const ctx = cv.getContext("2d");
+  ctx.drawImage($("#btBase"), 0, 0); ctx.drawImage($("#btDraw"), 0, 0);
+  return cv.toDataURL("image/jpeg", .86);
+}
+function bToSend(){
+  const url = bFinalURL(); $("#btFinal").src = url; $("#btSave").href = url;
+  bScreen("send");
+}
+
 addEventListener("keydown", e => {
   if (e.key !== "Escape") return;
   if (document.querySelector(".player")) return closePlayer();
   if (document.querySelector(".modal-wrap")) return closeDetail();
   const sheet = document.querySelector(".sheet-wrap .pill-btn"); if (sheet) return sheet.click();
+  if (appOpen === "music") return closeMusic();
+  if (appOpen === "files") return closeFiles();
+  if (appOpen === "camera") return closeCamera();
   if (appOpen === "maps"){ if (!$("#mapTip").hidden) return $("#mapTip").hidden = true; return closeMaps(); }
   if (appOpen) return closeFlix();
 });
