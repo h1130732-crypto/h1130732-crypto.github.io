@@ -229,14 +229,14 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;paddin
 @media (max-width:620px){.flix-nav{display:none}.wordmark{font-size:26px}}
 
 .gate{min-height:calc(100% - 70px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px;padding:40px 24px 80px;text-align:center}
-.gate h2{margin:0;font-size:clamp(28px,calc(4.5 * var(--vw,1vw)),44px);font-weight:600;letter-spacing:-.01em}
-.profiles{display:flex;flex-wrap:wrap;justify-content:center;gap:26px}
-.profile{display:flex;flex-direction:column;align-items:center;gap:10px;color:var(--muted);font-size:15px;width:120px}
-.profile .pf{width:110px;height:110px;border-radius:10px;display:grid;place-items:center;font-family:var(--display);font-size:40px;color:#fff;transition:box-shadow .15s,transform .15s}
+.gate h2{margin:0;font-size:clamp(28px,calc(3.6 * var(--vw,1vw)),62px);font-weight:600;letter-spacing:-.01em}
+.profiles{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(26px,calc(3.4 * var(--vw,1vw)),60px)}
+.profile{display:flex;flex-direction:column;align-items:center;gap:14px;color:var(--muted);font-size:clamp(15px,calc(1.45 * var(--vw,1vw)),24px);width:clamp(120px,calc(15 * var(--vw,1vw)),250px)}
+.profile .pf{width:clamp(110px,calc(14 * var(--vw,1vw)),230px);height:auto;aspect-ratio:1;border-radius:10px;display:grid;place-items:center;font-family:var(--display);font-size:40px;color:#fff;transition:box-shadow .15s,transform .15s}
 .profile .pf svg{width:50%;height:50%}
 .profile:hover{color:#fff}
 .profile:hover .pf{box-shadow:0 0 0 3px #fff;transform:translateY(-2px)}
-@media (max-width:480px){.profile{width:96px}.profile .pf{width:88px;height:88px;font-size:32px}}
+@media (max-width:480px){.profile{width:96px}.profile .pf{width:88px;font-size:32px}}
 
 .hero{position:relative;min-height:min(calc(72 * var(--vh,1vh)),580px);display:flex;align-items:flex-end;margin-top:-70px}
 .hero > .art{position:absolute;inset:0}
@@ -265,12 +265,18 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;paddin
 .stat b{font-family:var(--display);font-weight:400;font-size:26px;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:.01em}
 
 .row{padding:10px 0 18px}
-.row h3{margin:0 0 10px;font-size:19px;font-weight:700;padding-left:max(24px,env(safe-area-inset-left,0px))}
+.row h3{margin:0 0 10px;font-size:clamp(19px,calc(1.6 * var(--vw,1vw)),28px);font-weight:700;padding-left:max(24px,env(safe-area-inset-left,0px))}
 .rail{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-left:24px;padding:6px max(24px,env(safe-area-inset-right,0px)) 14px max(24px,env(safe-area-inset-left,0px));scrollbar-width:none}
 .rail::-webkit-scrollbar{display:none}
-.card{flex:0 0 clamp(132px,calc(15 * var(--vw,1vw)),190px);scroll-snap-align:start;border-radius:6px;overflow:hidden;transition:transform .22s,box-shadow .22s;text-align:left}
+.card{flex:0 0 max(132px,calc((100 * var(--vw,1vw) - 48px - 50px) / 6));scroll-snap-align:start;border-radius:6px;overflow:hidden;transition:transform .22s,box-shadow .22s;text-align:left}
 .card:hover{transform:scale(1.05);box-shadow:0 12px 30px rgba(0,0,0,.6)}
-.card .art{aspect-ratio:2/3}
+.card .art{aspect-ratio:2/3;container-type:inline-size}
+.card .art .t{font-size:14cqw;left:5.3cqw;right:5.3cqw;bottom:6.3cqw}
+.card .art .t.long{font-size:11.6cqw}
+.card .art .t small{font-size:5.3cqw;margin-top:3.2cqw}
+.card .art .y{font-size:10.5cqw;left:4.7cqw;top:3.7cqw}
+.card .art .net{font-size:5cqw;right:4.7cqw;top:4.7cqw}
+.card .art .rib{font-size:4.7cqw;top:17.9cqw;padding:1.6cqw 3.7cqw 1.6cqw 4.7cqw}
 .flix-foot{padding:20px max(24px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 120px) max(24px,env(safe-area-inset-left,0px));font-size:12.5px;color:#76767f}
 
 /* generated poster art */
@@ -999,7 +1005,7 @@ tr.cur.is-playing .nm,tr.cur.is-playing:hover .pl{display:none!important}
 }
 /* ---------- MUN app: My MUN Journey (first-person board) ---------- */
 #munApp{--mj-disp:"Barlow Condensed",var(--ui);--mj-body:Barlow,var(--ui);--mj-bg:#04060d;--mj-line:rgba(120,160,255,.16);--mj-text:#e8eeff;--mj-dim:#8a96b8;--mj-cyan:#3ef0ff;--mj-grad:linear-gradient(100deg,#3ef0ff,#9b6bff 55%,#ff4fd8);
-  position:fixed;inset:0;z-index:60;display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,400px);grid-template-rows:auto minmax(0,1fr);color:var(--mj-text);font-family:var(--mj-body);
+  position:fixed;inset:0;z-index:60;display:grid;grid-template-columns:minmax(0,1fr) clamp(380px,46vw,980px);grid-template-rows:auto minmax(0,1fr);color:var(--mj-text);font-family:var(--mj-body);
   background:radial-gradient(1200px 700px at 40% 110%,rgba(62,240,255,.12),transparent 60%),radial-gradient(900px 600px at 100% 0,rgba(155,107,255,.16),transparent 60%),var(--mj-bg);
   overflow:hidden;animation:appIn .32s cubic-bezier(.2,.8,.2,1)}
 #munApp[hidden]{display:none}
@@ -1074,7 +1080,7 @@ tr.cur.is-playing .nm,tr.cur.is-playing:hover .pl{display:none!important}
 .mj-wave.go{animation:mjWave .8s ease-out}
 @keyframes mjWave{0%{opacity:1;transform:scale(.4) scaleY(.42)}100%{opacity:0;transform:scale(7) scaleY(.42)}}
 /* panel */
-.mj-panel{position:relative;z-index:3;display:flex;flex-direction:column;gap:14px;padding:18px;border-left:1px solid var(--mj-line);background:rgba(6,9,20,.72);backdrop-filter:blur(14px);min-height:0;overflow:auto}
+.mj-panel{position:relative;z-index:3;display:flex;flex-direction:column;gap:14px;padding:18px 22px;border-left:1px solid var(--mj-line);background:rgba(6,9,20,.72);backdrop-filter:blur(14px);min-height:0;overflow:auto}
 .mj-cardwrap{flex:none}
 .mj-cardwrap.in .mj-card{animation:mjCard .55s cubic-bezier(.2,.8,.2,1)}
 @keyframes mjCard{0%{opacity:0;transform:translateY(16px) rotateX(18deg);filter:blur(4px)}100%{opacity:1;transform:none;filter:none}}
@@ -1108,9 +1114,10 @@ tr.cur.is-playing .nm,tr.cur.is-playing:hover .pl{display:none!important}
 .mj-gal.n1 .mj-gal-grid{grid-template-columns:1fr}
 .mj-gal.n3 .mj-ph:first-child{grid-column:1 / -1}
 .mj-ph{position:relative;padding:0;border:1px solid var(--mj-line);border-radius:10px;overflow:hidden;background:#0b1020;min-height:0;cursor:zoom-in}
-.mj-ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
-.mj-ph:hover img{transform:scale(1.05)}
-.mj-ph img.tall{object-fit:contain;background:radial-gradient(closest-side,rgba(62,240,255,.08),transparent)}
+.mj-ph img{position:absolute;inset:0;width:100%;height:100%;display:block;transition:transform .4s}
+.mj-ph img.fg{object-fit:contain}
+.mj-ph img.bgb{object-fit:cover;filter:blur(18px) brightness(.45) saturate(1.2);transform:scale(1.15)}
+.mj-ph:hover img.fg{transform:scale(1.03)}
 .mj-ph em{position:absolute;inset:0;display:grid;place-items:center;background:rgba(4,6,13,.62);font:700 26px var(--mj-disp);font-style:normal;color:#fff}
 .mj-ph-empty{display:grid;place-content:center;justify-items:center;gap:2px;flex:1;min-height:120px;border:1.5px dashed rgba(120,160,255,.25);border-radius:12px;color:var(--mj-dim)}
 .mj-ph-empty b{font:700 18px var(--mj-disp);letter-spacing:.08em;text-transform:uppercase;color:#c4cde6}
@@ -3083,7 +3090,7 @@ function mjGallery(s){
   const shown = ph.slice(0, 4), more = ph.length - shown.length;
   g.className = `mj-gal n${shown.length}`;
   g.innerHTML = `<div class="mj-gal-h"><b>Photos</b><span>${ph.length}</span></div><div class="mj-gal-grid">${shown.map((src, k) =>
-    `<button class="mj-ph" data-k="${k}"><img src="${src}" alt="${s.conf || s.title} photo ${k + 1}" loading="lazy" onload="if(this.naturalHeight>this.naturalWidth)this.classList.add('tall')">${k === 3 && more > 0 ? `<em>+${more}</em>` : ""}</button>`).join("")}</div>`;
+    `<button class="mj-ph" data-k="${k}"><img class="bgb" src="${src}" alt="" aria-hidden="true"><img class="fg" src="${src}" alt="${s.conf || s.title} photo ${k + 1}" loading="lazy">${k === 3 && more > 0 ? `<em>+${more}</em>` : ""}</button>`).join("")}</div>`;
   g.querySelectorAll(".mj-ph").forEach(b => b.addEventListener("click", () => mjLightbox(ph, +b.dataset.k, s.conf || s.title)));
 }
 function mjLightbox(ph, k, title){
