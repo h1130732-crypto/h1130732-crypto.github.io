@@ -7,7 +7,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Fredoka:wght@400;600;700&family=Caveat:wght@600&family=Permanent+Marker&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800&family=Caveat:wght@600&family=Permanent+Marker&display=swap">
 <style>
 /* Layout: full-screen tablet OS — power on → 15s welcome video → shrinks to corner guide → home screen; apps open as full-screen layers */
 :root{
@@ -91,6 +91,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;paddin
 .glyph{width:clamp(60px,calc(6.6 * var(--vw,1vw)),98px);max-width:100%;aspect-ratio:1;border-radius:23%;display:grid;place-items:center;box-shadow:0 8px 18px rgba(0,0,0,.28);transition:transform .18s;position:relative}
 .yf-logo{width:66%!important;height:66%!important;filter:drop-shadow(0 2px 3px rgba(0,0,0,.5))}
 .glyph svg{width:58%;height:58%}
+.glyph svg.full{width:100%;height:100%;border-radius:inherit;display:block}
 .app-icon:hover .glyph{transform:translateY(-2px)}
 .app-icon:active .glyph{transform:scale(.9)}
 .app-icon.hint .glyph{animation:hint 1.5s ease-out infinite}
@@ -576,8 +577,8 @@ a.btn-play{text-decoration:none}
 .pin-hit{cursor:pointer}
 .map-zoom #mzBack{font-size:18px}
 .map-zoom{overflow:visible}.map-zoom button:first-child{border-radius:10px 10px 0 0}.map-zoom #mzBack{border-radius:0 0 10px 10px;border-bottom:0}
-.mz-back-cap{position:absolute;right:46px;bottom:4px;white-space:nowrap;font:700 11px/1.2 var(--ui);color:#fff;background:#2f6fd0;padding:5px 8px;border-radius:7px;text-align:right;pointer-events:none;box-shadow:0 3px 10px rgba(0,0,0,.3)}
-.mz-back-cap::after{content:"";position:absolute;right:-5px;top:50%;margin-top:-5px;border:5px solid transparent;border-right:0;border-left-color:#2f6fd0}
+.mz-back-cap{position:absolute;right:0;top:calc(100% + 9px);white-space:nowrap;font:700 12px/1.25 var(--ui);color:#fff;background:#2f6fd0;padding:6px 9px;border-radius:8px;text-align:center;pointer-events:none;box-shadow:0 3px 10px rgba(0,0,0,.3)}
+.mz-back-cap::after{content:"";position:absolute;right:15px;top:-6px;border:6px solid transparent;border-top:0;border-bottom-color:#2f6fd0}
 #mapsApp[data-theme="night"] .route-bar,#mapsApp[data-theme="night"] .map-style,#mapsApp[data-theme="night"] .map-zoom button,#mapsApp[data-theme="night"] .region-chip,#mapsApp[data-theme="night"] .map-tip{background:#1f2a3a;color:#e6ecf3;box-shadow:0 8px 28px rgba(0,0,0,.45)}
 #mapsApp[data-theme="night"] .map-zoom button{border-color:#2e3b4f}
 #mapsApp[data-theme="night"] .route-bar .rb-label,#mapsApp[data-theme="night"] .rb-steps b,#mapsApp[data-theme="night"] .region-chip b,#mapsApp[data-theme="night"] .mt-body h3{color:#f1f5fa}
@@ -602,17 +603,34 @@ a.btn-play{text-decoration:none}
 .map-svg .leaders,.map-svg .leaders *{pointer-events:none}
 .map-svg .city-labels,.map-svg .dist-labels{pointer-events:none}
 .map-style{display:none}
-.map-legend{position:absolute;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 16px);display:flex;flex-direction:column;gap:6px;padding:12px 14px;background:#1f2a3a;color:#dbe4ef;border-radius:12px;box-shadow:0 8px 28px rgba(0,0,0,.45);z-index:3;font-size:12.5px;font-weight:600}
+.map-legend{position:absolute;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 16px);display:flex;flex-direction:column;gap:9px;padding:16px 18px;background:#1f2a3a;color:#dbe4ef;border-radius:12px;box-shadow:0 8px 28px rgba(0,0,0,.45);z-index:3;font-size:15px;font-weight:600}
 .map-legend span{display:flex;align-items:center;gap:8px;white-space:nowrap}
-.map-legend i{width:11px;height:11px;border-radius:50%;border:1.5px solid}
+.map-legend i{width:14px;height:14px;border-radius:50%;border:1.5px solid}
+.map-legend span{gap:10px}
 @media (max-width:700px){.map-legend{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;padding:8px 10px;font-size:11px;bottom:auto;top:66px;left:10px;right:auto}}
 #mapsApp[data-level-ui="taipei"] .map-legend{bottom:calc(env(safe-area-inset-bottom,0px) + 16px)}
+@media (min-width:1280px) and (min-height:760px){
+  .map-legend{font-size:17px;gap:11px;padding:18px 22px}
+  .map-legend i{width:16px;height:16px}
+  .map-tip{width:min(470px,calc(100% - 16px))}
+  .mt-body{padding:16px 20px 20px}
+  .mt-body h3{font-size:23px}
+  .mt-body p{font-size:16.5px}
+  .mt-body .mt-tag{font-size:13px}
+  .region-chip{padding:10px 15px}
+  .region-chip b{font-size:17px}
+  .region-chip small,.region-chip span{font-size:13.5px}
+  .map-zoom button{width:48px;height:48px;font-size:23px}
+  .mz-back-cap{font-size:13.5px}
+  .route-bar{transform:scale(1.12);transform-origin:top left}
+}
 .mt-photo{aspect-ratio:4/3}
 /* ---------- Music app (streaming-player style) ---------- */
 #musicApp{--mu-bg:#121212;--mu-panel:#181818;--mu-hi:#2a2a2a;--mu-text:#fff;--mu-dim:#b3b3b3;--mu-green:#1ed760;
   position:fixed;inset:0;z-index:60;background:#000;color:var(--mu-text);display:grid;grid-template-columns:300px 1fr;grid-template-rows:auto 1fr auto;gap:8px;padding:8px;
   font-family:var(--ui);animation:appIn .32s cubic-bezier(.2,.8,.2,1)}
 #musicApp[hidden]{display:none}
+#musicApp [hidden]{display:none!important}
 #musicApp button{color:inherit}
 .mu-top{grid-column:1 / -1;display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top,0px) + 2px) 4px 0}
 .mu-brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:17px;letter-spacing:-.01em;padding-left:6px}
@@ -641,7 +659,7 @@ a.btn-play{text-decoration:none}
 .mu-collage{display:grid;grid-template-columns:1fr 1fr;overflow:hidden}
 .mu-collage img{width:100%;height:100%;object-fit:cover;border-radius:0}
 .mu-main{background:var(--mu-panel);border-radius:10px;overflow:auto;min-height:0;position:relative}
-.mu-head{display:flex;align-items:flex-end;gap:24px;padding:72px 28px 24px;background:linear-gradient(180deg,#a8342f 0%,#6d2320 100%)}
+.mu-head{display:flex;align-items:flex-end;gap:24px;padding:36px 28px 22px;background:linear-gradient(180deg,#a8342f 0%,#6d2320 100%)}
 .mu-head .mu-collage{width:clamp(150px,18vw,232px);height:clamp(150px,18vw,232px);border-radius:6px;box-shadow:0 8px 40px rgba(0,0,0,.55);flex:none}
 .mu-head .eyebrow{font-size:13px;font-weight:600}
 .mu-head h1{font-size:clamp(40px,6.4vw,92px);line-height:1;letter-spacing:-.04em;margin:8px 0 14px;font-weight:900}
@@ -649,7 +667,7 @@ a.btn-play{text-decoration:none}
 .mu-head .meta{font-size:14px;font-weight:600}
 .mu-head .meta span{color:rgba(255,255,255,.75);font-weight:400}
 .mu-body{background:linear-gradient(180deg,rgba(109,35,32,.55) 0,var(--mu-panel) 240px);padding:22px 28px 40px}
-.mu-actions{display:flex;align-items:center;gap:22px;margin-bottom:22px}
+.mu-actions{display:flex;align-items:center;gap:22px;margin-bottom:12px}
 .mu-big{width:56px;height:56px;border-radius:50%;background:var(--mu-green);display:grid;place-items:center;transition:transform .15s,background .15s}
 .mu-big:hover{transform:scale(1.05);background:#3be477}
 #musicApp .mu-big{color:#000}.mu-big svg{width:24px;height:24px}
@@ -866,7 +884,18 @@ tr.cur.is-playing .nm,tr.cur.is-playing:hover .pl{display:none!important}
 .bt-screen h2{font-size:clamp(26px,3.2vw,40px);margin:10px 0 6px;text-align:center;letter-spacing:-.02em;font-weight:800}
 .bt-screen h2 span{background:var(--bt-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .bt-lead{text-align:center;color:var(--bt-dim);margin:0 0 22px;font-size:15.5px}
-.bt-tpls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;max-width:1100px;margin:0 auto}
+#btPick{display:flex;flex-direction:column;padding-bottom:16px}
+#btPick h2{margin:2px 0 2px}
+#btPick .bt-lead{margin:0 0 14px}
+.bt-swipe{display:none;text-align:center;font:700 11px ui-monospace,Menlo,monospace;letter-spacing:.16em;color:var(--bt-dim);margin:4px 0 0}
+
+.bt-tpls{flex:1;min-height:0;display:grid;--cw:min(calc((100vw - 120px) / 3),calc((100vh - 255px) * .6667 + 24px));grid-template-columns:repeat(3,var(--cw));gap:28px;justify-content:center;align-items:start}
+@media (orientation:portrait){
+  .bt-tpls{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:16px;padding:4px 8vw 10px;margin:0 -22px;justify-content:flex-start;scrollbar-width:none;align-items:flex-start}
+  .bt-tpls::-webkit-scrollbar{display:none}
+  .bt-tpl{flex:0 0 min(84vw,calc((100vh - 270px) * .6667 + 24px));scroll-snap-align:center}
+  .bt-swipe{display:block}
+}
 .bt-tpl{position:relative;background:var(--bt-panel);border:1px solid var(--bt-line);border-radius:18px;padding:12px 12px 14px;display:flex;flex-direction:column;align-items:flex-start;gap:3px;transition:transform .18s,border-color .18s,box-shadow .18s;text-align:left}
 .bt-tpl:hover{transform:translateY(-5px);border-color:rgba(62,240,255,.6);box-shadow:0 0 0 1px rgba(62,240,255,.3),0 18px 50px rgba(62,240,255,.15)}
 .bt-tpl canvas{width:100%;aspect-ratio:2/3;border-radius:10px;margin-bottom:10px;background:#0b1020}
@@ -956,7 +985,7 @@ tr.cur.is-playing .nm,tr.cur.is-playing:hover .pl{display:none!important}
   .bt-top{justify-content:space-between}
   .bt-logo{font-size:15px}
   .bt-screen{padding:8px 12px 20px}
-  .bt-tpls{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+
   .bt-shootwrap{grid-template-columns:1fr;height:auto}
   .bt-live{height:auto;width:100%;max-height:62vh}
   .bt-side{flex-direction:row;flex-wrap:wrap}
@@ -967,6 +996,172 @@ tr.cur.is-playing .nm,tr.cur.is-playing:hover .pl{display:none!important}
   .bt-stage{height:auto;width:100%;max-width:440px;margin:0 auto}
   .bt-sendwrap{grid-template-columns:1fr;height:auto}
   #btFinal{height:auto;width:min(100%,360px);margin:6px auto 0}
+}
+/* ---------- MUN app: My MUN Journey (first-person board) ---------- */
+#munApp{--mj-disp:"Barlow Condensed",var(--ui);--mj-body:Barlow,var(--ui);--mj-bg:#04060d;--mj-line:rgba(120,160,255,.16);--mj-text:#e8eeff;--mj-dim:#8a96b8;--mj-cyan:#3ef0ff;--mj-grad:linear-gradient(100deg,#3ef0ff,#9b6bff 55%,#ff4fd8);
+  position:fixed;inset:0;z-index:60;display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,400px);grid-template-rows:auto minmax(0,1fr);color:var(--mj-text);font-family:var(--mj-body);
+  background:radial-gradient(1200px 700px at 40% 110%,rgba(62,240,255,.12),transparent 60%),radial-gradient(900px 600px at 100% 0,rgba(155,107,255,.16),transparent 60%),var(--mj-bg);
+  overflow:hidden;animation:appIn .32s cubic-bezier(.2,.8,.2,1)}
+#munApp[hidden]{display:none}
+#munApp button{font-family:inherit;color:inherit}
+.mj-top{grid-column:1 / -1;display:flex;align-items:center;gap:18px;padding:calc(env(safe-area-inset-top,0px) + 10px) 18px 10px;border-bottom:1px solid var(--mj-line);position:relative;z-index:5;background:rgba(4,6,13,.7);backdrop-filter:blur(10px)}
+.mj-brand{display:flex;align-items:center;gap:11px;white-space:nowrap}
+.mj-ico{width:38px;height:38px;border-radius:10px;overflow:hidden;display:block;box-shadow:0 0 0 1px rgba(62,240,255,.3),0 0 18px rgba(62,240,255,.2)}
+.mj-ico svg{width:100%;height:100%;display:block}
+.mj-brand b{display:block;font-size:15px;letter-spacing:.06em;font-weight:800}
+.mj-brand small{display:block;font:700 11px var(--mj-disp);letter-spacing:.06em;color:var(--mj-cyan);margin-top:2px}
+.mj-prog{flex:1;max-width:360px;height:4px;border-radius:2px;background:rgba(255,255,255,.08);overflow:hidden}
+.mj-prog i{display:block;height:100%;width:0;background:var(--mj-cyan);box-shadow:0 0 12px rgba(62,240,255,.6);transition:width .9s cubic-bezier(.45,.05,.2,1)}
+.mj-stats{display:flex;gap:8px;margin-left:auto}
+.mj-stats span{display:flex;align-items:baseline;gap:7px;font:700 11px var(--mj-disp);letter-spacing:.06em;text-transform:uppercase;color:var(--mj-dim);padding:7px 12px;border:1px solid var(--mj-line);border-radius:10px;background:rgba(255,255,255,.03)}
+.mj-stats b{font:700 22px var(--mj-disp);color:#fff;letter-spacing:0}
+.mj-stats span.pop{animation:mjPop .7s ease-out}
+@keyframes mjPop{0%{box-shadow:0 0 0 0 rgba(62,240,255,.8);border-color:var(--mj-cyan)}100%{box-shadow:0 0 0 14px rgba(62,240,255,0)}}
+#munApp .close-app{margin-left:0;background:rgba(255,255,255,.08);color:#fff;border:1px solid var(--mj-line)}
+/* stage */
+.mj-stage{position:relative;overflow:hidden;min-width:0;perspective:1100px;perspective-origin:50% 22%;min-height:0}
+.mj-board{position:absolute;left:50%;top:66%;width:1380px;height:1380px;transform-origin:0 0;transform-style:preserve-3d;transition:transform 1.1s cubic-bezier(.45,.05,.2,1);will-change:transform}
+.mj-stage.ov .mj-board{top:58%}
+.mj-floor{position:absolute;inset:-1400px;background:
+  linear-gradient(rgba(110,150,255,.13) 2px,transparent 2px) 0 0/115px 115px,
+  linear-gradient(90deg,rgba(110,150,255,.13) 2px,transparent 2px) 0 0/115px 115px;
+  -webkit-mask:radial-gradient(closest-side,#000 30%,transparent);mask:radial-gradient(closest-side,#000 30%,transparent);pointer-events:none}
+.mj-center{position:absolute;left:230px;top:230px;width:920px;height:920px;display:grid;place-content:center;justify-items:center;text-align:center;gap:10px;border-radius:40px;
+  background:radial-gradient(closest-side,rgba(62,240,255,.08),transparent);border:2px dashed rgba(120,160,255,.18)}
+.mj-center b{font:800 120px/0.9 var(--mj-disp);letter-spacing:.02em;color:#fff;text-shadow:0 0 40px rgba(62,240,255,.35)}
+.mj-center span{color:var(--mj-cyan)!important;font:600 30px var(--mj-disp);letter-spacing:.06em;color:var(--mj-dim)}
+.mj-logo{width:220px;height:220px;opacity:.9}
+.mj-logo svg{width:100%;height:100%}
+.mj-tile{position:absolute;width:230px;height:230px;padding:9px;transform-style:preserve-3d;transition:transform .5s}
+.mj-tile-in{position:relative;width:100%;height:100%;border-radius:16px;background:linear-gradient(160deg,rgba(18,26,52,.96),rgba(8,12,26,.96));border:2px solid color-mix(in srgb,var(--c) 55%,transparent);
+  box-shadow:0 0 18px color-mix(in srgb,var(--c) 22%,transparent),inset 0 0 30px color-mix(in srgb,var(--c) 8%,transparent);overflow:hidden;display:flex;flex-direction:column}
+.mj-band{display:flex;justify-content:space-between;padding:8px 13px;font:700 19px var(--mj-disp);letter-spacing:.06em;color:var(--c);border-bottom:1px solid color-mix(in srgb,var(--c) 35%,transparent);background:color-mix(in srgb,var(--c) 10%,transparent)}
+.mj-body{flex:1;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:12px 15px;min-height:0}
+.mj-t-name{font:700 34px/1 var(--mj-disp);color:#fff;text-transform:uppercase}
+.mj-t-name.sm{font-size:27px}
+.mj-t-com{font-size:17px;color:var(--mj-dim);font-weight:500}
+.mj-t-role{font:700 18px var(--mj-disp);letter-spacing:.1em;text-transform:uppercase;color:var(--c)}
+.mj-t-award{align-self:flex-start;font-size:13px;font-weight:800;color:#1a1300;background:#ffc94d;border-radius:99px;padding:4px 10px;margin-top:2px}
+.mj-t-big{font:800 78px/1 var(--mj-disp);color:var(--c);letter-spacing:.02em}
+.mj-t-big.sm{font-size:30px}
+.mj-t-ico{font-size:30px;color:var(--c);line-height:1}
+.mj-sg .mj-tile-in{border-width:3px;background:linear-gradient(160deg,rgba(60,20,60,.96),rgba(14,10,30,.96))}
+.mj-tile.cur{transform:translateZ(16px)}
+.mj-tile.cur .mj-tile-in{border-color:var(--c);box-shadow:0 0 0 2px var(--c),0 0 60px color-mix(in srgb,var(--c) 55%,transparent),inset 0 0 40px color-mix(in srgb,var(--c) 18%,transparent)}
+.mj-tile.cur .mj-band{background:var(--c);color:#05070d}
+.mj-tile-in{transition:transform .9s cubic-bezier(.45,.05,.2,1)}
+.mj-stage.ov .mj-tile-in{transform:none!important}
+.mj-stage.ov .mj-tile{cursor:pointer}
+.mj-stage.ov .mj-tile:hover{transform:translateZ(22px)}
+.mj-stage.ov .mj-tile.cur::after{content:"";position:absolute;inset:-4px;border-radius:20px;border:4px solid #fff;animation:mjRing 1.4s ease-out infinite;pointer-events:none}
+@keyframes mjRing{0%{opacity:1;transform:scale(.96)}100%{opacity:0;transform:scale(1.14)}}
+.mj-fog{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,var(--mj-bg) 0%,rgba(4,6,13,.85) 12%,rgba(4,6,13,0) 42%)}
+.mj-stage.ov .mj-fog{opacity:.35}
+/* token */
+.mj-token{position:absolute;left:50%;top:66%;width:min(26vh,210px);aspect-ratio:1;transform:translate(-50%,-92%);pointer-events:none;transition:opacity .4s;z-index:2}
+.mj-stage.ov .mj-token{opacity:0}
+.mj-token-g{position:absolute;inset:0;transform-origin:78% 60%;filter:drop-shadow(0 14px 18px rgba(0,0,0,.6)) drop-shadow(0 0 16px rgba(62,240,255,.25))}
+.mj-token-g svg{width:100%;height:100%;display:block}
+.mj-token-base{position:absolute;left:12%;right:30%;bottom:6%;height:16%;border-radius:50%;background:radial-gradient(closest-side,rgba(62,240,255,.55),rgba(62,240,255,0));animation:mjBase 2.4s ease-in-out infinite}
+@keyframes mjBase{50%{opacity:.55;transform:scaleX(.9)}}
+.mj-token .mj-token-g{animation:mjFloat 3s ease-in-out infinite}
+@keyframes mjFloat{50%{transform:translateY(-6px)}}
+.mj-token.hop .mj-token-g{animation:mjHop .7s cubic-bezier(.3,.6,.3,1)}
+@keyframes mjHop{0%{transform:translateY(0)}40%{transform:translateY(-34%) rotate(-8deg)}100%{transform:translateY(-10%) rotate(-14deg)}}
+.mj-token.strike .mj-token-g{animation:mjStrike .55s cubic-bezier(.5,0,.3,1)}
+@keyframes mjStrike{0%{transform:translateY(-10%) rotate(-14deg)}35%{transform:translateY(-12%) rotate(-30deg)}55%{transform:translateY(2%) rotate(9deg)}75%{transform:rotate(-3deg)}100%{transform:none}}
+.mj-wave{position:absolute;left:50%;top:66%;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:50%;border:3px solid var(--c,#3ef0ff);opacity:0;pointer-events:none;transform:scaleY(.42)}
+.mj-wave.go{animation:mjWave .8s ease-out}
+@keyframes mjWave{0%{opacity:1;transform:scale(.4) scaleY(.42)}100%{opacity:0;transform:scale(7) scaleY(.42)}}
+/* panel */
+.mj-panel{position:relative;z-index:3;display:flex;flex-direction:column;gap:14px;padding:18px;border-left:1px solid var(--mj-line);background:rgba(6,9,20,.72);backdrop-filter:blur(14px);min-height:0;overflow:auto}
+.mj-cardwrap{flex:none}
+.mj-cardwrap.in .mj-card{animation:mjCard .55s cubic-bezier(.2,.8,.2,1)}
+@keyframes mjCard{0%{opacity:0;transform:translateY(16px) rotateX(18deg);filter:blur(4px)}100%{opacity:1;transform:none;filter:none}}
+.mj-card{border-radius:16px;border:1px solid color-mix(in srgb,var(--c) 50%,transparent);background:linear-gradient(170deg,rgba(18,26,52,.9),rgba(8,12,26,.9));box-shadow:0 0 40px color-mix(in srgb,var(--c) 14%,transparent);overflow:hidden;position:relative}
+.mj-card::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 3px);pointer-events:none}
+.mj-card-band{display:flex;justify-content:space-between;padding:10px 16px;font:800 11.5px var(--mj-disp);letter-spacing:.06em;background:var(--c);color:#05070d}
+.mj-card h3{margin:14px 18px 2px;font:700 36px/1.02 var(--mj-disp);letter-spacing:.005em;text-transform:uppercase}
+.mj-com{margin:0 18px;color:var(--mj-dim);font-size:15px;line-height:1.4}
+.mj-role{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 18px 4px}
+.mj-role span{font:800 12px var(--mj-disp);letter-spacing:.06em;text-transform:uppercase;color:var(--c);border:1px solid var(--c);border-radius:8px;padding:6px 10px}
+.mj-role em{font-style:normal;font-weight:800;font-size:13px;color:#1a1300;background:#ffc94d;border-radius:99px;padding:6px 12px;box-shadow:0 0 18px rgba(255,201,77,.4)}
+.mj-card dl{margin:12px 18px 18px;display:grid;gap:3px}
+.mj-card dt{font:700 10.5px var(--mj-disp);letter-spacing:.06em;text-transform:uppercase;color:var(--mj-dim);margin-top:9px}
+.mj-card dd{margin:0;font-size:15.5px;line-height:1.45}
+.mj-text{margin:12px 18px 18px;font-size:16px;line-height:1.55;color:#d4dcf2}
+.mj-end-btns{display:flex;flex-direction:column;gap:8px;margin:0 18px 18px}
+.mj-ctrl{display:grid;grid-template-columns:auto 1fr auto;gap:8px}
+.mj-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:12px;font:700 17px var(--mj-disp);letter-spacing:.04em;text-transform:uppercase;background:rgba(255,255,255,.06);border:1px solid var(--mj-line);cursor:pointer;transition:transform .15s,background .15s,box-shadow .15s}
+.mj-btn:hover{background:rgba(255,255,255,.11)}
+.mj-btn:disabled{opacity:.35;cursor:default}
+.mj-btn.pri{background:var(--mj-cyan);border:0;color:#05070d!important;box-shadow:0 8px 28px rgba(62,240,255,.3)}
+.mj-btn.pri:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 10px 36px rgba(62,240,255,.45)}
+.mj-btn.on{border-color:var(--mj-cyan);color:var(--mj-cyan)!important;box-shadow:0 0 16px rgba(62,240,255,.25)}
+.mj-btn.big{padding:16px 26px;font-size:17px}
+.mj-gal{flex:1;display:flex;flex-direction:column;gap:8px;min-height:140px}
+.mj-gal.none{display:none}
+.mj-gal-h{display:flex;justify-content:space-between;align-items:baseline;font:700 15px var(--mj-disp);letter-spacing:.06em;text-transform:uppercase;color:var(--mj-dim)}
+.mj-gal-h span{color:#fff}
+.mj-gal-grid{flex:1;min-height:0;display:grid;gap:6px;grid-template-columns:1fr 1fr;grid-auto-rows:1fr}
+.mj-gal.n2 .mj-gal-grid{grid-template-columns:1fr}
+.mj-gal.n1 .mj-gal-grid{grid-template-columns:1fr}
+.mj-gal.n3 .mj-ph:first-child{grid-column:1 / -1}
+.mj-ph{position:relative;padding:0;border:1px solid var(--mj-line);border-radius:10px;overflow:hidden;background:#0b1020;min-height:0;cursor:zoom-in}
+.mj-ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+.mj-ph:hover img{transform:scale(1.05)}
+.mj-ph img.tall{object-fit:contain;background:radial-gradient(closest-side,rgba(62,240,255,.08),transparent)}
+.mj-ph em{position:absolute;inset:0;display:grid;place-items:center;background:rgba(4,6,13,.62);font:700 26px var(--mj-disp);font-style:normal;color:#fff}
+.mj-ph-empty{display:grid;place-content:center;justify-items:center;gap:2px;flex:1;min-height:120px;border:1.5px dashed rgba(120,160,255,.25);border-radius:12px;color:var(--mj-dim)}
+.mj-ph-empty b{font:700 18px var(--mj-disp);letter-spacing:.08em;text-transform:uppercase;color:#c4cde6}
+.mj-ph-empty span{font-size:13px}
+.mj-lb{position:absolute;inset:0;z-index:20;background:rgba(2,4,10,.92);backdrop-filter:blur(8px);display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;padding:60px 16px 24px}
+.mj-lb[hidden]{display:none}
+.mj-lb figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:10px;min-width:0;height:100%;justify-content:center}
+.mj-lb img{max-width:100%;max-height:calc(100% - 40px);border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.mj-lb figcaption{font:600 16px var(--mj-disp);letter-spacing:.06em;text-transform:uppercase;color:var(--mj-dim)}
+.mj-lb-nav{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid var(--mj-line);font-size:22px}
+.mj-lb-nav[hidden]{visibility:hidden;display:block}
+.mj-lb-x{position:absolute;top:14px;right:14px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid var(--mj-line);display:grid;place-items:center}
+.mj-lb-x svg{width:18px;height:18px}
+.mj-hint{margin:0;font-size:12.5px;color:#5f6a8a;text-align:center}
+/* intro */
+.mj-intro{position:absolute;inset:0;z-index:10;display:grid;place-content:center;justify-items:center;text-align:center;gap:14px;padding:24px;
+  background:radial-gradient(800px 500px at 50% 40%,rgba(62,240,255,.12),transparent 70%),rgba(4,6,13,.94);backdrop-filter:blur(6px);transition:opacity .6s,visibility .6s}
+.mj-intro.gone{opacity:0;visibility:hidden}
+.mj-intro-g{width:min(30vh,220px);aspect-ratio:1;border-radius:24%;overflow:hidden;box-shadow:0 0 0 1px rgba(62,240,255,.35),0 0 60px rgba(62,240,255,.25),0 30px 60px rgba(0,0,0,.5);animation:mjSpin 6s ease-in-out infinite}
+.mj-intro-g svg{width:100%;height:100%;display:block}
+@keyframes mjSpin{0%,100%{transform:perspective(600px) rotateY(-16deg) rotateX(6deg) translateY(0)}50%{transform:perspective(600px) rotateY(16deg) rotateX(-4deg) translateY(-10px)}}
+.mj-act{font:800 12px var(--mj-disp);letter-spacing:.06em;color:var(--mj-cyan);margin-top:12px}
+.mj-intro h2{margin:0;font:700 clamp(44px,7vw,96px)/.95 var(--mj-disp);text-transform:uppercase;letter-spacing:.01em;max-width:14ch}
+.mj-intro h2 span{color:var(--mj-cyan)}
+.mj-intro p{margin:0 0 10px;font-size:clamp(16px,1.8vw,21px);color:var(--mj-dim);max-width:34ch}
+.mj-intro small{font:700 11px var(--mj-disp);letter-spacing:.06em;color:#5f6a8a;text-transform:uppercase}
+@media (max-width:900px), (orientation:portrait){
+  #munApp{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto}
+  .mj-stats span{padding:6px 9px;font-size:0;letter-spacing:0}
+  .mj-stats span b{font-size:16px}
+  .mj-stats span::after{font:700 10px var(--mj-disp);letter-spacing:.08em;color:var(--mj-dim)}
+  .mj-stats span:nth-child(1)::after{content:"AWD"}.mj-stats span:nth-child(2)::after{content:"CHR"}.mj-stats span:nth-child(3)::after{content:"DEL"}
+  .mj-prog{display:none}
+  .mj-panel{border-left:0;border-top:1px solid var(--mj-line);padding:12px 12px calc(env(safe-area-inset-bottom,0px) + 12px);max-height:48vh}
+  .mj-card h3{font-size:24px;margin-top:12px}
+  .mj-card dl{margin-bottom:14px}
+  .mj-hint{display:none}
+  .mj-gal{flex-direction:row;align-items:center}
+  .mj-gal-h{display:none}
+  .mj-gal-grid{display:flex;overflow-x:auto;gap:6px}
+  .mj-gal{flex:none;min-height:0}
+  .mj-ph{flex:0 0 120px;aspect-ratio:4/3}
+  .mj-ph-empty{min-height:0;height:70px;width:100%}
+}
+@media (max-width:620px){
+  .mj-top{gap:10px;padding:calc(env(safe-area-inset-top,0px) + 8px) 10px 8px}
+  .mj-brand b{font-size:12.5px;letter-spacing:.06em}
+  .mj-ico{width:32px;height:32px}
+  .mj-stats{gap:5px}
+  #munApp .close-app{padding:7px 10px;font-size:0;gap:0}
+  #munApp .close-app svg{width:16px;height:16px}
 }
 </style>
 </head>
@@ -1239,8 +1434,8 @@ const APPS = {
   camera:{ name:"Camera", bg:"linear-gradient(160deg,#606a75,#2b3036)",
     svg:`<svg viewBox="0 0 24 24"><path d="M8 7.2 9.6 4.8h4.8L16 7.2z" fill="#e8eaed"/><rect x="3" y="7" width="18" height="12" rx="3" fill="#e8eaed"/><circle cx="12" cy="13" r="3.8" fill="#2b3036"/><circle cx="12" cy="13" r="2.2" fill="#71839a"/></svg>`,
     info:"A photo booth: pick a frame, smile at the countdown, draw on your photo and send it to me." },
-  mun:{ name:"MUN", bg:"linear-gradient(160deg,#3d6fd6,#1b2f7a)",
-    svg:`<svg viewBox="0 0 24 24"><g transform="rotate(-38 12 12)"><rect x="5.2" y="4.2" width="9.6" height="5.2" rx="1.6" fill="#fff"/><rect x="4.2" y="4.8" width="1.6" height="4" rx=".6" fill="#f2c14e"/><rect x="14.2" y="4.8" width="1.6" height="4" rx=".6" fill="#f2c14e"/><rect x="9.1" y="9.2" width="1.8" height="10" rx=".9" fill="#f2c14e"/></g><rect x="3.5" y="18.6" width="10" height="2.4" rx="1.2" fill="#fff" opacity=".9"/></svg>`,
+  mun:{ name:"MUN", bg:"#0c1532",
+    get svg(){ return gavelSVG("ic" + Math.random().toString(36).slice(2, 7)); },
     info:"Model UN and debate: 13 conferences, Secretary-General of WegoMUN 2026, awards, and the delegates I have trained." },
   maps:{ name:"Maps", bg:"linear-gradient(160deg,#d3f3c9,#7fcb9f)",
     svg:`<svg viewBox="0 0 24 24"><path d="M3 6.5 9 4.5l6 2 6-2v13l-6 2-6-2-6 2z" fill="#fff"/><path d="M9 4.5v13M15 6.5v13" stroke="#7fcb9f" stroke-width="1.2"/><path d="M16 6.8a2.6 2.6 0 0 0-2.6 2.6c0 2 2.6 4.6 2.6 4.6s2.6-2.6 2.6-4.6A2.6 2.6 0 0 0 16 6.8z" fill="#e53935"/><circle cx="16" cy="9.4" r=".9" fill="#fff"/></svg>`,
@@ -1459,7 +1654,7 @@ function showTip(){
   document.querySelectorAll(".app-icon.hint").forEach(e => e.classList.remove("hint"));
   if (!introDone) return;
   const hideForLayer = !!document.querySelector(".modal-wrap, .player");
-  if (!bubbleOpen || hideForLayer || (appOpen === "music" || appOpen === "files" || appOpen === "camera")){ bubble.classList.add("off"); return; }
+  if (!bubbleOpen || hideForLayer || (appOpen === "music" || appOpen === "files" || appOpen === "camera" || appOpen === "mun")){ bubble.classList.add("off"); return; }
   if (appOpen === "maps"){
     $("#bText").textContent = "Click a blinking region to zoom in. Hover a pin to see the story."; $("#bCount").textContent = "Maps";
     $("#bPrev").hidden = $("#bNext").hidden = true;
@@ -1487,6 +1682,7 @@ function openApp(id){
   if (id === "music") return openMusic();
   if (id === "files") return openFiles();
   if (id === "camera") return openCamera();
+  if (id === "mun") return openMun();
   const a = APPS[id];
   const wrap = document.createElement("div");
   wrap.className = "sheet-wrap";
@@ -1653,7 +1849,7 @@ LEVELS.taipei.pins = [
 ];
 Object.values(LEVELS).forEach(L => L.pins.forEach(p => { if (p.cat != null) p.color = PIN_CATS[p.cat][1]; else if (p.name in PIN_CAT_OF) p.color = PIN_CATS[PIN_CAT_OF[p.name]][1]; }));
 let M = null;  // map state
-function applyPinScale(){ const k = M.k || 1; $("#mapStage svg").querySelectorAll(".pin").forEach(g => { g.querySelector(".pin-k").setAttribute("transform", `scale(${k})`); g.querySelector(".pin-vis").setAttribute("transform", g.classList.contains("hot") ? "scale(1.15)" : ""); }); }
+function applyPinScale(){ const k = (M.k || 1) * (innerWidth >= 1280 && innerHeight >= 760 ? 1.45 : 1); $("#mapStage svg").querySelectorAll(".pin").forEach(g => { g.querySelector(".pin-k").setAttribute("transform", `scale(${k})`); g.querySelector(".pin-vis").setAttribute("transform", g.classList.contains("hot") ? "scale(1.15)" : ""); }); }
 function stagePx(){ const r = $("#mapStage").getBoundingClientRect(); return [Math.max(1,r.width), Math.max(1,r.height)]; }
 function fitBox(b, pad, insetL = 0){
   let [W,H] = stagePx(); W = Math.max(1, W - insetL); let [x0,y0,x1,y1] = b; const pw = (x1-x0)*pad, ph = (y1-y0)*pad;
@@ -1836,7 +2032,7 @@ function placeTip(i){
   const p = LEVELS[M.level].pins[i], tip = $("#mapTip"), [W,H] = stagePx();
   const [x,y] = MP(p.lon,p.lat), [sx,sy] = toScreen(x,y);
   const tw = tip.offsetWidth, th = tip.offsetHeight;
-  const ph = 34;  // pin height on screen
+  const ph = 34 * (innerWidth >= 1280 && innerHeight >= 760 ? 1.45 : 1);  // pin height on screen
   let left = sx - tw/2, top = sy - ph - th - 8;
   if (top < 8) top = sy + 10;
   if (top + th > H - 8 && sy - ph - th - 8 < 8){  // no room above or below: sit beside the pin
@@ -2067,6 +2263,13 @@ const MU = { i:-1, view:"list", shuffle:false, repeat:false, vol:1, muted:false 
 
 function muCollage(){ return `<div class="mu-collage">${TRACKS.slice(0,4).map(t => `<img src="${muCover(t)}" alt="">`).join("")}</div>`; }
 
+// Large screens: scale the whole app up so it fills the screen instead of leaving empty space.
+function appZoom(el){
+  if (!el) return;
+  const z = Math.max(1, Math.min(1.6, innerWidth / 1440, innerHeight / 860));
+  el.style.zoom = z > 1.02 ? z.toFixed(3) : "";
+}
+addEventListener("resize", () => { appZoom($("#musicApp")); appZoom($("#filesApp")); });
 function openMusic(){
   appOpen = "music"; presenter.classList.add("away"); layout(); showTip();
   let el = $("#musicApp");
@@ -2159,7 +2362,7 @@ function openMusic(){
     muDrag($("#muVol"), f => { MU.vol = f; MU.muted = f === 0; muVolUI(); });
     muNowUI(); muVolUI();
   }
-  el.hidden = false;
+  el.hidden = false; appZoom(el);
 }
 function closeMusic(){
   const v = $("#muVideo"); v?.pause();
@@ -2356,7 +2559,7 @@ function openFiles(){
     };
     sc.addEventListener("scroll", spy, { passive:true }); spy();
   }
-  el.hidden = false;
+  el.hidden = false; appZoom(el);
 }
 function closeFiles(){ $("#filesApp").hidden = true; appOpen = null; presenter.classList.remove("away"); layout(); advanceIf("files"); }
 
@@ -2366,10 +2569,8 @@ const BOOTH_COUNT = 5;                 // countdown seconds
 // Frames. When York's own template PNGs arrive, set overlay:"image/booth/<file>.png" (transparent where the photos go)
 // and adjust the shot rectangles to match the holes. Until then each frame is drawn in code (bg + deco).
 const BOOTH_TEMPLATES = [
-  { id:"grid", name:"Grid", no:"04", sub:"4 shots", overlay:"", bg:["#070b18","#151036"], accent:"#3ef0ff",
-    shots:[[60,150,525,690],[615,150,525,690],[60,870,525,690],[615,870,525,690]], deco:"grid" },
   { id:"strip", name:"Strip", no:"03", sub:"3 shots", overlay:"", bg:["#05070d","#0e1424"], accent:"#ff4fd8",
-    shots:[[170,110,860,500],[170,650,860,500],[170,1190,860,500]], deco:"strip" },
+    shots:[[170,170,860,470],[170,685,860,470],[170,1200,860,470]], deco:"strip" },
   { id:"solo", name:"Solo", no:"01", sub:"1 shot", overlay:"", bg:["#0a0f1f","#1a0f2e"], accent:"#8b5cff",
     shots:[[90,180,1020,1320]], deco:"solo" },
   { id:"duo", name:"Duo", no:"02", sub:"2 shots", overlay:"", bg:["#06101a","#101c33"], accent:"#4dff9a",
@@ -2452,7 +2653,7 @@ function openCamera(){
       </header>
       <section class="bt-screen" id="btPick">
         <h2>Take a photo <span>with York</span></h2><p class="bt-lead">Pick a frame, strike a pose on the 5-second countdown, then draw on your photo and download it.</p>
-        <div class="bt-tpls">${BOOTH_TEMPLATES.map(t => `<button class="bt-tpl" data-tpl="${t.id}"><canvas width="${BW}" height="${BH}"></canvas><b>${t.name}</b><small>${t.sub}</small></button>`).join("")}</div>
+        <div class="bt-tpls">${BOOTH_TEMPLATES.map(t => `<button class="bt-tpl" data-tpl="${t.id}"><canvas width="${BW}" height="${BH}"></canvas><b>${t.name}</b><small>${t.sub}</small></button>`).join("")}</div><p class="bt-swipe">SWIPE FOR MORE FRAMES →</p>
       </section>
       <section class="bt-screen" id="btShoot" hidden>
         <div class="bt-shootwrap">
@@ -2646,6 +2847,267 @@ function bToSend(){
   bScreen("send");
 }
 
+function gavelSVG(p, opts = {}){
+  const block = opts.block !== false, bg = opts.bg !== false;
+  // Drawn in local units around the head's centre (head upright, handle pointing right), then tilted 11° so the
+  // head rests on the sound block and the long handle slopes down to the right, like a gavel set down on a desk.
+  const pose = block ? "translate(30.5 47) rotate(11)" : "translate(22 44) rotate(11)";
+  return `<svg viewBox="0 0 100 100" class="full" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+  <radialGradient id="${p}bg" cx="50%" cy="20%" r="95%"><stop offset="0" stop-color="#22397a"/><stop offset=".55" stop-color="#0c1532"/><stop offset="1" stop-color="#050816"/></radialGradient>
+  <linearGradient id="${p}w" x1="0" x2="1"><stop offset="0" stop-color="#3a1a09"/><stop offset=".25" stop-color="#7a3d19"/><stop offset=".5" stop-color="#b56f3b"/><stop offset=".68" stop-color="#8c4c24"/><stop offset="1" stop-color="#3a1a09"/></linearGradient>
+  <linearGradient id="${p}h" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c07b45"/><stop offset=".45" stop-color="#83441c"/><stop offset="1" stop-color="#3d1c0b"/></linearGradient>
+  <linearGradient id="${p}b" x1="0" x2="1"><stop offset="0" stop-color="#6e4f12"/><stop offset=".3" stop-color="#d9b154"/><stop offset=".46" stop-color="#fff2bf"/><stop offset=".62" stop-color="#e2bb5c"/><stop offset="1" stop-color="#5f430e"/></linearGradient>
+  <linearGradient id="${p}top" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c98a52"/><stop offset="1" stop-color="#7a3f1a"/></linearGradient>
+  <radialGradient id="${p}glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#3ef0ff" stop-opacity=".45"/><stop offset="1" stop-color="#3ef0ff" stop-opacity="0"/></radialGradient>
+  <radialGradient id="${p}sh" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#000" stop-opacity=".45"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+  </defs>
+  ${bg ? `<rect width="100" height="100" fill="url(#${p}bg)"/>
+  <g stroke="#6f8cff" stroke-opacity=".12" stroke-width=".4">${[20,40,60,80].map(v => `<path d="M${v} 0V100M0 ${v}H100"/>`).join("")}</g>` : ""}
+  <g transform="translate(0 ${block ? -7 : 0})">
+  ${block ? `<ellipse cx="46" cy="79" rx="46" ry="10" fill="url(#${p}glow)"/>
+  <ellipse cx="88" cy="76" rx="9" ry="2.2" fill="url(#${p}sh)"/>
+  <path d="M6 66v9a24 6.5 0 0 0 48 0v-9z" fill="url(#${p}w)"/>
+  <path d="M6 70.5a24 6.5 0 0 0 48 0" fill="none" stroke="#2a1206" stroke-opacity=".5" stroke-width=".7"/>
+  <ellipse cx="30" cy="66" rx="24" ry="6.5" fill="url(#${p}top)"/>
+  <ellipse cx="30" cy="66" rx="18.5" ry="4.8" fill="none" stroke="#5a2a10" stroke-opacity=".45" stroke-width=".6"/>
+  <ellipse cx="27" cy="66.6" rx="9" ry="2.2" fill="#2a1206" opacity=".35"/>` : ""}
+  <g transform="${pose}">
+    <path d="M7 -2.7 L64.5 -1.7 Q67.8 0 64.5 1.7 L7 2.7z" fill="url(#${p}h)"/>
+    <ellipse cx="65.4" cy="0" rx="2.1" ry="2.2" fill="#8a4a22"/>
+    <rect x="16" y="-3" width="2.8" height="6" rx="1.3" fill="url(#${p}h)"/>
+    <rect x="7" y="-3.3" width="4" height="6.6" rx="1.5" fill="#6d3415"/>
+    <path d="M-5.6 -17h11.2a1.6 1.6 0 0 1 1.6 1.6v2.6h-14.4v-2.6a1.6 1.6 0 0 1 1.6-1.6z" fill="url(#${p}w)"/>
+    <rect x="-8.2" y="-13.4" width="16.4" height="3.2" rx="1.3" fill="url(#${p}w)"/>
+    <rect x="-7.6" y="-10.4" width="15.2" height="20.8" fill="url(#${p}w)"/>
+    <rect x="-7.9" y="-5.2" width="15.8" height="10.4" rx=".6" fill="url(#${p}b)"/>
+    <rect x="-7.9" y="-5.2" width="15.8" height=".9" fill="#fff6d8" opacity=".6"/>
+    <rect x="-8.2" y="10.2" width="16.4" height="3.2" rx="1.3" fill="url(#${p}w)"/>
+    <path d="M-7.2 13.2h14.4v2.2a1.6 1.6 0 0 1-1.6 1.6h-11.2a1.6 1.6 0 0 1-1.6-1.6z" fill="url(#${p}w)"/>
+    <rect x="6.6" y="-10.2" width=".8" height="20.4" fill="#bffbff" opacity=".35"/>
+  </g>
+  </g>
+  </svg>`;
+}
+
+/* ---------- MUN app: "My MUN Journey", a first-person board game ---------- */
+// One tile per stop, in order. type: go | conf | mile | trans | end
+const MJ_STOPS = [
+  { type:"go", title:"GO", sub:"After one year of debate", text:"I had spent a year debating. Then I walked into my first Model UN." },
+  { type:"conf", year:"2024", conf:"MUN Workshop", committee:"ECOSOC", role:"Delegate", as:["Country","Japan"], topic:"Decent Work and Economic Growth", photos:["image/mun/workshop.webp"] },
+  { type:"conf", year:"2024", conf:"CentMUN", committee:"UN-Habitat", role:"Delegate", award:"Honorable Mention", as:["Country","Kingdom of Norway"], topic:"Sustainable Transport for Better Air Quality in Urban Areas", photos:["image/mun/centmun-2024.webp"] },
+  { type:"conf", year:"2025", conf:"YaleMUN Taiwan", committee:"ESCAP", role:"Delegate", award:"Honorable Mention", as:["Country","Republic of Korea"], topic:"Assessing the Downsides of the Shadow Education System in East Asia", photos:["image/mun/yalemun-2025.webp"] },
+  { type:"trans", title:"Back to the books", text:"Started reading <i>International Relations: Perspectives, Controversies and Readings</i> by Keith L. Shimko.", photos:["image/mun/book.webp"] },
+  { type:"mile", title:"Teaching at an elementary school", text:"Started teaching MUN and international relations to elementary school students: 50+ of them so far.", photos:["image/mun/elementary.webp"] },
+  { type:"conf", year:"2025", conf:"TESMUN", committee:"UN Ad Hoc Committee on Artificial Intelligence (UN AHCAI)", short:"UN AHCAI", role:"Delegate", award:"Oral Recognition", as:["Country","France"], topic:"Efforts to prohibit lethal autonomous weapons", photos:["image/mun/tesmun.webp"] },
+  { type:"conf", year:"2025", conf:"WegoMUN", committee:"UN Security Council", short:"UNSC", role:"Co-Chair", chair:true, topic:"Protection of Civilians in Armed Conflicts · The Situation in Afghanistan", photos:["image/mun/wegomun-2025.webp"] },
+  { type:"mile", title:"Elected club president!", text:"Elected President of WEGO Model United Nations." },
+  { type:"conf", year:"2025", conf:"SNTMUN", committee:"Historical Crisis", role:"Delegate", award:"Outstanding Delegate", as:["Representing","Tanaka Giichi"], topic:"The Chinese Civil War", photos:["image/map/sntmun.webp"] },
+  { type:"trans", title:"Crisis mode: on", text:"Fell in love with crisis simulations, and went all in on East Asian studies." },
+  { type:"mile", title:"Designing the curriculum", text:"Started designing the MUN curriculum for our club.", photos:["image/mun/curriculum.webp"] },
+  { type:"mile", title:"After-school MUN classes", text:"Started teaching after-school MUN classes. 20+ of my students have gone on to win MUN awards." },
+  { type:"conf", year:"2025", conf:"MockMUN", committee:"GA3 (SOCHUM)", role:"Head Chair", chair:true, topic:"Humanitarian Aid toward the Russo-Ukrainian War", photos:["image/map/mockmun.webp"] },
+  { type:"conf", year:"2025", conf:"CentMUN", committee:"GA2 (ECOFIN)", role:"Vice Chair", chair:true, topic:"Reforming the International Monetary System to Promote Global Financial Stability and Inclusion", photos:["image/map/centmun.webp"] },
+  { type:"conf", year:"2026", conf:"YMUNT", committee:"Crisis Committee", role:"Co-Chair", chair:true, topic:"The Bandung Conference", photos:["image/map/ymunt.webp"] },
+  { type:"conf", year:"2026", conf:"EMUN", committee:"UN Environment Assembly (UNEA)", short:"UNEA", role:"Delegate", award:"Best Delegate", as:["Country","Algeria"], topic:"Environmental remediation to Member States of the use or testing of nuclear weapons", photos:["image/map/emun.webp"] },
+  { type:"conf", year:"2026", conf:"TransMUN", committee:"Crisis", role:"Delegate", as:["Character","Joe Biden, President of the United States"], topic:"Shifting Sands: A New Middle East Order", photos:["image/map/transmun.webp"] },
+  { type:"conf", year:"2026", conf:"WegoMUN 2026", committee:"Secretariat", role:"Secretary General", chair:true, sg:true, topic:"Leading the whole conference.", photos:["image/mun/wegomun-2026.webp"] },
+  { type:"end", title:"Session adjourned", sub:"…for now", text:"From debater to Secretary General in two years. Thanks for walking the journey with me." }
+];
+const MJ_COL = { "2024":"#3ef0ff", "2025":"#9b6bff", "2026":"#ff4fd8", go:"#4dff9a", end:"#4dff9a", mile:"#ffc94d", trans:"#5dffb6" };
+const MJ_CELL = 230, MJ_N = MJ_STOPS.length;  // 20 tiles on a 6x6 loop
+const MJ = { i:0, angle:90, overview:true, seen:new Set(), started:false };
+
+function mjColor(s){ return s.type === "conf" ? MJ_COL[s.year] : MJ_COL[s.type]; }
+function mjPos(i){ // grid cell on the 6x6 ring; GO bottom-right, moving left
+  if (i <= 5) return [5 - i, 5];
+  if (i <= 10) return [0, 5 - (i - 5)];
+  if (i <= 15) return [i - 10, 0];
+  return [5, i - 15];
+}
+const mjSide = i => Math.min(3, Math.floor(i / 5));
+const mjAngleFor = i => 90 - 90 * mjSide(i);
+function mjTileHTML(s, i){
+  const c = mjColor(s), [x, y] = mjPos(i), rot = -mjAngleFor(i);
+  let band, body;
+  if (s.type === "conf"){
+    band = `<span>${s.year}</span><span>${String(i).padStart(2,"0")}</span>`;
+    body = `<b class="mj-t-name">${s.conf}</b><span class="mj-t-com">${s.short || s.committee}</span><span class="mj-t-role">${s.role}</span>${s.award ? `<span class="mj-t-award">★ ${s.award}</span>` : ""}`;
+  } else {
+    const lab = { go:"START", end:"FINISH", mile:"MILESTONE", trans:"TRANSITION" }[s.type];
+    band = `<span>${lab}</span><span>${String(i).padStart(2,"0")}</span>`;
+    body = s.type === "go" ? `<b class="mj-t-big">GO</b><span class="mj-t-com">${s.sub}</span>`
+         : s.type === "end" ? `<b class="mj-t-big sm">ADJOURNED</b><span class="mj-t-com">${s.sub}</span>`
+         : `<span class="mj-t-ico">${s.type === "mile" ? "◆" : "↻"}</span><b class="mj-t-name sm">${s.title}</b>`;
+  }
+  return `<div class="mj-tile mj-${s.type}${s.sg ? " mj-sg" : ""}" data-i="${i}" style="--c:${c};left:${x*MJ_CELL}px;top:${y*MJ_CELL}px">
+    <div class="mj-tile-in" style="transform:rotate(${rot}deg)"><div class="mj-band">${band}</div><div class="mj-body">${body}</div></div></div>`;
+}
+function mjCardHTML(s, i){
+  const c = mjColor(s), n = `${String(i).padStart(2,"0")} / ${String(MJ_N - 1).padStart(2,"0")}`;
+  if (s.type === "conf") return `<div class="mj-card" style="--c:${c}">
+    <div class="mj-card-band"><span>${s.year} · ${s.role === "Delegate" ? "DELEGATE" : "CHAIR"} DEED</span><span>${n}</span></div>
+    <h3>${s.conf}</h3><p class="mj-com">${s.committee}</p>
+    <div class="mj-role"><span>${s.role}</span>${s.award ? `<em>★ ${s.award}</em>` : ""}</div>
+    <dl>${s.as ? `<dt>${s.as[0]}</dt><dd>${s.as[1]}</dd>` : ""}<dt>${s.sg ? "Role" : "Topic"}</dt><dd>${s.topic}</dd></dl></div>`;
+  const lab = { go:"START", end:"FINISH", mile:"MILESTONE", trans:"TRANSITION" }[s.type];
+  return `<div class="mj-card mj-card-${s.type}" style="--c:${c}">
+    <div class="mj-card-band"><span>${lab}</span><span>${n}</span></div>
+    <h3>${s.title}</h3>${s.sub && s.type !== "end" ? `<p class="mj-com">${s.sub}</p>` : ""}<p class="mj-text">${s.text}</p>
+    ${s.type === "end" ? `<div class="mj-end-btns"><button class="mj-btn pri" id="mjReplay">↺ Replay journey</button><button class="mj-btn" id="mjEndMap">See the whole board</button></div>` : ""}</div>`;
+}
+function mjStats(){
+  let aw = 0, ch = 0, del = 0;
+  MJ.seen.forEach(i => { const s = MJ_STOPS[i]; if (s.type !== "conf") return;
+    if (s.award && s.award !== "Oral Recognition") aw++; if (s.chair) ch++; if (s.role === "Delegate") del++; });
+  return [aw, ch, del];
+}
+function mjHud(){
+  const [aw, ch, del] = mjStats();
+  [["#mjAw", aw], ["#mjCh", ch], ["#mjDel", del]].forEach(([sel, v]) => {
+    const el = $(sel); if (el.textContent !== String(v)){ el.textContent = v; el.parentElement.classList.remove("pop"); void el.offsetWidth; el.parentElement.classList.add("pop"); }
+  });
+  $("#mjProg").style.width = (MJ.i / (MJ_N - 1) * 100) + "%";
+  $("#mjStep").textContent = `STOP ${String(MJ.i).padStart(2,"0")} / ${String(MJ_N - 1).padStart(2,"0")}`;
+  $("#mjPrev").disabled = MJ.i === 0 || !MJ.started; $("#mjNext").disabled = MJ.i === MJ_N - 1 || !MJ.started;
+}
+function mjScale(){ const st = $("#mjStage"); return Math.min(1.25, Math.max(.62, Math.min(st.clientWidth / 1050, st.clientHeight / 760))); }
+function mjCamera(){
+  const b = $("#mjBoard"), st = $("#mjStage"), mid = 3 * MJ_CELL;
+  b.classList.toggle("ov", MJ.overview); st.classList.toggle("ov", MJ.overview);
+  if (MJ.overview){
+    const s = Math.min(st.clientWidth / (6 * MJ_CELL * 1.25), st.clientHeight / (6 * MJ_CELL * 1.1));
+    b.style.transform = `translate(0, ${st.clientHeight * -.16}px) rotateX(34deg) rotateZ(0deg) scale(${s}) translate(${-mid}px, ${-mid}px)`;
+  } else {
+    const [x, y] = mjPos(MJ.i), cx = x * MJ_CELL + MJ_CELL / 2, cy = y * MJ_CELL + MJ_CELL / 2;
+    b.style.transform = `rotateX(60deg) rotateZ(${MJ.angle}deg) scale(${mjScale()}) translate(${-cx}px, ${-cy}px)`;
+  }
+  document.querySelectorAll("#mjBoard .mj-tile").forEach(t => t.classList.toggle("cur", +t.dataset.i === MJ.i));
+}
+let mjAudio;
+function mjThud(big){
+  try { mjAudio ||= new (window.AudioContext || window.webkitAudioContext)(); const a = mjAudio, t = a.currentTime;
+    const o = a.createOscillator(), g = a.createGain(); o.type = "sine"; o.frequency.setValueAtTime(big ? 150 : 190, t); o.frequency.exponentialRampToValueAtTime(48, t + .18);
+    g.gain.setValueAtTime(big ? .5 : .32, t); g.gain.exponentialRampToValueAtTime(.001, t + .25); o.connect(g).connect(a.destination); o.start(t); o.stop(t + .26);
+    const len = a.sampleRate * .05, buf = a.createBuffer(1, len, a.sampleRate), d = buf.getChannelData(0);
+    for (let k = 0; k < len; k++) d[k] = (Math.random() * 2 - 1) * (1 - k / len) ** 4;
+    const n = a.createBufferSource(), ng = a.createGain(); ng.gain.value = .22; n.buffer = buf; n.connect(ng).connect(a.destination); n.start(t);
+  } catch {}
+}
+function mjLand(){
+  const tok = $("#mjToken"), s = MJ_STOPS[MJ.i];
+  tok.classList.remove("strike", "hop"); void tok.offsetWidth; tok.classList.add("strike");
+  setTimeout(() => { const w = $("#mjWave"); w.style.setProperty("--c", mjColor(s)); w.classList.remove("go"); void w.offsetWidth; w.classList.add("go"); mjThud(s.sg); if (s.sg) setTimeout(() => mjThud(true), 260); }, 230);
+  MJ.seen.add(MJ.i); mjHud();
+  const card = $("#mjCardWrap"); card.classList.remove("in"); void card.offsetWidth;
+  card.innerHTML = mjCardHTML(s, MJ.i); card.classList.add("in");
+  mjGallery(s);
+  $("#mjReplay")?.addEventListener("click", () => { MJ.seen.clear(); mjGo(0); });
+  $("#mjEndMap")?.addEventListener("click", () => mjSetOverview(true));
+}
+let mjTimer;
+function mjGo(i, fromMap){
+  i = Math.max(0, Math.min(MJ_N - 1, i));
+  const target = mjAngleFor(i); let a = target; while (a - MJ.angle > 180) a -= 360; while (a - MJ.angle < -180) a += 360;
+  const dist = Math.abs(i - MJ.i), wasOv = MJ.overview;
+  MJ.i = i; MJ.angle = a; MJ.overview = false; MJ.started = true;
+  $("#mjMapBtn").classList.remove("on");
+  const tok = $("#mjToken"); tok.classList.remove("strike"); void tok.offsetWidth; tok.classList.add("hop");
+  const ms = wasOv ? 1300 : Math.min(1500, 750 + dist * 120);
+  $("#mjBoard").style.transitionDuration = ms + "ms";
+  mjCamera(); mjHud();
+  clearTimeout(mjTimer); mjTimer = setTimeout(mjLand, ms - 150);
+}
+function mjSetOverview(on){
+  MJ.overview = on; $("#mjMapBtn").classList.toggle("on", on);
+  $("#mjBoard").style.transitionDuration = "1100ms"; mjCamera();
+}
+function openMun(){
+  appOpen = "mun"; presenter.classList.add("away"); layout(); showTip();
+  let el = $("#munApp");
+  if (!el){
+    el = document.createElement("div"); el.id = "munApp";
+    el.innerHTML = `
+      <header class="mj-top">
+        <div class="mj-brand"><span class="mj-ico">${gavelSVG("mjic")}</span><div><b>MUN JOURNEY</b><small id="mjStep">STOP 00 / ${MJ_N - 1}</small></div></div>
+        <div class="mj-prog"><i id="mjProg"></i></div>
+        <div class="mj-stats">
+          <span><b id="mjAw">0</b>Awards</span><span><b id="mjCh">0</b>Chair seats</span><span><b id="mjDel">0</b>Delegations</span>
+        </div>
+        <button class="close-app" id="munClose">${ICON_HOME}Close</button>
+      </header>
+      <div class="mj-stage ov" id="mjStage">
+        <div class="mj-board ov" id="mjBoard">
+          <div class="mj-floor"></div>
+          <div class="mj-center"><div class="mj-logo">${gavelSVG("mjc", { bg:false })}</div><b>MY MUN<br>JOURNEY</b><span>2024 → 2026</span></div>
+          ${MJ_STOPS.map(mjTileHTML).join("")}
+        </div>
+        <div class="mj-fog"></div>
+        <div class="mj-token" id="mjToken"><div class="mj-token-g">${gavelSVG("mjtk", { bg:false, block:false })}</div><div class="mj-token-base"></div></div>
+        <div class="mj-wave" id="mjWave"></div>
+      </div>
+      <aside class="mj-panel">
+        <div id="mjCardWrap" class="mj-cardwrap"></div>
+        <div class="mj-gal" id="mjGal"></div>
+        <div class="mj-ctrl">
+          <button class="mj-btn" id="mjPrev" aria-label="Previous stop">←</button>
+          <button class="mj-btn pri" id="mjNext">Next stop <span>→</span></button>
+          <button class="mj-btn" id="mjMapBtn" aria-label="Show the whole board">Map</button>
+        </div>
+        <p class="mj-hint">Tip: use ← → keys. Open the map and tap any tile to jump there.</p>
+      </aside>
+      <section class="mj-intro" id="mjIntro">
+        <div class="mj-intro-g">${gavelSVG("mjin")}</div>
+        <div class="mj-act">ACT I</div>
+        <h2>Welcome to my <span>MUN Journey</span>…</h2>
+        <p>Look how I became a MUN guy after debating for a year…</p>
+        <button class="mj-btn pri big" id="mjStart">Start the journey <span>→</span></button>
+        <small>20 stops · 13 conferences · 2024–2026</small>
+      </section>`;
+    document.body.append(el);
+    $("#munClose").addEventListener("click", closeMun);
+    $("#mjNext").addEventListener("click", () => mjGo(MJ.i + 1));
+    $("#mjPrev").addEventListener("click", () => mjGo(MJ.i - 1));
+    $("#mjMapBtn").addEventListener("click", () => mjSetOverview(!MJ.overview));
+    $("#mjStart").addEventListener("click", () => { $("#mjIntro").classList.add("gone"); setTimeout(() => mjGo(0), 350); });
+    el.querySelectorAll(".mj-tile").forEach(t => t.addEventListener("click", () => { if (MJ.overview) mjGo(+t.dataset.i, true); }));
+    new ResizeObserver(() => { $("#mjBoard").style.transitionDuration = "0ms"; mjCamera(); }).observe($("#mjStage"));
+    $("#mjCardWrap").innerHTML = mjCardHTML(MJ_STOPS[0], 0); mjGallery(MJ_STOPS[0]);
+    mjHud();
+  }
+  el.hidden = false; requestAnimationFrame(mjCamera);
+}
+function mjGallery(s){
+  const g = $("#mjGal"), ph = s.photos || [];
+  if (s.type !== "conf" && !ph.length){ g.innerHTML = ""; g.className = "mj-gal none"; return; }
+  if (!ph.length){ g.className = "mj-gal empty"; g.innerHTML = `<div class="mj-ph-empty"><b>Photos</b><span>coming soon</span></div>`; return; }
+  const shown = ph.slice(0, 4), more = ph.length - shown.length;
+  g.className = `mj-gal n${shown.length}`;
+  g.innerHTML = `<div class="mj-gal-h"><b>Photos</b><span>${ph.length}</span></div><div class="mj-gal-grid">${shown.map((src, k) =>
+    `<button class="mj-ph" data-k="${k}"><img src="${src}" alt="${s.conf || s.title} photo ${k + 1}" loading="lazy" onload="if(this.naturalHeight>this.naturalWidth)this.classList.add('tall')">${k === 3 && more > 0 ? `<em>+${more}</em>` : ""}</button>`).join("")}</div>`;
+  g.querySelectorAll(".mj-ph").forEach(b => b.addEventListener("click", () => mjLightbox(ph, +b.dataset.k, s.conf || s.title)));
+}
+function mjLightbox(ph, k, title){
+  let lb = $("#mjLb");
+  if (!lb){
+    lb = document.createElement("div"); lb.id = "mjLb"; lb.className = "mj-lb";
+    lb.innerHTML = `<button class="mj-lb-x" aria-label="Close photos">${ICON_HOME}</button><button class="mj-lb-nav prev" aria-label="Previous photo">←</button><figure><img alt=""><figcaption></figcaption></figure><button class="mj-lb-nav next" aria-label="Next photo">→</button>`;
+    $("#munApp").append(lb);
+    lb.querySelector(".mj-lb-x").addEventListener("click", () => lb.hidden = true);
+    lb.addEventListener("click", e => { if (e.target === lb) lb.hidden = true; });
+  }
+  const show = () => { lb.querySelector("img").src = ph[k]; lb.querySelector("figcaption").textContent = `${title} · ${k + 1} / ${ph.length}`;
+    lb.querySelectorAll(".mj-lb-nav").forEach(b => b.hidden = ph.length < 2); };
+  lb.querySelector(".prev").onclick = () => { k = (k - 1 + ph.length) % ph.length; show(); };
+  lb.querySelector(".next").onclick = () => { k = (k + 1) % ph.length; show(); };
+  show(); lb.hidden = false;
+}
+function closeMun(){ $("#munApp").hidden = true; appOpen = null; presenter.classList.remove("away"); layout(); advanceIf("mun"); }
+addEventListener("keydown", e => {
+  if (appOpen !== "mun" || !MJ.started) return;
+  if (e.key === "ArrowRight" || e.key === " "){ e.preventDefault(); if (MJ.i < MJ_N - 1) mjGo(MJ.i + 1); }
+  if (e.key === "ArrowLeft"){ e.preventDefault(); if (MJ.i > 0) mjGo(MJ.i - 1); }
+});
+
 addEventListener("keydown", e => {
   if (e.key !== "Escape") return;
   if (document.querySelector(".player")) return closePlayer();
@@ -2653,6 +3115,7 @@ addEventListener("keydown", e => {
   const sheet = document.querySelector(".sheet-wrap .pill-btn"); if (sheet) return sheet.click();
   if (appOpen === "music") return closeMusic();
   if (appOpen === "files") return closeFiles();
+  if (appOpen === "mun") return closeMun();
   if (appOpen === "camera") return closeCamera();
   if (appOpen === "maps"){ if (!$("#mapTip").hidden) return $("#mapTip").hidden = true; return closeMaps(); }
   if (appOpen) return closeFlix();
