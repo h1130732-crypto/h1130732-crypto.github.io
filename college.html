@@ -7,7 +7,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800&family=Caveat:wght@600&family=Permanent+Marker&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Archivo:wght@400;500;600;700&family=Caveat:wght@600&family=Permanent+Marker&display=swap">
 <style>
 /* Layout: full-screen tablet OS — power on → 15s welcome video → shrinks to corner guide → home screen; apps open as full-screen layers */
 :root{
@@ -215,7 +215,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;paddin
 
 /* ---------- YorkFlix ---------- */
 #app{position:fixed;inset:0;z-index:60;background:var(--flix-bg);overflow-y:auto;overflow-x:hidden;animation:appIn .32s cubic-bezier(.2,.8,.2,1)}
-@keyframes appIn{from{opacity:0;transform:scale(.94)}}
+@keyframes appIn{from{opacity:0;transform:scale(.55);filter:blur(16px)}55%{filter:blur(0)}to{opacity:1;transform:none;filter:none}}
+@keyframes appOut{from{opacity:1;transform:none;filter:none}to{opacity:0;transform:scale(.55);filter:blur(16px)}}
+#app,#mapsApp,#musicApp,#filesApp,#boothApp,#munApp,#ecoApp{transform-origin:var(--ax,50%) var(--ay,50%)}
+#app.app-out,#mapsApp.app-out,#musicApp.app-out,#filesApp.app-out,#boothApp.app-out,#munApp.app-out,#ecoApp.app-out{animation:appOut .3s cubic-bezier(.5,0,.75,0) forwards!important;pointer-events:none}
+#home{transition:transform .45s cubic-bezier(.2,.8,.2,1),filter .45s}
+body.in-app #home{transform:scale(1.08);filter:blur(12px) brightness(.7)}
+@media (prefers-reduced-motion:reduce){#app,#mapsApp,#musicApp,#filesApp,#boothApp,#munApp{animation:none!important}#home{transition:none}}
 .flix-top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:22px;
   padding:calc(env(safe-area-inset-top,0px) + 14px) max(24px,env(safe-area-inset-right,0px)) 14px max(24px,env(safe-area-inset-left,0px));
   background:linear-gradient(var(--flix-bg) 35%,rgba(14,14,16,0))}
@@ -1004,172 +1010,360 @@ tr.cur.is-playing .nm,tr.cur.is-playing:hover .pl{display:none!important}
   #btFinal{height:auto;width:min(100%,360px);margin:6px auto 0}
 }
 /* ---------- MUN app: My MUN Journey (first-person board) ---------- */
-#munApp{--mj-disp:"Barlow Condensed",var(--ui);--mj-body:Barlow,var(--ui);--mj-bg:#04060d;--mj-line:rgba(120,160,255,.16);--mj-text:#e8eeff;--mj-dim:#8a96b8;--mj-cyan:#3ef0ff;--mj-grad:linear-gradient(100deg,#3ef0ff,#9b6bff 55%,#ff4fd8);
-  position:fixed;inset:0;z-index:60;display:grid;grid-template-columns:minmax(0,1fr) clamp(380px,46vw,980px);grid-template-rows:auto minmax(0,1fr);color:var(--mj-text);font-family:var(--mj-body);
-  background:radial-gradient(1200px 700px at 40% 110%,rgba(62,240,255,.12),transparent 60%),radial-gradient(900px 600px at 100% 0,rgba(155,107,255,.16),transparent 60%),var(--mj-bg);
-  overflow:hidden;animation:appIn .32s cubic-bezier(.2,.8,.2,1)}
+#munApp{--mj-disp:Oswald,"Arial Narrow",sans-serif;--mj-body:Archivo,var(--ui);--mj-bg:#121316;--mj-line:#2a2c33;--mj-text:#f2efe6;--mj-dim:#9a9890;
+  --mj-red:#d7261e;--mj-cream:#f6f1e3;--mj-ink:#16130e;--mj-board:#cfe6d3;
+  position:fixed;inset:0;z-index:60;display:grid;grid-template-columns:minmax(0,3fr) minmax(360px,2fr);grid-template-rows:auto minmax(0,1fr);color:var(--mj-text);font-family:var(--mj-body);
+  background:var(--mj-bg);overflow:hidden;animation:appIn .32s cubic-bezier(.2,.8,.2,1)}
 #munApp[hidden]{display:none}
 #munApp button{font-family:inherit;color:inherit}
-.mj-top{grid-column:1 / -1;display:flex;align-items:center;gap:18px;padding:calc(env(safe-area-inset-top,0px) + 10px) 18px 10px;border-bottom:1px solid var(--mj-line);position:relative;z-index:5;background:rgba(4,6,13,.7);backdrop-filter:blur(10px)}
+/* top bar */
+.mj-top{grid-column:1 / -1;display:flex;align-items:center;gap:18px;padding:calc(env(safe-area-inset-top,0px) + 10px) 18px 10px;border-bottom:1px solid var(--mj-line);position:relative;z-index:5;background:#0d0e10}
 .mj-brand{display:flex;align-items:center;gap:11px;white-space:nowrap}
-.mj-ico{width:38px;height:38px;border-radius:10px;overflow:hidden;display:block;box-shadow:0 0 0 1px rgba(62,240,255,.3),0 0 18px rgba(62,240,255,.2)}
+.mj-ico{width:38px;height:38px;overflow:hidden;display:block;border:1px solid #3a3c44}
 .mj-ico svg{width:100%;height:100%;display:block}
-.mj-brand b{display:block;font-size:15px;letter-spacing:.06em;font-weight:800}
-.mj-brand small{display:block;font:700 11px var(--mj-disp);letter-spacing:.06em;color:var(--mj-cyan);margin-top:2px}
-.mj-prog{flex:1;max-width:360px;height:4px;border-radius:2px;background:rgba(255,255,255,.08);overflow:hidden}
-.mj-prog i{display:block;height:100%;width:0;background:var(--mj-cyan);box-shadow:0 0 12px rgba(62,240,255,.6);transition:width .9s cubic-bezier(.45,.05,.2,1)}
-.mj-stats{display:flex;gap:8px;margin-left:auto}
-.mj-stats span{display:flex;align-items:baseline;gap:7px;font:700 11px var(--mj-disp);letter-spacing:.06em;text-transform:uppercase;color:var(--mj-dim);padding:7px 12px;border:1px solid var(--mj-line);border-radius:10px;background:rgba(255,255,255,.03)}
-.mj-stats b{font:700 22px var(--mj-disp);color:#fff;letter-spacing:0}
-.mj-stats span.pop{animation:mjPop .7s ease-out}
-@keyframes mjPop{0%{box-shadow:0 0 0 0 rgba(62,240,255,.8);border-color:var(--mj-cyan)}100%{box-shadow:0 0 0 14px rgba(62,240,255,0)}}
-#munApp .close-app{margin-left:0;background:rgba(255,255,255,.08);color:#fff;border:1px solid var(--mj-line)}
-/* stage */
-.mj-stage{position:relative;overflow:hidden;min-width:0;perspective:1100px;perspective-origin:50% 22%;min-height:0}
-.mj-board{position:absolute;left:50%;top:66%;width:1380px;height:1380px;transform-origin:0 0;transform-style:preserve-3d;transition:transform 1.1s cubic-bezier(.45,.05,.2,1);will-change:transform}
+.mj-brand b{display:block;font:600 20px var(--mj-disp);letter-spacing:.04em;text-transform:uppercase}
+.mj-brand small{display:block;font:500 12px var(--mj-disp);letter-spacing:.08em;color:var(--mj-dim);margin-top:1px;text-transform:uppercase}
+.mj-prog{flex:1;max-width:360px;height:6px;background:#24262c;overflow:hidden}
+.mj-prog i{display:block;height:100%;width:0;background:var(--mj-red);transition:width .9s cubic-bezier(.45,.05,.2,1)}
+.mj-stats{display:flex;gap:6px;margin-left:auto}
+.mj-stats span{display:flex;align-items:baseline;gap:7px;font:500 12px var(--mj-disp);letter-spacing:.06em;text-transform:uppercase;color:var(--mj-dim);padding:6px 12px;border:1px solid #34363e;background:#17181c}
+.mj-stats b{font:600 22px var(--mj-disp);color:#fff}
+.mj-stats span.pop{animation:mjPop .6s ease-out}
+@keyframes mjPop{0%{background:#3a2a10;border-color:#f3c64b}100%{background:#17181c}}
+#munApp .close-app{margin-left:0;background:#1d1e22;color:#fff;border:1px solid #34363e;border-radius:0}
+/* stage: a dark table with the board on it */
+.mj-stage{position:relative;overflow:hidden;min-width:0;perspective:1100px;perspective-origin:50% 22%;min-height:0;
+  background:radial-gradient(120% 90% at 50% 75%,#2a2620 0%,#16140f 55%,#0b0a08 100%)}
+.mj-board{position:absolute;left:50%;top:66%;width:1380px;height:1380px;transform-origin:0 0;transform-style:preserve-3d;transition:transform 1.1s cubic-bezier(.45,.05,.2,1);will-change:transform;
+  background:var(--mj-board);outline:10px solid #f1ede0;box-shadow:0 0 0 13px #1b1a17,0 40px 90px rgba(0,0,0,.6)}
 .mj-stage.ov .mj-board{top:58%}
-.mj-floor{position:absolute;inset:-1400px;background:
-  linear-gradient(rgba(110,150,255,.13) 2px,transparent 2px) 0 0/115px 115px,
-  linear-gradient(90deg,rgba(110,150,255,.13) 2px,transparent 2px) 0 0/115px 115px;
-  -webkit-mask:radial-gradient(closest-side,#000 30%,transparent);mask:radial-gradient(closest-side,#000 30%,transparent);pointer-events:none}
-.mj-center{position:absolute;left:230px;top:230px;width:920px;height:920px;display:grid;place-content:center;justify-items:center;text-align:center;gap:10px;border-radius:40px;
-  background:radial-gradient(closest-side,rgba(62,240,255,.08),transparent);border:2px dashed rgba(120,160,255,.18)}
-.mj-center b{font:800 120px/0.9 var(--mj-disp);letter-spacing:.02em;color:#fff;text-shadow:0 0 40px rgba(62,240,255,.35)}
-.mj-center span{color:var(--mj-cyan)!important;font:600 30px var(--mj-disp);letter-spacing:.06em;color:var(--mj-dim)}
-.mj-logo{width:220px;height:220px;opacity:.9}
+.mj-floor{display:none}
+.mj-center{position:absolute;left:230px;top:230px;width:920px;height:920px}
+.mj-banner{position:absolute;left:50%;top:50%;width:760px;transform:translate(-50%,-50%) rotate(-45deg);background:var(--mj-red);border:6px solid #fff;outline:4px solid var(--mj-red);
+  padding:22px 0 18px;text-align:center;color:#fff;box-shadow:0 10px 0 rgba(0,0,0,.18)}
+.mj-banner b{display:block;font:700 104px/1 var(--mj-disp);letter-spacing:.02em;text-transform:uppercase}
+.mj-banner small{display:block;font:500 26px var(--mj-disp);letter-spacing:.3em;text-transform:uppercase}
+.mj-pile{position:absolute;width:230px;height:150px;border:4px dashed #1f2b22;display:grid;place-content:center;justify-items:center;gap:2px;transform:rotate(-45deg)}
+.mj-pile b{font:700 64px/1 var(--mj-disp)}
+.mj-pile span{font:600 22px var(--mj-disp);letter-spacing:.12em;text-transform:uppercase}
+.mj-pile.chance{left:70px;top:150px;background:#f39a2b;color:#2a1405}
+.mj-pile.chest{right:70px;bottom:150px;background:#9fcdf0;color:#0b2c52}
+.mj-logo{position:absolute;right:90px;top:60px;width:200px;height:200px;opacity:.9;transform:rotate(-20deg)}
 .mj-logo svg{width:100%;height:100%}
-.mj-tile{position:absolute;width:230px;height:230px;padding:9px;transform-style:preserve-3d;transition:transform .5s}
-.mj-tile-in{position:relative;width:100%;height:100%;border-radius:16px;background:linear-gradient(160deg,rgba(18,26,52,.96),rgba(8,12,26,.96));border:2px solid color-mix(in srgb,var(--c) 55%,transparent);
-  box-shadow:0 0 18px color-mix(in srgb,var(--c) 22%,transparent),inset 0 0 30px color-mix(in srgb,var(--c) 8%,transparent);overflow:hidden;display:flex;flex-direction:column}
-.mj-band{display:flex;justify-content:space-between;padding:8px 13px;font:700 19px var(--mj-disp);letter-spacing:.06em;color:var(--c);border-bottom:1px solid color-mix(in srgb,var(--c) 35%,transparent);background:color-mix(in srgb,var(--c) 10%,transparent)}
-.mj-body{flex:1;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:12px 15px;min-height:0}
-.mj-t-name{font:700 34px/1 var(--mj-disp);color:#fff;text-transform:uppercase}
-.mj-t-name.sm{font-size:27px}
-.mj-t-com{font-size:17px;color:var(--mj-dim);font-weight:500}
-.mj-t-role{font:700 18px var(--mj-disp);letter-spacing:.1em;text-transform:uppercase;color:var(--c)}
-.mj-t-award{align-self:flex-start;font-size:13px;font-weight:800;color:#1a1300;background:#ffc94d;border-radius:99px;padding:4px 10px;margin-top:2px}
-.mj-t-big{font:800 78px/1 var(--mj-disp);color:var(--c);letter-spacing:.02em}
-.mj-t-big.sm{font-size:30px}
-.mj-t-ico{font-size:30px;color:var(--c);line-height:1}
-.mj-sg .mj-tile-in{border-width:3px;background:linear-gradient(160deg,rgba(60,20,60,.96),rgba(14,10,30,.96))}
-.mj-tile.cur{transform:translateZ(16px)}
-.mj-tile.cur .mj-tile-in{border-color:var(--c);box-shadow:0 0 0 2px var(--c),0 0 60px color-mix(in srgb,var(--c) 55%,transparent),inset 0 0 40px color-mix(in srgb,var(--c) 18%,transparent)}
-.mj-tile.cur .mj-band{background:var(--c);color:#05070d}
+/* squares */
+.mj-tile{position:absolute;width:230px;height:230px;transform-style:preserve-3d;transition:transform .5s}
+.mj-tile-in{position:relative;width:100%;height:100%;background:var(--mj-cream);border:2px solid var(--mj-ink);display:flex;flex-direction:column;overflow:hidden;color:var(--mj-ink);text-align:center}
 .mj-tile-in{transition:transform .9s cubic-bezier(.45,.05,.2,1)}
+.mj-bar{flex:none;height:56px;border-bottom:2px solid var(--mj-ink)}
+.mj-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:10px 12px;min-height:0}
+.mj-t-name{font:600 33px/1.02 var(--mj-disp);text-transform:uppercase;letter-spacing:.01em}
+.mj-t-name.sm{font-size:25px}
+.mj-t-com{font:500 17px/1.15 var(--mj-body);color:#3d382e}
+.mj-t-role{font:600 18px var(--mj-disp);text-transform:uppercase;letter-spacing:.06em;margin-top:auto}
+.mj-t-yr{font:500 14px var(--mj-disp);letter-spacing:.12em;color:#6a6355}
+.mj-t-award{font:600 14px var(--mj-disp);text-transform:uppercase;letter-spacing:.04em;color:#8a1b12}
+.mj-t-kind{font:600 20px var(--mj-disp);text-transform:uppercase;letter-spacing:.1em}
+.mj-t-ico{font:700 64px/1 var(--mj-disp);color:var(--c)}
+.mj-t-small{font:500 15px/1.15 var(--mj-disp);text-transform:uppercase;letter-spacing:.06em}
+.mj-gobody{gap:0}
+.mj-t-go{font:700 110px/0.9 var(--mj-disp);color:var(--mj-red)}
+.mj-t-arrow{font:700 60px/1 var(--mj-disp);color:var(--mj-red)}
+.mj-mile .mj-tile-in{background:#fbe3c2}
+.mj-trans .mj-tile-in{background:#dcebf7}
+.mj-sg .mj-tile-in{background:#e4ecf6}
+.mj-sg .mj-bar{height:70px}
+.mj-tile.cur{transform:translateZ(14px)}
+.mj-tile.cur .mj-tile-in{box-shadow:0 0 0 5px #f3c64b,0 18px 30px rgba(0,0,0,.35)}
 .mj-stage.ov .mj-tile-in{transform:none!important}
 .mj-stage.ov .mj-tile{cursor:pointer}
-.mj-stage.ov .mj-tile:hover{transform:translateZ(22px)}
-.mj-stage.ov .mj-tile.cur::after{content:"";position:absolute;inset:-4px;border-radius:20px;border:4px solid #fff;animation:mjRing 1.4s ease-out infinite;pointer-events:none}
-@keyframes mjRing{0%{opacity:1;transform:scale(.96)}100%{opacity:0;transform:scale(1.14)}}
-.mj-fog{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,var(--mj-bg) 0%,rgba(4,6,13,.85) 12%,rgba(4,6,13,0) 42%)}
-.mj-stage.ov .mj-fog{opacity:.35}
+.mj-stage.ov .mj-tile:hover{transform:translateZ(20px)}
+.mj-stage.ov .mj-tile.cur::after{content:"";position:absolute;inset:-8px;border:6px solid #f3c64b;animation:mjRing 1.4s ease-out infinite;pointer-events:none}
+@keyframes mjRing{0%{opacity:1}100%{opacity:0;transform:scale(1.1)}}
+.mj-vig{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(11,10,8,1) 0%,rgba(11,10,8,.75) 14%,rgba(11,10,8,0) 40%)}
+.mj-stage.ov .mj-vig{opacity:.3}
 /* token */
 .mj-token{position:absolute;left:50%;top:66%;width:min(26vh,210px);aspect-ratio:1;transform:translate(-50%,-92%);pointer-events:none;transition:opacity .4s;z-index:2}
 .mj-stage.ov .mj-token{opacity:0}
-.mj-token-g{position:absolute;inset:0;transform-origin:78% 60%;filter:drop-shadow(0 14px 18px rgba(0,0,0,.6)) drop-shadow(0 0 16px rgba(62,240,255,.25))}
+.mj-token-g{position:absolute;inset:0;transform-origin:78% 60%;filter:drop-shadow(0 16px 14px rgba(0,0,0,.55))}
 .mj-token-g svg{width:100%;height:100%;display:block}
-.mj-token-base{position:absolute;left:12%;right:30%;bottom:6%;height:16%;border-radius:50%;background:radial-gradient(closest-side,rgba(62,240,255,.55),rgba(62,240,255,0));animation:mjBase 2.4s ease-in-out infinite}
-@keyframes mjBase{50%{opacity:.55;transform:scaleX(.9)}}
+.mj-token-base{position:absolute;left:14%;right:32%;bottom:8%;height:12%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.45),rgba(0,0,0,0))}
 .mj-token .mj-token-g{animation:mjFloat 3s ease-in-out infinite}
-@keyframes mjFloat{50%{transform:translateY(-6px)}}
+@keyframes mjFloat{50%{transform:translateY(-5px)}}
 .mj-token.hop .mj-token-g{animation:mjHop .7s cubic-bezier(.3,.6,.3,1)}
 @keyframes mjHop{0%{transform:translateY(0)}40%{transform:translateY(-34%) rotate(-8deg)}100%{transform:translateY(-10%) rotate(-14deg)}}
 .mj-token.strike .mj-token-g{animation:mjStrike .55s cubic-bezier(.5,0,.3,1)}
 @keyframes mjStrike{0%{transform:translateY(-10%) rotate(-14deg)}35%{transform:translateY(-12%) rotate(-30deg)}55%{transform:translateY(2%) rotate(9deg)}75%{transform:rotate(-3deg)}100%{transform:none}}
-.mj-wave{position:absolute;left:50%;top:66%;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:50%;border:3px solid var(--c,#3ef0ff);opacity:0;pointer-events:none;transform:scaleY(.42)}
-.mj-wave.go{animation:mjWave .8s ease-out}
-@keyframes mjWave{0%{opacity:1;transform:scale(.4) scaleY(.42)}100%{opacity:0;transform:scale(7) scaleY(.42)}}
-/* panel */
-.mj-panel{position:relative;z-index:3;display:flex;flex-direction:column;gap:14px;padding:18px 22px;border-left:1px solid var(--mj-line);background:rgba(6,9,20,.72);backdrop-filter:blur(14px);min-height:0;overflow:auto}
+.mj-wave{position:absolute;left:50%;top:66%;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:50%;border:3px solid rgba(255,255,255,.7);opacity:0;pointer-events:none;transform:scaleY(.42)}
+.mj-wave.go{animation:mjWave .7s ease-out}
+@keyframes mjWave{0%{opacity:.9;transform:scale(.4) scaleY(.42)}100%{opacity:0;transform:scale(5) scaleY(.42)}}
+/* side panel */
+.mj-panel{position:relative;z-index:3;display:flex;flex-direction:column;gap:16px;padding:18px 22px 0;border-left:1px solid var(--mj-line);background:#101114;min-height:0;overflow:auto}
 .mj-cardwrap{flex:none}
-.mj-cardwrap.in .mj-card{animation:mjCard .55s cubic-bezier(.2,.8,.2,1)}
-@keyframes mjCard{0%{opacity:0;transform:translateY(16px) rotateX(18deg);filter:blur(4px)}100%{opacity:1;transform:none;filter:none}}
-.mj-card{border-radius:16px;border:1px solid color-mix(in srgb,var(--c) 50%,transparent);background:linear-gradient(170deg,rgba(18,26,52,.9),rgba(8,12,26,.9));box-shadow:0 0 40px color-mix(in srgb,var(--c) 14%,transparent);overflow:hidden;position:relative}
-.mj-card::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 3px);pointer-events:none}
-.mj-card-band{display:flex;justify-content:space-between;padding:10px 16px;font:800 11.5px var(--mj-disp);letter-spacing:.06em;background:var(--c);color:#05070d}
-.mj-card h3{margin:14px 18px 2px;font:700 36px/1.02 var(--mj-disp);letter-spacing:.005em;text-transform:uppercase}
-.mj-com{margin:0 18px;color:var(--mj-dim);font-size:15px;line-height:1.4}
-.mj-role{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 18px 4px}
-.mj-role span{font:800 12px var(--mj-disp);letter-spacing:.06em;text-transform:uppercase;color:var(--c);border:1px solid var(--c);border-radius:8px;padding:6px 10px}
-.mj-role em{font-style:normal;font-weight:800;font-size:13px;color:#1a1300;background:#ffc94d;border-radius:99px;padding:6px 12px;box-shadow:0 0 18px rgba(255,201,77,.4)}
-.mj-card dl{margin:12px 18px 18px;display:grid;gap:3px}
-.mj-card dt{font:700 10.5px var(--mj-disp);letter-spacing:.06em;text-transform:uppercase;color:var(--mj-dim);margin-top:9px}
-.mj-card dd{margin:0;font-size:15.5px;line-height:1.45}
-.mj-text{margin:12px 18px 18px;font-size:16px;line-height:1.55;color:#d4dcf2}
-.mj-end-btns{display:flex;flex-direction:column;gap:8px;margin:0 18px 18px}
-.mj-ctrl{display:grid;grid-template-columns:auto 1fr auto;gap:8px}
-.mj-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:12px;font:700 17px var(--mj-disp);letter-spacing:.04em;text-transform:uppercase;background:rgba(255,255,255,.06);border:1px solid var(--mj-line);cursor:pointer;transition:transform .15s,background .15s,box-shadow .15s}
-.mj-btn:hover{background:rgba(255,255,255,.11)}
-.mj-btn:disabled{opacity:.35;cursor:default}
-.mj-btn.pri{background:var(--mj-cyan);border:0;color:#05070d!important;box-shadow:0 8px 28px rgba(62,240,255,.3)}
-.mj-btn.pri:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 10px 36px rgba(62,240,255,.45)}
-.mj-btn.on{border-color:var(--mj-cyan);color:var(--mj-cyan)!important;box-shadow:0 0 16px rgba(62,240,255,.25)}
-.mj-btn.big{padding:16px 26px;font-size:17px}
-.mj-gal{flex:1;display:flex;flex-direction:column;gap:8px;min-height:140px}
+.mj-cardwrap.in .mj-card{animation:mjCard .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes mjCard{0%{opacity:0;transform:translateY(14px) rotate(-1.2deg)}100%{opacity:1;transform:none}}
+.mj-card{background:var(--mj-cream);color:var(--mj-ink);border:2px solid var(--mj-ink);box-shadow:6px 6px 0 rgba(0,0,0,.45)}
+.mj-deed-h{margin:10px;border:2px solid var(--mj-ink);background:var(--c);text-align:center;padding:10px 12px 12px;color:var(--mj-ink)}
+.mj-sg .mj-deed-h,.mj-deed[style*="#0b5aa8"] .mj-deed-h,.mj-deed[style*="#1fa456"] .mj-deed-h{color:#fff}
+.mj-deed-h small{display:block;font:500 13px var(--mj-disp);letter-spacing:.2em;text-transform:uppercase}
+.mj-deed-h h3{margin:2px 0 0;font:600 clamp(32px,2.6vw,46px)/1.02 var(--mj-disp);text-transform:uppercase;letter-spacing:.01em}
+.mj-rows{margin:6px 18px 0;display:grid}
+.mj-rows div{display:flex;align-items:baseline;gap:8px;padding:6px 0}
+.mj-rows dt{font:500 clamp(14px,1.1vw,17px) var(--mj-disp);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;display:flex;flex:1;align-items:baseline;gap:8px}
+.mj-rows dt::after{content:"";flex:1;border-bottom:2px dotted #8d8573;transform:translateY(-4px)}
+.mj-rows dd{margin:0;font:600 clamp(15px,1.2vw,19px)/1.25 var(--mj-body);text-align:right;max-width:62%}
+.mj-topic{margin:10px 18px 0;padding-top:12px;border-top:2px solid var(--mj-ink)}
+.mj-topic span{font:500 13px var(--mj-disp);letter-spacing:.16em;text-transform:uppercase;color:#6a6355}
+.mj-topic p{margin:4px 0 0;font:500 clamp(16px,1.3vw,21px)/1.4 var(--mj-body);text-align:left}
+.mj-deed-f{margin:14px 18px 0;padding:8px 0 12px;border-top:1px solid #bdb4a0;font:500 12px var(--mj-disp);letter-spacing:.14em;text-transform:uppercase;color:#6a6355;text-align:center}
+.mj-chance{background:#fbe3c2}
+.mj-card-trans{background:#dcebf7}
+.mj-card-go,.mj-card-end{background:var(--mj-cream)}
+.mj-chance-h{margin:10px;border:2px solid var(--mj-ink);background:var(--c);color:#fff;text-align:center;padding:8px;font:600 18px var(--mj-disp);letter-spacing:.18em;text-transform:uppercase}
+.mj-chance h3{margin:14px 20px 4px;font:600 clamp(30px,2.4vw,42px)/1.05 var(--mj-disp);text-transform:uppercase;text-align:center}
+.mj-com{margin:0 20px;color:#5a5345;font-size:clamp(15px,1.15vw,18px);line-height:1.4;text-align:center}
+.mj-text{margin:12px 22px 6px;font:500 clamp(16px,1.25vw,20px)/1.55 var(--mj-body);text-align:center}
+.mj-end-btns{display:flex;flex-direction:column;gap:8px;margin:10px 18px 4px}
+/* photos */
+.mj-gal{flex:none;display:flex;flex-direction:column;gap:8px}
 .mj-gal.none{display:none}
-.mj-gal-h{display:flex;justify-content:space-between;align-items:baseline;font:700 15px var(--mj-disp);letter-spacing:.06em;text-transform:uppercase;color:var(--mj-dim)}
+.mj-gal-h{display:flex;justify-content:space-between;align-items:baseline;font:500 15px var(--mj-disp);letter-spacing:.1em;text-transform:uppercase;color:var(--mj-dim)}
 .mj-gal-h span{color:#fff}
-.mj-gal-grid{flex:1;min-height:0;display:grid;gap:6px;grid-template-columns:1fr 1fr;grid-auto-rows:1fr}
-.mj-gal.n2 .mj-gal-grid{grid-template-columns:1fr}
+.mj-gal-grid{display:grid;gap:8px;grid-template-columns:1fr 1fr}
+.mj-gal-grid .mj-ph{aspect-ratio:4/3}
 .mj-gal.n1 .mj-gal-grid{grid-template-columns:1fr}
 .mj-gal.n3 .mj-ph:first-child{grid-column:1 / -1}
-.mj-ph{position:relative;padding:0;border:1px solid var(--mj-line);border-radius:10px;overflow:hidden;background:#0b1020;min-height:0;cursor:zoom-in}
+.mj-gal.n1 .mj-ph,.mj-gal.n3 .mj-ph:first-child{aspect-ratio:16/10;max-height:34vh}
+.mj-ph{position:relative;padding:0;border:6px solid #f1ede0;overflow:hidden;background:#0b0a08;min-height:0;cursor:zoom-in;box-shadow:4px 4px 0 rgba(0,0,0,.4)}
 .mj-ph img{position:absolute;inset:0;width:100%;height:100%;display:block;transition:transform .4s}
 .mj-ph img.fg{object-fit:contain}
-.mj-ph img.bgb{object-fit:cover;filter:blur(18px) brightness(.45) saturate(1.2);transform:scale(1.15)}
+.mj-ph img.bgb{object-fit:cover;filter:blur(18px) brightness(.45);transform:scale(1.15)}
 .mj-ph:hover img.fg{transform:scale(1.03)}
-.mj-ph em{position:absolute;inset:0;display:grid;place-items:center;background:rgba(4,6,13,.62);font:700 26px var(--mj-disp);font-style:normal;color:#fff}
-.mj-ph-empty{display:grid;place-content:center;justify-items:center;gap:2px;flex:1;min-height:120px;border:1.5px dashed rgba(120,160,255,.25);border-radius:12px;color:var(--mj-dim)}
-.mj-ph-empty b{font:700 18px var(--mj-disp);letter-spacing:.08em;text-transform:uppercase;color:#c4cde6}
+.mj-ph em{position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.6);font:600 28px var(--mj-disp);font-style:normal;color:#fff}
+.mj-ph-empty{display:grid;place-content:center;justify-items:center;gap:2px;height:110px;border:2px dashed #3a3c44;color:var(--mj-dim)}
+.mj-ph-empty b{font:500 18px var(--mj-disp);letter-spacing:.1em;text-transform:uppercase;color:#c9c5b9}
 .mj-ph-empty span{font-size:13px}
-.mj-lb{position:absolute;inset:0;z-index:20;background:rgba(2,4,10,.92);backdrop-filter:blur(8px);display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;padding:60px 16px 24px}
+.mj-lb{position:absolute;inset:0;z-index:20;background:rgba(5,5,4,.94);display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;padding:60px 16px 24px}
 .mj-lb[hidden]{display:none}
 .mj-lb figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:10px;min-width:0;height:100%;justify-content:center}
-.mj-lb img{max-width:100%;max-height:calc(100% - 40px);border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
-.mj-lb figcaption{font:600 16px var(--mj-disp);letter-spacing:.06em;text-transform:uppercase;color:var(--mj-dim)}
-.mj-lb-nav{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid var(--mj-line);font-size:22px}
+.mj-lb img{max-width:100%;max-height:calc(100% - 40px);border:8px solid #f1ede0}
+.mj-lb figcaption{font:500 16px var(--mj-disp);letter-spacing:.1em;text-transform:uppercase;color:var(--mj-dim)}
+.mj-lb-nav{width:52px;height:52px;background:#1d1e22;border:1px solid #34363e;font-size:22px}
 .mj-lb-nav[hidden]{visibility:hidden;display:block}
-.mj-lb-x{position:absolute;top:14px;right:14px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid var(--mj-line);display:grid;place-items:center}
+.mj-lb-x{position:absolute;top:14px;right:14px;width:44px;height:44px;background:#1d1e22;border:1px solid #34363e;display:grid;place-items:center}
 .mj-lb-x svg{width:18px;height:18px}
-.mj-hint{margin:0;font-size:12.5px;color:#5f6a8a;text-align:center}
+/* controls */
+.mj-ctrl{display:grid;grid-template-columns:auto 1fr auto;gap:8px;position:sticky;bottom:0;margin-top:auto;padding:14px 0 calc(env(safe-area-inset-bottom,0px) + 18px);background:linear-gradient(180deg,rgba(16,17,20,0),#101114 28%);z-index:2}
+.mj-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 18px;font:600 18px var(--mj-disp);letter-spacing:.08em;text-transform:uppercase;background:#1d1e22;border:2px solid #3a3c44;cursor:pointer;transition:transform .1s,background .15s,box-shadow .1s}
+.mj-btn:hover{background:#26282d}
+.mj-btn:disabled{opacity:.35;cursor:default}
+.mj-btn.pri{background:var(--mj-red);border-color:#7d140f;color:#fff!important;box-shadow:0 4px 0 #7d140f}
+.mj-btn.pri:hover:not(:disabled){background:#e3332a}
+.mj-btn.pri:active:not(:disabled){transform:translateY(3px);box-shadow:0 1px 0 #7d140f}
+.mj-btn.on{border-color:#f3c64b;color:#f3c64b!important}
+.mj-btn.big{padding:16px 30px;font-size:21px}
+.mj-hint{display:none}
 /* intro */
 .mj-intro{position:absolute;inset:0;z-index:10;display:grid;place-content:center;justify-items:center;text-align:center;gap:14px;padding:24px;
-  background:radial-gradient(800px 500px at 50% 40%,rgba(62,240,255,.12),transparent 70%),rgba(4,6,13,.94);backdrop-filter:blur(6px);transition:opacity .6s,visibility .6s}
+  background:radial-gradient(120% 90% at 50% 70%,#2a2620 0%,#121110 60%,#0b0a08 100%);transition:opacity .6s,visibility .6s}
 .mj-intro.gone{opacity:0;visibility:hidden}
-.mj-intro-g{width:min(30vh,220px);aspect-ratio:1;border-radius:24%;overflow:hidden;box-shadow:0 0 0 1px rgba(62,240,255,.35),0 0 60px rgba(62,240,255,.25),0 30px 60px rgba(0,0,0,.5);animation:mjSpin 6s ease-in-out infinite}
+.mj-intro-g{width:min(28vh,200px);aspect-ratio:1;overflow:hidden;border:6px solid #f1ede0;box-shadow:8px 8px 0 rgba(0,0,0,.5);animation:mjSway 6s ease-in-out infinite}
 .mj-intro-g svg{width:100%;height:100%;display:block}
-@keyframes mjSpin{0%,100%{transform:perspective(600px) rotateY(-16deg) rotateX(6deg) translateY(0)}50%{transform:perspective(600px) rotateY(16deg) rotateX(-4deg) translateY(-10px)}}
-.mj-act{font:800 12px var(--mj-disp);letter-spacing:.06em;color:var(--mj-cyan);margin-top:12px}
-.mj-intro h2{margin:0;font:700 clamp(44px,7vw,96px)/.95 var(--mj-disp);text-transform:uppercase;letter-spacing:.01em;max-width:14ch}
-.mj-intro h2 span{color:var(--mj-cyan)}
-.mj-intro p{margin:0 0 10px;font-size:clamp(16px,1.8vw,21px);color:var(--mj-dim);max-width:34ch}
-.mj-intro small{font:700 11px var(--mj-disp);letter-spacing:.06em;color:#5f6a8a;text-transform:uppercase}
+@keyframes mjSway{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg) translateY(-6px)}}
+.mj-act{font:500 15px var(--mj-disp);letter-spacing:.4em;text-transform:uppercase;color:#f3c64b;margin-top:14px}
+.mj-intro h2{margin:0;font:600 clamp(40px,6vw,84px)/1 var(--mj-disp);text-transform:uppercase;letter-spacing:.01em}
+.mj-intro h2 span{display:inline-block;margin-top:10px;background:var(--mj-red);color:#fff;padding:4px 22px 8px;border:4px solid #fff;outline:3px solid var(--mj-red);transform:rotate(-2deg)}
+.mj-intro p{margin:6px 0 10px;font:500 clamp(16px,1.8vw,21px)/1.5 var(--mj-body);color:#cfc9ba;max-width:34ch}
+.mj-intro small{font:500 13px var(--mj-disp);letter-spacing:.2em;color:#7c776b;text-transform:uppercase}
 @media (max-width:900px), (orientation:portrait){
   #munApp{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto}
-  .mj-stats span{padding:6px 9px;font-size:0;letter-spacing:0}
-  .mj-stats span b{font-size:16px}
-  .mj-stats span::after{font:700 10px var(--mj-disp);letter-spacing:.08em;color:var(--mj-dim)}
+  .mj-stats span{padding:5px 8px;font-size:0;letter-spacing:0}
+  .mj-stats span b{font-size:18px}
+  .mj-stats span::after{font:500 11px var(--mj-disp);letter-spacing:.04em;color:var(--mj-dim)}
   .mj-stats span:nth-child(1)::after{content:"AWD"}.mj-stats span:nth-child(2)::after{content:"CHR"}.mj-stats span:nth-child(3)::after{content:"DEL"}
   .mj-prog{display:none}
-  .mj-panel{border-left:0;border-top:1px solid var(--mj-line);padding:12px 12px calc(env(safe-area-inset-bottom,0px) + 12px);max-height:48vh}
-  .mj-card h3{font-size:24px;margin-top:12px}
-  .mj-card dl{margin-bottom:14px}
-  .mj-hint{display:none}
+  .mj-panel{border-left:0;border-top:1px solid var(--mj-line);padding:12px 12px 0;max-height:52vh}
+  .mj-ctrl{padding-bottom:calc(env(safe-area-inset-bottom,0px) + 10px)}
+  .mj-deed-h h3,.mj-chance h3{font-size:28px}
   .mj-gal{flex-direction:row;align-items:center}
   .mj-gal-h{display:none}
   .mj-gal-grid{display:flex;overflow-x:auto;gap:6px}
-  .mj-gal{flex:none;min-height:0}
-  .mj-ph{flex:0 0 120px;aspect-ratio:4/3}
-  .mj-ph-empty{min-height:0;height:70px;width:100%}
+  .mj-ph{flex:0 0 120px;aspect-ratio:4/3!important;border-width:4px}
+  .mj-ph-empty{height:70px;width:100%}
 }
 @media (max-width:620px){
   .mj-top{gap:10px;padding:calc(env(safe-area-inset-top,0px) + 8px) 10px 8px}
-  .mj-brand b{font-size:12.5px;letter-spacing:.06em}
+  .mj-brand b{font-size:15px}
   .mj-ico{width:32px;height:32px}
-  .mj-stats{gap:5px}
+  .mj-stats{gap:4px}
   #munApp .close-app{padding:7px 10px;font-size:0;gap:0}
   #munApp .close-app svg{width:16px;height:16px}
+  .mj-brand small{display:none}
 }
+@media (max-width:460px){ .mj-stats{display:none} #munApp .close-app{margin-left:auto} }
+
+/* MUN: light theme + captions */
+#munApp{--mj-bg:#f3eee3;--mj-line:#ddd5c4;--mj-text:#1f1b14;--mj-dim:#7a7264;background:var(--mj-bg)}
+.mj-top{background:#fbf8f1;border-bottom-color:var(--mj-line)}
+.mj-ico{border-color:#d6cdbb}
+.mj-prog{background:#e6dfd0}
+.mj-stats span{background:#fff;border-color:#ddd5c4;color:var(--mj-dim)}
+.mj-stats b{color:var(--mj-text)}
+@keyframes mjPop{0%{background:#ffe9a8;border-color:#e0a91c}100%{background:#fff}}
+#munApp .close-app{background:#fff;color:var(--mj-text);border-color:#d6cdbb}
+#munApp .close-app svg{stroke:currentColor}
+.mj-stage{background:radial-gradient(120% 95% at 50% 78%,#efe6d3 0%,#e2d5bb 55%,#cdbd9e 100%)}
+.mj-board{box-shadow:0 0 0 13px #2b2620,0 34px 70px rgba(80,60,30,.35)}
+.mj-vig{background:linear-gradient(180deg,#f3eee3 0%,rgba(243,238,227,.8) 13%,rgba(243,238,227,0) 38%)}
+.mj-token-base{background:radial-gradient(closest-side,rgba(60,40,20,.35),rgba(60,40,20,0))}
+.mj-wave{border-color:rgba(60,40,20,.45)}
+.mj-panel{background:#fbf8f1;border-left-color:var(--mj-line)}
+.mj-card{box-shadow:5px 5px 0 rgba(60,45,20,.16);background:#fffdf6}
+.mj-chance{background:#fdebd2}
+.mj-card-trans{background:#e3effa}
+.mj-card-go,.mj-card-end{background:#fffdf6}
+.mj-gal-h{color:var(--mj-dim)}
+.mj-gal-h span{color:var(--mj-text)}
+.mj-ph{border-color:#fff;box-shadow:0 2px 10px rgba(60,45,20,.18),0 0 0 1px #e2dacb}
+.mj-ph-empty{border-color:#d6cdbb}
+.mj-ph-empty b{color:#5c5547}
+.mj-ctrl{background:linear-gradient(180deg,rgba(251,248,241,0),#fbf8f1 28%)}
+.mj-btn{background:#fff;border-color:#d6cdbb;color:var(--mj-text)}
+.mj-btn:hover{background:#f5efe2}
+.mj-btn.on{border-color:#d7261e;color:#d7261e!important}
+.mj-intro{background:radial-gradient(120% 90% at 50% 70%,#fbf6ea 0%,#efe6d3 60%,#e2d5bb 100%)}
+.mj-intro h2{color:var(--mj-text)}
+.mj-intro-g{border-color:#fff;box-shadow:6px 6px 0 rgba(60,45,20,.18)}
+.mj-act{color:#b8860b}
+.mj-intro p{color:#5c5547}
+.mj-intro small{color:#8a8274}
+.mj-cap{margin:4px 18px 4px;padding:2px 0 2px 14px;border-left:4px solid var(--c);font:400 clamp(16px,1.25vw,19px)/1.55 var(--mj-body);color:#2b261d}
+.mj-text{font-weight:400;text-align:left;margin:14px 22px 6px}
+.mj-chance h3{text-align:left;margin-left:22px;margin-right:22px}
+/* ---------- Climate City app ---------- */
+.ec-thesis{margin:16px 0 4px;padding:14px 16px;background:#fff8e6;border-radius:12px;font-size:16px;line-height:1.5;font-weight:600;color:#3a2f12}
+.ec-thesis span{display:block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:#a07800;margin-bottom:4px}
+.ec-facts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.ec-facts div{padding:12px 14px;background:#f3f7fa;border-radius:12px}
+.ec-facts b{display:block;font-size:22px;letter-spacing:-.01em;color:#1d2530}
+.ec-facts span{display:block;font-size:13px;line-height:1.4;color:#5b6b7a;margin-top:2px}
+.ec-steps{margin:0;padding:0;list-style:none;counter-reset:st;display:grid;gap:8px}
+.ec-steps li{counter-increment:st;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:center;font-size:15px;line-height:1.4}
+.ec-steps li::before{content:"0" counter(st);font-weight:700;color:#2e7d4f;font-size:14px}
+.ec-chart{display:grid;gap:5px}
+.ec-bar{display:grid;grid-template-columns:150px 1fr 40px;gap:8px;align-items:center;font-size:13.5px}
+.ec-bar span{color:#3a4552;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ec-bar i{display:block;height:12px;border-radius:3px;background:var(--h);min-width:3px}
+.ec-bar b{font-size:13px;font-variant-numeric:tabular-nums;text-align:right}
+.ec-chart small{margin-top:6px;font-size:12px;color:#7a8794}
+.ec-list{margin:0;padding-left:20px;display:grid;gap:7px}
+.ec-list li{font-size:15px;line-height:1.5;color:#2a3440}
+@media (max-width:420px){.ec-bar{grid-template-columns:118px 1fr 34px;font-size:12.5px}}
+#ecoApp{position:fixed;inset:0;z-index:60;background:#cfe9f7;color:#1d2530;font-family:var(--ui);overflow:hidden;animation:appIn .32s cubic-bezier(.2,.8,.2,1)}
+#ecoApp[hidden]{display:none}
+#ecoApp button{font-family:inherit}
+.ec-top{position:absolute;left:0;right:0;top:0;z-index:5;display:flex;align-items:center;gap:14px;padding:calc(env(safe-area-inset-top,0px) + 14px) 18px 12px;pointer-events:none}
+.ec-brand{background:rgba(255,255,255,.88);backdrop-filter:blur(10px);padding:9px 16px;border-radius:14px;box-shadow:0 4px 18px rgba(30,60,90,.12);pointer-events:auto}
+.ec-brand b{display:block;font-size:19px;letter-spacing:-.01em}
+.ec-brand span{display:block;font-size:12.5px;color:#5b6b7a}
+#ecoApp .close-app{margin-left:auto;background:rgba(255,255,255,.9);color:#1d2530;pointer-events:auto;box-shadow:0 4px 14px rgba(30,60,90,.12)}
+.ec-stage{position:absolute;inset:0;overflow:hidden}
+.ec-svg{width:100%;height:100%;display:block}
+.ec-world{transform-box:view-box;transform-origin:0 0;transition:transform 1s cubic-bezier(.45,.05,.2,1)}
+.ec-cloud{animation:ecDrift 40s linear infinite}
+.ec-cloud.c2{animation-duration:55s;animation-delay:-20s}
+.ec-cloud.c3{animation-duration:48s;animation-delay:-35s}
+@keyframes ecDrift{from{transform:translateX(-260px)}to{transform:translateX(260px)}}
+.ec-waves{animation:ecWave 4s ease-in-out infinite alternate}
+@keyframes ecWave{to{transform:translateX(18px)}}
+.ec-buoy{animation:ecBob 3.2s ease-in-out infinite}
+@keyframes ecBob{50%{transform:translateY(5px) rotate(.6deg)}}
+.ec-buoy{transform-box:fill-box;transform-origin:50% 100%}
+.ec-jet circle{animation:ecDrop 1.2s ease-in infinite}
+.ec-jet circle:nth-child(2){animation-delay:.3s}.ec-jet circle:nth-child(3){animation-delay:.6s}.ec-jet circle:nth-child(4){animation-delay:.9s}
+@keyframes ecDrop{0%{opacity:0;transform:translateY(8px)}30%{opacity:1}100%{opacity:0;transform:translateY(-10px)}}
+.ec-fan,.ec-blades{animation:ecSpin 1.2s linear infinite;transform-box:fill-box;transform-origin:50% 50%}
+.ec-blades{animation-duration:4s;transform-origin:center;transform-box:view-box}
+.ec-turbine .ec-blades{transform-origin:0 0;transform-box:view-box}
+@keyframes ecSpin{to{transform:rotate(360deg)}}
+.ec-arm{animation:ecArm 4s ease-in-out infinite;transform-origin:1548px 832px}
+@keyframes ecArm{50%{transform:rotate(-8deg)}}
+.ec-flow{stroke-dasharray:6 34;animation:ecFlow 1.6s linear infinite;filter:drop-shadow(0 0 4px #ffd23f)}
+.ec-flow.back{stroke-dasharray:4 10;animation-direction:reverse;animation-duration:.9s}
+@keyframes ecFlow{to{stroke-dashoffset:-80}}
+.ec-car{animation:ecDrive 14s linear infinite}
+.ec-car.b{animation-duration:11s;animation-delay:-5s;animation-name:ecDriveBack}
+.ec-car.c{animation-delay:-8s}
+@keyframes ecDrive{from{transform:translate(-80px,722px)}to{transform:translate(1050px,722px)}}
+@keyframes ecDriveBack{from{transform:translate(1050px,750px) scaleX(-1)}to{transform:translate(-80px,750px) scaleX(-1)}}
+.ec-plane{animation:ecFly 5s ease-in-out infinite}
+@keyframes ecFly{50%{transform:translate(10px,-8px)}}
+.ec-hot{cursor:pointer;outline:none}
+.ec-hot .ring{animation:ecPulse 1.8s ease-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes ecPulse{0%{opacity:1;transform:scale(.7)}100%{opacity:0;transform:scale(2.2)}}
+.ec-hot .lbl{transition:transform .2s}
+.ec-hot .lbl{transform:translate(var(--lx),-58px)}
+.ec-hot:hover .lbl,.ec-hot:focus-visible .lbl{transform:translate(var(--lx),-63px)}
+.ec-hot text{font-family:var(--ui)}
+#ecoApp.open .ec-hot:not(.on){opacity:.35}
+/* bottom links */
+.ec-links{position:absolute;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 18px);transform:translateX(-50%);z-index:4;display:flex;gap:10px;padding:8px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);border-radius:18px;box-shadow:0 8px 28px rgba(30,60,90,.18);transition:opacity .3s,transform .3s}
+.ec-links button{display:flex;align-items:center;gap:10px;padding:9px 16px 9px 9px;border-radius:12px;background:transparent;text-align:left;font-size:15px;font-weight:700;color:#1d2530;transition:background .15s}
+.ec-links button:hover{background:#eef3f7}
+.ec-links button.on{background:var(--c);color:#fff}
+.ec-links button.on small{color:rgba(255,255,255,.85)}
+.ec-links i{width:36px;height:36px;border-radius:10px;background:var(--c);color:#fff;display:grid;place-items:center;font-style:normal;font-size:18px}
+.ec-links small{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#6b7a88}
+/* panel */
+.ec-panel{position:absolute;top:0;right:0;bottom:0;width:min(520px,40vw);z-index:6;background:#fff;box-shadow:-10px 0 40px rgba(30,60,90,.18);overflow:auto;transform:translateX(105%);transition:transform .55s cubic-bezier(.2,.8,.2,1)}
+#ecoApp.open .ec-panel{transform:none}
+#ecoApp.open .ec-links{opacity:0;pointer-events:none;transform:translate(-50%,20px)}
+#ecoApp.open .close-app{margin-right:min(520px,40vw)}
+.ec-back{position:absolute;left:18px;bottom:calc(env(safe-area-inset-bottom,0px) + 18px);z-index:5;padding:12px 18px;border-radius:12px;background:#fff;font-size:15px;font-weight:700;color:#1d2530;box-shadow:0 6px 20px rgba(30,60,90,.18);opacity:0;pointer-events:none;transition:opacity .3s}
+#ecoApp.open .ec-back{opacity:1;pointer-events:auto}
+.ec-ph{background:var(--c);color:#fff;padding:calc(env(safe-area-inset-top,0px) + 26px) 28px 22px}
+.ec-ph span{font-size:12.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.85}
+.ec-ph h2{margin:6px 0 4px;font-size:clamp(28px,2.4vw,38px);letter-spacing:-.02em;line-height:1.1}
+.ec-ph p{margin:0;font-size:15px;opacity:.9}
+.ec-pb{padding:22px 28px 30px}
+.ec-photos{display:grid;gap:8px;grid-template-columns:1fr 1fr;margin-bottom:18px}
+.ec-photos.n1{grid-template-columns:1fr}
+.ec-photos img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px;cursor:zoom-in;display:block}
+.ec-photos.n1 img{aspect-ratio:16/10}
+.ec-meta{display:grid;gap:8px;margin:0 0 16px}
+.ec-meta div{display:grid;grid-template-columns:70px 1fr;gap:10px}
+.ec-meta dt{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#7a8794;padding-top:2px}
+.ec-meta dd{margin:0;font-size:15.5px;font-weight:600}
+.ec-lead{font-size:17px;line-height:1.6;margin:0 0 6px;color:#2a3440}
+.ec-pb h4{margin:22px 0 10px;font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#7a8794}
+.ec-parts{margin:0;padding:0;list-style:none;display:grid;gap:10px;counter-reset:p}
+.ec-parts li{counter-increment:p;display:grid;grid-template-columns:34px 1fr;gap:4px 12px;padding:12px 14px;background:#f3f7fa;border-radius:12px}
+.ec-parts li::before{content:counter(p);grid-row:span 2;width:30px;height:30px;border-radius:50%;background:#1f8fc4;color:#fff;display:grid;place-items:center;font-weight:700}
+.ec-parts b{font-size:16px}
+.ec-parts span{font-size:14.5px;line-height:1.5;color:#4a5562}
+.ec-paper{margin:0;padding:14px 16px;border-left:4px solid var(--c,#2e7d4f);background:#f6f8f4;font-size:16px;line-height:1.5;font-style:italic;color:#2a3440;border-radius:0 10px 10px 0}
+.ec-awards{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.ec-awards li{display:grid;grid-template-columns:52px 1fr;gap:10px;align-items:start}
+.ec-awards li > span{font-weight:700;color:#7a8794;font-size:14px;padding-top:1px}
+.ec-awards b{display:block;font-size:15.5px}
+.ec-awards small{display:block;font-size:13.5px;color:#6b7a88;margin-top:2px}
+.ec-next{margin-top:26px;width:100%;display:flex;justify-content:space-between;align-items:center;padding:15px 18px;border-radius:14px;background:var(--c);color:#fff;font-size:16px;font-weight:700}
+.ec-lb{position:absolute;inset:0;z-index:9;background:rgba(10,20,30,.85);display:grid;place-items:center;padding:30px;cursor:zoom-out}
+.ec-lb[hidden]{display:none}
+.ec-lb img{max-width:100%;max-height:100%;border-radius:12px}
+@media (max-width:900px), (orientation:portrait){
+  .ec-panel{top:auto;left:0;width:auto;height:58%;border-radius:20px 20px 0 0;transform:translateY(105%)}
+  #ecoApp.open .close-app{margin-right:0}
+  .ec-back{bottom:auto;top:calc(env(safe-area-inset-top,0px) + 74px)}
+  .ec-links{left:12px;right:12px;transform:none;flex-direction:column;gap:4px}
+  #ecoApp.open .ec-links{transform:translateY(20px)}
+  .ec-brand span{display:none}
+  .ec-stage{background:linear-gradient(180deg,#9fd3f2 0 30%,#b9d59c 30%)}
+  .ec-stage{top:calc(env(safe-area-inset-top,0px) + 70px);bottom:auto;height:calc(100vw * 9 / 16 * 1.6)}
+  .ec-svg{transform-origin:50% 0}
+  .ec-links{bottom:auto;top:calc(env(safe-area-inset-top,0px) + 84px + 100vw * .9)}
+  #ecoApp{background:linear-gradient(180deg,#cfe9f7,#eef5f0)}
+}
+@media (prefers-reduced-motion:reduce){.ec-cloud,.ec-waves,.ec-buoy,.ec-jet circle,.ec-fan,.ec-blades,.ec-arm,.ec-flow,.ec-car,.ec-plane,.ec-hot .ring{animation:none}}
 </style>
 </head>
 <body>
@@ -1661,7 +1855,7 @@ function showTip(){
   document.querySelectorAll(".app-icon.hint").forEach(e => e.classList.remove("hint"));
   if (!introDone) return;
   const hideForLayer = !!document.querySelector(".modal-wrap, .player");
-  if (!bubbleOpen || hideForLayer || (appOpen === "music" || appOpen === "files" || appOpen === "camera" || appOpen === "mun")){ bubble.classList.add("off"); return; }
+  if (!bubbleOpen || hideForLayer || (appOpen === "music" || appOpen === "files" || appOpen === "camera" || appOpen === "mun" || appOpen === "weather")){ bubble.classList.add("off"); return; }
   if (appOpen === "maps"){
     $("#bText").textContent = "Click a blinking region to zoom in. Hover a pin to see the story."; $("#bCount").textContent = "Maps";
     $("#bPrev").hidden = $("#bNext").hidden = true;
@@ -1682,14 +1876,31 @@ $("#bHide").addEventListener("click", () => { bubbleOpen = false; showTip(); });
 presenter.addEventListener("click", () => { if (presState === "pip"){ bubbleOpen = !bubbleOpen; showTip(); } });
 
 /* ---------- apps ---------- */
+// Open / close animation: apps zoom out of (and back into) the icon that opened them, the home screen blurs behind.
+document.addEventListener("pointerdown", e => {
+  const b = e.target.closest?.(".app-icon, .widget"); if (!b) return;
+  const r = b.getBoundingClientRect();
+  document.documentElement.style.setProperty("--ax", (r.left + r.width / 2) + "px");
+  document.documentElement.style.setProperty("--ay", (r.top + r.height / 2) + "px");
+}, true);
+function hideApp(el){
+  if (!el || el.hidden) return;
+  document.body.classList.remove("in-app");
+  el.classList.add("app-out");
+  clearTimeout(el._outT);
+  el._outT = setTimeout(() => { el.hidden = true; el.classList.remove("app-out"); }, 300);
+}
 function openApp(id){
   if (!introDone) return;
+  document.querySelectorAll(".app-out").forEach(x => { clearTimeout(x._outT); x.classList.remove("app-out"); x.hidden = true; });
+  if (["yorkflix","maps","music","files","camera","mun","weather"].includes(id)) document.body.classList.add("in-app");
   if (id === "yorkflix") return openFlix();
   if (id === "maps") return openMaps();
   if (id === "music") return openMusic();
   if (id === "files") return openFiles();
   if (id === "camera") return openCamera();
   if (id === "mun") return openMun();
+  if (id === "weather") return openEco();
   const a = APPS[id];
   const wrap = document.createElement("div");
   wrap.className = "sheet-wrap";
@@ -1929,7 +2140,7 @@ function openMaps(){
   el.hidden = false;
   M.level = "world"; M.hist = []; M.vb = fitBox(LEVELS.world.box, .04); setLevel("world"); applyVB();
 }
-function closeMaps(){ $("#mapsApp").hidden = true; appOpen = null; layout(); advanceIf("maps"); }
+function closeMaps(){ hideApp($("#mapsApp")); appOpen = null; layout(); advanceIf("maps"); }
 
 function setLevel(key){
   M.level = key; const L = LEVELS[key];
@@ -2101,7 +2312,7 @@ function openFlix(){
   renderFlix();
 }
 function closeFlix(){
-  appEl.hidden = true; appOpen = null; layout(); advanceIf("yorkflix");
+  hideApp(appEl); appOpen = null; layout(); advanceIf("yorkflix");
 }
 function topBar(nav){
   return `<header class="flix-top"><span class="wordmark">YORKFLIX</span>
@@ -2374,7 +2585,7 @@ function openMusic(){
 function closeMusic(){
   const v = $("#muVideo"); v?.pause();
   if (document.fullscreenElement) document.exitFullscreen?.();
-  $("#musicApp").hidden = true; appOpen = null; presenter.classList.remove("away"); layout(); advanceIf("music");
+  hideApp($("#musicApp")); appOpen = null; presenter.classList.remove("away"); layout(); advanceIf("music");
 }
 function muDrag(el, cb){
   const at = e => { const r = el.getBoundingClientRect(); return Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)); };
@@ -2568,7 +2779,7 @@ function openFiles(){
   }
   el.hidden = false; appZoom(el);
 }
-function closeFiles(){ $("#filesApp").hidden = true; appOpen = null; presenter.classList.remove("away"); layout(); advanceIf("files"); }
+function closeFiles(){ hideApp($("#filesApp")); appOpen = null; presenter.classList.remove("away"); layout(); advanceIf("files"); }
 
 /* ---------- Camera app: York's Photo Booth (purikura) ---------- */
 const BW = 1200, BH = 1800;           // output size (2:3)
@@ -2742,7 +2953,7 @@ function openCamera(){
   }
   el.hidden = false; bScreen("pick");
 }
-function closeCamera(){ bStopCam(); $("#boothApp").hidden = true; appOpen = null; presenter.classList.remove("away"); layout(); advanceIf("camera"); }
+function closeCamera(){ bStopCam(); hideApp($("#boothApp")); appOpen = null; presenter.classList.remove("away"); layout(); advanceIf("camera"); }
 function bScreen(s){
   ["pick","shoot","edit","send"].forEach(k => { $("#bt" + k[0].toUpperCase() + k.slice(1)).hidden = k !== s; });
   const order = ["pick","shoot","edit","send"];
@@ -2899,32 +3110,32 @@ function gavelSVG(p, opts = {}){
 /* ---------- MUN app: "My MUN Journey", a first-person board game ---------- */
 // One tile per stop, in order. type: go | conf | mile | trans | end
 const MJ_STOPS = [
-  { type:"go", title:"GO", sub:"After one year of debate", text:"I had spent a year debating. Then I walked into my first Model UN." },
-  { type:"conf", year:"2024", conf:"MUN Workshop", committee:"ECOSOC", role:"Delegate", as:["Country","Japan"], topic:"Decent Work and Economic Growth", photos:["image/mun/workshop.webp"] },
-  { type:"conf", year:"2024", conf:"CentMUN", committee:"UN-Habitat", role:"Delegate", award:"Honorable Mention", as:["Country","Kingdom of Norway"], topic:"Sustainable Transport for Better Air Quality in Urban Areas", photos:["image/mun/centmun-2024.webp"] },
-  { type:"conf", year:"2025", conf:"YaleMUN Taiwan", committee:"ESCAP", role:"Delegate", award:"Honorable Mention", as:["Country","Republic of Korea"], topic:"Assessing the Downsides of the Shadow Education System in East Asia", photos:["image/mun/yalemun-2025.webp"] },
-  { type:"trans", title:"Back to the books", text:"Started reading <i>International Relations: Perspectives, Controversies and Readings</i> by Keith L. Shimko.", photos:["image/mun/book.webp"] },
-  { type:"mile", title:"Teaching at an elementary school", text:"Started teaching MUN and international relations to elementary school students: 50+ of them so far.", photos:["image/mun/elementary.webp"] },
-  { type:"conf", year:"2025", conf:"TESMUN", committee:"UN Ad Hoc Committee on Artificial Intelligence (UN AHCAI)", short:"UN AHCAI", role:"Delegate", award:"Oral Recognition", as:["Country","France"], topic:"Efforts to prohibit lethal autonomous weapons", photos:["image/mun/tesmun.webp"] },
-  { type:"conf", year:"2025", conf:"WegoMUN", committee:"UN Security Council", short:"UNSC", role:"Co-Chair", chair:true, topic:"Protection of Civilians in Armed Conflicts · The Situation in Afghanistan", photos:["image/mun/wegomun-2025.webp"] },
-  { type:"mile", title:"Elected club president!", text:"Elected President of WEGO Model United Nations." },
-  { type:"conf", year:"2025", conf:"SNTMUN", committee:"Historical Crisis", role:"Delegate", award:"Outstanding Delegate", as:["Representing","Tanaka Giichi"], topic:"The Chinese Civil War", photos:["image/map/sntmun.webp"] },
-  { type:"trans", title:"Crisis mode: on", text:"Fell in love with crisis simulations, and went all in on East Asian studies." },
-  { type:"mile", title:"Designing the curriculum", text:"Started designing the MUN curriculum for our club.", photos:["image/mun/curriculum.webp"] },
-  { type:"mile", title:"After-school MUN classes", text:"Started teaching after-school MUN classes. 20+ of my students have gone on to win MUN awards." },
-  { type:"conf", year:"2025", conf:"MockMUN", committee:"GA3 (SOCHUM)", role:"Head Chair", chair:true, topic:"Humanitarian Aid toward the Russo-Ukrainian War", photos:["image/map/mockmun.webp"] },
-  { type:"conf", year:"2025", conf:"CentMUN", committee:"GA2 (ECOFIN)", role:"Vice Chair", chair:true, topic:"Reforming the International Monetary System to Promote Global Financial Stability and Inclusion", photos:["image/map/centmun.webp"] },
-  { type:"conf", year:"2026", conf:"YMUNT", committee:"Crisis Committee", role:"Co-Chair", chair:true, topic:"The Bandung Conference", photos:["image/map/ymunt.webp"] },
-  { type:"conf", year:"2026", conf:"EMUN", committee:"UN Environment Assembly (UNEA)", short:"UNEA", role:"Delegate", award:"Best Delegate", as:["Country","Algeria"], topic:"Environmental remediation to Member States of the use or testing of nuclear weapons", photos:["image/map/emun.webp"] },
-  { type:"conf", year:"2026", conf:"TransMUN", committee:"Crisis", role:"Delegate", as:["Character","Joe Biden, President of the United States"], topic:"Shifting Sands: A New Middle East Order", photos:["image/map/transmun.webp"] },
-  { type:"conf", year:"2026", conf:"WegoMUN 2026", committee:"Secretariat", role:"Secretary General", chair:true, sg:true, topic:"Leading the whole conference.", photos:["image/mun/wegomun-2026.webp"] },
+  { cap:"One year of debate behind me. Time to find out what Model UN was all about.", type:"go", title:"GO", sub:"After one year of debate", text:"I had spent a year debating. Then I walked into my first Model UN." },
+  { cap:"My very first MUN. I sat behind the Japan placard in ECOSOC and spoke up for decent work and economic growth.", type:"conf", year:"2024", conf:"MUN Workshop", committee:"ECOSOC", role:"Delegate", as:["Country","Japan"], topic:"Decent Work and Economic Growth", photos:["image/mun/workshop.webp"] },
+  { cap:"Norway in UN-Habitat, pushing for cleaner transport in cities. And my first award: an Honorable Mention.", type:"conf", year:"2024", conf:"CentMUN", committee:"UN-Habitat", role:"Delegate", award:"Honorable Mention", as:["Country","Kingdom of Norway"], topic:"Sustainable Transport for Better Air Quality in Urban Areas", photos:["image/mun/centmun-2024.webp"] },
+  { cap:"As the Republic of Korea, I took on East Asia's shadow education system, something every Taiwanese student knows well. Honorable Mention again.", type:"conf", year:"2025", conf:"YaleMUN Taiwan", committee:"ESCAP", role:"Delegate", award:"Honorable Mention", as:["Country","Republic of Korea"], topic:"Assessing the Downsides of the Shadow Education System in East Asia", photos:["image/mun/yalemun-2025.webp"] },
+  { cap:"I wanted the theory behind the speeches, so I picked up Keith L. Shimko's International Relations.", type:"trans", title:"Back to the books", text:"Started reading <i>International Relations: Perspectives, Controversies and Readings</i> by Keith L. Shimko.", photos:["image/mun/book.webp"] },
+  { cap:"Time to pass it on. I started teaching MUN and world affairs to elementary school kids: 50+ of them so far.", type:"mile", title:"Teaching at an elementary school", text:"Started teaching MUN and international relations to elementary school students: 50+ of them so far.", photos:["image/mun/elementary.webp"] },
+  { cap:"France, in a committee on artificial intelligence, debating a ban on lethal autonomous weapons. My speeches earned an oral recognition from the chairs.", type:"conf", year:"2025", conf:"TESMUN", committee:"UN Ad Hoc Committee on Artificial Intelligence (UN AHCAI)", short:"UN AHCAI", role:"Delegate", award:"Oral Recognition", as:["Country","France"], topic:"Efforts to prohibit lethal autonomous weapons", photos:["image/mun/tesmun.webp"] },
+  { cap:"My first time on the dais: co-chairing the Security Council on protecting civilians and the situation in Afghanistan.", type:"conf", year:"2025", conf:"WegoMUN", committee:"UN Security Council", short:"UNSC", role:"Co-Chair", chair:true, topic:"Protection of Civilians in Armed Conflicts · The Situation in Afghanistan", photos:["image/mun/wegomun-2025.webp"] },
+  { cap:"Elected President of WEGO Model United Nations, the club where it all started for me.", type:"mile", title:"Elected club president!", text:"Elected President of WEGO Model United Nations." },
+  { cap:"A historical crisis on the Chinese Civil War, playing Japanese Prime Minister Tanaka Giichi. Outstanding Delegate.", type:"conf", year:"2025", conf:"SNTMUN", committee:"Historical Crisis", role:"Delegate", award:"Outstanding Delegate", as:["Representing","Tanaka Giichi"], topic:"The Chinese Civil War", photos:["image/map/sntmun.webp"] },
+  { cap:"That conference did it. I was hooked on crisis simulations, and on East Asian history.", type:"trans", title:"Crisis mode: on", text:"Fell in love with crisis simulations, and went all in on East Asian studies." },
+  { cap:"I started writing our club's MUN curriculum, so new members could learn faster than I did.", type:"mile", title:"Designing the curriculum", text:"Started designing the MUN curriculum for our club.", photos:["image/mun/curriculum.webp"] },
+  { cap:"Then I started teaching after-school MUN classes. 20+ of my students have since won MUN awards.", type:"mile", title:"After-school MUN classes", text:"Started teaching after-school MUN classes. 20+ of my students have gone on to win MUN awards." },
+  { cap:"Head Chair of GA3, guiding debate on humanitarian aid in the Russo-Ukrainian war.", type:"conf", year:"2025", conf:"MockMUN", committee:"GA3 (SOCHUM)", role:"Head Chair", chair:true, topic:"Humanitarian Aid toward the Russo-Ukrainian War", photos:["image/map/mockmun.webp"] },
+  { cap:"Back at CentMUN a year later, this time as Vice Chair of ECOFIN, on reforming the international monetary system.", type:"conf", year:"2025", conf:"CentMUN", committee:"GA2 (ECOFIN)", role:"Vice Chair", chair:true, topic:"Reforming the International Monetary System to Promote Global Financial Stability and Inclusion", photos:["image/map/centmun.webp"] },
+  { cap:"Co-chairing a crisis committee that brought the 1955 Bandung Conference back to life.", type:"conf", year:"2026", conf:"YMUNT", committee:"Crisis Committee", role:"Co-Chair", chair:true, topic:"The Bandung Conference", photos:["image/map/ymunt.webp"] },
+  { cap:"Algeria at the UN Environment Assembly, on cleaning up after nuclear weapons testing. Best Delegate.", type:"conf", year:"2026", conf:"EMUN", committee:"UN Environment Assembly (UNEA)", short:"UNEA", role:"Delegate", award:"Best Delegate", as:["Country","Algeria"], topic:"Environmental remediation to Member States of the use or testing of nuclear weapons", photos:["image/map/emun.webp"] },
+  { cap:"This time I played Joe Biden, in a crisis over a new Middle East order.", type:"conf", year:"2026", conf:"TransMUN", committee:"Crisis", role:"Delegate", as:["Character","Joe Biden, President of the United States"], topic:"Shifting Sands: A New Middle East Order", photos:["image/map/transmun.webp"] },
+  { cap:"Two years after my first conference, I led WegoMUN 2026 as Secretary General.", type:"conf", year:"2026", conf:"WegoMUN 2026", committee:"Secretariat", role:"Secretary General", chair:true, sg:true, topic:"Leading the whole conference.", photos:["image/mun/wegomun-2026.webp"] },
   { type:"end", title:"Session adjourned", sub:"…for now", text:"From debater to Secretary General in two years. Thanks for walking the journey with me." }
 ];
-const MJ_COL = { "2024":"#3ef0ff", "2025":"#9b6bff", "2026":"#ff4fd8", go:"#4dff9a", end:"#4dff9a", mile:"#ffc94d", trans:"#5dffb6" };
+const MJ_COL = { "2024":"#8fd0f2", "2025":"#f39a2b", "2026":"#1fa456", sg:"#0b5aa8", go:"#d7261e", end:"#d7261e", mile:"#f39a2b", trans:"#0b5aa8" };
 const MJ_CELL = 230, MJ_N = MJ_STOPS.length;  // 20 tiles on a 6x6 loop
 const MJ = { i:0, angle:90, overview:true, seen:new Set(), started:false };
 
-function mjColor(s){ return s.type === "conf" ? MJ_COL[s.year] : MJ_COL[s.type]; }
+function mjColor(s){ return s.sg ? MJ_COL.sg : s.type === "conf" ? MJ_COL[s.year] : MJ_COL[s.type]; }
 function mjPos(i){ // grid cell on the 6x6 ring; GO bottom-right, moving left
   if (i <= 5) return [5 - i, 5];
   if (i <= 10) return [0, 5 - (i - 5)];
@@ -2934,33 +3145,43 @@ function mjPos(i){ // grid cell on the 6x6 ring; GO bottom-right, moving left
 const mjSide = i => Math.min(3, Math.floor(i / 5));
 const mjAngleFor = i => 90 - 90 * mjSide(i);
 function mjTileHTML(s, i){
-  const c = mjColor(s), [x, y] = mjPos(i), rot = -mjAngleFor(i);
-  let band, body;
+  const c = mjColor(s), [x, y] = mjPos(i), rot = -mjAngleFor(i), corner = i % 5 === 0;
+  let body;
   if (s.type === "conf"){
-    band = `<span>${s.year}</span><span>${String(i).padStart(2,"0")}</span>`;
-    body = `<b class="mj-t-name">${s.conf}</b><span class="mj-t-com">${s.short || s.committee}</span><span class="mj-t-role">${s.role}</span>${s.award ? `<span class="mj-t-award">★ ${s.award}</span>` : ""}`;
+    body = `<div class="mj-bar" style="background:${c}"></div><div class="mj-body">
+      <b class="mj-t-name">${s.conf}</b><span class="mj-t-com">${s.short || s.committee}</span>
+      ${s.award ? `<span class="mj-t-award">★ ${s.award}</span>` : ""}
+      <span class="mj-t-role">${s.role}</span><span class="mj-t-yr">${s.year}</span></div>`;
+  } else if (s.type === "go"){
+    body = `<div class="mj-body mj-gobody"><span class="mj-t-small">Collect experience<br>as you pass</span><b class="mj-t-go">GO</b><span class="mj-t-arrow">←</span></div>`;
+  } else if (s.type === "end"){
+    body = `<div class="mj-body"><span class="mj-t-small">Session</span><b class="mj-t-name">Adjourned</b><span class="mj-t-ico">⚑</span><span class="mj-t-small">…for now</span></div>`;
   } else {
-    const lab = { go:"START", end:"FINISH", mile:"MILESTONE", trans:"TRANSITION" }[s.type];
-    band = `<span>${lab}</span><span>${String(i).padStart(2,"0")}</span>`;
-    body = s.type === "go" ? `<b class="mj-t-big">GO</b><span class="mj-t-com">${s.sub}</span>`
-         : s.type === "end" ? `<b class="mj-t-big sm">ADJOURNED</b><span class="mj-t-com">${s.sub}</span>`
-         : `<span class="mj-t-ico">${s.type === "mile" ? "◆" : "↻"}</span><b class="mj-t-name sm">${s.title}</b>`;
+    const lab = s.type === "mile" ? "Milestone" : "Transition";
+    body = `<div class="mj-body"><span class="mj-t-kind">${lab}</span><span class="mj-t-ico">${s.type === "mile" ? "?" : "↻"}</span><b class="mj-t-name sm">${s.title}</b></div>`;
   }
-  return `<div class="mj-tile mj-${s.type}${s.sg ? " mj-sg" : ""}" data-i="${i}" style="--c:${c};left:${x*MJ_CELL}px;top:${y*MJ_CELL}px">
-    <div class="mj-tile-in" style="transform:rotate(${rot}deg)"><div class="mj-band">${band}</div><div class="mj-body">${body}</div></div></div>`;
+  return `<div class="mj-tile mj-${s.type}${s.sg ? " mj-sg" : ""}${corner ? " corner" : ""}" data-i="${i}" style="--c:${c};left:${x*MJ_CELL}px;top:${y*MJ_CELL}px">
+    <div class="mj-tile-in" style="transform:rotate(${rot}deg)">${body}</div></div>`;
 }
 function mjCardHTML(s, i){
-  const c = mjColor(s), n = `${String(i).padStart(2,"0")} / ${String(MJ_N - 1).padStart(2,"0")}`;
-  if (s.type === "conf") return `<div class="mj-card" style="--c:${c}">
-    <div class="mj-card-band"><span>${s.year} · ${s.role === "Delegate" ? "DELEGATE" : "CHAIR"} DEED</span><span>${n}</span></div>
-    <h3>${s.conf}</h3><p class="mj-com">${s.committee}</p>
-    <div class="mj-role"><span>${s.role}</span>${s.award ? `<em>★ ${s.award}</em>` : ""}</div>
-    <dl>${s.as ? `<dt>${s.as[0]}</dt><dd>${s.as[1]}</dd>` : ""}<dt>${s.sg ? "Role" : "Topic"}</dt><dd>${s.topic}</dd></dl></div>`;
-  const lab = { go:"START", end:"FINISH", mile:"MILESTONE", trans:"TRANSITION" }[s.type];
-  return `<div class="mj-card mj-card-${s.type}" style="--c:${c}">
-    <div class="mj-card-band"><span>${lab}</span><span>${n}</span></div>
-    <h3>${s.title}</h3>${s.sub && s.type !== "end" ? `<p class="mj-com">${s.sub}</p>` : ""}<p class="mj-text">${s.text}</p>
-    ${s.type === "end" ? `<div class="mj-end-btns"><button class="mj-btn pri" id="mjReplay">↺ Replay journey</button><button class="mj-btn" id="mjEndMap">See the whole board</button></div>` : ""}</div>`;
+  const c = mjColor(s), n = `No. ${String(i).padStart(2,"0")}`;
+  if (s.type === "conf"){
+    const rows = [["Committee", s.committee], ["Role", s.role]];
+    if (s.as) rows.push(s.as);
+    if (s.award) rows.push(["Award", s.award]);
+    return `<div class="mj-card mj-deed" style="--c:${c}">
+      <div class="mj-deed-h"><small>Title deed · ${s.year}</small><h3>${s.conf}</h3></div>
+      ${s.cap ? `<p class="mj-cap">${s.cap}</p>` : ""}
+      <dl class="mj-rows">${rows.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join("")}</dl>
+      ${s.sg ? "" : `<div class="mj-topic"><span>Topic</span><p>${s.topic}</p></div>`}
+      <div class="mj-deed-f">${n} · ${s.chair ? "Chair seat" : "Delegation"}</div></div>`;
+  }
+  const kind = { go:"Start", end:"Finish", mile:"Milestone", trans:"Transition" }[s.type];
+  return `<div class="mj-card mj-chance mj-card-${s.type}" style="--c:${c}">
+    <div class="mj-chance-h">${kind}</div>
+    <h3>${s.title}</h3><p class="mj-text">${s.cap || s.text}</p>
+    ${s.type === "end" ? `<div class="mj-end-btns"><button class="mj-btn pri" id="mjReplay">↺ Replay journey</button><button class="mj-btn" id="mjEndMap">See the whole board</button></div>` : ""}
+    <div class="mj-deed-f">${n}</div></div>`;
 }
 function mjStats(){
   let aw = 0, ch = 0, del = 0;
@@ -3045,10 +3266,10 @@ function openMun(){
       <div class="mj-stage ov" id="mjStage">
         <div class="mj-board ov" id="mjBoard">
           <div class="mj-floor"></div>
-          <div class="mj-center"><div class="mj-logo">${gavelSVG("mjc", { bg:false })}</div><b>MY MUN<br>JOURNEY</b><span>2024 → 2026</span></div>
+          <div class="mj-center"><div class="mj-pile chance"><b>?</b><span>Milestone</span></div><div class="mj-banner"><small>York's</small><b>MUN JOURNEY</b><small>2024 – 2026</small></div><div class="mj-pile chest"><b>↻</b><span>Transition</span></div><div class="mj-logo">${gavelSVG("mjc", { bg:false })}</div></div>
           ${MJ_STOPS.map(mjTileHTML).join("")}
         </div>
-        <div class="mj-fog"></div>
+        <div class="mj-vig"></div>
         <div class="mj-token" id="mjToken"><div class="mj-token-g">${gavelSVG("mjtk", { bg:false, block:false })}</div><div class="mj-token-base"></div></div>
         <div class="mj-wave" id="mjWave"></div>
       </div>
@@ -3064,11 +3285,11 @@ function openMun(){
       </aside>
       <section class="mj-intro" id="mjIntro">
         <div class="mj-intro-g">${gavelSVG("mjin")}</div>
-        <div class="mj-act">ACT I</div>
-        <h2>Welcome to my <span>MUN Journey</span>…</h2>
+        <div class="mj-act">Act I</div>
+        <h2>Welcome to my<br><span>MUN Journey</span></h2>
         <p>Look how I became a MUN guy after debating for a year…</p>
         <button class="mj-btn pri big" id="mjStart">Start the journey <span>→</span></button>
-        <small>20 stops · 13 conferences · 2024–2026</small>
+        <small>20 squares · 13 conferences · 2024–2026</small>
       </section>`;
     document.body.append(el);
     $("#munClose").addEventListener("click", closeMun);
@@ -3108,12 +3329,219 @@ function mjLightbox(ph, k, title){
   lb.querySelector(".next").onclick = () => { k = (k + 1) % ph.length; show(); };
   show(); lb.hidden = false;
 }
-function closeMun(){ $("#munApp").hidden = true; appOpen = null; presenter.classList.remove("away"); layout(); advanceIf("mun"); }
+function closeMun(){ hideApp($("#munApp")); appOpen = null; presenter.classList.remove("away"); layout(); advanceIf("mun"); }
 addEventListener("keydown", e => {
   if (appOpen !== "mun" || !MJ.started) return;
   if (e.key === "ArrowRight" || e.key === " "){ e.preventDefault(); if (MJ.i < MJ_N - 1) mjGo(MJ.i + 1); }
   if (e.key === "ArrowLeft"){ e.preventDefault(); if (MJ.i > 0) mjGo(MJ.i - 1); }
 });
+
+/* ---------- Climate app: a coastal city. Sea = The Chosen Trio, road grid = CAPRI V2G, plane = E3 SAF ---------- */
+const ECO = [
+  { id:"trio", at:[1240, 585], focus:[1250, 660], color:"#1f8fc4", icon:"🌊", place:"Out at sea",
+    kicker:"Ocean · 2024–2025", title:"The Chosen Trio", sub:"Heron's Fountain · Heron's Fountain V2 · CoralFeeder",
+    role:"Team Coordinator", org:"STEM competitions",
+    lead:"Three inventions built around one old idea, Heron's Fountain, and pointed at the ocean.",
+    parts:[
+      ["Heron's Fountain", "A device that generates electricity with pumped-storage hydropower and drives a fan on top of the fountain, so it works as battery storage."],
+      ["Heron's Fountain V2", "A centrifuge washing machine that separates microplastics from ocean water."],
+      ["CoralFeeder", "A proposal for an intelligent robotic-arm system that makes coral farming more efficient, more scalable and more likely to survive."]
+    ],
+    awards:[["2024","1st Place · 3min4Science, national competition","Yuan T. Lee Foundation Science Education for All"],
+            ["2024","Top 8 · Ocean Challenge, national competition","Ocean Affairs Council & American Institute in Taiwan"],
+            ["2025","Participant · Ocean Challenge",""]],
+    photos:["image/map/3min4sci.webp","image/map/aquarium.webp"] },
+  { id:"v2g", at:[640, 610], focus:[560, 660], color:"#e2a400", icon:"⚡", place:"On the coastal road",
+    kicker:"Grid · 2026", title:"Vehicle-to-Grid", sub:"Future Policy Leaders Internship",
+    role:"Environmental Policy Researcher", org:"Center for Asia-Pacific Resilience and Innovation (CAPRI)",
+    lead:"Electric cars spend most of the day parked. Vehicle-to-grid lets them send power back to the grid when it is needed most. I compared how three neighbours are writing the rules for it.",
+    paper:"Driving the Energy Transition: A Comparative Study of Vehicle-to-Grid Policies in Taiwan, Japan, & South Korea",
+    thesis:"Taiwan's slow V2G progress is not a technology problem. It comes from immature infrastructure, unclear regulations and weak market incentives.",
+    facts:[["90–95%","of the day, a passenger car sits parked (Kempton & Letendre, 1997)"],["$542M","Japan's projected V2G market by 2030, growing 25.0% a year"],["$8M → $74M","South Korea's bidirectional-charging market, 2025 to 2030"],["60 kWh","Taipower × Gogoro's 2021 V2G battery-swap station: about 4–5 days of a household's power"]],
+    sections:[
+      ["Why Japan and Korea moved faster", ["Japan: after Fukushima (2011), V2G became part of a national energy-resilience strategy, backed by subsidies, Nissan and bidirectional charging standards.","South Korea: fast EV adoption, smart-grid investment and close work between utilities and carmakers."]],
+      ["What is holding Taiwan back", ["Most public chargers only charge one way, so cars can't send power back.","Almost no rules yet for EV owners selling electricity to the grid.","Small financial rewards, plus worries about battery wear and missing common standards."]],
+      ["My recommendations", ["Fund bidirectional charging infrastructure, as Japan did.","Write clear rules for electricity trading and how EV owners get paid.","Offer incentives: subsidies for V2G chargers, payments for demand response.","Bring the government, Taipower, charging operators and carmakers to the same table."]],
+      ["Taiwan's head start", ["Gogoro's battery-swapping network already works like distributed storage: its GoStations take part in Taiwan's ancillary-services market as a virtual power plant. Taiwan can build V2G on top of it."]]
+    ],
+    awards:[["2026","Presented at the CAPRI Final Presentation",""]],
+    photos:["image/map/capri.webp"] },
+  { id:"saf", at:[735, 175], focus:[860, 300], color:"#2e7d4f", icon:"✈︎", place:"In the sky",
+    kicker:"Sky · 2026", title:"Sustainable Aviation Fuel", sub:"E3 Center, National Taiwan University",
+    role:"Environmental Policy Researcher", org:"E3 Center, National Taiwan University",
+    lead:"How green is \"green\" jet fuel? It depends on who is counting. I compared how different international life-cycle frameworks measure the carbon intensity of SAF, and what that means for Taiwan.",
+    paper:"Comparative Analysis of Sustainable Aviation Fuel Carbon Intensity Across International LCA Frameworks: Implications for Taiwan's Policy Development",
+    thesis:"Not all SAF is equally green. What the fuel is made from, and how, decides how much carbon it really saves.",
+    method:["Collect SAF and life-cycle data from the EPA, GREET, ICAO CORSIA and EU RED II","Convert every result to one unit (gCO₂e/MJ)","Compare pathways and feedstocks across countries","Model policy options for Taiwan: mandate, subsidy, or a mix"],
+    chart:{ title:"Carbon intensity by feedstock (gCO₂e/MJ, well-to-wake)", source:"ICAO CORSIA Default Life Cycle Emissions Values, 2024",
+      rows:[["Municipal solid waste",5.2],["Agricultural residues",7.7],["Forestry residues",8.3],["Brassica carinata (US)",13],["Used cooking oil",13.9],["Corn oil",17.2],["Tallow",22.5],["Sugarcane",32.8],["Soybean oil (US)",64.9],["Rapeseed oil",71.5],["Palm oil",99.1]] },
+    sections:[
+      ["What I found", ["SAF made from waste, like used cooking oil (13.9) and municipal solid waste (5.2), has the lowest carbon intensity.","SAF from food crops such as soybean, rapeseed and palm oil scores far higher, because of land-use change and production.","So the feedstock and the production pathway matter more than the label \"sustainable\"."]],
+      ["What it means for Taiwan", ["Prioritise feedstocks with high carbon savings that Taiwan actually has, like waste oils and residues.","Build a Taiwanese SAF assessment system that follows international life-cycle rules."]],
+      ["Next steps", ["Add the GREET and RED II frameworks to see how the method changes the result.","Look at costs, subsidies and carbon pricing, to see which fuels could really make it into policy."]]
+    ],
+    awards:[["2026","Best Presentation Award","E3 Center Final Presentation"]],
+    photos:["image/map/e3.webp"] }
+];
+const EC = { cur:null };
+
+function ecSceneSVG(){
+  const b = [ // skyline: x, w, h, colour
+    [30,70,150,"#c9d6e3"],[105,55,210,"#b7c7d8"],[165,80,120,"#d4dee8"],[250,60,250,"#aebfd2"],[315,90,170,"#c4d2df"],[410,50,290,"#a7b9cd"],
+    [465,75,190,"#bfcedc"],[545,60,140,"#d0dbe6"],[610,85,230,"#b3c4d6"],[700,55,160,"#c8d5e2"],[760,70,110,"#d6e0ea"]];
+  const poles = [70,250,430,610,790];
+  const wire = (a, c) => `M${a},612 Q${(a+c)/2},632 ${c},612`;
+  const wires = poles.slice(0, -1).map((x, i) => wire(x, poles[i+1])).join(" ");
+  const car = (c, ev) => `<g><rect x="-34" y="-14" width="68" height="18" rx="6" fill="${c}"/><path d="M-20 -14 L-12 -26 H12 L22 -14Z" fill="${c}"/><path d="M-15 -15 L-10 -23 H-1 V-15Z M3 -15 V-23 H10 L16 -15Z" fill="#dff1fb"/><circle cx="-19" cy="5" r="6.5" fill="#26292e"/><circle cx="19" cy="5" r="6.5" fill="#26292e"/>${ev ? `<path d="M-3 -10 l4 0 -2 4 4 0 -6 7 2 -5 -4 0z" fill="#ffd23f"/>` : ""}</g>`;
+  return `<svg class="ec-svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="ecSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7cc3ee"/><stop offset=".7" stop-color="#cfe9f7"/><stop offset="1" stop-color="#eef7fb"/></linearGradient>
+    <linearGradient id="ecSea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5fbadd"/><stop offset=".35" stop-color="#2b93c4"/><stop offset="1" stop-color="#0f5f8f"/></linearGradient>
+    <radialGradient id="ecSun"><stop offset="0" stop-color="#fff3c4"/><stop offset=".45" stop-color="#ffd86b"/><stop offset="1" stop-color="#ffd86b" stop-opacity="0"/></radialGradient>
+    <pattern id="ecWin" width="14" height="18" patternUnits="userSpaceOnUse"><rect x="3" y="4" width="7" height="9" fill="#eef4fa" opacity=".85"/></pattern>
+    <linearGradient id="ecTrail" x1="1" x2="0"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  </defs>
+  <g class="ec-world" id="ecWorld">
+    <rect width="1600" height="900" fill="url(#ecSky)"/>
+    <circle cx="1380" cy="140" r="120" fill="url(#ecSun)"/><circle cx="1380" cy="140" r="42" fill="#ffe28a"/>
+    <g class="ec-cloud c1"><ellipse cx="220" cy="120" rx="70" ry="22" fill="#fff"/><ellipse cx="255" cy="104" rx="40" ry="24" fill="#fff"/><ellipse cx="190" cy="110" rx="30" ry="18" fill="#fff"/></g>
+    <g class="ec-cloud c2"><ellipse cx="1040" cy="90" rx="80" ry="22" fill="#fff" opacity=".9"/><ellipse cx="1080" cy="72" rx="44" ry="26" fill="#fff" opacity=".9"/></g>
+    <g class="ec-cloud c3"><ellipse cx="520" cy="300" rx="60" ry="16" fill="#fff" opacity=".8"/><ellipse cx="545" cy="288" rx="32" ry="18" fill="#fff" opacity=".8"/></g>
+    <!-- sea -->
+    <rect y="498" width="1600" height="402" fill="url(#ecSea)"/>
+    <g class="ec-waves" stroke="#fff" stroke-opacity=".45" stroke-width="3" fill="none" stroke-linecap="round">
+      <path d="M1080 540 q20 -8 40 0 t40 0"/><path d="M1300 528 q20 -8 40 0 t40 0"/><path d="M1460 560 q20 -8 40 0 t40 0"/>
+      <path d="M1120 700 q20 -8 40 0 t40 0"/><path d="M1400 690 q20 -8 40 0 t40 0"/><path d="M1180 780 q20 -8 40 0 t40 0"/></g>
+    <!-- coral reef + CoralFeeder -->
+    <g opacity=".95">
+      <path d="M1330 900 q10 -60 30 -70 q-5 40 10 70z" fill="#ff8a7a"/><path d="M1380 900 q-8 -50 12 -78 q18 30 6 78z" fill="#ffb347"/>
+      <path d="M1420 900 c0 -40 30 -60 40 -40 c10 -30 40 -10 30 40z" fill="#ff6f91"/><path d="M1500 900 q4 -55 26 -62 q2 40 -6 62z" fill="#ffd166"/>
+      <rect x="1540" y="830" width="16" height="70" fill="#6c7a89"/>
+      <g class="ec-arm"><path d="M1548 832 L1500 790 L1460 812" stroke="#e8edf2" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="1500" cy="790" r="7" fill="#9aa8b6"/><path d="M1460 812 l-10 8 m10 -8 l-4 12" stroke="#e8edf2" stroke-width="4" stroke-linecap="round"/></g>
+    </g>
+    <!-- Heron's Fountain platform -->
+    <g class="ec-buoy">
+      <path d="M1170 640 h150 l-14 22 h-122z" fill="#f2f4f6"/><rect x="1170" y="634" width="150" height="8" fill="#ff7a3d"/>
+      <rect x="1200" y="586" width="26" height="48" rx="3" fill="#cfe9f7" stroke="#6b8ca3" stroke-width="2"/><rect x="1260" y="560" width="26" height="74" rx="3" fill="#cfe9f7" stroke="#6b8ca3" stroke-width="2"/>
+      <rect x="1203" y="606" width="20" height="25" fill="#5fbadd"/><rect x="1263" y="590" width="20" height="41" fill="#5fbadd"/>
+      <path d="M1213 586 V572 H1273 V560" stroke="#6b8ca3" stroke-width="3" fill="none"/>
+      <path d="M1273 560 V538" stroke="#6b8ca3" stroke-width="3"/>
+      <g class="ec-jet" fill="#7fd0f0"><circle cx="1273" cy="532" r="3"/><circle cx="1268" cy="522" r="2.5"/><circle cx="1279" cy="520" r="2.5"/><circle cx="1273" cy="510" r="2"/></g>
+      <g transform="translate(1236 548)"><rect x="-2" y="0" width="4" height="40" fill="#6b8ca3"/><g class="ec-fan"><path d="M0 0 l-16 -5 a5 5 0 0 1 0 10z M0 0 l16 5 a5 5 0 0 1 0 -10z" fill="#ffd166"/></g></g>
+    </g>
+    <!-- land + beach -->
+    <path d="M0,498 H860 C930,505 965,560 985,640 C1000,700 1010,800 1030,900 H0 Z" fill="#cfe2b4"/>
+    <path d="M860,498 C930,505 965,560 985,640 C1000,700 1010,800 1030,900 H1066 C1046,800 1034,700 1014,628 C992,548 952,502 884,498Z" fill="#f1dfb0"/>
+    <path d="M0 470 C150 430 280 455 400 440 C540 420 680 450 860 498 H0Z" fill="#a9c9b0"/>
+    <!-- skyline -->
+    ${b.map(([x,w,h,c]) => `<rect x="${x}" y="${505-h}" width="${w}" height="${h}" fill="${c}"/><rect x="${x+4}" y="${505-h+8}" width="${w-8}" height="${h-14}" fill="url(#ecWin)"/>`).join("")}
+    <g fill="#2f4b66" opacity=".85"><rect x="258" y="250" width="44" height="6"/><rect x="618" y="270" width="68" height="6"/><rect x="320" y="330" width="80" height="6"/></g>
+    <g class="ec-turbine" transform="translate(140 430)"><rect x="-2" y="0" width="4" height="70" fill="#eef2f6"/><g class="ec-blades"><path d="M0 0 L-3 -38 L3 -38Z M0 0 L34 17 L31 22Z M0 0 L-31 22 L-34 17Z" fill="#eef2f6"/></g><circle r="4" fill="#cfd8e1"/></g>
+    <rect y="505" width="990" height="190" fill="#cfe2b4"/>
+    <!-- houses with solar + chargers -->
+    <g><path d="M330 600 l40 -32 l40 32z" fill="#c4643f"/><rect x="338" y="600" width="64" height="44" fill="#f5efe3"/><path d="M352 583 l18 -14 l18 14z" fill="#2d4f86"/><rect x="362" y="618" width="16" height="26" fill="#8a5a3c"/></g>
+    <g><path d="M440 610 l32 -26 l32 26z" fill="#7a8f5a"/><rect x="446" y="610" width="52" height="34" fill="#f5efe3"/><path d="M456 597 l16 -12 l16 12z" fill="#2d4f86"/></g>
+    ${[600, 760].map(x => `<g><rect x="${x}" y="612" width="22" height="48" rx="4" fill="#2e7d4f"/><rect x="${x+4}" y="618" width="14" height="12" rx="2" fill="#bff3cf"/><path d="M${x+22} 640 q20 10 30 32" stroke="#26292e" stroke-width="3" fill="none"/></g>`).join("")}
+    <g transform="translate(680 690)">${car("#3b82c4", true)}</g>
+    <g transform="translate(838 690)">${car("#e2574c", true)}</g>
+    <!-- power grid -->
+    ${poles.map(x => `<rect x="${x-3}" y="606" width="6" height="94" fill="#7d6a58"/><rect x="${x-16}" y="606" width="32" height="5" fill="#7d6a58"/>`).join("")}
+    <path d="${wires}" stroke="#4b5560" stroke-width="2" fill="none"/>
+    <path class="ec-flow" d="${wires}" stroke="#ffd23f" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path class="ec-flow back" d="M600 650 V612 M760 650 V612" stroke="#ffd23f" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <!-- road -->
+    <path d="M0 700 H975 C985 720 990 740 995 760 H0Z" fill="#596370"/>
+    <path d="M0 729 H985" stroke="#f3f3f3" stroke-width="3" stroke-dasharray="26 22"/>
+    <path d="M0 762 H996 C1003 800 1010 850 1020 900 H0Z" fill="#b9d59c"/>
+    <path d="M0 762 H996" stroke="#e8e2d0" stroke-width="5"/>
+    <g class="ec-car a" transform="translate(0 722)">${car("#f4b740", true)}</g>
+    <g class="ec-car b" transform="translate(0 750)">${car("#ffffff", true)}</g>
+    <g class="ec-car c" transform="translate(0 722)">${car("#4bb37b", true)}</g>
+    <g fill="#5e8f4d">${[60, 200, 330, 470, 900].map(x => `<circle cx="${x}" cy="810" r="20"/><rect x="${x-3}" y="810" width="6" height="26" fill="#7d6a58"/>`).join("")}</g>
+    <!-- plane -->
+    <g class="ec-plane">
+      <path d="M380 205 H690" stroke="url(#ecTrail)" stroke-width="7" stroke-linecap="round"/>
+      <g transform="translate(735 196)">
+        <path d="M-58 4 C-58 -6 -40 -9 -10 -9 H40 C56 -9 64 -3 64 4 C64 9 56 12 40 12 H-46 C-54 12 -58 9 -58 4Z" fill="#fff" stroke="#c6d3de" stroke-width="1.5"/>
+        <path d="M-46 -8 L-62 -34 H-48 L-24 -8Z" fill="#2e7d4f"/><path d="M-51 -26 c3 -6 9 -6 10 -2 c-4 1 -7 3 -10 2z" fill="#bff3cf"/>
+        <path d="M-8 4 L-30 30 H-16 L18 4Z" fill="#e6edf3" stroke="#c6d3de"/><path d="M-8 -2 L-18 -18 H-8 L10 -2Z" fill="#e6edf3"/>
+        <g fill="#5d7f99">${[-34,-24,-14,-4,6,16,26].map(x => `<circle cx="${x}" cy="0" r="2.4"/>`).join("")}</g>
+        <path d="M52 -4 q8 2 10 7 h-12z" fill="#5d7f99"/>
+      </g>
+    </g>
+    <!-- hotspots -->
+    ${ECO.map(e => { const [x, y] = e.at, label = e.title, w = Math.max(label.length * 9.2, e.place.length * 8.4) + 66, flip = e.id === "trio";
+      return `<g class="ec-hot" data-eco="${e.id}" transform="translate(${x} ${y})" tabindex="0" role="button" aria-label="${label}">
+        <circle class="ring" r="20" fill="none" stroke="${e.color}" stroke-width="4"/><circle r="11" fill="${e.color}" stroke="#fff" stroke-width="3"/>
+        <g class="lbl" style="--lx:${flip ? -w - 22 : 22}px" transform="translate(${flip ? -w - 22 : 22} -58)"><rect width="${w}" height="44" rx="22" fill="#fff" stroke="${e.color}" stroke-width="2.5"/>
+          <circle cx="22" cy="22" r="14" fill="${e.color}"/><text x="22" y="27.5" text-anchor="middle" font-size="15" fill="#fff">${e.icon}</text>
+          <text x="44" y="20" font-size="11" font-weight="700" letter-spacing="1.2" fill="${e.color}">${e.place.toUpperCase()}</text>
+          <text x="44" y="36" font-size="16" font-weight="700" fill="#1d2530">${label}</text></g></g>`; }).join("")}
+  </g></svg>`;
+}
+function ecPanelHTML(e){
+  const i = ECO.indexOf(e), nx = ECO[(i + 1) % ECO.length];
+  return `<div class="ec-ph" style="--c:${e.color}"><span>${e.kicker}</span><h2>${e.title}</h2><p>${e.sub}</p></div>
+    <div class="ec-pb">
+      ${e.photos?.length ? `<div class="ec-photos n${Math.min(e.photos.length, 2)}">${e.photos.map(p => `<img src="${p}" alt="${e.title}" loading="lazy">`).join("")}</div>` : ""}
+      <dl class="ec-meta"><div><dt>Role</dt><dd>${e.role}</dd></div><div><dt>Where</dt><dd>${e.org}</dd></div></dl>
+      <p class="ec-lead">${e.lead}</p>
+      ${e.thesis ? `<div class="ec-thesis"><span>${e.id === "saf" ? "Key idea" : "My argument"}</span>${e.thesis}</div>` : ""}
+      ${e.facts ? `<div class="ec-facts">${e.facts.map(([b, t]) => `<div><b>${b}</b><span>${t}</span></div>`).join("")}</div>` : ""}
+      ${e.method ? `<h4>How I did it</h4><ol class="ec-steps">${e.method.map(m => `<li>${m}</li>`).join("")}</ol>` : ""}
+      ${e.chart ? (() => { const mx = Math.max(...e.chart.rows.map(r => r[1])); return `<h4>${e.chart.title}</h4><div class="ec-chart">${e.chart.rows.map(([n, v]) => `<div class="ec-bar"><span>${n}</span><i style="width:${(v / mx * 100).toFixed(1)}%;--h:${v < 20 ? "#2e9d63" : v < 40 ? "#d9a520" : "#d2553f"}"></i><b>${v}</b></div>`).join("")}<small>Source: ${e.chart.source}. Lower is better.</small></div>`; })() : ""}
+      ${(e.sections || []).map(([h, items]) => `<h4>${h}</h4><ul class="ec-list">${items.map(t => `<li>${t}</li>`).join("")}</ul>`).join("")}
+      ${e.parts ? `<h4>The three projects</h4><ol class="ec-parts">${e.parts.map(([h, t]) => `<li><b>${h}</b><span>${t}</span></li>`).join("")}</ol>` : ""}
+      ${e.paper ? `<h4>Research paper</h4><blockquote class="ec-paper">${e.paper}</blockquote>` : ""}
+      <h4>${e.id === "trio" ? "Competitions" : "Recognition"}</h4>
+      <ul class="ec-awards">${e.awards.map(([y, t, s]) => `<li><span>${y}</span><div><b>${t}</b>${s ? `<small>${s}</small>` : ""}</div></li>`).join("")}</ul>
+      <button class="ec-next" data-eco="${nx.id}" style="--c:${nx.color}">Next: ${nx.title} <span>→</span></button>
+    </div>`;
+}
+function ecFocus(id){
+  const st = $("#ecStage"), w = $("#ecWorld"), e = ECO.find(x => x.id === id);
+  EC.cur = e ? id : null;
+  $("#ecoApp").classList.toggle("open", !!e);
+  document.querySelectorAll("#ecoApp [data-eco]").forEach(b => b.classList.toggle("on", b.dataset.eco === id));
+  if (!e){ w.style.transform = ""; return; }
+  const p = $("#ecPanel"); p.innerHTML = ecPanelHTML(e); p.scrollTop = 0;
+  p.querySelector(".ec-next").addEventListener("click", () => ecFocus(p.querySelector(".ec-next").dataset.eco));
+  p.querySelectorAll(".ec-photos img").forEach((im, k) => im.addEventListener("click", () => ecPhoto(e, k)));
+  const portrait = st.clientHeight > st.clientWidth, k = portrait ? 1.6 : 1.55;
+  const cx = portrait ? 830 : 560, cy = portrait ? 380 : 450;
+  const tx = Math.min(0, Math.max(1600 - 1600 * k, cx - k * e.focus[0])), ty = Math.min(0, Math.max(900 - 900 * k, cy - k * e.focus[1]));
+  w.style.transform = `translate(${tx}px, ${ty}px) scale(${k})`;
+}
+function ecPhoto(e, k){
+  let lb = $("#ecLb");
+  if (!lb){ lb = document.createElement("div"); lb.id = "ecLb"; lb.className = "ec-lb"; lb.innerHTML = `<img alt="">`; $("#ecoApp").append(lb); lb.addEventListener("click", () => lb.hidden = true); }
+  lb.querySelector("img").src = e.photos[k]; lb.hidden = false;
+}
+function openEco(){
+  appOpen = "weather"; presenter.classList.add("away"); layout(); showTip();
+  let el = $("#ecoApp");
+  if (!el){
+    el = document.createElement("div"); el.id = "ecoApp";
+    el.innerHTML = `
+      <header class="ec-top"><div class="ec-brand"><b>Climate City</b><span>My environmental research · tap a glowing spot</span></div>
+        <button class="close-app" id="ecClose">${ICON_HOME}Close</button></header>
+      <div class="ec-stage" id="ecStage">${ecSceneSVG()}</div>
+      <nav class="ec-links" aria-label="Projects">${ECO.map(e => `<button data-eco="${e.id}" style="--c:${e.color}"><i>${e.icon}</i><span><small>${e.place}</small>${e.title}</span></button>`).join("")}</nav>
+      <aside class="ec-panel" id="ecPanel" aria-live="polite"></aside>
+      <button class="ec-back" id="ecBack">← Back to the city</button>`;
+    document.body.append(el);
+    $("#ecClose").addEventListener("click", closeEco);
+    $("#ecBack").addEventListener("click", () => ecFocus(null));
+    el.querySelectorAll("[data-eco]").forEach(b => b.addEventListener("click", ev => { ev.stopPropagation(); ecFocus(b.dataset.eco); }));
+    el.querySelectorAll(".ec-hot").forEach(h => h.addEventListener("keydown", ev => { if (ev.key === "Enter" || ev.key === " "){ ev.preventDefault(); ecFocus(h.dataset.eco); } }));
+    $("#ecStage").addEventListener("click", ev => { if (!ev.target.closest(".ec-hot") && EC.cur) ecFocus(null); });
+  }
+  el.hidden = false; ecFocus(null);
+  const portrait = innerHeight > innerWidth;
+  el.querySelector(".ec-svg").setAttribute("preserveAspectRatio", portrait ? "xMidYMid slice" : "xMidYMid slice");
+  el.querySelector(".ec-svg").setAttribute("viewBox", portrait ? "180 60 1300 840" : "0 0 1600 900");
+}
+function closeEco(){ hideApp($("#ecoApp")); appOpen = null; presenter.classList.remove("away"); layout(); advanceIf("weather"); }
 
 addEventListener("keydown", e => {
   if (e.key !== "Escape") return;
@@ -3123,6 +3551,7 @@ addEventListener("keydown", e => {
   if (appOpen === "music") return closeMusic();
   if (appOpen === "files") return closeFiles();
   if (appOpen === "mun") return closeMun();
+  if (appOpen === "weather"){ if (EC.cur) return ecFocus(null); return closeEco(); }
   if (appOpen === "camera") return closeCamera();
   if (appOpen === "maps"){ if (!$("#mapTip").hidden) return $("#mapTip").hidden = true; return closeMaps(); }
   if (appOpen) return closeFlix();
