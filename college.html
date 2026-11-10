@@ -175,10 +175,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;paddin
 /* ---------- Presenter (welcome video → corner guide) ---------- */
 #presenter{position:fixed;z-index:85;overflow:hidden;background:#111;box-shadow:0 30px 80px rgba(0,0,0,.55);
   transition:left .7s cubic-bezier(.65,0,.25,1),top .7s cubic-bezier(.65,0,.25,1),width .7s cubic-bezier(.65,0,.25,1),height .7s cubic-bezier(.65,0,.25,1),border-radius .7s,opacity .3s}
-#presenter[hidden]{display:none}
+#presenter[hidden],#presenter .ph[hidden]{display:none}
 #presenter.pip{cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.5),0 0 0 3px rgba(255,255,255,.85)}
 #presenter.away{opacity:0;pointer-events:none}
 #presenter video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#presenter video[hidden]{display:none}
 .ph{position:absolute;inset:0;display:grid;place-items:center;text-align:center;
   background:radial-gradient(80% 90% at 70% 20%,rgba(242,170,74,.5),transparent 60%),radial-gradient(70% 80% at 10% 100%,rgba(196,58,88,.55),transparent 60%),#0d2a31}
 .ph-tag{position:absolute;left:14px;top:12px;font-size:clamp(11px,.9vw,15px);letter-spacing:.12em;text-transform:uppercase;background:rgba(0,0,0,.45);padding:5px 9px;border-radius:6px;color:rgba(255,255,255,.8)}
@@ -924,6 +925,7 @@ tr.cur.is-playing .nm,tr.cur.is-playing:hover .pl{display:none!important}
 .bt-shootwrap{display:grid;grid-template-columns:1fr 260px;gap:24px;height:100%;max-width:1200px;margin:0 auto;align-items:center}
 .bt-live{position:relative;max-height:100%;max-width:100%;margin:0 auto;height:100%;border-radius:14px;overflow:hidden;background:#0b1020;box-shadow:0 0 0 1px rgba(62,240,255,.35),0 0 60px rgba(62,240,255,.12)}
 .bt-live video{width:100%;height:100%;object-fit:cover;transform:scaleX(-1);display:block}
+.bt-york{position:absolute;bottom:0;width:auto;max-width:none;pointer-events:none;filter:drop-shadow(0 6px 18px rgba(0,0,0,.35))}
 .bt-hud{position:absolute;inset:14px;pointer-events:none}
 .bt-hud i{position:absolute;width:26px;height:26px;border:2px solid var(--bt-cyan);opacity:.85}
 .bt-hud i:nth-child(1){left:0;top:0;border-right:0;border-bottom:0}
@@ -1248,7 +1250,8 @@ tr.cur.is-playing .nm,tr.cur.is-playing:hover .pl{display:none!important}
 .ec-facts span{display:block;font-size:13px;line-height:1.4;color:#5b6b7a;margin-top:2px}
 .ec-steps{margin:0;padding:0;list-style:none;counter-reset:st;display:grid;gap:8px}
 .ec-steps li{counter-increment:st;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:center;font-size:15px;line-height:1.4}
-.ec-steps li::before{content:"0" counter(st);font-weight:700;color:#2e7d4f;font-size:14px}
+.ec-steps li{align-items:start}
+.ec-steps li::before{content:"0" counter(st);font-weight:700;color:var(--c,#2e7d4f);font-size:14px;padding-top:1px}
 .ec-chart{display:grid;gap:5px}
 .ec-bar{display:grid;grid-template-columns:150px 1fr 40px;gap:8px;align-items:center;font-size:13.5px}
 .ec-bar span{color:#3a4552;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -1307,7 +1310,7 @@ tr.cur.is-playing .nm,tr.cur.is-playing:hover .pl{display:none!important}
 #ecoApp.open .ec-hot:not(.on){opacity:.35}
 /* bottom links */
 .ec-links{position:absolute;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 18px);transform:translateX(-50%);z-index:4;display:flex;gap:10px;padding:8px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);border-radius:18px;box-shadow:0 8px 28px rgba(30,60,90,.18);transition:opacity .3s,transform .3s}
-.ec-links button{display:flex;align-items:center;gap:10px;padding:9px 16px 9px 9px;border-radius:12px;background:transparent;text-align:left;font-size:15px;font-weight:700;color:#1d2530;transition:background .15s}
+.ec-links button{white-space:nowrap;display:flex;align-items:center;gap:10px;padding:9px 16px 9px 9px;border-radius:12px;background:transparent;text-align:left;font-size:15px;font-weight:700;color:#1d2530;transition:background .15s}
 .ec-links button:hover{background:#eef3f7}
 .ec-links button.on{background:var(--c);color:#fff}
 .ec-links button.on small{color:rgba(255,255,255,.85)}
@@ -1318,6 +1321,13 @@ tr.cur.is-playing .nm,tr.cur.is-playing:hover .pl{display:none!important}
 #ecoApp.open .ec-panel{transform:none}
 #ecoApp.open .ec-links{opacity:0;pointer-events:none;transform:translate(-50%,20px)}
 #ecoApp.open .close-app{margin-right:min(520px,40vw)}
+@media (min-width:901px) and (orientation:landscape){
+  #ecoApp.pl .ec-panel{right:auto;left:0;transform:translateX(-105%);box-shadow:10px 0 40px rgba(30,60,90,.18)}
+  #ecoApp.pl.open .ec-panel{transform:none}
+  #ecoApp.pl.open .close-app{margin-right:0}
+  #ecoApp.pl .ec-back{left:auto;right:18px}
+  #ecoApp.pl.open .ec-brand{opacity:0}
+}
 .ec-back{position:absolute;left:18px;bottom:calc(env(safe-area-inset-bottom,0px) + 18px);z-index:5;padding:12px 18px;border-radius:12px;background:#fff;font-size:15px;font-weight:700;color:#1d2530;box-shadow:0 6px 20px rgba(30,60,90,.18);opacity:0;pointer-events:none;transition:opacity .3s}
 #ecoApp.open .ec-back{opacity:1;pointer-events:auto}
 .ec-ph{background:var(--c);color:#fff;padding:calc(env(safe-area-inset-top,0px) + 26px) 28px 22px}
@@ -1329,6 +1339,9 @@ tr.cur.is-playing .nm,tr.cur.is-playing:hover .pl{display:none!important}
 .ec-photos.n1{grid-template-columns:1fr}
 .ec-photos img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px;cursor:zoom-in;display:block}
 .ec-photos.n1 img{aspect-ratio:16/10}
+.ec-photos img[src*="coralfeeder"]{aspect-ratio:2048/985;object-fit:contain;background:#f3f6f9}
+.ec-photos img[src*="heron-"],.ec-photos img[src*="centrifuge"],.ec-photos img[src*="filtration"]{object-fit:contain;background:#fff;border:1px solid #e3e9ef}
+.ec-photos.n2 img:first-child:nth-last-child(3){grid-column:1 / -1;aspect-ratio:16/10}
 .ec-meta{display:grid;gap:8px;margin:0 0 16px}
 .ec-meta div{display:grid;grid-template-columns:70px 1fr;gap:10px}
 .ec-meta dt{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#7a8794;padding-top:2px}
@@ -1474,7 +1487,8 @@ tr.cur.is-playing .nm,tr.cur.is-playing:hover .pl{display:none!important}
 
 // 15-second welcome video. Put an .mp4 next to index.html (e.g. "welcome.mp4").
 // Leave empty to show the placeholder.
-const WELCOME_VIDEO = "";
+const WELCOME_VIDEO = "videos/welcome.mp4";
+const IDLE_VIDEO = "videos/idle.mp4"; // silent loop shown in the corner guide after the intro
 const INTRO_MS = 15000;
 
 // trailer: a YouTube link (or its ID) or an .mp4 file name. Empty = "coming soon".
@@ -1546,13 +1560,12 @@ const STATS = [["53","TV episodes"],["4","broadcasters"],["4","awards"],["2019",
 // What York "says" in the corner after the welcome video.
 const TIPS = [
   { app:"yorkflix", text:"Welcome to my world! Start with YorkFlix to watch trailers of the TV shows I've worked on." },
-  { app:"mun", text:"Open MUN to see my Model UN and debate journey." },
-  { app:"music", text:"Music has my singing clips and my band, Blank Space." },
-  { app:"files", text:"Need my résumé? It's in Files." },
+  { app:"mun", text:"Next, open MUN to see my Model UN and debate journey." },
   { app:"maps", text:"Maps shows the places MUN and diplomacy have taken me." },
   { app:"weather", text:"Weather is where my environmental research lives." },
-  { app:"camera", text:"Take a photo-booth picture with me in Camera :)" },
-  { app:"camera", text:"One last thing. Take a photo-booth picture with me!" }
+  { app:"music", text:"Music has my singing clips and my band, Blank Space." },
+  { app:"files", text:"Need my résumé? It's in Files." },
+  { app:"camera", text:"One last thing. Take a photo-booth picture with me in Camera!" }
 ];
 const FLIX_TIP = "Pick any show and press Play Trailer. Close YorkFlix with the button at the top right.";
 
@@ -1777,6 +1790,23 @@ tick(); setInterval(tick, 20000);
 
 /* ---------- boot + presenter ---------- */
 const presenter = $("#presenter"), bubble = $("#bubble"), skipBtn = $("#skip");
+// The corner guide: a silent clip of York that loops forever after the intro.
+// Built up front (muted + playsinline + autoplay attributes) so Safari/iOS will autoplay it.
+let idleEl = null;
+function idleVideo(){
+  if (idleEl) return idleEl;
+  idleEl = document.createElement("video");
+  ["muted","loop","playsinline","autoplay"].forEach(a => idleEl.setAttribute(a, ""));
+  idleEl.muted = true; idleEl.loop = true; idleEl.playsInline = true; idleEl.preload = "auto";
+  idleEl.className = "idle"; idleEl.hidden = true; idleEl.src = IDLE_VIDEO;
+  presenter.prepend(idleEl);
+  return idleEl;
+}
+function playIdle(){ if (idleEl && !idleEl.hidden && idleEl.paused) idleEl.play().catch(() => {}); }
+// if the browser blocked autoplay, start it on the next tap/click anywhere
+document.addEventListener("pointerdown", playIdle, true);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) playIdle(); });
+new MutationObserver(playIdle).observe(presenter, { attributes:true, attributeFilter:["class"] });
 let presState = "stage", introDone = false, tipIdx = 0, bubbleOpen = true, appOpen = null, video = null;
 
 $("#powerBtn").addEventListener("click", startIntro);
@@ -1787,13 +1817,14 @@ function startIntro(){
   presenter.hidden = false;
   presenter.querySelector(".ph-tag").hidden = IS_LIVE;
   presState = "stage"; layout();
+  if (IDLE_VIDEO) idleVideo();
   if (store.get("yorkos_seen") === "1"){ skipBtn.hidden = false; }
   if (WELCOME_VIDEO){
     $("#ph").hidden = true;
     video = document.createElement("video");
     video.src = WELCOME_VIDEO; video.playsInline = true;
     presenter.prepend(video);
-    video.addEventListener("timeupdate", () => { if (video.duration) $("#prog").style.width = (video.currentTime/video.duration*100)+"%"; });
+    video.addEventListener("timeupdate", e => { const v = e.target; if (v.duration) $("#prog").style.width = (v.currentTime/v.duration*100)+"%"; });
     video.addEventListener("ended", endIntro);
     video.play().catch(() => { video.remove(); video = null; $("#ph").hidden = false; runPlaceholder(); });
   } else runPlaceholder();
@@ -1801,9 +1832,9 @@ function startIntro(){
 
 function runPlaceholder(){
   const lines = [
-    ["Welcome to my world", "I'm York Chen"],
-    ["Host. Podcaster. Delegate.", "and a few more things"],
-    ["Let me show you around", "Tap the apps to explore"]
+    ["Welcome to my World", "I'm York, from Taipei Wego Senior High School"],
+    ["Feel free to explore", "every app here is a part of my story"],
+    ["Follow the little guide", "down below and it'll show you around"]
   ];
   const t0 = performance.now();
   let shown = -1;
@@ -1823,7 +1854,12 @@ function endIntro(){
   if (introDone) return;
   introDone = true;
   store.set("yorkos_seen","1");
-  if (video) video.pause();
+  if (video){ video.pause(); video.remove(); video = null; }
+  if (IDLE_VIDEO){
+    $("#ph").hidden = true;
+    idleVideo().hidden = false;
+    playIdle();
+  }
   skipBtn.hidden = true;
   $("#dim").classList.add("off");
   presState = "pip";
@@ -2788,11 +2824,14 @@ const BOOTH_COUNT = 5;                 // countdown seconds
 // and adjust the shot rectangles to match the holes. Until then each frame is drawn in code (bg + deco).
 const BOOTH_TEMPLATES = [
   { id:"strip", name:"Strip", no:"03", sub:"3 shots", overlay:"", bg:["#05070d","#0e1424"], accent:"#ff4fd8",
-    shots:[[170,170,860,470],[170,685,860,470],[170,1200,860,470]], deco:"strip" },
+    shots:[[170,170,860,470],[170,685,860,470],[170,1200,860,470]], deco:"strip",
+    york:["image/booth/york-strip1.webp","image/booth/york-strip2.webp","image/booth/york-strip3.webp"], yk:{ h:1, x:-.02 } },
   { id:"solo", name:"Solo", no:"01", sub:"1 shot", overlay:"", bg:["#0a0f1f","#1a0f2e"], accent:"#8b5cff",
-    shots:[[90,180,1020,1320]], deco:"solo" },
+    shots:[[90,180,1020,1320]], deco:"solo",
+    york:["image/booth/york-solo1.webp"], yk:{ h:.7, x:-.1 } },
   { id:"duo", name:"Duo", no:"02", sub:"2 shots", overlay:"", bg:["#06101a","#101c33"], accent:"#4dff9a",
-    shots:[[80,190,1040,680],[80,910,1040,680]], deco:"duo" }
+    shots:[[80,190,1040,680],[80,910,1040,680]], deco:"duo",
+    york:["image/booth/york-duo1.webp","image/booth/york-duo2.webp"], yk:{ h:1, x:0 } }
 ];
 const BOOTH_FILTERS = [
   { id:"natural", name:"Natural", f:"none" },
@@ -2828,7 +2867,14 @@ function bBackdrop(ctx, t){
 function bStar(ctx, x, y, r){ ctx.beginPath(); for (let i = 0; i < 10; i++){ const a = -Math.PI/2 + i*Math.PI/5, rr = i % 2 ? r*.45 : r; ctx.lineTo(x + Math.cos(a)*rr, y + Math.sin(a)*rr); } ctx.closePath(); ctx.fill(); }
 function bDate(){ return new Date().toLocaleDateString("en-US", { year:"numeric", month:"short", day:"numeric" }); }
 function bRound(ctx, x, y, w, h, r){ ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x, y, w, h, r) : ctx.rect(x, y, w, h); }
-const bImgCache = {};
+const bImgCache = {}, bYorkImg = {};
+// York's cut-out photo stands on the RIGHT of every shot, so visitors get a picture with him
+function bDrawYork(ctx, img, t, x, y, w, h){
+  if (!img) return;
+  const yh = h * t.yk.h, yw = yh * img.naturalWidth / img.naturalHeight;
+  ctx.drawImage(img, x + w - yw - w * t.yk.x, y + h - yh, yw, yh);
+}
+function bPreloadYork(){ BOOTH_TEMPLATES.forEach(t => t.york.forEach(src => bLoad(src).then(i => bYorkImg[src] = i))); }
 function bLoad(src){ return bImgCache[src] ||= new Promise(r => { const i = new Image(); i.onload = () => r(i); i.onerror = () => r(null); i.src = src; }); }
 
 // Draw a template; shots = array of canvases (or null for an empty hole)
@@ -2848,8 +2894,9 @@ async function bCompose(ctx, t, shots, filterId){
       if (flt.tint){ ctx.fillStyle = flt.tint; ctx.globalCompositeOperation = "soft-light"; ctx.fillRect(x, y, w, h); ctx.globalCompositeOperation = "source-over"; }
     } else {
       ctx.fillStyle = "rgba(255,255,255,.05)"; ctx.fillRect(x, y, w, h);
+      bDrawYork(ctx, bYorkImg[t.york[i]], t, x, y, w, h);
       ctx.fillStyle = "rgba(255,255,255,.28)"; ctx.font = "800 110px ui-monospace, Menlo, monospace"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
-      ctx.fillText(String(i + 1).padStart(2, "0"), x + w/2, y + h/2);
+      ctx.fillText(t.york[i] ? "YOU" : String(i + 1).padStart(2, "0"), x + w * (t.york[i] ? .24 : .5), y + h/2);
     }
     ctx.restore();
     ctx.save(); bRound(ctx, x, y, w, h, 18); ctx.lineWidth = 4; ctx.strokeStyle = t.accent; ctx.shadowColor = t.accent; ctx.shadowBlur = 24; ctx.stroke(); ctx.restore();
@@ -2870,13 +2917,14 @@ function openCamera(){
         <button class="close-app" id="boothClose">${ICON_HOME}Close</button>
       </header>
       <section class="bt-screen" id="btPick">
-        <h2>Take a photo <span>with York</span></h2><p class="bt-lead">Pick a frame, strike a pose on the 5-second countdown, then draw on your photo and download it.</p>
+        <h2>Take a photo <span>with York</span></h2><p class="bt-lead">I'm already in every frame, so stand on my left. Pick a frame, strike a pose on the 5-second countdown, then draw on your photo and download it.</p>
         <div class="bt-tpls">${BOOTH_TEMPLATES.map(t => `<button class="bt-tpl" data-tpl="${t.id}"><canvas width="${BW}" height="${BH}"></canvas><b>${t.name}</b><small>${t.sub}</small></button>`).join("")}</div><p class="bt-swipe">SWIPE FOR MORE FRAMES →</p>
       </section>
       <section class="bt-screen" id="btShoot" hidden>
         <div class="bt-shootwrap">
           <div class="bt-live" id="btLive">
             <video id="btVideo" playsinline muted autoplay></video>
+            <img class="bt-york" id="btYork" alt="York">
             <div class="bt-hud"><i></i><i></i><i></i><i></i><b></b><span>LIVE</span></div>
             <div class="bt-count" id="btCount"><div class="ring"><svg viewBox="0 0 100 100"><defs><linearGradient id="btGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3ef0ff"/><stop offset=".55" stop-color="#8b5cff"/><stop offset="1" stop-color="#ff4fd8"/></linearGradient></defs><circle class="bg" cx="50" cy="50" r="48"/><circle class="fg" cx="50" cy="50" r="48"/></svg><span class="num"></span></div><div class="say">GET READY</div></div>
             <div class="bt-flash" id="btFlash"></div>
@@ -2925,9 +2973,10 @@ function openCamera(){
       </section>`;
     document.body.append(el);
     $("#boothClose").addEventListener("click", closeCamera);
+    bPreloadYork();
     el.querySelectorAll(".bt-tpl").forEach(b => {
       const t = BOOTH_TEMPLATES.find(x => x.id === b.dataset.tpl);
-      bCompose(b.querySelector("canvas").getContext("2d"), t, [], "natural");
+      Promise.all(t.york.map(bLoad)).then(ims => { t.york.forEach((s, k) => bYorkImg[s] = ims[k]); bCompose(b.querySelector("canvas").getContext("2d"), t, [], "natural"); });
       b.addEventListener("click", () => bStartShoot(t));
     });
     $("#btGo").addEventListener("click", bRunShots);
@@ -2979,6 +3028,8 @@ async function bStartShoot(t){
 function bShotUI(){
   const n = BT.shots.length, tot = BT.tpl.shots.length, [,,w,h] = BT.tpl.shots[Math.min(n, tot - 1)];
   $("#btLive").style.aspectRatio = `${w} / ${h}`;
+  const yi = $("#btYork"), ys = BT.tpl.york[Math.min(n, tot - 1)];
+  yi.src = ys; yi.style.height = BT.tpl.yk.h * 100 + "%"; yi.style.right = BT.tpl.yk.x * 100 + "%";
   $("#btShotLabel").textContent = n < tot ? `Shot ${n + 1} of ${tot}` : "All done!";
   $("#btGo").textContent = n === 0 ? `Start · ${BOOTH_COUNT}s countdown` : `Next shot · ${n + 1} of ${tot}`;
 }
@@ -3018,6 +3069,8 @@ function bGrab(src, mirror){
   const ctx = cv.getContext("2d");
   if (mirror){ ctx.translate(cv.width, 0); ctx.scale(-1, 1); }
   ctx.drawImage(src, (sw - cw)/2, (sh - ch)/2, cw, ch, 0, 0, cv.width, cv.height);
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  bDrawYork(ctx, bYorkImg[BT.tpl.york[i]], BT.tpl, 0, 0, cv.width, cv.height);
   return cv;
 }
 function bFromFile(e){
@@ -3338,19 +3391,51 @@ addEventListener("keydown", e => {
 
 /* ---------- Climate app: a coastal city. Sea = The Chosen Trio, road grid = CAPRI V2G, plane = E3 SAF ---------- */
 const ECO = [
-  { id:"trio", at:[1240, 585], focus:[1250, 660], color:"#1f8fc4", icon:"🌊", place:"Out at sea",
-    kicker:"Ocean · 2024–2025", title:"The Chosen Trio", sub:"Heron's Fountain · Heron's Fountain V2 · CoralFeeder",
-    role:"Team Coordinator", org:"STEM competitions",
-    lead:"Three inventions built around one old idea, Heron's Fountain, and pointed at the ocean.",
-    parts:[
-      ["Heron's Fountain", "A device that generates electricity with pumped-storage hydropower and drives a fan on top of the fountain, so it works as battery storage."],
-      ["Heron's Fountain V2", "A centrifuge washing machine that separates microplastics from ocean water."],
-      ["CoralFeeder", "A proposal for an intelligent robotic-arm system that makes coral farming more efficient, more scalable and more likely to survive."]
+  { id:"trio", at:[1240, 585], focus:[1250, 640], color:"#1f8fc4", icon:"⛲", place:"On the platform",
+    kicker:"The Chosen Trio · 2024", title:"Heron's Fountain", sub:"3min4Science · with Benjamin & Henry",
+    role:"Team Coordinator", org:"3min4Science, Yuan T. Lee Foundation Science Education for All",
+    lead:"Heron's Fountain is an ancient machine that keeps water moving with no pump: water falling into one bottle pushes air into another, and that air pressure pushes water back up and out of the top. We added a small water wheel and generator, so the falling water makes electricity.",
+    thesis:"A hydroelectric generator that doesn't need a river or a dam: it works anywhere you can place three bottles.",
+    facts:[["3","recycled plastic bottles, plus reused straws, made the whole model"],["NT$120","the only thing we bought: a mini generator"],["4","UN goals it works toward: SDG 7, 9, 13 and 14"],["1st","Place, junior high team division, 3min4Science"]],
+    method:["Fill the right-hand bottle up to the red line","Water pours down through a straw into the bottom bottle","The air it pushes out flows up and forces water to rise to the top","The water falls back onto the water wheel and spins the generator"],
+    sections:[
+      ["Our goal: ICES", ["Innovative, Convenient, Eco-friendly and Sustainable: a carbon-free way to make electricity without being tied to terrain like a normal hydro plant."]],
+      ["Making it smarter", ["Use big data on CO₂ emissions and ocean acidity to measure how much a carbon-free generator could help.","Use AI to test variables like water speed, straw height and generator speed, and find the most efficient design."]],
+      ["3min4Science", ["A national competition where you explain your science in just three minutes.","We won 1st Place (Gold) in the junior high team division."]]
     ],
-    awards:[["2024","1st Place · 3min4Science, national competition","Yuan T. Lee Foundation Science Education for All"],
-            ["2024","Top 8 · Ocean Challenge, national competition","Ocean Affairs Council & American Institute in Taiwan"],
-            ["2025","Participant · Ocean Challenge",""]],
-    photos:["image/map/3min4sci.webp","image/map/aquarium.webp"] },
+    awards:[["2024","1st Place · 3min4Science, national competition","Yuan T. Lee Foundation Science Education for All"]],
+    photos:["image/map/3min4sci.webp","image/map/heron-model.webp"] },
+  { id:"ocean24", at:[1430, 700], focus:[1350, 650], color:"#3a6fd8", icon:"♻︎", place:"In the water",
+    kicker:"The Chosen Trio · 2024", title:"Marine Rescue Mission", sub:"2024 Ocean Challenge · with Benjamin & Henry",
+    role:"Team Coordinator · wrote the topic overview, problem analysis and action plan", org:"Ocean Challenge (Taiwan Ocean Youth Forum), Ocean Affairs Council & American Institute in Taiwan",
+    lead:"UNESCO calls climate change and plastic debris the two biggest threats to the ocean. We took on both: ocean acidification, caused by the CO₂ the sea absorbs, and microplastics.",
+    thesis:"One device in the sea: Heron's Fountain makes clean power from seawater while a centrifuge and a filter pull out microplastics.",
+    facts:[["~30%","of the CO₂ we release is absorbed by the ocean, making it more acidic"],["12M tonnes","of trash flow into the ocean every year"],["27 ± 11 μm","typical microplastic size: small enough to need an air-purifier filter"],["< NT$1,000","total cost of our models, mostly recycled bottles"]],
+    parts:[
+      ["Hydroelectric Heron's Fountain", "Carbon-free electricity from water and air pressure, to cut the CO₂ that acidifies the ocean."],
+      ["Centrifuge (spin-dryer)", "Spins seawater through an air-purifier filter: the water flies out, the microplastics stay in the sieve. Its battery can be swapped for a solar panel."],
+      ["Filtration", "Layers of rocks, sand, pebbles, charcoal and cotton, each catching smaller pollutants than the last."],
+      ["All three combined", "Heron's Fountain as the base, with the centrifuge on top of the filter for a double filter, all powered by the sea itself."]
+    ],
+    sections:[
+      ["What our first tests showed", ["The Heron's Fountain generator worked, but needs more water to run reliably.","The centrifuge did separate small particles, though water leaked from the cup.","The filter is designed and will be tested next."]],
+      ["What comes next", ["Grow the fountain into a real renewable generator.","Build a bigger centrifuge powered by renewable energy.","Combine all three into one device."]]
+    ],
+    awards:[["2024","Top 8 · Ocean Challenge, national competition","Ocean Affairs Council & American Institute in Taiwan"]],
+    photos:["image/map/heron-combined.webp","image/map/centrifuge.webp","image/map/filtration.webp"] },
+  { id:"coral", at:[1500, 790], focus:[1400, 700], color:"#e0607e", icon:"🪸", place:"On the reef",
+    kicker:"The Chosen Trio · 2025", title:"CoralFeeder", sub:"2025 Ocean Challenge · with Benjamin & Henry",
+    role:"Team Coordinator", org:"Ocean Challenge, Ocean Affairs Council & American Institute in Taiwan",
+    lead:"Baby corals in restoration nurseries have to be fed by hand: lifted one by one into a feeding tank, then a cleaning tank, then back home. It is slow, and every move stresses the coral. CoralFeeder automates the whole trip.",
+    thesis:"A programmable rail can feed and clean many coral fragments at once, so restoration can grow beyond what human hands can do.",
+    facts:[["25%","of all marine life depends on coral reefs, which cover less than 1% of the ocean floor"],["50%+","of the world's reefs have been lost or badly damaged in recent decades"],["80% → 44%","of coral colonies at One Tree Island bleached by April 2024; 44% had died by July"],["NT$14,000","our estimated budget for a full working prototype"]],
+    method:["A linear slide rail and pulleys move a platform of coral fragments between three tanks: home, feeding (live brine shrimp) and cleaning","An Arduino UNO with a real-time clock runs the stepper motors on a schedule, so feeding is consistent","A fixed camera photographs the corals every week when the platform lifts out of the water","The photos become 3D models to track growth, and are scored for health against the CoralWatch colour chart"],
+    sections:[
+      ["Why we built it", ["One of my teammates toured the coral research facility at Taiwan's National Museum of Marine Biology and Aquarium and saw how much of the work is hand-feeding.","We also raised Pocillopora acuta coral ourselves and felt the same problem first-hand."]],
+      ["What comes next", ["A built-in brine shrimp hatchery, so food is ready in the tank 24 hours ahead.","Automatic water changes after every feeding.","An app that scores coral health from photos, using machine learning or colour-analysis APIs."]]
+    ],
+    awards:[["2025","Participant · Ocean Challenge","Ocean Affairs Council & American Institute in Taiwan"]],
+    photos:["image/map/coralfeeder.webp"] },
   { id:"v2g", at:[640, 610], focus:[560, 660], color:"#e2a400", icon:"⚡", place:"On the coastal road",
     kicker:"Grid · 2026", title:"Vehicle-to-Grid", sub:"Future Policy Leaders Internship",
     role:"Environmental Policy Researcher", org:"Center for Asia-Pacific Resilience and Innovation (CAPRI)",
@@ -3470,7 +3555,7 @@ function ecSceneSVG(){
       </g>
     </g>
     <!-- hotspots -->
-    ${ECO.map(e => { const [x, y] = e.at, label = e.title, w = Math.max(label.length * 9.2, e.place.length * 8.4) + 66, flip = e.id === "trio";
+    ${ECO.map(e => { const [x, y] = e.at, label = e.title, w = Math.max(label.length * 9.2, e.place.length * 8.4) + 66, flip = ["trio","coral","ocean24"].includes(e.id);
       return `<g class="ec-hot" data-eco="${e.id}" transform="translate(${x} ${y})" tabindex="0" role="button" aria-label="${label}">
         <circle class="ring" r="20" fill="none" stroke="${e.color}" stroke-width="4"/><circle r="11" fill="${e.color}" stroke="#fff" stroke-width="3"/>
         <g class="lbl" style="--lx:${flip ? -w - 22 : 22}px" transform="translate(${flip ? -w - 22 : 22} -58)"><rect width="${w}" height="44" rx="22" fill="#fff" stroke="${e.color}" stroke-width="2.5"/>
@@ -3482,18 +3567,18 @@ function ecSceneSVG(){
 function ecPanelHTML(e){
   const i = ECO.indexOf(e), nx = ECO[(i + 1) % ECO.length];
   return `<div class="ec-ph" style="--c:${e.color}"><span>${e.kicker}</span><h2>${e.title}</h2><p>${e.sub}</p></div>
-    <div class="ec-pb">
+    <div class="ec-pb" style="--c:${e.color}">
       ${e.photos?.length ? `<div class="ec-photos n${Math.min(e.photos.length, 2)}">${e.photos.map(p => `<img src="${p}" alt="${e.title}" loading="lazy">`).join("")}</div>` : ""}
       <dl class="ec-meta"><div><dt>Role</dt><dd>${e.role}</dd></div><div><dt>Where</dt><dd>${e.org}</dd></div></dl>
       <p class="ec-lead">${e.lead}</p>
-      ${e.thesis ? `<div class="ec-thesis"><span>${e.id === "saf" ? "Key idea" : "My argument"}</span>${e.thesis}</div>` : ""}
+      ${e.thesis ? `<div class="ec-thesis"><span>${e.id === "v2g" ? "My argument" : "Key idea"}</span>${e.thesis}</div>` : ""}
       ${e.facts ? `<div class="ec-facts">${e.facts.map(([b, t]) => `<div><b>${b}</b><span>${t}</span></div>`).join("")}</div>` : ""}
-      ${e.method ? `<h4>How I did it</h4><ol class="ec-steps">${e.method.map(m => `<li>${m}</li>`).join("")}</ol>` : ""}
+      ${e.method ? `<h4>${e.id === "saf" ? "How I did it" : "How it works"}</h4><ol class="ec-steps">${e.method.map(m => `<li>${m}</li>`).join("")}</ol>` : ""}
       ${e.chart ? (() => { const mx = Math.max(...e.chart.rows.map(r => r[1])); return `<h4>${e.chart.title}</h4><div class="ec-chart">${e.chart.rows.map(([n, v]) => `<div class="ec-bar"><span>${n}</span><i style="width:${(v / mx * 100).toFixed(1)}%;--h:${v < 20 ? "#2e9d63" : v < 40 ? "#d9a520" : "#d2553f"}"></i><b>${v}</b></div>`).join("")}<small>Source: ${e.chart.source}. Lower is better.</small></div>`; })() : ""}
       ${(e.sections || []).map(([h, items]) => `<h4>${h}</h4><ul class="ec-list">${items.map(t => `<li>${t}</li>`).join("")}</ul>`).join("")}
-      ${e.parts ? `<h4>The three projects</h4><ol class="ec-parts">${e.parts.map(([h, t]) => `<li><b>${h}</b><span>${t}</span></li>`).join("")}</ol>` : ""}
+      ${e.parts ? `<h4>Our solutions</h4><ol class="ec-parts">${e.parts.map(([h, t]) => `<li><b>${h}</b><span>${t}</span></li>`).join("")}</ol>` : ""}
       ${e.paper ? `<h4>Research paper</h4><blockquote class="ec-paper">${e.paper}</blockquote>` : ""}
-      <h4>${e.id === "trio" ? "Competitions" : "Recognition"}</h4>
+      <h4>${["trio","coral","ocean24"].includes(e.id) ? "Competitions" : "Recognition"}</h4>
       <ul class="ec-awards">${e.awards.map(([y, t, s]) => `<li><span>${y}</span><div><b>${t}</b>${s ? `<small>${s}</small>` : ""}</div></li>`).join("")}</ul>
       <button class="ec-next" data-eco="${nx.id}" style="--c:${nx.color}">Next: ${nx.title} <span>→</span></button>
     </div>`;
@@ -3502,13 +3587,14 @@ function ecFocus(id){
   const st = $("#ecStage"), w = $("#ecWorld"), e = ECO.find(x => x.id === id);
   EC.cur = e ? id : null;
   $("#ecoApp").classList.toggle("open", !!e);
+  if (e) $("#ecoApp").classList.toggle("pl", e.at[0] > 1000);
   document.querySelectorAll("#ecoApp [data-eco]").forEach(b => b.classList.toggle("on", b.dataset.eco === id));
   if (!e){ w.style.transform = ""; return; }
   const p = $("#ecPanel"); p.innerHTML = ecPanelHTML(e); p.scrollTop = 0;
   p.querySelector(".ec-next").addEventListener("click", () => ecFocus(p.querySelector(".ec-next").dataset.eco));
   p.querySelectorAll(".ec-photos img").forEach((im, k) => im.addEventListener("click", () => ecPhoto(e, k)));
   const portrait = st.clientHeight > st.clientWidth, k = portrait ? 1.6 : 1.55;
-  const cx = portrait ? 830 : 560, cy = portrait ? 380 : 450;
+  const cx = portrait ? 830 : (e.at[0] > 1000 ? 1040 : 560), cy = portrait ? 380 : 450;
   const tx = Math.min(0, Math.max(1600 - 1600 * k, cx - k * e.focus[0])), ty = Math.min(0, Math.max(900 - 900 * k, cy - k * e.focus[1]));
   w.style.transform = `translate(${tx}px, ${ty}px) scale(${k})`;
 }
