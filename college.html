@@ -1493,7 +1493,7 @@ tr.cur.is-playing .nm,tr.cur.is-playing:hover .pl{display:none!important}
 const WELCOME_VIDEO = "videos/welcome.mp4";
 // subtitles for the welcome video: [start, end, text] in seconds
 const WELCOME_SUBS = [
-  [0.35, 1.85, "Welcome to my world."],
+  [0.35, 1.85, "Welcome to my World."],
   [1.95, 4.25, "This is York from Taipei Wego Senior High School."],
   [4.55, 6.65, "Feel free to explore different apps here,"],
   [6.65, 9.2, "and follow the little bot down below to explore!"]
@@ -2117,8 +2117,9 @@ LEVELS.taipei.pins = [
 ];
 Object.values(LEVELS).forEach(L => L.pins.forEach(p => { if (p.cat != null) p.color = PIN_CATS[p.cat][1]; else if (p.name in PIN_CAT_OF) p.color = PIN_CATS[PIN_CAT_OF[p.name]][1]; }));
 let M = null;  // map state
-function applyPinScale(){ const k = (M.k || 1) * (innerWidth >= 1280 && innerHeight >= 760 ? 1.45 : 1) * (M.level === "world" ? .62 : 1); $("#mapStage svg").querySelectorAll(".pin").forEach(g => { g.querySelector(".pin-k").setAttribute("transform", `scale(${k})`); g.querySelector(".pin-vis").setAttribute("transform", g.classList.contains("hot") ? "scale(1.15)" : ""); }); }
-function stagePx(){ const r = $("#mapStage").getBoundingClientRect(); return [Math.max(1,r.width), Math.max(1,r.height)]; }
+function applyPinScale(){ const k = (M.k || 1) * (innerWidth >= 1280 && innerHeight >= 760 ? 1.45 : 1) * (M.level === "world" ? .5 : .72); $("#mapStage svg").querySelectorAll(".pin").forEach(g => { g.querySelector(".pin-k").setAttribute("transform", `scale(${k})`); g.querySelector(".pin-vis").setAttribute("transform", g.classList.contains("hot") ? "scale(1.15)" : ""); }); }
+// layout size (not getBoundingClientRect, which is shrunk while the app's zoom-in animation runs and threw the labels off their leader lines)
+function stagePx(){ const s = $("#mapStage"); return [Math.max(1,s.clientWidth), Math.max(1,s.clientHeight)]; }
 function fitBox(b, pad, insetL = 0){
   let [W,H] = stagePx(); W = Math.max(1, W - insetL); let [x0,y0,x1,y1] = b; const pw = (x1-x0)*pad, ph = (y1-y0)*pad;
   x0 -= pw; x1 += pw; y0 -= ph; y1 += ph;
@@ -2844,7 +2845,7 @@ const BOOTH_TEMPLATES = [
     york:["image/booth/york-strip1.webp","image/booth/york-strip2.webp","image/booth/york-strip3.webp"], yk:{ h:.8, x:-.12 } },
   { id:"solo", name:"Solo", no:"01", sub:"1 shot", overlay:"", bg:["#0a0f1f","#1a0f2e"], accent:"#8b5cff",
     shots:[[90,180,1020,1320]], deco:"solo",
-    york:["image/booth/york-solo1.webp"], yk:{ h:.7, x:-.1 } },
+    york:["image/booth/york-solo1.webp"], yk:{ h:.7, x:-.22 } },
   { id:"duo", name:"Duo", no:"02", sub:"2 shots", overlay:"", bg:["#06101a","#101c33"], accent:"#4dff9a",
     shots:[[80,190,1040,680],[80,910,1040,680]], deco:"duo",
     york:["image/booth/york-duo1.webp","image/booth/york-duo2.webp"], yk:{ h:.82, x:-.1 } }
