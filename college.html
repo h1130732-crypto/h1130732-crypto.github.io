@@ -2117,7 +2117,7 @@ LEVELS.taipei.pins = [
 ];
 Object.values(LEVELS).forEach(L => L.pins.forEach(p => { if (p.cat != null) p.color = PIN_CATS[p.cat][1]; else if (p.name in PIN_CAT_OF) p.color = PIN_CATS[PIN_CAT_OF[p.name]][1]; }));
 let M = null;  // map state
-function applyPinScale(){ const k = (M.k || 1) * (innerWidth >= 1280 && innerHeight >= 760 ? 1.45 : 1) * (M.level === "world" ? .5 : .72); $("#mapStage svg").querySelectorAll(".pin").forEach(g => { g.querySelector(".pin-k").setAttribute("transform", `scale(${k})`); g.querySelector(".pin-vis").setAttribute("transform", g.classList.contains("hot") ? "scale(1.15)" : ""); }); }
+function applyPinScale(){ const k = (M.k || 1) * (innerWidth >= 1280 && innerHeight >= 760 ? 1.45 : 1) * (M.level === "world" ? .66 : .72); $("#mapStage svg").querySelectorAll(".pin").forEach(g => { g.querySelector(".pin-k").setAttribute("transform", `scale(${k})`); g.querySelector(".pin-vis").setAttribute("transform", g.classList.contains("hot") ? "scale(1.15)" : ""); }); }
 // layout size (not getBoundingClientRect, which is shrunk while the app's zoom-in animation runs and threw the labels off their leader lines)
 function stagePx(){ const s = $("#mapStage"); return [Math.max(1,s.clientWidth), Math.max(1,s.clientHeight)]; }
 function fitBox(b, pad, insetL = 0){
@@ -2376,9 +2376,9 @@ function renderFlix(){
   if (!profile){
     const ico = d => `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
     const profs = [
-      ["Admissions Officer","#d7262f", ico(`<path d="M2 9.5 12 4.5l10 5-10 5z"/><path d="M6 11.5V16c0 1.6 2.7 3 6 3s6-1.4 6-3v-4.5"/><path d="M22 9.5v6"/>`)],
       ["Curious Guest","#1f8ac0", ico(`<circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5.5 5.5"/>`)],
-      ["Classmates & Friends","#c99a1f", ico(`<path d="M6 9.5a6 6 0 0 1 12 0V19a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2z"/><path d="M9.5 3.8V5M14.5 3.8V5"/><rect x="9" y="13.5" width="6" height="4" rx="1"/>`)]
+      ["Classmates & Friends","#c99a1f", ico(`<path d="M6 9.5a6 6 0 0 1 12 0V19a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2z"/><path d="M9.5 3.8V5M14.5 3.8V5"/><rect x="9" y="13.5" width="6" height="4" rx="1"/>`)],
+      ["Kids","#e8492f", ico(`<circle cx="12" cy="12" r="8.5"/><path d="M8.5 14c.9 1.6 2.1 2.4 3.5 2.4s2.6-.8 3.5-2.4"/><path d="M9 9.6v.6M15 9.6v.6" stroke-width="2.4"/>`)]
     ];
     appEl.innerHTML = topBar(false) + `<section class="gate"><h2>Who's watching?</h2><div class="profiles">
       ${profs.map(p => `<button class="profile" data-name="${p[0]}"><span class="pf" style="background:${p[1]}">${p[2]}</span>${p[0]}</button>`).join("")}
