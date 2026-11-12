@@ -1571,10 +1571,10 @@ const STATS = [["53","TV episodes"],["4","broadcasters"],["4","awards"],["2019",
 const TIPS = [
   { app:"yorkflix", text:"Welcome to my world! Start with YorkFlix to watch trailers of the TV shows I've worked on." },
   { app:"mun", text:"Next, open MUN to see my Model UN and debate journey." },
-  { app:"maps", text:"Maps shows the places MUN and diplomacy have taken me." },
-  { app:"weather", text:"Weather is where my environmental research lives." },
+  { app:"weather", text:"Environment is where my climate and ocean research lives." },
   { app:"music", text:"Music has my singing clips and my band, Blank Space." },
-  { app:"files", text:"Need my résumé? It's in Files." },
+  { app:"maps", text:"Maps shows the places MUN and diplomacy have taken me." },
+  { app:"files", text:"Want the full picture? My résumé is in Resume." },
   { app:"camera", text:"One last thing. Take a photo-booth picture with me in Camera!" }
 ];
 const FLIX_TIP = "Pick any show and press Play Trailer. Close YorkFlix with the button at the top right.";
@@ -1652,7 +1652,7 @@ const APPS = {
   music:{ name:"Music", bg:"linear-gradient(160deg,#ff7a5c,#d81b60)",
     svg:`<svg viewBox="0 0 24 24"><path d="M9 17.6a2.6 2.6 0 1 1-2-2.5V5.6L19 3.4v11.9a2.6 2.6 0 1 1-2-2.5V7.3L9 8.8z" fill="#fff"/></svg>`,
     info:"Singing clips, my band Blank Space, the Taipei Music Center Golden Voice Contest (Top 40 of 1,800) and nursery-rhyme studio recordings." },
-  files:{ name:"Files", bg:"linear-gradient(160deg,#ffffff,#dfe6ee)",
+  files:{ name:"Resume", bg:"linear-gradient(160deg,#ffffff,#dfe6ee)",
     svg:`<svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="#2f80ed"/><path d="M3 10h18v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="#5aa2ff"/></svg>`,
     info:"My résumé, to read here or download as a PDF." },
   camera:{ name:"Camera", bg:"linear-gradient(160deg,#606a75,#2b3036)",
@@ -1664,14 +1664,14 @@ const APPS = {
   maps:{ name:"Maps", bg:"linear-gradient(160deg,#d3f3c9,#7fcb9f)",
     svg:`<svg viewBox="0 0 24 24"><path d="M3 6.5 9 4.5l6 2 6-2v13l-6 2-6-2-6 2z" fill="#fff"/><path d="M9 4.5v13M15 6.5v13" stroke="#7fcb9f" stroke-width="1.2"/><path d="M16 6.8a2.6 2.6 0 0 0-2.6 2.6c0 2 2.6 4.6 2.6 4.6s2.6-2.6 2.6-4.6A2.6 2.6 0 0 0 16 6.8z" fill="#e53935"/><circle cx="16" cy="9.4" r=".9" fill="#fff"/></svg>`,
     info:"Pins for Model UN in Taipei, the Teen Diplomat Envoys trip to Los Angeles, San Francisco and West Covina, and the ICDF Youth Club's USD 31K fundraiser for schools in Palau." },
-  weather:{ name:"Weather", bg:"linear-gradient(160deg,#5ab4ff,#2560c8)",
+  weather:{ name:"Environment", bg:"linear-gradient(160deg,#5ab4ff,#2560c8)",
     svg:`<svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="4.2" fill="#ffd54f"/><path d="M8 19.5h9.2a3.6 3.6 0 0 0 .3-7.2 5.1 5.1 0 0 0-9.8 1.3A3 3 0 0 0 8 19.5z" fill="#fff"/></svg>`,
     info:"My environmental work: Heron's Fountain, CoralFeeder, the Ocean Challenge, and policy research at the NTU E3 Center and CAPRI." },
   flashlight:{ name:"Flashlight", bg:"linear-gradient(160deg,#ffd166,#f2902e)",
     svg:`<svg viewBox="0 0 24 24"><path d="M7 2.5h10v3.2l-2.6 4V20a1.6 1.6 0 0 1-1.6 1.6h-1.6A1.6 1.6 0 0 1 9.6 20V9.7L7 5.7z" fill="#fff"/><rect x="7" y="5.6" width="10" height="1.3" fill="#f2902e" opacity=".55"/><circle cx="12" cy="13.4" r="1.3" fill="#f2902e"/></svg>`,
     info:"A dark room with glow-stick light trails, an intro to Wotagei, and a clip of me performing." }
 };
-const GRID_APPS = ["yorkflix","mun","maps","weather","music","files","camera"];
+const GRID_APPS = ["yorkflix","mun","weather","music","maps","files","camera"];
 const IS_LIVE = /github\.io$/.test(location.hostname); // hides "placeholder" labels on the real site
 
 /* ---------- helpers ---------- */
@@ -1838,7 +1838,7 @@ function startIntro(){
       const c = WELCOME_SUBS.find(([a, b]) => v.currentTime >= a && v.currentTime < b), sub = $("#phSub");
       if (sub.textContent !== (c ? c[2] : "")) sub.textContent = c ? c[2] : ""; sub.hidden = !c || presState !== "stage"; });
     video.addEventListener("ended", endIntro);
-    video.play().catch(() => { video.remove(); video = null; $("#ph").hidden = false; runPlaceholder(); });
+    video.play().catch(() => { if (!video || introDone) return; video.remove(); video = null; $("#ph").hidden = false; runPlaceholder(); });
   } else runPlaceholder();
 }
 
