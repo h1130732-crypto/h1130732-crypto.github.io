@@ -76,6 +76,7 @@ footer{padding:16px;text-align:center;font-size:13px;color:var(--dim);border-top
 .ch i{font-style:normal;font-size:12px;margin-right:10px;opacity:.6}
 .ch:hover:not(:disabled){filter:brightness(1.35)}
 .ch:disabled{cursor:default}
+.ch.sel,.chip.sel{outline:2px solid var(--ink);outline-offset:2px;filter:brightness(1.4)}
 .ch.dim{opacity:.3}
 .ch.ok{background:var(--ok-b);border-color:var(--ok-d);color:var(--ok-t)}
 .ch.bad{background:var(--no-b);border-color:var(--no-d);color:var(--no-t)}
@@ -444,7 +445,9 @@ function renderQ(){
   const pat = $('qpat');
   pat.classList.toggle('hidden', mode!=='type');
   if(mode==='type') pat.textContent = q.w.replace(/\[.*?\]/g,'').split(' / ')[0].split('').map(c=>/[a-z]/i.test(c)?'_':c).join(' ');
-  $('fb').innerHTML = '';
+  S.sel = null;
+  $('fb').innerHTML = '<button class="btn" id="sub" disabled style="--b:#12402a;--d:#2c8f56;--t:#b9e6c8">Submit</button>';
+  $('sub').onclick = submitAnswer;
   const a = $('ans'); a.innerHTML = '';
   if(mode==='mc'){
     const wrap = document.createElement('div'); wrap.className='choices';
@@ -452,18 +455,16 @@ function renderQ(){
     shuffle([q,...others]).forEach((o,idx)=>{
       const b = document.createElement('button'); b.className='ch';
       b.innerHTML = `<i>${'ABCD'[idx]}</i>${esc(o.w)}`;
-      b.onclick = () => answer(o===q, b);
+      b.onclick = () => select(b, o===q);
       tint(b,idx); b.dataset.right = o===q ? '1':'';
       wrap.appendChild(b);
     });
     a.appendChild(wrap);
   } else if(mode==='type'){
-    a.innerHTML = `<div class="typein"><input id="inp" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="type here"><button class="btn" id="go">OK</button></div>`;
+    a.innerHTML = `<div class="typein"><input id="inp" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="type here"></div>`;
     const inp = $('inp'); inp.focus();
-    const submit = () => { if(S.locked || !inp.value.trim()) return;
-      const ok = q.ok.includes(norm(inp.value)); inp.classList.add(ok?'ok':'bad'); answer(ok); };
-    $('go').onclick = submit;
-    inp.onkeydown = e => { if(e.key==='Enter') submit(); };
+    inp.oninput = () => { $('sub').disabled = !inp.value.trim(); };
+    inp.onkeydown = e => { if(e.key==='Enter') submitAnswer(); };
   } else if(mode==='bank'){
     const bank = document.createElement('div'); bank.className='bank';
     [...S.pool].sort((x,y)=>x.w.localeCompare(y.w)).forEach((o,idx)=>{
@@ -471,15 +472,28 @@ function renderQ(){
       tint(c,idx);
       c.dataset.id = norm(o.w);
       if(S.used.has(norm(o.w))){ c.classList.add('used'); c.disabled=true; }
-      c.onclick = () => answer(o===q, c);
+      c.onclick = () => select(c, o===q);
       bank.appendChild(c);
     });
     a.appendChild(bank);
   }
 }
 $('qcard').onclick = () => { if(!S.cur) return; const zh=$('qzh'); zh.className='zh'; zh.textContent=S.cur.z; };
+function select(el, ok){
+  if(S.locked) return;
+  document.querySelectorAll('.ch.sel,.chip.sel').forEach(x=>x.classList.remove('sel'));
+  el.classList.add('sel'); S.sel = {el, ok}; $('sub').disabled = false;
+}
+function submitAnswer(){
+  if(S.locked) return;
+  if(mode==='type'){
+    const inp=$('inp'); if(!inp.value.trim()) return;
+    const ok = S.cur.ok.includes(norm(inp.value)); inp.classList.add(ok?'ok':'bad'); answer(ok);
+  } else if(S.sel){ answer(S.sel.ok, S.sel.el); }
+}
 function answer(ok, el){
   if(S.locked) return; S.locked = true;
+  document.querySelectorAll('.sel').forEach(x=>x.classList.remove('sel'));
   const q = S.cur;
   const zh=$('qzh'); zh.className='zh'; zh.textContent=q.z;
   if(ok){ S.score++; S.streak++; } else { S.streak=0; S.missed.push(q); }
@@ -498,7 +512,6 @@ function answer(ok, el){
   const last = S.i === S.items.length-1;
   $('fb').innerHTML = `<span class="${ok?'good':'no'}">${ok?'Correct':'Answer'}<span class="ans">${esc(q.w)}</span></span><button class="btn" id="nx" style="--b:#17234f;--d:#26397d;--t:#93a6e8">${last?'Finish':'Next'} ▶</button>`;
   $('nx').onclick = next; $('nx').focus();
-  if(ok) S.timer = setTimeout(next, 900);
 }
 function next(){
   clearTimeout(S.timer);
@@ -538,8 +551,8 @@ document.addEventListener('keydown', e => {
     if(e.key==='ArrowRight') fmove(1);
     else if(e.key==='ArrowLeft') fmove(-1);
     else if(e.key===' '){ e.preventDefault(); flip(); }
-  } else if(!$('quiz').classList.contains('hidden') && e.key==='Enter' && S.locked && document.activeElement.tagName!=='BUTTON'){
-    next();
+  } else if(!$('quiz').classList.contains('hidden') && e.key==='Enter' && document.activeElement.tagName!=='BUTTON' && document.activeElement.tagName!=='INPUT'){
+    if(S.locked) next(); else submitAnswer();
   }
 });
 </script>
