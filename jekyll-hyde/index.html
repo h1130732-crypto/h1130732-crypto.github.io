@@ -23,7 +23,7 @@ body{height:100vh;height:100dvh;display:flex;flex-direction:column;text-align:ce
 header{padding:18px 12px 0}
 h1{font-size:clamp(20px,4.5vw,28px);font-weight:600;letter-spacing:.5px;color:var(--ink)}
 .sub{font-size:12px;color:var(--dim);margin-top:8px;letter-spacing:3px}
-main{flex:none;width:100%;max-width:900px;margin:0 auto;padding:12px 16px 16px}
+main{flex:1;min-height:0;display:flex;flex-direction:column;width:100%;max-width:900px;margin:0 auto;padding:12px 16px 16px}
 footer{flex:none;padding:12px;text-align:center;font-size:clamp(16px,min(2.2vw,3.2vh),26px);color:var(--dim);border-top:1px solid var(--edge)}
 
 .panel{background:var(--well);border:1px solid var(--edge);padding:16px;margin-bottom:12px}
@@ -113,8 +113,28 @@ footer{flex:none;padding:12px;text-align:center;font-size:clamp(16px,min(2.2vw,3
 .miss li{padding:10px 12px;background:var(--cell);border:1px solid var(--edge);font-size:14px;line-height:1.5;color:var(--dim)}
 .miss b{display:block;font-size:16px;color:var(--ink);margin-bottom:2px}
 .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+main>section:not(.hidden){flex:1;min-height:0;display:flex;flex-direction:column}
+#menu .panel{flex:1;display:flex;flex-direction:column;justify-content:center}
+#menu .chaps,#menu .modes{align-items:stretch}
+.chap{padding:22px 10px;font-size:17px}
+.mode{display:flex;flex-direction:column;justify-content:center}
+#qcard{flex:1 1 0}
+#ans{flex:none}
+#ans.grow{flex:1.3 1 0;min-height:110px;display:flex;flex-direction:column}
+#ans.grow .bank{flex:1;max-height:none;align-content:flex-start}
+.choices .ch{padding:24px 12px;font-size:20px}
+.def{font-size:clamp(22px,4.6vw,30px)}
+.fc{flex:1;display:flex;margin-bottom:12px}
+.fc .card{flex:1;width:100%;min-height:200px;margin-bottom:0}
+.fc .word{font-size:clamp(40px,9vw,76px)}
+.fc .back .word{font-size:clamp(28px,5vw,40px)}
+.fc .back{gap:24px}
+.fc .back .def{font-size:clamp(24px,4.4vw,34px)}
+.fc .back .zh{font-size:clamp(22px,4vw,32px);padding-top:22px}
+.fc .hint{font-size:15px}
+.nav .btn{padding:16px 28px;font-size:16px}
 #app{zoom:1}
-@media(max-height:760px){.bank{max-height:105px}.card{min-height:110px}}
+@media(max-height:760px){.card{min-height:110px}}
 </style>
 </head>
 <body>
@@ -451,7 +471,7 @@ function renderQ(){
   S.sel = null;
   $('fb').innerHTML = '<button class="btn" id="sub" disabled style="--b:#12402a;--d:#2c8f56;--t:#b9e6c8">Submit</button>';
   $('sub').onclick = submitAnswer;
-  const a = $('ans'); a.innerHTML = '';
+  const a = $('ans'); a.innerHTML = ''; a.classList.toggle('grow', mode==='bank');
   if(mode==='mc'){
     const wrap = document.createElement('div'); wrap.className='choices';
     const others = shuffle(S.pool.filter(x=>x!==q)).slice(0,3);
