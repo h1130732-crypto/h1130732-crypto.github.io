@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jekyll &amp; Hyde Vocab Arcade</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05070d; --well:#090d17; --cell:#0b101c; --edge:#161d30;
+  --ink:#c9d1e6; --dim:#667091;
+  --ok-b:#12402a; --ok-d:#2c8f56; --ok-t:#b9e6c8;
+  --no-b:#4a1919; --no-d:#a63e3e; --no-t:#f0b8b8;
+  --sans:'Inter','Noto Sans TC',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;min-height:100%}
+body{min-height:100vh;display:flex;flex-direction:column;text-align:center;
+  background-image:linear-gradient(rgba(120,140,200,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(120,140,200,.035) 1px,transparent 1px);
+  background-size:28px 28px}
+.hidden{display:none!important}
+header{padding:30px 12px 6px}
+h1{font-size:clamp(20px,4.5vw,28px);font-weight:600;letter-spacing:.5px;color:var(--ink)}
+.sub{font-size:12px;color:var(--dim);margin-top:8px;letter-spacing:3px}
+main{flex:1;width:100%;max-width:680px;margin:0 auto;padding:18px 16px 28px}
+footer{padding:16px;text-align:center;font-size:13px;color:var(--dim);border-top:1px solid var(--edge)}
+
+.panel{background:var(--well);border:1px solid var(--edge);padding:20px;margin-bottom:16px}
+.lbl{font-size:12px;color:var(--dim);margin-bottom:16px;display:block;letter-spacing:2px}
+
+/* muted tetromino tints: set --b (fill) --d (border) --t (text) */
+.chaps{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;justify-content:center}
+.chap{position:relative;display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 10px;cursor:pointer;user-select:none;
+  font-size:15px;color:var(--dim);background:transparent;border:1px solid var(--edge)}
+.chap input{position:absolute;opacity:0;pointer-events:none}
+.chap .cb{width:16px;height:16px;flex:none;border:2px solid var(--dim);background:transparent;position:relative}
+.chap:has(input:checked) .cb{border-color:var(--t);background:var(--t)}
+.chap:has(input:checked) .cb::after{content:"";position:absolute;left:3px;top:0;width:4px;height:8px;border:solid var(--b);border-width:0 2px 2px 0;transform:rotate(45deg)}
+.chap small{font-size:12px;opacity:.7}
+.chap:has(input:checked){color:var(--t);background:var(--b);border-color:var(--d)}
+.chap:hover{border-color:var(--d)}
+.chap:has(input:focus-visible){outline:2px solid var(--d);outline-offset:2px}
+.tools{display:flex;gap:18px;align-items:center;justify-content:center;margin-top:16px;flex-wrap:wrap}
+.link{background:none;border:none;color:var(--dim);font-family:var(--sans);font-size:13px;cursor:pointer;padding:4px 2px;text-decoration:underline;text-underline-offset:3px}
+.link:hover{color:var(--ink)}
+#count{font-size:13px;color:var(--dim)}
+
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mode{padding:16px 12px;text-align:center;cursor:pointer;font-family:var(--sans);font-size:13px;color:var(--dim);background:transparent;border:1px solid var(--edge);line-height:1.5}
+.mode b{display:block;font-weight:600;font-size:15px;margin-bottom:6px;color:var(--t)}
+.mode:hover{border-color:var(--d)}
+.mode.sel{background:var(--b);border-color:var(--d)}
+
+.btn{font-family:var(--sans);font-size:14px;font-weight:600;padding:12px 22px;cursor:pointer;color:var(--t);background:var(--b);border:1px solid var(--d)}
+.btn:hover:not(:disabled){filter:brightness(1.35)}
+.btn:disabled{background:transparent;border-color:var(--edge);color:#3a4260;cursor:not-allowed}
+.start{width:100%;padding:16px;font-size:15px;letter-spacing:2px}
+
+.hud{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--dim);margin-bottom:12px}
+.hud b{font-weight:600;color:var(--ink)}
+.bar{display:flex;gap:3px;height:6px;margin-bottom:20px}
+.bar i{flex:1;background:var(--cell);border:1px solid var(--edge)}
+.bar i.on{background:var(--b);border-color:var(--d)}
+
+.card{background:var(--well);border:1px solid var(--edge);padding:30px 22px;min-height:170px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:14px;margin-bottom:18px}
+.q{font-size:11px;color:var(--dim);letter-spacing:3px}
+.def{font-size:clamp(19px,4vw,24px);line-height:1.5;max-width:560px}
+.zh{font-size:18px;color:#93a6e8;padding-top:14px;border-top:1px solid var(--edge);width:100%;max-width:560px}
+.zh.cover{color:var(--dim);font-size:13px;cursor:pointer}
+#qcard{cursor:pointer}
+.pat{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:16px;letter-spacing:4px;color:var(--dim);word-break:break-all}
+
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:560px){.choices,.modes{grid-template-columns:1fr}}
+.ch{padding:16px 12px;cursor:pointer;text-align:center;font-family:var(--sans);font-size:18px;color:var(--t);background:var(--b);border:1px solid var(--d)}
+.ch i{font-style:normal;font-size:12px;margin-right:10px;opacity:.6}
+.ch:hover:not(:disabled){filter:brightness(1.35)}
+.ch:disabled{cursor:default}
+.ch.dim{opacity:.3}
+.ch.ok{background:var(--ok-b);border-color:var(--ok-d);color:var(--ok-t)}
+.ch.bad{background:var(--no-b);border-color:var(--no-d);color:var(--no-t)}
+
+.typein{display:flex;gap:10px}
+.typein input{flex:1;min-width:0;text-align:center;background:var(--cell);border:1px solid var(--d);color:var(--ink);padding:12px;font-family:var(--sans);font-size:20px;outline:none}
+.typein input:focus{border-color:#4a5c9a}
+.typein input.ok{border-color:var(--ok-d);color:var(--ok-t)} .typein input.bad{border-color:var(--no-d);color:var(--no-t)}
+
+.bank{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;max-height:280px;overflow:auto;padding:12px;background:var(--cell);border:1px solid var(--edge)}
+.chip{padding:5px 11px;cursor:pointer;font-family:var(--sans);font-size:14px;color:var(--t);background:var(--b);border:1px solid var(--d)}
+.chip:hover:not(:disabled){filter:brightness(1.4)}
+.chip.used{background:transparent;border-color:transparent;color:#323a58;text-decoration:line-through;cursor:default}
+.chip.bad{background:var(--no-b);border-color:var(--no-d);color:var(--no-t)}
+.chip.ok{background:var(--ok-b);border-color:var(--ok-d);color:var(--ok-t)}
+
+.fb{min-height:56px;margin-top:16px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;font-size:15px}
+.fb .good{color:var(--ok-t)} .fb .no{color:var(--no-t)}
+.fb .ans{font-size:20px;font-weight:600;color:var(--ink);margin-left:10px}
+
+.fc .card{min-height:260px;cursor:pointer}
+.fc .word{font-size:clamp(26px,6vw,38px);font-weight:600;color:var(--ink)}
+.fc .hint{font-size:12px;color:var(--dim)}
+.fc .back{display:flex;flex-direction:column;align-items:center;gap:14px}
+.fc .back .word{font-size:22px;color:#93a6e8}
+.nav{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.keys{font-size:12px;color:var(--dim);margin-top:16px}
+
+.score{font-size:clamp(34px,9vw,54px);font-weight:600;color:var(--ink);margin:6px 0 8px}
+.pct{font-size:15px;color:var(--dim)}
+.miss{list-style:none;padding:0;display:grid;gap:8px}
+.miss li{padding:10px 12px;background:var(--cell);border:1px solid var(--edge);font-size:14px;line-height:1.5;color:var(--dim)}
+.miss b{display:block;font-size:16px;color:var(--ink);margin-bottom:2px}
+.row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<header>
+  <h1>Jekyll &amp; Hyde</h1>
+  <div class="sub">VOCAB ARCADE</div>
+</header>
+
+<main>
+  <section id="menu">
+    <div class="panel">
+      <span class="lbl">1 · CHAPTERS</span>
+      <div class="chaps" id="chaps"></div>
+      <div class="tools">
+        <button class="link" id="allBtn">Select all</button>
+        <button class="link" id="noneBtn">Clear</button>
+        <span id="count"></span>
+      </div>
+    </div>
+    <div class="panel">
+      <span class="lbl">2 · MODE</span>
+      <div class="modes" id="modes">
+        <button class="mode sel" data-m="mc" style="--b:#0f2f34;--d:#1d5a63;--t:#8fc7cf"><b>Multiple choice</b><span>Pick 1 of 4</span></button>
+        <button class="mode" data-m="type" style="--b:#322f0f;--d:#5e5a1c;--t:#cfc77a"><b>Type it</b><span>Type the word</span></button>
+        <button class="mode" data-m="bank" style="--b:#0f3017;--d:#1d5a2c;--t:#86c496"><b>Word bank</b><span>Pick from all selected words; used ones get crossed out</span></button>
+        <button class="mode" data-m="flash" style="--b:#271640;--d:#47296b;--t:#b79ad6"><b>Flash cards</b><span>Flip through, no score</span></button>
+      </div>
+    </div>
+    <button class="btn start" id="startBtn" style="--b:#12402a;--d:#2c8f56;--t:#b9e6c8">START</button>
+  </section>
+
+  <section id="quiz" class="hidden">
+    <div class="hud"><span>Q <b id="qn">1</b>/<b id="qt">0</b></span><span>Score <b id="sc">0</b></span><span>Combo <b id="st">0</b></span><button class="link" id="quitBtn">Quit</button></div>
+    <div class="bar" id="bar"></div>
+    <div class="card" id="qcard">
+      <div class="q">WHICH WORD?</div>
+      <div class="def" id="qdef"></div>
+      <div class="pat hidden" id="qpat"></div>
+      <div class="zh cover" id="qzh"></div>
+    </div>
+    <div id="ans"></div>
+    <div class="fb" id="fb"></div>
+  </section>
+
+  <section id="flash" class="hidden">
+    <div class="hud"><span>Card <b id="fn">1</b>/<b id="ft">0</b></span><button class="link" id="fquit">Quit</button></div>
+    <div class="fc"><div class="card" id="fcard"></div></div>
+    <div class="nav">
+      <button class="btn" style="--b:#17234f;--d:#26397d;--t:#93a6e8" id="fprev">◀ Prev</button>
+      <button class="btn" style="--b:#45290f;--d:#6b4018;--t:#dcae82" id="fshuf">Shuffle</button>
+      <button class="btn" id="fnext" style="--b:#12402a;--d:#2c8f56;--t:#b9e6c8">Next ▶</button>
+    </div>
+    <p class="keys">Click card to flip · ← → to move · Space to flip</p>
+  </section>
+
+  <section id="result" class="hidden">
+    <div class="panel center">
+      <span class="lbl" id="rTitle">GAME OVER</span>
+      <div class="score" id="rScore"></div>
+      <div class="pct" id="rSub"></div>
+    </div>
+    <div class="panel" id="missBox">
+      <span class="lbl">MISSED</span>
+      <ul class="miss" id="missList"></ul>
+    </div>
+    <div class="row">
+      <button class="btn" style="--b:#45290f;--d:#6b4018;--t:#dcae82" id="retryMiss">Retry missed</button>
+      <button class="btn" style="--b:#123a40;--d:#1d5a63;--t:#8fc7cf" id="again">Play again</button>
+      <button class="btn" style="--b:#17234f;--d:#26397d;--t:#93a6e8" id="home">Menu</button>
+    </div>
+  </section>
+</main>
+
+<footer>感謝José的大恩大德</footer>
+
+<script>
+/* word | English definition (all in the context of Jekyll & Hyde) */
+const RAW = {
+
+"1-2": `Apocryphal|Of doubtful authorship or authenticity|未經證實的
+Apt[ness]|Inclined; disposed; given; prone|傾向；易於
+Austere|Severe in manner or appearance; uncompromising; strict; forbidding|嚴厲的；不苟言笑的
+Caper|A prank or trick; harebrained escapade|惡作劇；胡鬧
+Coquetry|Flirtation|調情；賣弄風情
+Demeanour|Conduct; behavior; deportment|舉止；風度
+Dingy|Shabby; dismal|陰暗骯髒的
+Emulous|Desirous of equaling or excelling|好勝的；競爭心強的
+Excursion|A short trip or outing to some place, usually for a special purpose and with the intention of a prompt return|短途旅行；遠足
+Heresy|Opinion or doctrine at variance with the orthodox or accepted doctrine, especially of a church or religious system|異端邪說
+Kinsman|A blood relative, especially a male|男性親屬
+Mortify|To humiliate or shame, as by injury to one's pride or self-respect|使難堪；使羞愧
+Musing|Absorbed in thought; meditative|若有所思的
+Pedantic|Ostentatious in one's learning|賣弄學問的
+Quaint|Having an old-fashioned attractiveness or charm; oddly picturesque|古色古香的；古雅的
+Ramble|To wander around in a leisurely, aimless manner|閒逛；漫步
+Reputable|Honorable; respectable; estimable|有聲望的；值得尊敬的
+Sinister|Threatening or portending evil or harm, or trouble; ominous|邪惡的；不祥的
+Sordid|Morally ignoble or base; vile|卑鄙的；不光彩的
+Sullen|Showing irritation or ill humor by a gloomy silence or reserve|悶悶不樂的；陰沉的
+Tut-tut|Used as an exclamation of contempt and disdain|嘖嘖（表不屑）
+Undemonstrative|Not given to open expression of feelings; reserved|感情內斂的；不外露的
+Slatternly|Slovenly and untidy|邋遢的；不修邊幅的`,
+
+"3-4": `Abominable|Repugnantly hateful; detestable; loathsome|令人憎惡的
+Accost|To confront boldly|大膽搭話；攔住搭訕
+Blackguard|A low, contemptible person; scoundrel|卑鄙小人；惡棍
+Conflagration|A destructive fire, usually an extensive one|大火；猛烈的火災
+Connoisseur|A discerning judge of the best in any field|鑑賞家；行家
+Contrived|Obviously planned or forced; artificial; strained|刻意安排的；造作的
+Countenance|Appearance, especially the look or expression of the face|面容；臉部表情
+Crony|A close friend or companion|密友；親信
+Detain|To keep under restraint or in custody|拘留；扣留
+Fortnight|Two weeks|兩星期；十四天
+Grave|Serious or solemn; sober|嚴肅的；莊重的
+Haggard|Having a gaunt, wasted or exhausted appearance, as from prolonged suffering, exertion, or anxiety|憔悴的；疲憊不堪的
+Heresy|Opinion or doctrine at variance with the orthodox or accepted doctrine, especially of a church or religious system|異端邪說
+Insensate|Without human feeling or sensitivity; cold; cruel; brutal|無感情的；冷酷的
+Irrepressible|Incapable of being repressed or restrained; uncontrollable|無法抑制的
+Napery|Table linen, such as tablecloths or napkins|餐桌布品
+Odious|Highly offensive; repugnant; disgusting|可憎的；令人作嘔的
+Pedant|A person who makes an excessive or inappropriate display of learning|賣弄學問的人；書呆子
+Quail|To lose heart or courage in difficulty or danger; shrink in fear|畏縮；膽怯
+Ransack|To search thoroughly or vigorously through|徹底搜查；洗劫
+Score|Twenty|二十
+Slatternly|Slovenly and untidy|邋遢的；不修邊幅的
+Sly|Cunning or wily|狡猾的；偷偷摸摸的
+Trifle|A matter, affair, or circumstance of trivial importance or significance|瑣事；小事
+Unobtrusive|Inconspicuous, unassertive, or reticent|不引人注目的；低調的`,
+
+"5-7": `Abject|Utterly hopeless, miserable, humiliating, or wretched|悲慘的；絕望的
+Accursed|Doomed; ill-fated|該死的；受詛咒的
+Amities|Friendship; peaceful harmony|友好關係
+Anatomical|Of or relating to anatomy|解剖學的；人體構造的
+Apprehension|Anticipation of adversity or misfortune; suspicion or fear of future trouble or evil|憂慮；恐懼
+Benefactor|A person who confers a benefit; kindly helper|恩人；捐助者
+Blot out|Obliterate, wipe out of existence or memory|抹去；消除
+Callous|Insensitive; indifferent; unsympathetic|冷酷無情的
+Carbuncle|A painful circumscribed inflammation of the subcutaneous tissue, resulting in pus and having a tendency to spread very seriously in its effects|癰（嚴重的皮下化膿性發炎）
+Cheval-glass|A full-length mirror mounted so that it can be tilted in a frame|可傾斜的穿衣鏡；全身鏡
+Circulation|The continuous movement of blood through the heart and blood vessels|血液循環
+Cupola|A light structure on a dome or roof, serving as a belfry, lantern, or belvedere|圓頂小閣；屋頂塔樓
+Disconsolate|Characterized by or causing dejection; cheerless; gloomy|悲傷的；鬱鬱寡歡的
+Dissect|To cut apart (an animal body, plant, etc.) to examine the structure, relation of parts, or the like|解剖；仔細分析
+Eddy|A deviation from or disturbance in the main trend of thought, life, etc., especially one that is relatively unimportant|漩渦；迴流
+Gaunt|Extremely thin and bony; haggard and drawn, as from great hunger, weariness, or torture; emaciated|骨瘦如柴的；憔悴的
+Hearth|The floor of a fireplace|爐床；爐邊（家庭的中心）
+Ken|Knowledge, understanding, or cognizance; mental perception|知識範圍；見識
+Mien|Air, bearing, or demeanor, as showing character, feeling|神態；風度
+Oration|A formal public speech, especially one delivered on a special occasion|演說；致辭
+Premature|Occurring, coming, or done too soon|過早的；提早發生的
+Prohibition|The forbidding of an action, activity, etc., by authority or law|禁令；法律的禁制
+Quaint|Having an old-fashioned attractiveness or charm; oddly picturesque|古色古香的；古雅的
+Qualm|An uneasy feeling or pang of conscience as to conduct; compunction|良心不安；疑慮
+Ruminate|To meditate or muse; ponder|沉思；反覆思量
+Seclusion|Isolation; to be shut off; keep apart|隱居；與世隔絕
+Stringent|Rigorously binding or exacting; strict; severe|嚴格的；嚴苛的
+Traverse|To pass or move over, along, or through|穿越；橫越
+Venture|An undertaking involving uncertainty as to the outcome, especially a risky or dangerous one|冒險事業；冒險`,
+
+"8": `Appalled|Overcome with horror, shock, outrage, or dismay|驚駭的；嚇壞的
+Besieger|A person who lays siege to someone or something|圍攻者
+Blasphemy|Impious utterance or action concerning God or sacred things|褻瀆神明
+Calamity|A great misfortune or disaster, such as a flood or serious injury|災難；大禍
+Diaphanous|Very sheer and light; almost completely transparent or translucent|朦朧透光的；薄如蟬翼的
+Disinter|To take out of the place of interment; exhume; unearth|掘出；挖出（墳墓）
+Doggedly|In a persistent or tenacious manner|頑強地；鍥而不捨地
+Explicit|Fully and clearly expressed or demonstrated; leaving nothing merely implied|明確的；清楚的
+Foul play|Any treacherous or unfair dealing, especially involving murder|不法行為；謀害
+Frank|Direct and unreserved in speech; straightforward; sincere|坦率的；直言的
+Hark|To listen attentively; hearken|仔細聽；聽啊
+Hoarse|Having a vocal tone characterized by weakness of intensity and excessive breathiness; husky|聲音沙啞的
+Jangle|To produce a harsh, discordant sound, as two comparatively small, thin, or hollow pieces of metal hitting together|發出刺耳不和諧的聲響
+Jerk|A quick, sharp pull, thrust, twist, throw, or the like; a sudden movement|猛然一拉；急動
+Lamentation|The act of expressive grief|哀悼；悲嘆
+Malady|Any disorder or disease of the body, especially one that is chronic or deep-seated|疾病；病症
+Malefactor|A person who violates the law; criminal|罪犯；作惡者
+Mottled|Spotted or blotched in coloring|斑駁的；有斑點的
+Pallor|Unusual or extreme paleness, as from fear, ill health, or death; wanness|蒼白；面無血色
+Peevish|Showing annoyance, irritation, or bad mood|易怒的；暴躁的
+Predecessor|A person who precedes another in an office, position, etc.|前任；前輩
+Scud|Clouds, spray, or mist driven by the wind; a driving shower or gust of wind|疾速掠過的雲；被風吹動的雲霧
+Sedulous|Diligent in application or attention; persevering; assiduous|勤勉的；孜孜不倦的
+Semblance|Outward aspect or appearance|外表；表象
+Splutter|To talk rapidly and somewhat incoherently, as when confused, excited, or embarrassed|激動得語無倫次
+Trudge|To walk, especially laboriously or wearily|吃力地走；跋涉
+Undaunted|Undismayed; not discouraged; not forced to abandon purpose or effort|無所畏懼的
+Wrack|To wreck|破壞；摧毀`,
+
+"9": `Acuteness|Sharpness or intensity|敏銳；尖銳
+Avow|To declare or admit openly|公開承認；坦承
+Cerebral|Appealing to or characterized by the intellect rather than intuition or instinct|理智的；腦力的
+Constitution|The way in which a thing is composed; physical make-up; structure|體質；體格
+Correspondence|Communication by exchange of letters|書信往來
+Debility|A weakened or enfeebled state; weakness|衰弱；虛弱
+Ebullition|A sudden outburst of emotion, a boiling over|情緒激動；迸發
+Enigma|A puzzling or inexplicable occurrence or situation|謎；謎團
+Ether|A colorless, highly volatile liquid used as an anesthetic|乙醚
+Flighty|Given to moments of fancy; capricious; frivolous|輕浮的；善變的
+Haunches|The hindquarters; the buttocks and upper thighs|臀部與大腿上部
+Idiosyncratic|A characteristic, habit, mannerism that is peculiar to an individual|特有的；獨特的
+Impediment|Obstruction; hindrance; obstacle|障礙；阻礙
+Incipient|Beginning to exist or appear; in an initial stage|初期的；剛開始的
+Ludicrous|Causing laughter because of absurdity; provoking or deserving derision|可笑的；荒謬的
+Metamorphoses|A complete change of form, structure, or substance, as transformation by magic or witchcraft|變形；形態變化
+Muster|To gather, summon, rouse|集合；鼓起（勇氣）
+Parley|A discussion or conference|談判；協商
+Penitence|Regret for one's wrongdoing or sinning; contrition; repentance|悔恨；懺悔
+Prodigy|A person, especially a child, having extraordinary talent or ability|天才；神童
+Punctual|Strictly observant of an appointed or regular time; not late|準時的；守時的
+Rigour / Rigor|Strictness, severity, or harshness, as in dealing with people|嚴格；嚴厲
+Scrutiny|A searching examination or investigation; a minute inquiry|仔細審查
+Somber|Gloomily dark; shadowy; dimly lighted|陰沉的；憂鬱的
+Tincture|A solution of alcohol or of alcohol and water, containing drugs|酊劑；藥酒
+Transcendental|Being beyond ordinary experience, thought, or belief|超凡的；玄奧的
+Trifle|A matter, affair, or circumstance of trivial importance or significance|瑣事；小事
+Turpitude|Vile, shameful, or base character; depravity|卑劣；邪惡
+Vapour / Vapor|A visible exhalation, such as fog or steam suspended in the air|蒸氣；水氣`,
+
+"10": `Abject|Utterly hopeless, miserable, humiliating, or wretched|絕望的；卑微的
+Abstinence|Any self-restraint, self-denial, or forbearance|節制；禁慾
+Acquiescence|Submission or compliance silently or without protest; agreement; consent|默許；順從
+Astute|Keenly perceptive or discerning; sagacious|精明的；敏銳的
+Avidity|Showing great enthusiasm for or interest in|熱切；渴望
+Blazon|To set forth conspicuously or publicly; display; proclaim|公開宣揚
+Callous|Insensitive; indifferent; unsympathetic|冷酷無情的
+Chastisement|Severe criticism; punishment|懲戒；責罵
+Connive|To cooperate secretly; conspire|暗中勾結；縱容
+Depravity|The state of being morally bad or evil; corruption|道德敗壞；墮落
+Dissolution|The act or process of resolving or dissolving into parts or elements|解散；瓦解
+Efficacy|The capacity for producing a desired result or effect|功效；效力
+Effulgence|A brilliant radiance; a shining forth|光輝；燦爛
+Faggot|A bundle of sticks bound together and used as fuel, a torch|一捆木柴
+Familiar|A supernatural spirit, often in the form of an animal, aiding a witch|使魔；魔寵
+Gesticulate|To make or use gestures, especially in an animated or excited manner with or instead of speech|比手畫腳；做手勢
+Gloat|To think about with excessive, often smug or malicious, satisfaction|洋洋得意；幸災樂禍
+Hazard|To put at risk of being lost; expose to risk|使面臨風險；冒險
+Imperious|Domineering in a haughty manner; dictatorial|傲慢專橫的
+Inordinate|Not within proper or reasonable limits; immoderate; excessive|過度的；無節制的
+Insidious|Intended to entrap or beguile; working in a subtle, harmful way|潛伏危險的；陰險的
+Inveterate|Settled or confirmed in a habit, practice, feeling, or the like|根深蒂固的；積習難改的
+Malign|To speak harmful untruths about; speak evil of; slander; defame|誹謗；中傷
+Multifarious|Having many different parts, elements, forms, etc.|繁多的；各式各樣的
+Obsequious|Characterized by or showing servile obedience and excessive eagerness to please; fawning; ingratiating|卑躬屈膝的；諂媚的
+Pamper|To treat or gratify with excessive indulgence, kindness, or care|溺愛；縱容
+Pang|A sudden, brief, sharp pain or physical sensation; spasm|一陣劇痛；(心中)刺痛
+Propensity|A natural inclination or tendency|傾向；習性
+Quarry|An animal or bird hunted or pursued|獵物；追捕目標`
+
+};
+const ORDER = ["1-2","3-4","5-7","8","9","10"];
+const CH_LABEL = {"1-2":"CH 1-2","3-4":"CH 3-4","5-7":"CH 5-7","8":"CH 8","9":"CH 9","10":"CH 10"};
+const $ = id => document.getElementById(id);
+const PAL = [
+ {b:'#0f2f34',d:'#1d5a63',t:'#8fc7cf'}, // I
+ {b:'#322f0f',d:'#5e5a1c',t:'#cfc77a'}, // O
+ {b:'#271640',d:'#47296b',t:'#b79ad6'}, // T
+ {b:'#0f3017',d:'#1d5a2c',t:'#86c496'}, // S
+ {b:'#3a1414',d:'#662323',t:'#d99090'}, // Z
+ {b:'#15204a',d:'#26397d',t:'#93a6e8'}, // J
+ {b:'#3a220d',d:'#6b4018',t:'#dcae82'}  // L
+];
+const tint = (el,i) => { const p=PAL[i%PAL.length]; el.style.setProperty('--b',p.b); el.style.setProperty('--d',p.d); el.style.setProperty('--t',p.t); };
+
+const DATA = {};
+for (const k of ORDER) DATA[k] = RAW[k].split('\n').map(l => { const [w,e,z] = l.split('|'); return {w, e, z, ch:k, ok: answers(w)}; });
+function answers(w){
+  const out = new Set();
+  w.split('/').map(s=>s.trim()).forEach(p=>{ out.add(norm(p.replace(/\[.*?\]/g,''))); out.add(norm(p.replace(/[\[\]]/g,''))); });
+  return [...out];
+}
+function norm(s){ return s.toLowerCase().replace(/[-\s]+/g,' ').trim(); }
+const shuffle = a => { a=[...a]; for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];} return a; };
+const show = id => ['menu','quiz','flash','result'].forEach(s => $(s).classList.toggle('hidden', s!==id));
+const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+let mode = 'mc';
+let S = {};
+
+/* ---- menu ---- */
+const chapsEl = $('chaps');
+ORDER.forEach((k,i) => {
+  const l = document.createElement('label'); l.className = 'chap'; tint(l,i);
+  l.innerHTML = `<input type="checkbox" value="${k}"><span class="cb"></span><span>${CH_LABEL[k]}</span><small>${DATA[k].length}</small>`;
+  chapsEl.appendChild(l);
+});
+const checked = () => [...chapsEl.querySelectorAll('input:checked')].map(i=>i.value);
+function scopeWords(){
+  const seen = new Set(), out = [];
+  checked().forEach(k => DATA[k].forEach(x => { const id = norm(x.w); if(!seen.has(id)){seen.add(id); out.push(x);} }));
+  return out;
+}
+function refresh(){
+  const n = scopeWords().length;
+  $('count').textContent = n + ' words';
+  $('startBtn').disabled = n < 1 || (mode==='mc' && n < 4);
+}
+chapsEl.addEventListener('change', refresh);
+$('allBtn').onclick = () => { chapsEl.querySelectorAll('input').forEach(i=>i.checked=true); refresh(); };
+$('noneBtn').onclick = () => { chapsEl.querySelectorAll('input').forEach(i=>i.checked=false); refresh(); };
+$('modes').addEventListener('click', e => {
+  const b = e.target.closest('.mode'); if(!b) return;
+  mode = b.dataset.m;
+  document.querySelectorAll('.mode').forEach(x=>x.classList.toggle('sel', x===b));
+  refresh();
+});
+$('startBtn').onclick = () => start(scopeWords());
+$('quitBtn').onclick = $('fquit').onclick = $('home').onclick = () => { clearTimeout(S.timer); show('menu'); refresh(); };
+$('again').onclick = () => start(S.pool);
+$('retryMiss').onclick = () => start(S.missed);
+refresh();
+
+function start(pool){
+  S = {pool, items: shuffle(pool), i:0, score:0, streak:0, missed:[], locked:false, used:new Set()};
+  if(mode==='flash') return startFlash();
+  $('qt').textContent = S.items.length;
+  $('bar').innerHTML = S.items.length > 40 ? '' : S.items.map(()=>'<i></i>').join('');
+  show('quiz'); renderQ();
+}
+
+/* ---- quiz ---- */
+function renderQ(){
+  const q = S.items[S.i]; S.locked = false; S.cur = q;
+  $('qn').textContent = S.i+1; $('sc').textContent = S.score; $('st').textContent = S.streak;
+  const cells = $('bar').children;
+  if(cells.length){ for(let k=0;k<cells.length;k++){ cells[k].classList.toggle('on', k<S.i); tint(cells[k],k); } }
+  else $('bar').innerHTML = `<i class="on" style="--b:#1d5a2c;--d:#2c8f56;flex:none;width:${S.i/S.items.length*100}%"></i>`;
+  $('qdef').textContent = q.e;
+  const zh=$('qzh'); zh.className='zh cover'; zh.textContent='▸ Click to reveal Chinese';
+  const pat = $('qpat');
+  pat.classList.toggle('hidden', mode!=='type');
+  if(mode==='type') pat.textContent = q.w.replace(/\[.*?\]/g,'').split(' / ')[0].split('').map(c=>/[a-z]/i.test(c)?'_':c).join(' ');
+  $('fb').innerHTML = '';
+  const a = $('ans'); a.innerHTML = '';
+  if(mode==='mc'){
+    const wrap = document.createElement('div'); wrap.className='choices';
+    const others = shuffle(S.pool.filter(x=>x!==q)).slice(0,3);
+    shuffle([q,...others]).forEach((o,idx)=>{
+      const b = document.createElement('button'); b.className='ch';
+      b.innerHTML = `<i>${'ABCD'[idx]}</i>${esc(o.w)}`;
+      b.onclick = () => answer(o===q, b);
+      tint(b,idx); b.dataset.right = o===q ? '1':'';
+      wrap.appendChild(b);
+    });
+    a.appendChild(wrap);
+  } else if(mode==='type'){
+    a.innerHTML = `<div class="typein"><input id="inp" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="type here"><button class="btn" id="go">OK</button></div>`;
+    const inp = $('inp'); inp.focus();
+    const submit = () => { if(S.locked || !inp.value.trim()) return;
+      const ok = q.ok.includes(norm(inp.value)); inp.classList.add(ok?'ok':'bad'); answer(ok); };
+    $('go').onclick = submit;
+    inp.onkeydown = e => { if(e.key==='Enter') submit(); };
+  } else if(mode==='bank'){
+    const bank = document.createElement('div'); bank.className='bank';
+    [...S.pool].sort((x,y)=>x.w.localeCompare(y.w)).forEach((o,idx)=>{
+      const c = document.createElement('button'); c.className='chip'; c.textContent=o.w;
+      tint(c,idx);
+      c.dataset.id = norm(o.w);
+      if(S.used.has(norm(o.w))){ c.classList.add('used'); c.disabled=true; }
+      c.onclick = () => answer(o===q, c);
+      bank.appendChild(c);
+    });
+    a.appendChild(bank);
+  }
+}
+$('qcard').onclick = () => { if(!S.cur) return; const zh=$('qzh'); zh.className='zh'; zh.textContent=S.cur.z; };
+function answer(ok, el){
+  if(S.locked) return; S.locked = true;
+  const q = S.cur;
+  const zh=$('qzh'); zh.className='zh'; zh.textContent=q.z;
+  if(ok){ S.score++; S.streak++; } else { S.streak=0; S.missed.push(q); }
+  $('sc').textContent=S.score; $('st').textContent=S.streak;
+  if(mode==='mc'){
+    document.querySelectorAll('.ch').forEach(b=>{ b.disabled=true; if(b.dataset.right) b.classList.add('ok'); else if(b!==el) b.classList.add('dim'); });
+    if(!ok) el.classList.add('bad');
+  } else if(mode==='bank'){
+    S.used.add(norm(q.w));
+    document.querySelectorAll('.chip').forEach(c=>{
+      if(c.dataset.id===norm(q.w)){ c.classList.add('ok'); setTimeout(()=>{c.classList.remove('ok');c.classList.add('used');},450); }
+      c.disabled=true;
+    });
+    if(!ok) el.classList.add('bad');
+  } else { const i=$('inp'); if(i) i.disabled=true; }
+  const last = S.i === S.items.length-1;
+  $('fb').innerHTML = `<span class="${ok?'good':'no'}">${ok?'Correct':'Answer'}<span class="ans">${esc(q.w)}</span></span><button class="btn" id="nx" style="--b:#17234f;--d:#26397d;--t:#93a6e8">${last?'Finish':'Next'} ▶</button>`;
+  $('nx').onclick = next; $('nx').focus();
+  if(ok) S.timer = setTimeout(next, 900);
+}
+function next(){
+  clearTimeout(S.timer);
+  if(!S.locked) return;
+  S.i++;
+  if(S.i >= S.items.length) return finish();
+  renderQ();
+}
+function finish(){
+  const n=S.items.length, pct=Math.round(S.score/n*100);
+  $('rTitle').textContent = pct>=80 ? 'STAGE CLEAR' : 'GAME OVER';
+  $('rScore').textContent = `${S.score}/${n}`;
+  $('rSub').textContent = `${pct}% correct`;
+  $('missBox').classList.toggle('hidden', !S.missed.length);
+  $('retryMiss').classList.toggle('hidden', !S.missed.length);
+  $('missList').innerHTML = S.missed.map(m=>`<li><b>${esc(m.w)} · ${esc(m.z)}</b>${esc(m.e)}</li>`).join('');
+  show('result');
+}
+
+/* ---- flash cards ---- */
+function startFlash(){ S.fi=0; S.flip=false; S.items=shuffle(S.pool); show('flash'); renderF(); }
+function renderF(){
+  const c = S.items[S.fi];
+  $('fn').textContent=S.fi+1; $('ft').textContent=S.items.length;
+  $('fcard').innerHTML = S.flip
+    ? `<div class="back"><div class="word">${esc(c.w)}</div><div class="def">${esc(c.e)}</div><div class="zh">${esc(c.z)}</div></div>`
+    : `<div class="word">${esc(c.w)}</div><div class="hint">CLICK TO FLIP</div>`;
+}
+const flip = () => { S.flip=!S.flip; renderF(); };
+const fmove = d => { S.fi=(S.fi+d+S.items.length)%S.items.length; S.flip=false; renderF(); };
+$('fcard').onclick = flip;
+$('fnext').onclick = () => fmove(1);
+$('fprev').onclick = () => fmove(-1);
+$('fshuf').onclick = () => { S.items=shuffle(S.items); S.fi=0; S.flip=false; renderF(); };
+document.addEventListener('keydown', e => {
+  if(!$('flash').classList.contains('hidden')){
+    if(e.key==='ArrowRight') fmove(1);
+    else if(e.key==='ArrowLeft') fmove(-1);
+    else if(e.key===' '){ e.preventDefault(); flip(); }
+  } else if(!$('quiz').classList.contains('hidden') && e.key==='Enter' && S.locked && document.activeElement.tagName!=='BUTTON'){
+    next();
+  }
+});
+</script>
+</body>
+</html>
