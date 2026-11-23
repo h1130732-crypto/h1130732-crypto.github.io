@@ -30,7 +30,7 @@ footer{flex:none;padding:12px;text-align:center;font-size:clamp(16px,min(2.2vw,3
 .lbl{font-size:12px;color:var(--dim);margin-bottom:12px;display:block;letter-spacing:2px}
 
 /* muted tetromino tints: set --b (fill) --d (border) --t (text) */
-.chaps{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:10px;justify-content:center}
+.chaps{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;justify-content:center}
 .chap{position:relative;display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 10px;cursor:pointer;user-select:none;
   font-size:15px;color:var(--dim);background:transparent;border:1px solid var(--edge)}
 .chap input{position:absolute;opacity:0;pointer-events:none}
@@ -116,7 +116,9 @@ footer{flex:none;padding:12px;text-align:center;font-size:clamp(16px,min(2.2vw,3
 main>section:not(.hidden){flex:1;min-height:0;display:flex;flex-direction:column}
 #menu .panel{flex:1;display:flex;flex-direction:column;justify-content:center}
 #menu .chaps,#menu .modes{align-items:stretch}
-.chap{padding:22px 10px;font-size:17px}
+.chap{padding:22px 4px;font-size:16px;white-space:nowrap;gap:6px}
+.chap small{font-size:11px}
+.chaps{gap:8px}
 .mode{display:flex;flex-direction:column;justify-content:center}
 #qcard{flex:1 1 0}
 #ans{flex:none}
@@ -134,6 +136,7 @@ main>section:not(.hidden){flex:1;min-height:0;display:flex;flex-direction:column
 .fc .hint{font-size:15px}
 .nav .btn{padding:16px 28px;font-size:16px}
 #app{zoom:1}
+@media(max-width:640px){.chaps{gap:5px}.chap{padding:14px 2px;font-size:12px;gap:4px;flex-direction:column}.chap small{display:none}.chap .cb{width:14px;height:14px}}
 @media(max-height:760px){.card{min-height:110px}}
 </style>
 </head>
@@ -582,7 +585,7 @@ document.addEventListener('keydown', e => {
 /* scale the whole UI to the window so it's big but never needs scrolling */
 function fit(){
   const f = document.querySelector('footer').offsetHeight;
-  const z = Math.max(1, Math.min((innerHeight - f) / 665, innerWidth / 640, 1.9));
+  const z = Math.max(1, Math.min((innerHeight - f) / 725, innerWidth / 640, 1.9));
   $('app').style.zoom = z.toFixed(3);
 }
 addEventListener('resize', fit); fit();
