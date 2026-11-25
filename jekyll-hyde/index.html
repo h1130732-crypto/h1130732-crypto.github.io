@@ -96,7 +96,12 @@ footer{flex:none;padding:12px;text-align:center;font-size:clamp(16px,min(2.2vw,3
 .chip.ok{background:var(--ok-b);border-color:var(--ok-d);color:var(--ok-t)}
 
 .fb{min-height:48px;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;font-size:15px}
+.fb .msg{display:flex;flex-direction:column;align-items:center;gap:2px}
+.fb .verdict{font-size:22px;font-weight:700}
 .fb .good{color:var(--ok-t)} .fb .no{color:var(--no-t)}
+.fb .sol{font-size:16px;color:var(--dim)}
+.fb .sol b{color:var(--ink);font-size:20px;font-weight:600}
+.fb .sol s{color:var(--no-t)}
 .fb .ans{font-size:20px;font-weight:600;color:var(--ink);margin-left:10px}
 
 .fc .card{min-height:200px;cursor:pointer}
@@ -468,7 +473,7 @@ function renderQ(){
   else $('bar').innerHTML = `<i class="on" style="--b:#1d5a2c;--d:#2c8f56;flex:none;width:${S.i/S.items.length*100}%"></i>`;
   $('qdef').textContent = q.e;
   const zh=$('qzh'); zh.className='zh cover'; zh.textContent='▸ Click to reveal Chinese';
-  const pat = $('qpat');
+  const pat = $('qpat'); pat.style.color='';
   pat.classList.toggle('hidden', mode!=='type');
   if(mode==='type') pat.textContent = q.w.replace(/\[.*?\]/g,'').split(' / ')[0].split('').map(c=>/[a-z]/i.test(c)?'_':c).join(' ');
   S.sel = null;
@@ -536,7 +541,12 @@ function answer(ok, el){
     if(!ok) el.classList.add('bad');
   } else { const i=$('inp'); if(i) i.disabled=true; }
   const last = S.i === S.items.length-1;
-  $('fb').innerHTML = `<span class="${ok?'good':'no'}">${ok?'Correct':'Answer'}<span class="ans">${esc(q.w)}</span></span><button class="btn" id="nx" style="--b:#17234f;--d:#26397d;--t:#93a6e8">${last?'Finish':'Next'} ▶</button>`;
+  const typed = mode==='type' && $('inp') ? $('inp').value.trim() : '';
+  const msg = ok
+    ? `<div class="verdict good">✔ Correct!</div><div class="sol">Answer: <b>${esc(q.w)}</b></div>`
+    : `<div class="verdict no">✘ Wrong</div>${typed?`<div class="sol">You typed: <s>${esc(typed)}</s></div>`:''}<div class="sol">Correct answer: <b>${esc(q.w)}</b></div>`;
+  $('fb').innerHTML = `<div class="msg">${msg}</div><button class="btn" id="nx" style="--b:#17234f;--d:#26397d;--t:#93a6e8">${last?'Finish':'Next'} ▶</button>`;
+  if(mode==='type'){ const p=$('qpat'); p.textContent=q.w; p.style.color = ok?'var(--ok-t)':'var(--no-t)'; }
   $('nx').onclick = next; $('nx').focus();
 }
 function next(){
