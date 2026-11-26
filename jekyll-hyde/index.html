@@ -137,6 +137,9 @@ main>section:not(.hidden){flex:1;min-height:0;display:flex;flex-direction:column
 #app{zoom:1}
 @media(max-width:640px){.chaps{gap:5px}.chap{padding:14px 2px;font-size:13px;gap:4px;flex-direction:column}.chap small{display:none}.chap .cb{width:14px;height:14px}}
 @media(max-height:760px){.card{min-height:110px}}
+.blank{display:inline-block;min-width:110px;border-bottom:2px solid var(--gold);margin:0 4px}
+.fill{color:var(--ok-t);border-bottom:2px solid var(--gold);padding:0 4px}
+.zh{line-height:1.5}
 </style>
 </head>
 <body>
@@ -162,7 +165,7 @@ main>section:not(.hidden){flex:1;min-height:0;display:flex;flex-direction:column
       <div class="modes" id="modes">
         <button class="mode sel" data-m="mc"><b>Multiple choice</b><span>Pick 1 of 4</span></button>
         <button class="mode" data-m="type"><b>Type it</b><span>Type the word</span></button>
-        <button class="mode" data-m="bank"><b>Word bank</b><span>Pick from all selected words; used ones get crossed out</span></button>
+        <button class="mode" data-m="sent"><b>Fill the blank</b><span>Easy sentence with a missing word; pick 1 of 4</span></button>
         <button class="mode" data-m="flash"><b>Flash cards</b><span>Flip through, no score</span></button>
       </div>
     </div>
@@ -173,7 +176,7 @@ main>section:not(.hidden){flex:1;min-height:0;display:flex;flex-direction:column
     <div class="hud"><span>Q <b id="qn">1</b>/<b id="qt">0</b></span><span>Score <b id="sc">0</b></span><span>Combo <b id="st">0</b></span><button class="link" id="quitBtn">Quit</button></div>
     <div class="bar" id="bar"></div>
     <div class="card" id="qcard">
-      <div class="q">WHICH WORD?</div>
+      <div class="q" id="qlab">WHICH WORD?</div>
       <div class="def" id="qdef"></div>
       <div class="pat hidden" id="qpat"></div>
       <div class="zh cover" id="qzh"></div>
@@ -218,174 +221,174 @@ main>section:not(.hidden){flex:1;min-height:0;display:flex;flex-direction:column
 /* word | English definition (all in the context of Jekyll & Hyde) */
 const RAW = {
 
-"1-2": `Apocryphal|Of doubtful authorship or authenticity|未經證實的
-Apt[ness]|Inclined; disposed; given; prone|傾向；易於
-Austere|Severe in manner or appearance; uncompromising; strict; forbidding|嚴厲的；不苟言笑的
-Caper|A prank or trick; harebrained escapade|惡作劇；胡鬧
-Coquetry|Flirtation|調情；賣弄風情
-Demeanour|Conduct; behavior; deportment|舉止；風度
-Dingy|Shabby; dismal|陰暗骯髒的
-Emulous|Desirous of equaling or excelling|好勝的；競爭心強的
-Excursion|A short trip or outing to some place, usually for a special purpose and with the intention of a prompt return|短途旅行；遠足
-Heresy|Opinion or doctrine at variance with the orthodox or accepted doctrine, especially of a church or religious system|異端邪說
-Kinsman|A blood relative, especially a male|男性親屬
-Mortify|To humiliate or shame, as by injury to one's pride or self-respect|使難堪；使羞愧
-Musing|Absorbed in thought; meditative|若有所思的
-Pedantic|Ostentatious in one's learning|賣弄學問的
-Quaint|Having an old-fashioned attractiveness or charm; oddly picturesque|古色古香的；古雅的
-Ramble|To wander around in a leisurely, aimless manner|閒逛；漫步
-Reputable|Honorable; respectable; estimable|有聲望的；值得尊敬的
-Sinister|Threatening or portending evil or harm, or trouble; ominous|邪惡的；不祥的
-Sordid|Morally ignoble or base; vile|卑鄙的；不光彩的
-Sullen|Showing irritation or ill humor by a gloomy silence or reserve|悶悶不樂的；陰沉的
-Tut-tut|Used as an exclamation of contempt and disdain|嘖嘖（表不屑）
-Undemonstrative|Not given to open expression of feelings; reserved|感情內斂的；不外露的
-Slatternly|Slovenly and untidy|邋遢的；不修邊幅的`,
+"1-2": `Apocryphal|Of doubtful authorship or authenticity|未經證實的|That story about the lost gold is ___; nobody knows if it is true.
+Apt[ness]|Inclined; disposed; given; prone|傾向；易於|He is ___ to get angry when he is tired.
+Austere|Severe in manner or appearance; uncompromising; strict; forbidding|嚴厲的；不苟言笑的|The old teacher was ___ and never smiled.
+Caper|A prank or trick; harebrained escapade|惡作劇；胡鬧|The boys played a silly ___ on their friend.
+Coquetry|Flirtation|調情；賣弄風情|Her ___ made everyone at the party smile.
+Demeanour|Conduct; behavior; deportment|舉止；風度|His calm ___ made me feel safe.
+Dingy|Shabby; dismal|陰暗骯髒的|The room was dark and ___.
+Emulous|Desirous of equaling or excelling|好勝的；競爭心強的|She was ___ of her brother and wanted to win like him.
+Excursion|A short trip or outing to some place, usually for a special purpose and with the intention of a prompt return|短途旅行；遠足|Our ___ to the lake on Sunday was fun.
+Heresy|Opinion or doctrine at variance with the orthodox or accepted doctrine, especially of a church or religious system|異端邪說|The church said his new idea was ___.
+Kinsman|A blood relative, especially a male|男性親屬|He is my ___, so we are family.
+Mortify|To humiliate or shame, as by injury to one's pride or self-respect|使難堪；使羞愧|It would ___ me to fall in front of everyone.
+Musing|Absorbed in thought; meditative|若有所思的|He sat by the window, ___ about his day.
+Pedantic|Ostentatious in one's learning|賣弄學問的|The ___ teacher corrected every small mistake.
+Quaint|Having an old-fashioned attractiveness or charm; oddly picturesque|古色古香的；古雅的|We stayed in a ___ little house with old furniture.
+Ramble|To wander around in a leisurely, aimless manner|閒逛；漫步|On Sunday we like to ___ through the park.
+Reputable|Honorable; respectable; estimable|有聲望的；值得尊敬的|He is a ___ doctor, and people trust him.
+Sinister|Threatening or portending evil or harm, or trouble; ominous|邪惡的；不祥的|The dark street had a ___ feeling.
+Sordid|Morally ignoble or base; vile|卑鄙的；不光彩的|The man lived a ___ life full of bad deeds.
+Sullen|Showing irritation or ill humor by a gloomy silence or reserve|悶悶不樂的；陰沉的|The ___ boy sat alone and said nothing.
+Tut-tut|Used as an exclamation of contempt and disdain|嘖嘖（表不屑）|"___," said Mom when she saw the mess.
+Undemonstrative|Not given to open expression of feelings; reserved|感情內斂的；不外露的|My dad is ___; he rarely shows his feelings.
+Slatternly|Slovenly and untidy|邋遢的；不修邊幅的|The ___ man wore dirty clothes and never cleaned his room.`,
 
-"3-4": `Abominable|Repugnantly hateful; detestable; loathsome|令人憎惡的
-Accost|To confront boldly|大膽搭話；攔住搭訕
-Blackguard|A low, contemptible person; scoundrel|卑鄙小人；惡棍
-Conflagration|A destructive fire, usually an extensive one|大火；猛烈的火災
-Connoisseur|A discerning judge of the best in any field|鑑賞家；行家
-Contrived|Obviously planned or forced; artificial; strained|刻意安排的；造作的
-Countenance|Appearance, especially the look or expression of the face|面容；臉部表情
-Crony|A close friend or companion|密友；親信
-Detain|To keep under restraint or in custody|拘留；扣留
-Fortnight|Two weeks|兩星期；十四天
-Grave|Serious or solemn; sober|嚴肅的；莊重的
-Haggard|Having a gaunt, wasted or exhausted appearance, as from prolonged suffering, exertion, or anxiety|憔悴的；疲憊不堪的
-Heresy|Opinion or doctrine at variance with the orthodox or accepted doctrine, especially of a church or religious system|異端邪說
-Insensate|Without human feeling or sensitivity; cold; cruel; brutal|無感情的；冷酷的
-Irrepressible|Incapable of being repressed or restrained; uncontrollable|無法抑制的
-Napery|Table linen, such as tablecloths or napkins|餐桌布品
-Odious|Highly offensive; repugnant; disgusting|可憎的；令人作嘔的
-Pedant|A person who makes an excessive or inappropriate display of learning|賣弄學問的人；書呆子
-Quail|To lose heart or courage in difficulty or danger; shrink in fear|畏縮；膽怯
-Ransack|To search thoroughly or vigorously through|徹底搜查；洗劫
-Score|Twenty|二十
-Slatternly|Slovenly and untidy|邋遢的；不修邊幅的
-Sly|Cunning or wily|狡猾的；偷偷摸摸的
-Trifle|A matter, affair, or circumstance of trivial importance or significance|瑣事；小事
-Unobtrusive|Inconspicuous, unassertive, or reticent|不引人注目的；低調的`,
+"3-4": `Abominable|Repugnantly hateful; detestable; loathsome|令人憎惡的|The smell in the kitchen was ___.
+Accost|To confront boldly|大膽搭話；攔住搭訕|A stranger tried to ___ me on the street.
+Blackguard|A low, contemptible person; scoundrel|卑鄙小人；惡棍|Everyone knew he was a ___ who lied to his friends.
+Conflagration|A destructive fire, usually an extensive one|大火；猛烈的火災|A big ___ burned down half the town.
+Connoisseur|A discerning judge of the best in any field|鑑賞家；行家|My uncle is a wine ___ and knows every kind.
+Contrived|Obviously planned or forced; artificial; strained|刻意安排的；造作的|The story felt ___, like someone forced it to happen.
+Countenance|Appearance, especially the look or expression of the face|面容；臉部表情|She had a kind ___ and a warm smile.
+Crony|A close friend or companion|密友；親信|He went out with his old ___.
+Detain|To keep under restraint or in custody|拘留；扣留|The police will ___ him to ask some questions.
+Fortnight|Two weeks|兩星期；十四天|We will be away for a ___, so that is two weeks.
+Grave|Serious or solemn; sober|嚴肅的；莊重的|The doctor's face was ___ when he gave the news.
+Haggard|Having a gaunt, wasted or exhausted appearance, as from prolonged suffering, exertion, or anxiety|憔悴的；疲憊不堪的|After three sleepless nights, he looked ___ and tired.
+Heresy|Opinion or doctrine at variance with the orthodox or accepted doctrine, especially of a church or religious system|異端邪說|The church said his new idea was ___.
+Insensate|Without human feeling or sensitivity; cold; cruel; brutal|無感情的；冷酷的|The ___ man felt no pity for the poor child.
+Irrepressible|Incapable of being repressed or restrained; uncontrollable|無法抑制的|Her ___ laugh filled the whole room.
+Napery|Table linen, such as tablecloths or napkins|餐桌布品|She put clean ___ on the dinner table.
+Odious|Highly offensive; repugnant; disgusting|可憎的；令人作嘔的|The ___ man was rude to everyone.
+Pedant|A person who makes an excessive or inappropriate display of learning|賣弄學問的人；書呆子|The ___ liked to show off how much he knew.
+Quail|To lose heart or courage in difficulty or danger; shrink in fear|畏縮；膽怯|The little dog began to ___ when the big dog barked.
+Ransack|To search thoroughly or vigorously through|徹底搜查；洗劫|The thief came to ___ the house for money.
+Score|Twenty|二十|Four ___ years means eighty years.
+Slatternly|Slovenly and untidy|邋遢的；不修邊幅的|The ___ maid left dirty plates all over the house.
+Sly|Cunning or wily|狡猾的；偷偷摸摸的|The ___ fox tricked the farmer.
+Trifle|A matter, affair, or circumstance of trivial importance or significance|瑣事；小事|Don't worry about it; it is only a ___.
+Unobtrusive|Inconspicuous, unassertive, or reticent|不引人注目的；低調的|The waiter was ___ and quietly filled our glasses.`,
 
-"5-7": `Abject|Utterly hopeless, miserable, humiliating, or wretched|悲慘的；絕望的
-Accursed|Doomed; ill-fated|該死的；受詛咒的
-Amities|Friendship; peaceful harmony|友好關係
-Anatomical|Of or relating to anatomy|解剖學的；人體構造的
-Apprehension|Anticipation of adversity or misfortune; suspicion or fear of future trouble or evil|憂慮；恐懼
-Benefactor|A person who confers a benefit; kindly helper|恩人；捐助者
-Blot out|Obliterate, wipe out of existence or memory|抹去；消除
-Callous|Insensitive; indifferent; unsympathetic|冷酷無情的
-Carbuncle|A painful circumscribed inflammation of the subcutaneous tissue, resulting in pus and having a tendency to spread very seriously in its effects|癰（嚴重的皮下化膿性發炎）
-Cheval-glass|A full-length mirror mounted so that it can be tilted in a frame|可傾斜的穿衣鏡；全身鏡
-Circulation|The continuous movement of blood through the heart and blood vessels|血液循環
-Cupola|A light structure on a dome or roof, serving as a belfry, lantern, or belvedere|圓頂小閣；屋頂塔樓
-Disconsolate|Characterized by or causing dejection; cheerless; gloomy|悲傷的；鬱鬱寡歡的
-Dissect|To cut apart (an animal body, plant, etc.) to examine the structure, relation of parts, or the like|解剖；仔細分析
-Eddy|A deviation from or disturbance in the main trend of thought, life, etc., especially one that is relatively unimportant|漩渦；迴流
-Gaunt|Extremely thin and bony; haggard and drawn, as from great hunger, weariness, or torture; emaciated|骨瘦如柴的；憔悴的
-Hearth|The floor of a fireplace|爐床；爐邊（家庭的中心）
-Ken|Knowledge, understanding, or cognizance; mental perception|知識範圍；見識
-Mien|Air, bearing, or demeanor, as showing character, feeling|神態；風度
-Oration|A formal public speech, especially one delivered on a special occasion|演說；致辭
-Premature|Occurring, coming, or done too soon|過早的；提早發生的
-Prohibition|The forbidding of an action, activity, etc., by authority or law|禁令；法律的禁制
-Quaint|Having an old-fashioned attractiveness or charm; oddly picturesque|古色古香的；古雅的
-Qualm|An uneasy feeling or pang of conscience as to conduct; compunction|良心不安；疑慮
-Ruminate|To meditate or muse; ponder|沉思；反覆思量
-Seclusion|Isolation; to be shut off; keep apart|隱居；與世隔絕
-Stringent|Rigorously binding or exacting; strict; severe|嚴格的；嚴苛的
-Traverse|To pass or move over, along, or through|穿越；橫越
-Venture|An undertaking involving uncertainty as to the outcome, especially a risky or dangerous one|冒險事業；冒險`,
+"5-7": `Abject|Utterly hopeless, miserable, humiliating, or wretched|悲慘的；絕望的|They lived in ___ poverty with no food or home.
+Accursed|Doomed; ill-fated|該死的；受詛咒的|The sailors thought the ___ ship would always bring bad luck.
+Amities|Friendship; peaceful harmony|友好關係|The two kings kept ___ between their countries for many years.
+Anatomical|Of or relating to anatomy|解剖學的；人體構造的|The doctor showed us an ___ picture of the heart.
+Apprehension|Anticipation of adversity or misfortune; suspicion or fear of future trouble or evil|憂慮；恐懼|She felt ___ before the big test.
+Benefactor|A person who confers a benefit; kindly helper|恩人；捐助者|A rich ___ gave money to build the school.
+Blot out|Obliterate, wipe out of existence or memory|抹去；消除|Dark clouds can ___ the sun.
+Callous|Insensitive; indifferent; unsympathetic|冷酷無情的|It was ___ of him to laugh at her tears.
+Carbuncle|A painful circumscribed inflammation of the subcutaneous tissue, resulting in pus and having a tendency to spread very seriously in its effects|癰（嚴重的皮下化膿性發炎）|The doctor treated a painful ___ on his neck.
+Cheval-glass|A full-length mirror mounted so that it can be tilted in a frame|可傾斜的穿衣鏡；全身鏡|She looked at herself in the tall ___ in her bedroom.
+Circulation|The continuous movement of blood through the heart and blood vessels|血液循環|Exercise is good for the ___ of blood.
+Cupola|A light structure on a dome or roof, serving as a belfry, lantern, or belvedere|圓頂小閣；屋頂塔樓|A small ___ sat on top of the old house.
+Disconsolate|Characterized by or causing dejection; cheerless; gloomy|悲傷的；鬱鬱寡歡的|The ___ girl cried when her dog ran away.
+Dissect|To cut apart (an animal body, plant, etc.) to examine the structure, relation of parts, or the like|解剖；仔細分析|In science class we will ___ a frog.
+Eddy|A deviation from or disturbance in the main trend of thought, life, etc., especially one that is relatively unimportant|漩渦；迴流|A small ___ of water spun around the rock.
+Gaunt|Extremely thin and bony; haggard and drawn, as from great hunger, weariness, or torture; emaciated|骨瘦如柴的；憔悴的|After the long illness, he looked thin and ___.
+Hearth|The floor of a fireplace|爐床；爐邊（家庭的中心）|The cat slept by the warm ___.
+Ken|Knowledge, understanding, or cognizance; mental perception|知識範圍；見識|That kind of math is beyond my ___.
+Mien|Air, bearing, or demeanor, as showing character, feeling|神態；風度|He had a proud and serious ___.
+Oration|A formal public speech, especially one delivered on a special occasion|演說；致辭|The president gave a long ___ to the crowd.
+Premature|Occurring, coming, or done too soon|過早的；提早發生的|The baby was born ___, two months early.
+Prohibition|The forbidding of an action, activity, etc., by authority or law|禁令；法律的禁制|There is a ___ against smoking in the school.
+Quaint|Having an old-fashioned attractiveness or charm; oddly picturesque|古色古香的；古雅的|We stayed in a ___ little house with old furniture.
+Qualm|An uneasy feeling or pang of conscience as to conduct; compunction|良心不安；疑慮|He had a ___ about telling the lie.
+Ruminate|To meditate or muse; ponder|沉思；反覆思量|I like to ___ about my day before I sleep.
+Seclusion|Isolation; to be shut off; keep apart|隱居；與世隔絕|He lived in ___ and saw no one for weeks.
+Stringent|Rigorously binding or exacting; strict; severe|嚴格的；嚴苛的|The school has ___ rules and everyone must follow them.
+Traverse|To pass or move over, along, or through|穿越；橫越|We had to ___ the long bridge to reach town.
+Venture|An undertaking involving uncertainty as to the outcome, especially a risky or dangerous one|冒險事業；冒險|Starting a new shop is a risky ___.`,
 
-"8": `Appalled|Overcome with horror, shock, outrage, or dismay|驚駭的；嚇壞的
-Besieger|A person who lays siege to someone or something|圍攻者
-Blasphemy|Impious utterance or action concerning God or sacred things|褻瀆神明
-Calamity|A great misfortune or disaster, such as a flood or serious injury|災難；大禍
-Diaphanous|Very sheer and light; almost completely transparent or translucent|朦朧透光的；薄如蟬翼的
-Disinter|To take out of the place of interment; exhume; unearth|掘出；挖出（墳墓）
-Doggedly|In a persistent or tenacious manner|頑強地；鍥而不捨地
-Explicit|Fully and clearly expressed or demonstrated; leaving nothing merely implied|明確的；清楚的
-Foul play|Any treacherous or unfair dealing, especially involving murder|不法行為；謀害
-Frank|Direct and unreserved in speech; straightforward; sincere|坦率的；直言的
-Hark|To listen attentively; hearken|仔細聽；聽啊
-Hoarse|Having a vocal tone characterized by weakness of intensity and excessive breathiness; husky|聲音沙啞的
-Jangle|To produce a harsh, discordant sound, as two comparatively small, thin, or hollow pieces of metal hitting together|發出刺耳不和諧的聲響
-Jerk|A quick, sharp pull, thrust, twist, throw, or the like; a sudden movement|猛然一拉；急動
-Lamentation|The act of expressive grief|哀悼；悲嘆
-Malady|Any disorder or disease of the body, especially one that is chronic or deep-seated|疾病；病症
-Malefactor|A person who violates the law; criminal|罪犯；作惡者
-Mottled|Spotted or blotched in coloring|斑駁的；有斑點的
-Pallor|Unusual or extreme paleness, as from fear, ill health, or death; wanness|蒼白；面無血色
-Peevish|Showing annoyance, irritation, or bad mood|易怒的；暴躁的
-Predecessor|A person who precedes another in an office, position, etc.|前任；前輩
-Scud|Clouds, spray, or mist driven by the wind; a driving shower or gust of wind|疾速掠過的雲；被風吹動的雲霧
-Sedulous|Diligent in application or attention; persevering; assiduous|勤勉的；孜孜不倦的
-Semblance|Outward aspect or appearance|外表；表象
-Splutter|To talk rapidly and somewhat incoherently, as when confused, excited, or embarrassed|激動得語無倫次
-Trudge|To walk, especially laboriously or wearily|吃力地走；跋涉
-Undaunted|Undismayed; not discouraged; not forced to abandon purpose or effort|無所畏懼的
-Wrack|To wreck|破壞；摧毀`,
+"8": `Appalled|Overcome with horror, shock, outrage, or dismay|驚駭的；嚇壞的|She was ___ when she saw the terrible mess.
+Besieger|A person who lays siege to someone or something|圍攻者|The ___ waited outside the castle walls for weeks.
+Blasphemy|Impious utterance or action concerning God or sacred things|褻瀆神明|Saying bad things about God is called ___.
+Calamity|A great misfortune or disaster, such as a flood or serious injury|災難；大禍|The flood was a great ___ for the town.
+Diaphanous|Very sheer and light; almost completely transparent or translucent|朦朧透光的；薄如蟬翼的|She wore a light, ___ scarf you could see through.
+Disinter|To take out of the place of interment; exhume; unearth|掘出；挖出（墳墓）|They had to ___ the body from the grave.
+Doggedly|In a persistent or tenacious manner|頑強地；鍥而不捨地|He worked ___ until the job was done.
+Explicit|Fully and clearly expressed or demonstrated; leaving nothing merely implied|明確的；清楚的|Her teacher gave ___ rules, so everyone understood.
+Foul play|Any treacherous or unfair dealing, especially involving murder|不法行為；謀害|The police thought it was ___, not an accident.
+Frank|Direct and unreserved in speech; straightforward; sincere|坦率的；直言的|Please be ___ and tell me what you really think.
+Hark|To listen attentively; hearken|仔細聽；聽啊|___! Do you hear the bell?
+Hoarse|Having a vocal tone characterized by weakness of intensity and excessive breathiness; husky|聲音沙啞的|After shouting all day, his voice was ___.
+Jangle|To produce a harsh, discordant sound, as two comparatively small, thin, or hollow pieces of metal hitting together|發出刺耳不和諧的聲響|The keys began to ___ in his pocket.
+Jerk|A quick, sharp pull, thrust, twist, throw, or the like; a sudden movement|猛然一拉；急動|He gave the rope a quick ___.
+Lamentation|The act of expressive grief|哀悼；悲嘆|The whole village was filled with ___ after the sad news.
+Malady|Any disorder or disease of the body, especially one that is chronic or deep-seated|疾病；病症|The old man suffered from a strange ___.
+Malefactor|A person who violates the law; criminal|罪犯；作惡者|The police caught the ___ who stole the money.
+Mottled|Spotted or blotched in coloring|斑駁的；有斑點的|The old wall was ___ with spots of green and gray.
+Pallor|Unusual or extreme paleness, as from fear, ill health, or death; wanness|蒼白；面無血色|A sudden ___ came over his face when he saw the ghost.
+Peevish|Showing annoyance, irritation, or bad mood|易怒的；暴躁的|The tired baby was ___ and cried all night.
+Predecessor|A person who precedes another in an office, position, etc.|前任；前輩|My ___ in this job left me a long note.
+Scud|Clouds, spray, or mist driven by the wind; a driving shower or gust of wind|疾速掠過的雲；被風吹動的雲霧|Little clouds ___ across the sky in the wind.
+Sedulous|Diligent in application or attention; persevering; assiduous|勤勉的；孜孜不倦的|She was a ___ student who studied every day.
+Semblance|Outward aspect or appearance|外表；表象|After the fight, they tried to keep a ___ of calm.
+Splutter|To talk rapidly and somewhat incoherently, as when confused, excited, or embarrassed|激動得語無倫次|He began to ___ when he was angry and could not speak clearly.
+Trudge|To walk, especially laboriously or wearily|吃力地走；跋涉|We had to ___ home through the deep snow.
+Undaunted|Undismayed; not discouraged; not forced to abandon purpose or effort|無所畏懼的|___ by the storm, the boy kept walking.
+Wrack|To wreck|破壞；摧毀|The waves began to ___ the little boat.`,
 
-"9": `Acuteness|Sharpness or intensity|敏銳；尖銳
-Avow|To declare or admit openly|公開承認；坦承
-Cerebral|Appealing to or characterized by the intellect rather than intuition or instinct|理智的；腦力的
-Constitution|The way in which a thing is composed; physical make-up; structure|體質；體格
-Correspondence|Communication by exchange of letters|書信往來
-Debility|A weakened or enfeebled state; weakness|衰弱；虛弱
-Ebullition|A sudden outburst of emotion, a boiling over|情緒激動；迸發
-Enigma|A puzzling or inexplicable occurrence or situation|謎；謎團
-Ether|A colorless, highly volatile liquid used as an anesthetic|乙醚
-Flighty|Given to moments of fancy; capricious; frivolous|輕浮的；善變的
-Haunches|The hindquarters; the buttocks and upper thighs|臀部與大腿上部
-Idiosyncratic|A characteristic, habit, mannerism that is peculiar to an individual|特有的；獨特的
-Impediment|Obstruction; hindrance; obstacle|障礙；阻礙
-Incipient|Beginning to exist or appear; in an initial stage|初期的；剛開始的
-Ludicrous|Causing laughter because of absurdity; provoking or deserving derision|可笑的；荒謬的
-Metamorphoses|A complete change of form, structure, or substance, as transformation by magic or witchcraft|變形；形態變化
-Muster|To gather, summon, rouse|集合；鼓起（勇氣）
-Parley|A discussion or conference|談判；協商
-Penitence|Regret for one's wrongdoing or sinning; contrition; repentance|悔恨；懺悔
-Prodigy|A person, especially a child, having extraordinary talent or ability|天才；神童
-Punctual|Strictly observant of an appointed or regular time; not late|準時的；守時的
-Rigour / Rigor|Strictness, severity, or harshness, as in dealing with people|嚴格；嚴厲
-Scrutiny|A searching examination or investigation; a minute inquiry|仔細審查
-Somber|Gloomily dark; shadowy; dimly lighted|陰沉的；憂鬱的
-Tincture|A solution of alcohol or of alcohol and water, containing drugs|酊劑；藥酒
-Transcendental|Being beyond ordinary experience, thought, or belief|超凡的；玄奧的
-Trifle|A matter, affair, or circumstance of trivial importance or significance|瑣事；小事
-Turpitude|Vile, shameful, or base character; depravity|卑劣；邪惡
-Vapour / Vapor|A visible exhalation, such as fog or steam suspended in the air|蒸氣；水氣`,
+"9": `Acuteness|Sharpness or intensity|敏銳；尖銳|The ___ of his hearing helped him hear small sounds.
+Avow|To declare or admit openly|公開承認；坦承|I ___ that I broke the window.
+Cerebral|Appealing to or characterized by the intellect rather than intuition or instinct|理智的；腦力的|Chess is a ___ game that needs a lot of thinking.
+Constitution|The way in which a thing is composed; physical make-up; structure|體質；體格|He had a strong ___ and rarely got sick.
+Correspondence|Communication by exchange of letters|書信往來|They wrote letters and kept up their ___ for years.
+Debility|A weakened or enfeebled state; weakness|衰弱；虛弱|Old age brought ___ and he could not walk far.
+Ebullition|A sudden outburst of emotion, a boiling over|情緒激動；迸發|He had an ___ of anger and shouted at everyone.
+Enigma|A puzzling or inexplicable occurrence or situation|謎；謎團|The strange man is an ___; no one understands him.
+Ether|A colorless, highly volatile liquid used as an anesthetic|乙醚|The doctor used ___ to put the man to sleep.
+Flighty|Given to moments of fancy; capricious; frivolous|輕浮的；善變的|She is ___ and changes her mind every minute.
+Haunches|The hindquarters; the buttocks and upper thighs|臀部與大腿上部|The dog sat on its ___ and waited.
+Idiosyncratic|A characteristic, habit, mannerism that is peculiar to an individual|特有的；獨特的|His ___ habit is to eat soup with a fork.
+Impediment|Obstruction; hindrance; obstacle|障礙；阻礙|The broken bridge was an ___ to our trip.
+Incipient|Beginning to exist or appear; in an initial stage|初期的；剛開始的|The doctor found an ___ sign of the disease.
+Ludicrous|Causing laughter because of absurdity; provoking or deserving derision|可笑的；荒謬的|The clown's big shoes looked ___.
+Metamorphoses|A complete change of form, structure, or substance, as transformation by magic or witchcraft|變形；形態變化|The butterfly goes through several ___ in its life.
+Muster|To gather, summon, rouse|集合；鼓起（勇氣）|I tried to ___ the courage to speak.
+Parley|A discussion or conference|談判；協商|The two leaders met for a ___ to stop the war.
+Penitence|Regret for one's wrongdoing or sinning; contrition; repentance|悔恨；懺悔|He showed ___ and said sorry for his crime.
+Prodigy|A person, especially a child, having extraordinary talent or ability|天才；神童|The little girl was a music ___ at age five.
+Punctual|Strictly observant of an appointed or regular time; not late|準時的；守時的|Please be ___ and come at exactly nine.
+Rigour / Rigor|Strictness, severity, or harshness, as in dealing with people|嚴格；嚴厲|The coach trained us with great ___.
+Scrutiny|A searching examination or investigation; a minute inquiry|仔細審查|The teacher gave my homework close ___.
+Somber|Gloomily dark; shadowy; dimly lighted|陰沉的；憂鬱的|The room was quiet and ___ at the funeral.
+Tincture|A solution of alcohol or of alcohol and water, containing drugs|酊劑；藥酒|She put a drop of ___ in the water.
+Transcendental|Being beyond ordinary experience, thought, or belief|超凡的；玄奧的|Some old books talk about ___ ideas beyond real life.
+Trifle|A matter, affair, or circumstance of trivial importance or significance|瑣事；小事|Don't worry about it; it is only a ___.
+Turpitude|Vile, shameful, or base character; depravity|卑劣；邪惡|The judge spoke about the man's moral ___.
+Vapour / Vapor|A visible exhalation, such as fog or steam suspended in the air|蒸氣；水氣|Hot water gives off ___ that you can see.`,
 
-"10": `Abject|Utterly hopeless, miserable, humiliating, or wretched|絕望的；卑微的
-Abstinence|Any self-restraint, self-denial, or forbearance|節制；禁慾
-Acquiescence|Submission or compliance silently or without protest; agreement; consent|默許；順從
-Astute|Keenly perceptive or discerning; sagacious|精明的；敏銳的
-Avidity|Showing great enthusiasm for or interest in|熱切；渴望
-Blazon|To set forth conspicuously or publicly; display; proclaim|公開宣揚
-Callous|Insensitive; indifferent; unsympathetic|冷酷無情的
-Chastisement|Severe criticism; punishment|懲戒；責罵
-Connive|To cooperate secretly; conspire|暗中勾結；縱容
-Depravity|The state of being morally bad or evil; corruption|道德敗壞；墮落
-Dissolution|The act or process of resolving or dissolving into parts or elements|解散；瓦解
-Efficacy|The capacity for producing a desired result or effect|功效；效力
-Effulgence|A brilliant radiance; a shining forth|光輝；燦爛
-Faggot|A bundle of sticks bound together and used as fuel, a torch|一捆木柴
-Familiar|A supernatural spirit, often in the form of an animal, aiding a witch|使魔；魔寵
-Gesticulate|To make or use gestures, especially in an animated or excited manner with or instead of speech|比手畫腳；做手勢
-Gloat|To think about with excessive, often smug or malicious, satisfaction|洋洋得意；幸災樂禍
-Hazard|To put at risk of being lost; expose to risk|使面臨風險；冒險
-Imperious|Domineering in a haughty manner; dictatorial|傲慢專橫的
-Inordinate|Not within proper or reasonable limits; immoderate; excessive|過度的；無節制的
-Insidious|Intended to entrap or beguile; working in a subtle, harmful way|潛伏危險的；陰險的
-Inveterate|Settled or confirmed in a habit, practice, feeling, or the like|根深蒂固的；積習難改的
-Malign|To speak harmful untruths about; speak evil of; slander; defame|誹謗；中傷
-Multifarious|Having many different parts, elements, forms, etc.|繁多的；各式各樣的
-Obsequious|Characterized by or showing servile obedience and excessive eagerness to please; fawning; ingratiating|卑躬屈膝的；諂媚的
-Pamper|To treat or gratify with excessive indulgence, kindness, or care|溺愛；縱容
-Pang|A sudden, brief, sharp pain or physical sensation; spasm|一陣劇痛；(心中)刺痛
-Propensity|A natural inclination or tendency|傾向；習性
-Quarry|An animal or bird hunted or pursued|獵物；追捕目標`
+"10": `Abject|Utterly hopeless, miserable, humiliating, or wretched|絕望的；卑微的|The beggar lived in ___ misery.
+Abstinence|Any self-restraint, self-denial, or forbearance|節制；禁慾|The doctor told him ___ from sweets was best.
+Acquiescence|Submission or compliance silently or without protest; agreement; consent|默許；順從|He nodded in silent ___ and did what they said.
+Astute|Keenly perceptive or discerning; sagacious|精明的；敏銳的|The ___ girl quickly saw through the trick.
+Avidity|Showing great enthusiasm for or interest in|熱切；渴望|He read with great ___ and could not stop.
+Blazon|To set forth conspicuously or publicly; display; proclaim|公開宣揚|They will ___ the news across town for all to hear.
+Callous|Insensitive; indifferent; unsympathetic|冷酷無情的|It was ___ of him to laugh at her tears.
+Chastisement|Severe criticism; punishment|懲戒；責罵|The boy got ___ for breaking the window.
+Connive|To cooperate secretly; conspire|暗中勾結；縱容|The two thieves began to ___ to steal the gold.
+Depravity|The state of being morally bad or evil; corruption|道德敗壞；墮落|The story told of the ___ of the evil man.
+Dissolution|The act or process of resolving or dissolving into parts or elements|解散；瓦解|The ___ of the old club made everyone sad.
+Efficacy|The capacity for producing a desired result or effect|功效；效力|The doctor tested the ___ of the new medicine.
+Effulgence|A brilliant radiance; a shining forth|光輝；燦爛|The ___ of the sun made the lake shine.
+Faggot|A bundle of sticks bound together and used as fuel, a torch|一捆木柴|He put a ___ of sticks on the fire.
+Familiar|A supernatural spirit, often in the form of an animal, aiding a witch|使魔；魔寵|In the old tale, the witch's black cat was her ___.
+Gesticulate|To make or use gestures, especially in an animated or excited manner with or instead of speech|比手畫腳；做手勢|He began to ___ with his hands as he spoke.
+Gloat|To think about with excessive, often smug or malicious, satisfaction|洋洋得意；幸災樂禍|Don't ___ when you win; be kind.
+Hazard|To put at risk of being lost; expose to risk|使面臨風險；冒險|I will ___ a guess; maybe it is ten.
+Imperious|Domineering in a haughty manner; dictatorial|傲慢專橫的|The ___ queen ordered everyone to bow.
+Inordinate|Not within proper or reasonable limits; immoderate; excessive|過度的；無節制的|He spent an ___ amount of time on one small task.
+Insidious|Intended to entrap or beguile; working in a subtle, harmful way|潛伏危險的；陰險的|The ___ disease crept in slowly without any sign.
+Inveterate|Settled or confirmed in a habit, practice, feeling, or the like|根深蒂固的；積習難改的|He is an ___ liar who cannot stop.
+Malign|To speak harmful untruths about; speak evil of; slander; defame|誹謗；中傷|Do not ___ your friends with lies.
+Multifarious|Having many different parts, elements, forms, etc.|繁多的；各式各樣的|The shop sold ___ goods of every kind.
+Obsequious|Characterized by or showing servile obedience and excessive eagerness to please; fawning; ingratiating|卑躬屈膝的；諂媚的|The ___ servant bowed again and again.
+Pamper|To treat or gratify with excessive indulgence, kindness, or care|溺愛；縱容|Grandma likes to ___ us with sweets.
+Pang|A sudden, brief, sharp pain or physical sensation; spasm|一陣劇痛；(心中)刺痛|He felt a sharp ___ of guilt.
+Propensity|A natural inclination or tendency|傾向；習性|She has a ___ to be late.
+Quarry|An animal or bird hunted or pursued|獵物；追捕目標|The hunter chased his ___ through the woods.`
 
 };
 const ORDER = ["1-2","3-4","5-7","8","9","10"];
@@ -403,7 +406,7 @@ const PAL = [
 const tint = (el,i) => { return;  const p=PAL[i%PAL.length]; el.style.setProperty('--b',p.b); el.style.setProperty('--d',p.d); el.style.setProperty('--t',p.t); };
 
 const DATA = {};
-for (const k of ORDER) DATA[k] = RAW[k].split('\n').map(l => { const [w,e,z] = l.split('|'); return {w, e, z, ch:k, ok: answers(w)}; });
+for (const k of ORDER) DATA[k] = RAW[k].split('\n').map(l => { const [w,e,z,sn] = l.split('|'); return {w, e, z, sn, ch:k, ok: answers(w)}; });
 function answers(w){
   const out = new Set();
   w.split('/').map(s=>s.trim()).forEach(p=>{ out.add(norm(p.replace(/\[.*?\]/g,''))); out.add(norm(p.replace(/[\[\]]/g,''))); });
@@ -433,7 +436,7 @@ function scopeWords(){
 function refresh(){
   const n = scopeWords().length;
   $('count').textContent = n + ' words';
-  $('startBtn').disabled = n < 1 || (mode==='mc' && n < 4);
+  $('startBtn').disabled = n < 1 || ((mode==='mc'||mode==='sent') && n < 4);
 }
 chapsEl.addEventListener('change', refresh);
 $('allBtn').onclick = () => { chapsEl.querySelectorAll('input').forEach(i=>i.checked=true); refresh(); };
@@ -465,16 +468,17 @@ function renderQ(){
   const cells = $('bar').children;
   if(cells.length){ for(let k=0;k<cells.length;k++){ cells[k].classList.toggle('on', k<S.i); tint(cells[k],k); } }
   else $('bar').innerHTML = `<i class="on" style="flex:none;width:${S.i/S.items.length*100}%"></i>`;
-  $('qdef').textContent = q.e;
-  const zh=$('qzh'); zh.className='zh cover'; zh.textContent='▸ Click to reveal Chinese';
+  if(mode==='sent') $('qdef').innerHTML = esc(q.sn).replace('___','<span class="blank"></span>'); else $('qdef').textContent = q.e;
+  $('qlab').textContent = mode==='sent' ? 'FILL THE BLANK' : 'WHICH WORD?';
+  const zh=$('qzh'); zh.className='zh cover'; zh.textContent = mode==='sent' ? '▸ Click for a hint' : '▸ Click to reveal Chinese';
   const pat = $('qpat'); pat.style.color='';
   pat.classList.toggle('hidden', mode!=='type');
   if(mode==='type') pat.textContent = q.w.replace(/\[.*?\]/g,'').split(' / ')[0].split('').map(c=>/[a-z]/i.test(c)?'_':c).join(' ');
   S.sel = null;
   $('fb').innerHTML = '<button class="btn" id="sub" disabled>Submit</button>';
   $('sub').onclick = submitAnswer;
-  const a = $('ans'); a.innerHTML = ''; a.classList.toggle('grow', mode==='bank');
-  if(mode==='mc'){
+  const a = $('ans'); a.innerHTML = '';
+  if(mode==='mc'||mode==='sent'){
     const wrap = document.createElement('div'); wrap.className='choices';
     const others = shuffle(S.pool.filter(x=>x!==q)).slice(0,3);
     shuffle([q,...others]).forEach((o,idx)=>{
@@ -490,23 +494,13 @@ function renderQ(){
     const inp = $('inp'); inp.focus();
     inp.oninput = () => { $('sub').disabled = !inp.value.trim(); };
     inp.onkeydown = e => { if(e.key==='Enter') submitAnswer(); };
-  } else if(mode==='bank'){
-    const bank = document.createElement('div'); bank.className='bank';
-    [...S.pool].sort((x,y)=>x.w.localeCompare(y.w)).forEach((o,idx)=>{
-      const c = document.createElement('button'); c.className='chip'; c.textContent=o.w;
-      tint(c,idx);
-      c.dataset.id = norm(o.w);
-      if(S.used.has(norm(o.w))){ c.classList.add('used'); c.disabled=true; }
-      c.onclick = () => select(c, o===q);
-      bank.appendChild(c);
-    });
-    a.appendChild(bank);
   }
 }
-$('qcard').onclick = () => { if(!S.cur) return; const zh=$('qzh'); zh.className='zh'; zh.textContent=S.cur.z; };
+function hintHTML(q){ return mode==='sent' ? esc(q.e)+'<br>'+esc(q.z) : esc(q.z); }
+$('qcard').onclick = () => { if(!S.cur) return; const zh=$('qzh'); zh.className='zh'; zh.innerHTML=hintHTML(S.cur); };
 function select(el, ok){
   if(S.locked) return;
-  document.querySelectorAll('.ch.sel,.chip.sel').forEach(x=>x.classList.remove('sel'));
+  document.querySelectorAll('.ch.sel').forEach(x=>x.classList.remove('sel'));
   el.classList.add('sel'); S.sel = {el, ok}; $('sub').disabled = false;
 }
 function submitAnswer(){
@@ -520,18 +514,12 @@ function answer(ok, el){
   if(S.locked) return; S.locked = true;
   document.querySelectorAll('.sel').forEach(x=>x.classList.remove('sel'));
   const q = S.cur;
-  const zh=$('qzh'); zh.className='zh'; zh.textContent=q.z;
+  const zh=$('qzh'); zh.className='zh'; zh.innerHTML=hintHTML(q);
+  if(mode==='sent'){ const w=q.w.split('/')[0].trim().replace(/\[.*?\]/g,''); const atStart=q.sn.startsWith('___'); const shown=atStart? w[0].toUpperCase()+w.slice(1) : w[0].toLowerCase()+w.slice(1); $('qdef').innerHTML = esc(q.sn).replace('___','<b class="fill">'+esc(shown)+'</b>'); }
   if(ok){ S.score++; S.streak++; } else { S.streak=0; S.missed.push(q); }
   $('sc').textContent=S.score; $('st').textContent=S.streak;
-  if(mode==='mc'){
+  if(mode==='mc'||mode==='sent'){
     document.querySelectorAll('.ch').forEach(b=>{ b.disabled=true; if(b.dataset.right) b.classList.add('ok'); else if(b!==el) b.classList.add('dim'); });
-    if(!ok) el.classList.add('bad');
-  } else if(mode==='bank'){
-    S.used.add(norm(q.w));
-    document.querySelectorAll('.chip').forEach(c=>{
-      if(c.dataset.id===norm(q.w)){ c.classList.add('ok'); setTimeout(()=>{c.classList.remove('ok');c.classList.add('used');},450); }
-      c.disabled=true;
-    });
     if(!ok) el.classList.add('bad');
   } else { const i=$('inp'); if(i) i.disabled=true; }
   const last = S.i === S.items.length-1;
